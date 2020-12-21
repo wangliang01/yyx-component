@@ -1,24 +1,31 @@
 # yyx-component
 
-## Project setup
-```
-npm install
+云优选组件库，一个基于[Element](https://element.eleme.cn/#/zh-CN)进行二次开的组件库
+
+## 安装
+### npm 安装
+推荐使用npm的方式安装，它能更好地和webpack打包工具配合使用
+
+```node
+npm i yui -S // 或者 yarn add yui
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 快速上手
+### 引入yui
+在main.js中写入以下内容
+```js
+import Vue from 'vue
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css';
+import yui from 'yui'
+import App from './App.vue';
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Vue.use(yui)
 
-### Lints and fixes files
-```
-npm run lint
-```
+Vue.use(ElementUI);
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+new Vue({
+  el: '#app',
+  render: h => h(App)
+});
+```
