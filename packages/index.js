@@ -1,8 +1,10 @@
 // 导入Button组件
 import YButton from './Button'
+import YTable from './Table'
+import YForm from './Form'
 
 // 组件列表
-const components = [YButton]
+const components = [YButton, YTable, YForm]
 
 // 定义install方法，接收Vue作为参数，通过Vue.use()的方式注册组件
 const install = Vue => {
@@ -21,5 +23,7 @@ export default {
   // 导出的对象必须具有install，才能被Vue.use()方法安装
   install,
   // 以下是具休的组件列表
-  YButton
+  YButton,
+  YTable,
+  YForm
 }

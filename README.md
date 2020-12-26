@@ -29,3 +29,11 @@ new Vue({
   render: h => h(App)
 });
 ```
+
+wangliang01
+
+1392830517@qq.com
+
+npm login --registry http://registry.npmjs.org
+
+npm publish --registry http://registry.npmjs.org
