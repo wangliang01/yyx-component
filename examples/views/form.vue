@@ -4,17 +4,17 @@
       <h2>典型表单</h2>
       <p>包括各种表单项，比如输入框，选择器，开关，单选框，多选框等</p>
       <el-card>
-
         <y-form
           v-model="form"
           :config="config"
           label-position="left"
           width="500px"
           label-width="100px"
+          ref="form"
         >
           <el-form-item>
-            <el-button type="primary">立即创建</el-button>
-            <el-button>取消</el-button>
+            <el-button type="primary" @click="handleCreate">立即创建</el-button>
+            <el-button @click="handleCancel">取消</el-button>
           </el-form-item>
         </y-form>
       </el-card>
@@ -52,8 +52,8 @@
           :rules="rules"
         >
           <el-form-item>
-            <el-button type="primary">立即创建</el-button>
-            <el-button>取消</el-button>
+            <el-button type="primary" @click="handleCreate">立即创建</el-button>
+            <el-button @click="handleCancel">取消</el-button>
           </el-form-item>
         </y-form>
       </el-card>
@@ -237,12 +237,26 @@ export default {
       }
     }
   },
-  watch: {
-    form: {
-      handler(val) {
-        console.log('form', val)
-      },
-      deep: true
+  methods: {
+    handleCreate() {
+      console.log('立即创建', this.form)
+    },
+    handleCancel() {
+      this.form = this.createForm()
+      console.log('取消', this.form)
+    },
+    createForm() {
+      return {
+        name: '',
+        region: '',
+        date: '',
+        date2: '',
+        time: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      }
     }
   }
 }

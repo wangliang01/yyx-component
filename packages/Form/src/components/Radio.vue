@@ -38,6 +38,14 @@ export default {
       type: Array
     }
   },
+  watch: {
+    value: {
+      handler(val) {
+        this.currentValue = val
+      },
+      deep: true
+    }
+  },
   methods: {
     handleInputEvent(value) {
       // 当选择框发生变化时，将值传递出去

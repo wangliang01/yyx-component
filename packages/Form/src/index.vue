@@ -3,6 +3,7 @@
     v-bind="$attrs"
     v-on="$listeners"
     :model="formData"
+    :ref="$attrs.ref"
     :style="`width: ${width || '100%'}`"
   >
     <el-col
@@ -39,7 +40,7 @@ import TimePicker from './components/TimePicker'
 import YSwitch from './components/Switch'
 import Checkbox from './components/Checkbox'
 export default {
-  name: 'y-form',
+  name: 'YForm',
   components: {
     Input,
     Radio,
@@ -68,6 +69,14 @@ export default {
       // 表单数据
       type: Object,
       required: true
+    }
+  },
+  watch: {
+    value: {
+      handler(val) {
+        this.formData = val
+      },
+      deep: true
     }
   },
   methods: {

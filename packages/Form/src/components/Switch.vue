@@ -31,6 +31,14 @@ export default {
       type: [String, Boolean]
     }
   },
+  watch: {
+    value: {
+      handler(val) {
+        this.currentValue = val
+      },
+      deep: true
+    }
+  },
   methods: {
     handleInputEvent(value) {
       console.log(value)

@@ -41,6 +41,14 @@ export default {
       type: Array
     }
   },
+  watch: {
+    value: {
+      handler(val) {
+        this.currentValue = val
+      },
+      deep: true
+    }
+  },
   methods: {
     handleInputEvent(value) {
       this.$emit('input', value)
