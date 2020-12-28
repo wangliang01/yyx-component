@@ -1,4 +1,4 @@
-export default function stringifyArray (array, isStringify = true) {
+export default function stringifyArray(array, isStringify = true) {
   if (isStringify) {
     if (array) {
       if (array.length) return JSON.stringify([...array])

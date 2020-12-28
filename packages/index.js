@@ -2,9 +2,12 @@
 import YButton from './Button'
 import YTable from './Table'
 import YForm from './Form'
+import YInputNumber from './InputNumber'
+import YBackTop from './Backtop'
+import YUpload from './Upload'
 
 // 组件列表
-const components = [YButton, YTable, YForm]
+const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload]
 
 // 定义install方法，接收Vue作为参数，通过Vue.use()的方式注册组件
 const install = Vue => {
@@ -25,5 +28,8 @@ export default {
   // 以下是具休的组件列表
   YButton,
   YTable,
-  YForm
+  YForm,
+  YInputNumber,
+  YBackTop,
+  YUpload
 }

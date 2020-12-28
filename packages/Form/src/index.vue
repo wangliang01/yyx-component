@@ -7,13 +7,21 @@
     :style="`width: ${width || '100%'}`"
   >
     <el-col
-      :style="`display: ${$attrs.inline} ? 'inline-block' : 'block'`"
-      :span="field.cols || $attrs.cols"
+      :style="$attrs.inline ? 'inline-block' : 'block'"
+      :span="field.cols ? field.cols : ($attrs.inline&&config.length >=4 ? 6 : $attrs.cols)"
+      :offset="field.offset || 0"
+      :push="field.push || 0"
+      :pull="field.pull || 0"
+      :xs="field.xs || $attrs.xs"
+      :sm="field.sm || $attrs.sm"
+      :md="field.md || $attrs.md"
+      :lg="field.lg || $attrs.lg"
+      :xl="field.xl || $attrs.xl"
       v-for="(field, key) in config"
       :key="key"
     >
       <el-form-item
-        :label="field.hideLable ? '' : `${field.label}：`"
+        :label="field.hideLable ? '' : field.label + (field.labelSuffix || '')"
         :label-width="field.labelWidth ? field.labelWidth : ($attrs.labelWidth ? $attrs.labelWidth : '100px') "
         :prop="field.prop"
       >
@@ -25,7 +33,8 @@
         ></component>
       </el-form-item>
     </el-col>
-    <el-col>
+    <slot v-if="$attrs.inline"></slot>
+    <el-col v-else>
       <slot></slot>
     </el-col>
   </el-form>

@@ -13,7 +13,10 @@
           ref="form"
         >
           <el-form-item>
-            <el-button type="primary" @click="handleCreate">立即创建</el-button>
+            <el-button
+              type="primary"
+              @click="handleCreate"
+            >立即创建</el-button>
             <el-button @click="handleCancel">取消</el-button>
           </el-form-item>
         </y-form>
@@ -31,6 +34,7 @@
           label-position="left"
           label-width="100px"
           :cols="3"
+          :lg="6"
         >
           <el-form-item>
             <el-button type="primary">查询</el-button>
@@ -42,7 +46,6 @@
       <h2>表单验证</h2>
       <p>在防止用户犯错的前提下，尽可能让用户更早地发现并纠正错误。</p>
       <el-card>
-
         <y-form
           v-model="form"
           :config="config"
@@ -52,7 +55,10 @@
           :rules="rules"
         >
           <el-form-item>
-            <el-button type="primary" @click="handleCreate">立即创建</el-button>
+            <el-button
+              type="primary"
+              @click="handleCreate"
+            >立即创建</el-button>
             <el-button @click="handleCancel">取消</el-button>
           </el-form-item>
         </y-form>
@@ -70,7 +76,6 @@ export default {
         name: '',
         region: '',
         date: '',
-        date2: '',
         time: '',
         delivery: false,
         type: [],
@@ -81,12 +86,14 @@ export default {
         name: {
           prop: 'name',
           label: '活动名称',
-          fieldType: 'Input'
+          fieldType: 'Input',
+          labelSuffix: '：'
         },
         region: {
           prop: 'region',
           label: '活动区域',
           fieldType: 'Select',
+          labelSuffix: '：',
           options: [
             {
               label: '上海',
@@ -102,13 +109,17 @@ export default {
           prop: 'date',
           label: '活动时间',
           fieldType: 'DatePicker',
-          cols: 14
+          labelSuffix: '：',
+          cols: 13
         },
         time: {
           prop: 'time',
-          label: '',
-          hideLable: true,
-          labelWidth: '20px',
+          label: '-',
+          hideLable: false,
+          labelPosition: 'center',
+          labelSuffix: '',
+          push: 1,
+          labelWidth: '25px',
           fieldType: 'TimePicker',
           cols: 10,
           pickerOptions: {
@@ -120,12 +131,15 @@ export default {
         delivery: {
           prop: 'delivery',
           label: '即时配送',
-          fieldType: 'YSwitch'
+          fieldType: 'YSwitch',
+          labelSuffix: '：'
+
         },
         type: {
           prop: 'type',
           fieldType: 'Checkbox',
           label: '活动性质',
+          labelSuffix: '：',
           options: [
             {
               label: '美食/餐厅线上活动',
@@ -153,6 +167,8 @@ export default {
           prop: 'resource',
           label: '特殊资源',
           fieldType: 'Radio',
+          labelSuffix: '：',
+
           options: [
             {
               label: '线上品牌商赞助',
@@ -168,7 +184,9 @@ export default {
           prop: 'desc',
           label: '活动形式',
           fieldType: 'Input',
-          type: 'textarea'
+          type: 'textarea',
+          labelSuffix: '：',
+          rows: 2
         }
       },
       rules: {
@@ -250,7 +268,6 @@ export default {
         name: '',
         region: '',
         date: '',
-        date2: '',
         time: '',
         delivery: false,
         type: [],

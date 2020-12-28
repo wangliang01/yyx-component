@@ -117,6 +117,7 @@ axios.interceptors.request.use(config => {
     config.headers.orgId = process.env.NODE_ENV === 'development' ? 1 : 0
   }
   removePending(config) // 在一个ajax发送前执行一下取消操作
+  /* eslint-disable */
   config.cancelToken = new cancelToken(c => {
     // 这里的ajax标识我是用请求地址&请求方式拼接的字符串，当然你可以选择其他的一些方式
     pending.push({
@@ -225,7 +226,7 @@ export default {
   }
 }
 // 网关名字666
-/// procurement/
+// / procurement/
 const procurement = '/procurement'
 // system
 const system = '/system' // -serive

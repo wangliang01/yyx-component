@@ -36,7 +36,7 @@
 <script>
 import { defaultTableAttrs, defaultColumn, defaultPagination } from './config'
 export default {
-  name: 'y-table',
+  name: 'YTable',
   components: {
     expandDom: {
       functional: true,

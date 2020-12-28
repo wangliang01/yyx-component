@@ -70,7 +70,6 @@ export const set = (...args) => {
   return str
 }
 
-
 // 检查是否有权限
 export const hasPermission = (permissionList) => {
   const roles = get(store, 'getters.userInfo.resourceInfoList', [])

@@ -1,6 +1,10 @@
 <template>
-  <div class="sidebar">
-    sidebar
+  <div class="upload">
+
+    <el-card>
+      <h2>文件上传</h2>
+      <y-upload></y-upload>
+    </el-card>
   </div>
 </template>
 
