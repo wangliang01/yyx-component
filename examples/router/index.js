@@ -18,6 +18,16 @@ const routes = [
     path: '/upload',
     name: 'Upload',
     component: () => import('../views/upload')
+  },
+  {
+    path: '/table',
+    name: 'Table',
+    component: () => import('../views/table')
+  },
+  {
+    path: '/table-pro',
+    name: 'TablePro',
+    component: () => import('../views/table-pro')
   }
 ]
 

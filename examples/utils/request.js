@@ -4,10 +4,10 @@
 
 import axios from 'axios'
 
-import local from '@/utils/local'
+import local from './local'
 import { Message } from 'element-ui'
-import router from '@/router'
-import store from '@/store'
+import router from '../router'
+// import store from '../store'
 import { get, toNumber } from 'lodash'
 import NProgress from 'nprogress'
 
@@ -103,19 +103,19 @@ axios.interceptors.request.use(config => {
   NProgress.start()
   // 取出本地token
   const afterLogin = local.get('afterLogin')
-  const curOrg = store.state.curOrg
+  // const curOrg = store.state.curOrg
 
   config.headers.Authorization =
     'Basic ' + window.btoa('system-service' + ':' + 'system-service')
   if (afterLogin !== null) {
     config.headers.Authorization = 'bearer ' + afterLogin
   }
-  if (curOrg) {
-    config.headers.orgId = curOrg.orgId
-  } else {
-    // 在开发环境时传orgId没有时，传1，为了获取数据
-    config.headers.orgId = process.env.NODE_ENV === 'development' ? 1 : 0
-  }
+  // if (curOrg) {
+  //   config.headers.orgId = curOrg.orgId
+  // } else {
+  //   // 在开发环境时传orgId没有时，传1，为了获取数据
+  //   config.headers.orgId = process.env.NODE_ENV === 'development' ? 1 : 0
+  // }
   removePending(config) // 在一个ajax发送前执行一下取消操作
   /* eslint-disable */
   config.cancelToken = new cancelToken(c => {

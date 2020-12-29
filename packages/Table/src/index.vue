@@ -1,5 +1,8 @@
 <template>
-  <div v-bind="$attrs" class="base-table">
+  <div
+    v-bind="$attrs"
+    class="base-table"
+  >
     <slot name="default"></slot>
     <el-table
       :data="data"
@@ -8,21 +11,7 @@
       style="width: 100%"
       v-on="$listeners"
     >
-      <template v-for="(col, index) in columnAttrs">
-        <!-- 没有render函数 -->
-        <el-table-column v-if="!col.render" v-bind="col" :key="index" />
-        <!-- 有render函数 -->
-        <el-table-column v-else-if="col.render" v-bind="col" :key="index">
-          <template slot-scope="scope">
-            <expandDom
-              :row="scope.row"
-              :col="col"
-              :render="col.render"
-              :col-index="index"
-            />
-          </template>
-        </el-table-column>
-      </template>
+      <TableItem :col="col" v-for="(col, index) in columnAttrs" :key="index"></TableItem>
     </el-table>
     <el-pagination
       v-if="paginationAttrs.isPagination"
@@ -35,31 +24,11 @@
 </template>
 <script>
 import { defaultTableAttrs, defaultColumn, defaultPagination } from './config'
+import TableItem from './TableItem'
 export default {
   name: 'YTable',
   components: {
-    expandDom: {
-      functional: true,
-      props: {
-        row: Object,
-        col: Object,
-        render: Function,
-        colIndex: [Number, String]
-      },
-      render(h, ctx) {
-        const randomIndex = Math.random()
-          .toString(35)
-          .replace('.', '')
-        const params = {
-          row: { ...ctx.props.row },
-          colIndex: ctx.props.colIndex || randomIndex
-        }
-        if (ctx.props.col) {
-          params.col = ctx.props.col
-        }
-        return ctx.props.render && ctx.props.render(h, params)
-      }
-    }
+    TableItem
   },
   props: {
     /**

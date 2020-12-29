@@ -22,7 +22,7 @@
     >
       <el-form-item
         :label="field.hideLable ? '' : field.label + (field.labelSuffix || '')"
-        :label-width="field.labelWidth ? field.labelWidth : ($attrs.labelWidth ? $attrs.labelWidth : '100px') "
+        :label-width="field.labelWidth ? field.labelWidth : ($attrs['label-width'] ? $attrs['label-width'] : '100px') "
         :prop="field.prop"
       >
         <component
@@ -48,6 +48,7 @@ import DatePicker from './components/DatePicker'
 import TimePicker from './components/TimePicker'
 import YSwitch from './components/Switch'
 import Checkbox from './components/Checkbox'
+import YComponent from './components/Component'
 export default {
   name: 'YForm',
   components: {
@@ -57,7 +58,8 @@ export default {
     DatePicker,
     TimePicker,
     YSwitch,
-    Checkbox
+    Checkbox,
+    YComponent
   },
   data() {
     return {
@@ -87,6 +89,9 @@ export default {
       },
       deep: true
     }
+  },
+  mounted() {
+    console.log('$attrs', this.$attrs)
   },
   methods: {
     getLabelWidth() {
