@@ -48,6 +48,7 @@ export default {
   },
   props: {
     url: String // 请求数据的url
+    // columns 这个也要传
   },
   components: {
   },

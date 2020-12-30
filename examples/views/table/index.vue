@@ -136,7 +136,8 @@ export default {
         {
           prop: 'address',
           label: '地址',
-          width: '150'
+          width: '50',
+          'show-overflow-tooltip': true
         },
         {
           prop: 'zip',
