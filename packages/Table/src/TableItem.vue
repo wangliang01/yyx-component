@@ -35,6 +35,9 @@ export default {
       default() {
         return {}
       }
+    },
+    index: {
+      type: [String, Number]
     }
   },
   components: {

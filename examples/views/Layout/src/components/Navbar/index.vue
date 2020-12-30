@@ -1,12 +1,12 @@
 <template>
-  <div class="sidebar">
-    sidebar
+  <div class="navbar">
+    Navbar
   </div>
 </template>
 
 <script>
 export default {
-  name: '',
+  name: 'Navbar',
   data() {
     return {
 
