@@ -3,7 +3,6 @@
     v-bind="$attrs"
     v-on="$listeners"
     :model="formData"
-    :ref="$attrs.ref"
     :style="`width: ${width || '100%'}`"
   >
     <el-col
@@ -22,8 +21,14 @@
     >
       <el-form-item
         :label="field.hideLable ? '' : field.label + (field.labelSuffix || '')"
-        :label-width="field.labelWidth ? field.labelWidth : ($attrs['label-width'] ? $attrs['label-width'] : '100px') "
+        :label-width="field.labelWidth ? field.labelWidth : (field['label-width'] ? field['label-width'] : $attrs['label-width'])"
+        :rules="field.rules"
         :prop="field.prop"
+        :required="field.required || false"
+        :error="field.error"
+        :show-message="field.showMessage || field['show-message']"
+        :inline-message="field.inlineMessage || field['inline-message']"
+        :size="field.size"
       >
         <component
           :is="field.fieldType"
@@ -48,7 +53,7 @@ import DatePicker from './components/DatePicker'
 import TimePicker from './components/TimePicker'
 import YSwitch from './components/Switch'
 import Checkbox from './components/Checkbox'
-import YComponent from './components/Component'
+import Customer from './components/Customer'
 export default {
   name: 'YForm',
   components: {
@@ -59,7 +64,7 @@ export default {
     TimePicker,
     YSwitch,
     Checkbox,
-    YComponent
+    Customer
   },
   data() {
     return {
@@ -91,9 +96,20 @@ export default {
     }
   },
   mounted() {
-    console.log('$attrs', this.$attrs)
+    this.init()
   },
   methods: {
+    init() {
+      // 解决y-form组件没有validate等相关方法的问题
+      const firstChild = this.$children[0]
+      if (firstChild) {
+        Object.keys(firstChild).forEach(key => {
+          if (['clearValidate', 'resetFields', 'validate', 'validateField'].includes(key)) {
+            this[key] = firstChild[key]
+          }
+        })
+      }
+    },
     getLabelWidth() {
       if (typeof this.config === 'object') {
         const keys = Object.keys(this.config)

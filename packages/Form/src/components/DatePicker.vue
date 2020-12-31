@@ -1,6 +1,6 @@
 <template>
   <el-date-picker
-    v-model="currentValue"
+    v-model.trim="currentValue"
     :readonly="$attrs.readonly || false"
     :disabled="$attrs.disabled || false"
     :editable="$attrs.editable || true"

@@ -1,6 +1,6 @@
 <template>
   <el-switch
-    v-model="currentValue"
+    v-model.trim="currentValue"
     :disabled="$attrs.disabled || false"
     :width="$attrs.width || 40"
     :active-icon-class="$attrs.activeIconClass"

@@ -1,6 +1,6 @@
 <template>
   <el-radio-group
-    v-model="currentValue"
+    v-model.trim="currentValue"
     @input="handleInputEvent"
   >
     <el-col

@@ -1,6 +1,6 @@
 <template>
   <el-select
-    v-model="currentValue"
+    v-model.trim="currentValue"
     :multiple="$attrs.multiple"
     :disabled="$attrs.disabled"
     :value-key="$attrs.valueKey"

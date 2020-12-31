@@ -1,10 +1,10 @@
 <template>
-  <component :is="$attrs.filter" :value="currentValue" @input="handleInputEvent"></component>
+  <component :is="$attrs.filter || $attrs.render" :value="currentValue" @input="handleInputEvent"></component>
 </template>
 
 <script>
 export default {
-  name: 'Component',
+  name: 'Customer',
   data() {
     return {
       currentValue: this.value
@@ -27,6 +27,9 @@ export default {
     handleInputEvent(val) {
       this.$emit('input', val)
     }
+  },
+  mounted() {
+    console.log('this.$attrs', this.$attrs)
   }
 }
 </script>

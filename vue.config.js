@@ -6,13 +6,26 @@ module.exports = {
       filename: 'index.html'
     }
   },
-  // 扩展webpack配置，使packages加入编译
-  chainWebpack: config => {
-    config.module
-      .rule('js')
-      .include.add('/packages')
-      .end()
-      .use('babel')
-      .loader('babel-loader')
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader'
+          }
+        }
+      ]
+    }
   }
+  // 扩展webpack配置，使packages加入编译
+  // chainWebpack: config => {
+  //   config.module
+  //     .rule('js')
+  //     .include.add('node_modules')
+  //     .end()
+  //     .use('babel')
+  //     .loader('babel-loader')
+  // }
 }
