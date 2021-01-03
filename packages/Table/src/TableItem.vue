@@ -47,6 +47,21 @@
   <el-table-column
     v-else-if="col.render"
     v-bind="col"
+    :column-key="col.columnKey || col['column-key']"
+    :min-width="col.minWidth || col['min-width']"
+    :render-header="col.renderHeader || col['render-header']"
+    :sort-method="col.sortMethod || col['sort-method']"
+    :sort-by="col.sortBy || col['sort-by']"
+    :sort-orders="col.sortOrders || col['sort-orders']"
+    :show-overflow-tooltip="col.showOverflowTooltip || col['show-overflow-tooltip'] || false"
+    :header-align="col.headerAlign || col['header-align']"
+    :class-name="col.className || col['class-name']"
+    :label-class-name="col.labelClassName || col['label-class-name']"
+    :reserve-selection="col.reserveSelection || col['reserve-selection'] || false"
+    :filter-placement="col.filterPlacement || col['filter-placement']"
+    :filter-multiple="col.filterMultiple || col['filter-multiple']"
+    :filter-method="col.filterMethod || col['filter-method']"
+    :filtered-value="col.filteredValue || col['filtered-value']"
   >
     <template slot-scope="scope">
       <expandDom

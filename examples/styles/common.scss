@@ -5,3 +5,11 @@ html, body, ul, li {
 .mt-20 {
   margin-top: 20px;
 }
+
+.el-table__row.warning{
+  background: oldlace;
+}
+
+.el-table__row.success{
+  background: olivedrab;
+}

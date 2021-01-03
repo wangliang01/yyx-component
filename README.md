@@ -7,7 +7,7 @@
 推荐使用npm的方式安装，它能更好地和webpack打包工具配合使用
 
 ```node
-npm i yyx-compoonet -S // 或者 yarn add yyx-compoonet 
+npm i yyx-component -S 
 ```
 
 ## 快速上手
@@ -17,7 +17,7 @@ npm i yyx-compoonet -S // 或者 yarn add yyx-compoonet
 import Vue from 'vue
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
-import yui from 'yyx-compoonet'
+import yui from 'yyx-component'
 import App from './App.vue';
 
 Vue.use(yui)

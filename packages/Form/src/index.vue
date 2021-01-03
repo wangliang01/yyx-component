@@ -101,14 +101,17 @@ export default {
   methods: {
     init() {
       // 解决y-form组件没有validate等相关方法的问题
-      const firstChild = this.$children[0]
-      if (firstChild) {
-        Object.keys(firstChild).forEach(key => {
-          if (['clearValidate', 'resetFields', 'validate', 'validateField'].includes(key)) {
-            this[key] = firstChild[key]
-          }
-        })
-      }
+      this.$children.forEach(component => {
+        const el = component.$el
+        const classList = [...el.classList]
+        if (classList.includes('el-form')) {
+          Object.keys(component).forEach(key => {
+            if (['clearValidate', 'resetFields', 'validate', 'validateField'].includes(key)) {
+              this[key] = component[key]
+            }
+          })
+        }
+      })
     },
     getLabelWidth() {
       if (typeof this.config === 'object') {
