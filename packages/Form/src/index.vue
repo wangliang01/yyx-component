@@ -34,6 +34,7 @@
           :is="field.fieldType"
           v-bind="field"
           :value="formData[field.prop]"
+          :onPick="field.onPick"
           @input="updateForm(field.prop, $event)"
         ></component>
       </el-form-item>

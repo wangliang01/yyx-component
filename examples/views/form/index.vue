@@ -240,6 +240,8 @@ export default {
         date: '',
         time: '',
         delivery: false,
+        startTime: '',
+        endTime: '',
         type: [],
         resource: '',
         desc: ''
@@ -266,6 +268,18 @@ export default {
               value: 'beijing'
             }
           ]
+        },
+        dateRange: {
+          label: '日期范围',
+          fieldType: 'DatePicker',
+          type: 'daterange',
+          startPlaceholder: '请选择开始日期',
+          endPlaceholder: '请选择结束日期',
+          onPick: (value) => {
+            const [startTime, endTime] = value
+            this.form.startTime = startTime
+            this.form.endTime = endTime
+          }
         },
         date: {
           prop: 'date',
@@ -464,7 +478,6 @@ export default {
           fieldType: 'Customer',
           filter: {
             render: (h) => {
-              console.log(h)
               return <DomainInput value={this.dynamicValidateForm.domains} onDel={this.removeDomain}></DomainInput>
             }
           }
@@ -491,7 +504,6 @@ export default {
       //   fieldType: 'Customer',
       //   filter: {
       //     render: (h) => {
-      //       console.log(h)
       //       return <DomainInput value={this.dynamicValidateForm.domains}></DomainInput>
       //     }
       //   }
