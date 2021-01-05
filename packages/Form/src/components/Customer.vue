@@ -27,9 +27,6 @@ export default {
     handleInputEvent(val) {
       this.$emit('input', val)
     }
-  },
-  mounted() {
-    console.log('this.$attrs', this.$attrs)
   }
 }
 </script>
