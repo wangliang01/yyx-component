@@ -1,7 +1,8 @@
+const isDev = process.env.NODE_ENV === 'development'
 module.exports = {
   pages: {
     index: {
-      entry: 'examples/main.js',
+      entry: isDev ? 'examples/main.js' : 'packages/index.js',
       template: 'public/index.html',
       filename: 'index.html'
     }
@@ -17,15 +18,12 @@ module.exports = {
           }
         }
       ]
+    },
+    output: {
+      libraryExport: 'default'
+    },
+    externals: {
+      'vue-router': 'VueRouter'
     }
   }
-  // 扩展webpack配置，使packages加入编译
-  // chainWebpack: config => {
-  //   config.module
-  //     .rule('js')
-  //     .include.add('node_modules')
-  //     .end()
-  //     .use('babel')
-  //     .loader('babel-loader')
-  // }
 }

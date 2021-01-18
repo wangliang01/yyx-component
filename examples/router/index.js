@@ -1,10 +1,5 @@
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-// import Layout from '../views/Layout'
-Vue.use(VueRouter)
-
-export const routes = [
+const routes = [
   {
     path: '/',
     component: () => import('../views/Layout/src'),
@@ -40,8 +35,5 @@ export const routes = [
 
 ]
 
-const router = new VueRouter({
-  routes
-})
+module.exports = routes
 
-export default router
