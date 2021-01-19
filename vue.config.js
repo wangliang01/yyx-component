@@ -1,8 +1,7 @@
-const isDev = process.env.NODE_ENV === 'development'
 module.exports = {
   pages: {
     index: {
-      entry: isDev ? 'examples/main.js' : 'packages/index.js',
+      entry: 'examples/main.js',
       template: 'public/index.html',
       filename: 'index.html'
     }
