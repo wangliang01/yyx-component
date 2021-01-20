@@ -26,8 +26,8 @@
     :label="$attrs.label"
     :tabindex="$attrs.tabindex"
     :validate-event="$attrs.validateEvent || true"
+    :disabled="$attrs.disabled"
     :form="$attrs.form"
-    v-bind="$attrs"
     v-on="$listeners"
   ></el-input>
 </template>
