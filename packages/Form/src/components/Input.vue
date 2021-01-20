@@ -27,6 +27,7 @@
     :tabindex="$attrs.tabindex"
     :validate-event="$attrs.validateEvent || true"
     :form="$attrs.form"
+    v-bind="$attrs"
     v-on="$listeners"
   ></el-input>
 </template>
