@@ -15,7 +15,7 @@
     </y-form>
     <y-table
       :data="tableData"
-      :columns="columns"
+      :columns="$attrs && $attrs.columns && $attrs.columns.filter(column => !column.hidden)"
       pagination
       :total="total"
       :reload="reloadData"
@@ -28,43 +28,35 @@
 </template>
 
 <script>
-import request from '../../../examples/utils/request'
-import { filter, merge, toNumber } from 'lodash'
+import { filter, merge } from 'lodash'
 import { defaultColumn } from './config'
 export default {
   name: 'YTablePro',
   data() {
     return {
-      tableData: [], // 表格数据
       columns: [], // 表格列数组
       queryParams: {
         pageNo: 1,
         pageSize: 10
       },
-      config: {}, // 渲染表单的数据
-      total: 0
+      config: {} // 渲染表单的数据
 
     }
   },
   props: {
-    url: String // 请求数据的url
-    // columns 这个也要传
-  },
-  components: {
-  },
-  watch: {
-    url(val) {
-      this.handleQuery()
+    tableData: Array, // 表格数据
+    total: {
+      type: Number,
+      default: 0
     }
   },
   mounted() {
     this.initConfig()
-    this.loadData()
+    this.$emit('loadData')
   },
   methods: {
     initConfig() {
       // 生成表格列数据
-      this.columns = filter(this.$attrs.columns, column => !column.hidden)
       const filterColumns = filter(this.$attrs.columns, column => column.filter)
       filterColumns.forEach(column => {
         const key = column.prop
@@ -78,23 +70,12 @@ export default {
       console.log('config', this.config)
     },
     /**
-    * 获取表格数据
-    */
-    async loadData() {
-      // 请求数据
-      const res = await request.get(this.url, this.queryParams)
-      if (res.success && res.code === '200') {
-        this.tableData = res.data.records
-        this.total = toNumber(res.data.total)
-      }
-    },
-    /**
     * 【查询】
     */
     handleQuery() {
       // 查询时，重置pageNo为1
       this.queryParams = merge(this.queryParams, { pageNo: 1 })
-      this.loadData()
+      this.$emit('loadData')
     },
     /**
      * 分页时，重新加载数据
@@ -107,7 +88,7 @@ export default {
         // 页码变更时
         this.queryParams = merge(this.queryParams, { pageNo: currentPage })
       }
-      this.loadData()
+      this.$emit('loadData')
     }
   }
 }
