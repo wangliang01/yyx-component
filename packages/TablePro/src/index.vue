@@ -75,7 +75,7 @@ export default {
     handleQuery() {
       // 查询时，重置pageNo为1
       this.queryParams = merge(this.queryParams, { pageNo: 1 })
-      this.$emit('loadData')
+      this.$emit('loadData', this.queryParams)
     },
     /**
      * 分页时，重新加载数据
@@ -88,7 +88,7 @@ export default {
         // 页码变更时
         this.queryParams = merge(this.queryParams, { pageNo: currentPage })
       }
-      this.$emit('loadData')
+      this.$emit('loadData', this.queryParams)
     }
   }
 }
