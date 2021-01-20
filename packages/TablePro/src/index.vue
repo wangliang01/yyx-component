@@ -13,17 +13,19 @@
         <el-button @click="handleQuery">查询</el-button>
       </slot>
     </y-form>
-    <y-table
-      :data="tableData"
-      :columns="$attrs && $attrs.columns && $attrs.columns.filter(column => !column.hidden)"
-      pagination
-      :total="total"
-      :reload="reloadData"
-      v-bind="$attrs"
-      v-on="$listeners"
-    >
-      <slot name="table"></slot>
-    </y-table>
+    <el-card style="width: 100%">
+      <y-table
+        :data="tableData"
+        :columns="$attrs && $attrs.columns && $attrs.columns.filter(column => !column.hidden)"
+        pagination
+        :total="total"
+        :reload="reloadData"
+        v-bind="$attrs"
+        v-on="$listeners"
+      >
+        <slot name="table"></slot>
+      </y-table>
+    </el-card>
   </div>
 </template>
 
