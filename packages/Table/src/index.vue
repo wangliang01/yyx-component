@@ -186,4 +186,7 @@ export default {
   margin-top: 10px;
   text-align: right;
 }
+.base-table {
+  overflow: auto;
+}
 </style>

@@ -1,5 +1,12 @@
 <template>
   <div class="table-pro">
+    <y-table-pro
+      @loadData="pagelist"
+      :tableData="tableData"
+      :columns="columns"
+      :total="total"
+    >
+    </y-table-pro>
     <h1>高级表格</h1>
     <el-card>
       <h2>自定义列模板</h2>

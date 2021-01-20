@@ -7,7 +7,7 @@
   >
     <el-col
       :style="$attrs.inline ? 'inline-block' : 'block'"
-      :span="field.cols ? field.cols : ($attrs.inline&&config.length >=4 ? 6 : $attrs.cols)"
+      :span="field.cols ? field.cols : field.span"
       :offset="field.offset || 0"
       :push="field.push || 0"
       :pull="field.pull || 0"
