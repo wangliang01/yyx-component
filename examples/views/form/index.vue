@@ -348,10 +348,12 @@ export default {
           options: [
             {
               label: '线上品牌商赞助',
+              value: '0',
               cols: 12
             },
             {
               label: '线下场地免费',
+              value: '1',
               cols: 12
             }
           ]
@@ -510,7 +512,7 @@ export default {
       // }
     },
     handleCreate() {
-      console.log(this.$refs.form)
+      console.log(this.form)
       this.$refs.form.validate(valid => {
         console.log(valid)
         if (valid) {
