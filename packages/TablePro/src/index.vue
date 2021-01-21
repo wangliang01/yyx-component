@@ -9,7 +9,7 @@
       label-position="left"
       :label-width="$attrs['label-width']"
     >
-      <slot name="form">
+      <slot v-if="hasSearch" name="form">
         <el-button @click="handleQuery">查询</el-button>
       </slot>
     </y-form>
@@ -50,6 +50,10 @@ export default {
     total: {
       type: Number,
       default: 0
+    },
+    hasSearch: {
+      type: Boolean,
+      default: true
     }
   },
   mounted() {
