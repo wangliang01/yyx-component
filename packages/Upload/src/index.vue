@@ -158,7 +158,6 @@ export default {
             const formData = new FormData()
             formData.append('file', this.blobtoFile(blob))
             const res = await this.api(formData)
-            console.log(res)
             this.$refs[this.refUpload].fileList.push({
               url: res.data.url,
               name: '图片',
@@ -192,11 +191,11 @@ export default {
     },
     // Base64转blob 压缩图片之后用
     dataURLtoBlob(dataurl) {
-      const arr = dataurl.split(',')
-      const mime = arr[0].match(/:(.*?);/)[1]
-      const bstr = atob(arr[1])
-      const u8arr = new Uint8Array(n)
-      let n = bstr.length
+      var arr = dataurl.split(',')
+      var mime = arr[0].match(/:(.*?);/)[1]
+      var bstr = atob(arr[1])
+      var n = bstr.length
+      var u8arr = new Uint8Array(n)
       while (n--) {
         u8arr[n] = bstr.charCodeAt(n)
       }
