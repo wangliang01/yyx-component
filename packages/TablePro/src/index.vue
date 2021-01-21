@@ -13,17 +13,19 @@
         <el-button @click="handleQuery">查询</el-button>
       </slot>
     </y-form>
-    <y-table
-      :data="tableData"
-      :columns="$attrs && $attrs.columns && $attrs.columns.filter(column => !column.hidden)"
-      pagination
-      :total="total"
-      :reload="reloadData"
-      v-bind="$attrs"
-      v-on="$listeners"
-    >
-      <slot name="table"></slot>
-    </y-table>
+    <el-card style="width: 100%">
+      <y-table
+        :data="tableData"
+        :columns="$attrs && $attrs.columns && $attrs.columns.filter(column => !column.hidden)"
+        pagination
+        :total="total"
+        :reload="reloadData"
+        v-bind="$attrs"
+        v-on="$listeners"
+      >
+        <slot name="table"></slot>
+      </y-table>
+    </el-card>
   </div>
 </template>
 
@@ -75,7 +77,7 @@ export default {
     handleQuery() {
       // 查询时，重置pageNo为1
       this.queryParams = merge(this.queryParams, { pageNo: 1 })
-      this.$emit('loadData')
+      this.$emit('loadData', this.queryParams)
     },
     /**
      * 分页时，重新加载数据
@@ -88,7 +90,7 @@ export default {
         // 页码变更时
         this.queryParams = merge(this.queryParams, { pageNo: currentPage })
       }
-      this.$emit('loadData')
+      this.$emit('loadData', this.queryParams)
     }
   }
 }
