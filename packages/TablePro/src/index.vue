@@ -58,7 +58,7 @@ export default {
   },
   mounted() {
     this.initConfig()
-    this.$emit('loadData')
+    this.$emit('loadData', this.queryParams)
   },
   methods: {
     initConfig() {
@@ -72,8 +72,6 @@ export default {
         // 生成查询参数
         this.queryParams[key] = ''
       })
-
-      console.log('config', this.config)
     },
     /**
     * 【查询】
