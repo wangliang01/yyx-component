@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.2.9",
+  "version": "1.3.0",
   "main": "lib/yui.common.js",
   "scripts": {
     "serve": "vue-cli-service serve",

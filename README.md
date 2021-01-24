@@ -18,6 +18,7 @@ import Vue from 'vue
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 import yui from 'yyx-component'
+import 'yyx-component/lib/yui.css'
 import App from './App.vue';
 
 Vue.use(yui)
