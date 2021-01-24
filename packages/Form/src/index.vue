@@ -3,7 +3,7 @@
     v-bind="$attrs"
     v-on="$listeners"
     :model="formData"
-    :style="`width: ${width || '100%'}`"
+    :style="`width: ${width || '100%'}; overflow: hidden;`"
   >
     <el-col
       :style="$attrs.inline ? 'inline-block' : 'block'"

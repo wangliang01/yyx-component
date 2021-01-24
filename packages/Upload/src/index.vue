@@ -245,7 +245,7 @@ export default {
       }
       const testmsg = file.name.substring(file.name.lastIndexOf('.') + 1)
       const imgExt = /(jpg|JPG|bmp|BMP|gif|GIF|ico|ICO|pcx|PCX|jpeg|JPEG|tif|TIF|png|PNG|raw|RAW|tga|TGA)$/
-      if (!imgExt.test(testmsg) && this.isCropper) {
+      if (!imgExt.test(testmsg)) {
         this.$message({
           message: '请选择图片',
           type: 'warning'
