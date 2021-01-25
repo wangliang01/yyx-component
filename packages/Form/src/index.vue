@@ -48,6 +48,7 @@
 
 <script>
 import Input from './components/Input'
+import InputNumber from '../../InputNumber'
 import Radio from './components/Radio'
 import Select from './components/Select'
 import DatePicker from './components/DatePicker'
@@ -59,6 +60,7 @@ export default {
   name: 'YForm',
   components: {
     Input,
+    InputNumber,
     Radio,
     Select,
     DatePicker,
