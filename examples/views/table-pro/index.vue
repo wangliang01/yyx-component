@@ -1,10 +1,8 @@
 <template>
   <div class="table-pro">
     <y-table-pro
-      @loadData="pagelist"
-      :tableData="tableData"
+      :loadDataApi="pagelist"
       :columns="columns"
-      :total="total"
     >
     </y-table-pro>
     <h1>高级表格</h1>
@@ -384,6 +382,7 @@ export default {
 
   },
   methods: {
+    pagelist() {},
     handleEdit(row) { },
     handleDelete(row) { },
     resetDateFilter() {

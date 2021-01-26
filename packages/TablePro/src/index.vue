@@ -13,10 +13,11 @@
         <el-button @click="handleQuery">查询</el-button>
       </slot>
     </y-form>
-    <el-card style="width: 100%">
+    <el-card style="width: 100%; margin-top: 20px;">
       <y-table
         :data="tableData"
-        :columns="$attrs && $attrs.columns && $attrs.columns.filter(column => !column.hidden)"
+        :columns="columns && columns.filter(column => !column.hidden)"
+        v-loading="loading"
         pagination
         :total="total"
         :reload="reloadData"
@@ -30,26 +31,40 @@
 </template>
 
 <script>
-import { filter, merge } from 'lodash'
+import { filter, merge, cloneDeep } from 'lodash'
 import { defaultColumn } from './config'
 export default {
   name: 'YTablePro',
   data() {
     return {
-      columns: [], // 表格列数组
+      tableData: [],
+      total: 0,
+      loading: false,
       queryParams: {
-        pageNo: 1,
-        pageSize: 10
+        current: 1,
+        size: 10
       },
       config: {} // 渲染表单的数据
 
     }
   },
+  watch: {
+    columns: {
+      handler(val) {
+        this.initConfig()
+      },
+      deep: true
+    }
+  },
   props: {
-    tableData: Array, // 表格数据
-    total: {
-      type: Number,
-      default: 0
+    loadDataApi: {
+      type: Function
+    },
+    columns: {
+      type: Array,
+      default: () => {
+        return []
+      }
     },
     hasSearch: {
       type: Boolean,
@@ -58,12 +73,31 @@ export default {
   },
   mounted() {
     this.initConfig()
-    this.$emit('loadData', this.queryParams)
+    this.loadData()
   },
   methods: {
+    async loadData() {
+      const data = cloneDeep(this.queryParams)
+      for (const item in data) {
+        if (!data[item]) {
+          delete data[item]
+        }
+      }
+      try {
+        this.loading = true
+        const res = await this.loadDataApi(data)
+        this.tableData = res.data.records || []
+        this.total = parseInt(res.data.total)
+      } catch {
+        this.tableData = []
+        this.total = 0
+      } finally {
+        this.loading = false
+      }
+    },
     initConfig() {
       // 生成表格列数据
-      const filterColumns = filter(this.$attrs.columns, column => column.filter)
+      const filterColumns = filter(this.columns, column => column.filter)
       filterColumns.forEach(column => {
         const key = column.prop
         // 生成表单的数据
@@ -77,22 +111,22 @@ export default {
     * 【查询】
     */
     handleQuery() {
-      // 查询时，重置pageNo为1
-      this.queryParams = merge(this.queryParams, { pageNo: 1 })
-      this.$emit('loadData', this.queryParams)
+      // 查询时，重置current为1
+      this.queryParams = merge(this.queryParams, { current: 1 })
+      this.loadData()
     },
     /**
      * 分页时，重新加载数据
      */
-    reloadData({ pageSize, currentPage, type }) {
+    reloadData({ size, currentPage, type }) {
       if (type === 'size-change') {
-        // 分页条数变更，需要重置pageNo为1
-        this.queryParams = merge(this.queryParams, { pageSize, pageNo: 1 })
+        // 分页条数变更，需要重置current为1
+        this.queryParams = merge(this.queryParams, { size, current: 1 })
       } else {
         // 页码变更时
-        this.queryParams = merge(this.queryParams, { pageNo: currentPage })
+        this.queryParams = merge(this.queryParams, { current: currentPage })
       }
-      this.$emit('loadData', this.queryParams)
+      this.loadData()
     }
   }
 }

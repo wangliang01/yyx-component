@@ -18,7 +18,7 @@
     <el-pagination
       v-if="paginationAttrs.isPagination"
       v-bind="paginationAttrs"
-      class="pagination-container"
+      style="margin-top: 20px;text-align: right;"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -182,10 +182,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.pagination-container {
-  margin-top: 10px;
-  text-align: right;
-}
 .base-table {
   overflow: auto;
 }
