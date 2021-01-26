@@ -36,6 +36,7 @@
           :value="formData[field.prop]"
           :onPick="field.onPick"
           @input="updateForm(field.prop, $event)"
+          :style="`width: ${field.width || '100%'}`"
         ></component>
       </el-form-item>
     </el-col>
