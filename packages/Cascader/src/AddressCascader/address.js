@@ -4046,6 +4046,7 @@ const addressMap = {
   }
 }
 
+// 转换数据格式
 export const transferAddress = (address) => {
   const addressList = []
   Object.keys(address).forEach(key => {
@@ -4085,6 +4086,7 @@ export const getCountyList = (cityCode) => {
   })
 }
 
+// 获取地址数据
 export const getAddressMap = () => {
   const provinceList = getProvinceList()
   // 遍历省份

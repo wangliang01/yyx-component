@@ -499,17 +499,17 @@ export default {
         url: '',
         key: Date.now()
       })
-      // const i = this.dynamicValidateForm.domains.length
-      // this.dynamicValidateConfig[`domains${i}`] = {
-      //   prop: `domains${i}`,
-      //   label: `域名${i}`,
-      //   fieldType: 'Customer',
-      //   filter: {
-      //     render: (h) => {
-      //       return <DomainInput value={this.dynamicValidateForm.domains}></DomainInput>
-      //     }
-      //   }
-      // }
+      const i = this.dynamicValidateForm.domains.length
+      this.dynamicValidateConfig[`domains${i}`] = {
+        prop: `domains${i}`,
+        label: `域名${i}`,
+        fieldType: 'Customer',
+        filter: {
+          render: (h) => {
+            return <DomainInput value={this.dynamicValidateForm.domains}></DomainInput>
+          }
+        }
+      }
     },
     handleCreate() {
       console.log(this.form)

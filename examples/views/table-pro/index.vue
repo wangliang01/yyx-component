@@ -278,6 +278,7 @@ export default {
           prop: 'id',
           fieldType: 'Input',
           filter: true,
+          marginRight: '50px',
           cols: 3,
           sm: 6
         },
@@ -286,6 +287,7 @@ export default {
           prop: 'name',
           fieldType: 'Input',
           filter: true,
+          marginRight: '50px',
           cols: 3,
           sm: 6
         },
@@ -294,6 +296,7 @@ export default {
           prop: 'age',
           fieldType: 'Input',
           filter: true,
+          marginRight: '50px',
           cols: 3,
           sm: 6
         }

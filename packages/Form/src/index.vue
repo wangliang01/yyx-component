@@ -5,45 +5,30 @@
     :model="formData"
     :style="`width: ${width || '100%'}; overflow: hidden;`"
   >
-    <el-col
-      :style="$attrs.inline ? 'inline-block' : 'block'"
-      :span="field.cols ? field.cols : field.span"
-      :offset="field.offset || 0"
-      :push="field.push || 0"
-      :pull="field.pull || 0"
-      :xs="field.xs || $attrs.xs"
-      :sm="field.sm || $attrs.sm"
-      :md="field.md || $attrs.md"
-      :lg="field.lg || $attrs.lg"
-      :xl="field.xl || $attrs.xl"
+    <el-form-item
       v-for="(field, key) in config"
       :key="key"
+      :label="field.hideLable ? '' : field.label + (field.labelSuffix || '')"
+      :label-width="field.labelWidth ? field.labelWidth : (field['label-width'] ? field['label-width'] : $attrs['label-width'])"
+      :rules="field.rules"
+      :prop="field.prop"
+      :required="field.required || false"
+      :error="field.error"
+      :show-message="field.showMessage || field['show-message']"
+      :inline-message="field.inlineMessage || field['inline-message']"
+      :size="field.size"
+      :style="`margin-left: ${field.marginLeft || 0}; margin-right: ${field.marginRight || '20px'}`"
     >
-      <el-form-item
-        :label="field.hideLable ? '' : field.label + (field.labelSuffix || '')"
-        :label-width="field.labelWidth ? field.labelWidth : (field['label-width'] ? field['label-width'] : $attrs['label-width'])"
-        :rules="field.rules"
-        :prop="field.prop"
-        :required="field.required || false"
-        :error="field.error"
-        :show-message="field.showMessage || field['show-message']"
-        :inline-message="field.inlineMessage || field['inline-message']"
-        :size="field.size"
-      >
-        <component
-          :is="field.fieldType"
-          v-bind="field"
-          :value="formData[field.prop]"
-          :onPick="field.onPick"
-          @input="updateForm(field.prop, $event)"
-          :style="`width: ${field.width || '100%'}`"
-        ></component>
-      </el-form-item>
-    </el-col>
-    <slot v-if="$attrs.inline"></slot>
-    <el-col v-else>
-      <slot></slot>
-    </el-col>
+      <component
+        :is="field.fieldType"
+        v-bind="field"
+        :value="formData[field.prop]"
+        :onPick="field.onPick"
+        @input="updateForm(field.prop, $event)"
+        :style="`width: ${field.width || '100%'};`"
+      ></component>
+    </el-form-item>
+    <slot></slot>
   </el-form>
 </template>
 

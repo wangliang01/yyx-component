@@ -34,7 +34,6 @@
 
 <script>
 import { filter, merge, cloneDeep } from 'lodash'
-import { defaultColumn } from './config'
 export default {
   name: 'YTablePro',
   data() {
@@ -107,11 +106,13 @@ export default {
       filterColumns.forEach(column => {
         const key = column.prop
         // 生成表单的数据
-        this.$set(this.config, key, { ...defaultColumn, ...column })
+        this.$set(this.config, key, column)
 
         // 生成查询参数
         this.queryParams[key] = ''
       })
+
+      console.log('this.config', this.config)
     },
     /**
     * 【查询】

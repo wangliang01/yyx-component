@@ -11,7 +11,11 @@
     </el-card>
     <el-card style="margin-top: 20px;">
       <h2>地址级联选择器</h2>
-      <y-address-cascader style="width: 200px;">
+      <y-address-cascader
+        style="width: 200px;"
+        @change="handleAddressChange"
+        v-model="address"
+      >
 
       </y-address-cascader>
     </el-card>
@@ -25,7 +29,8 @@ export default {
     return {
       /* eslint-disable */
       dataApi: this.getDataApi.apply(this, [{ a: 111 }]),
-      inputValue: '选项1 / 选项2 / 选项4'
+      inputValue: '选项1 / 选项2 / 选项4',
+      address: ["110000", "110100", "110101"]
     }
   },
   props: {
@@ -38,6 +43,7 @@ export default {
   },
   methods: {
     getDataApi(params) {
+      console.log(params);
       let id = 0
       let level = 0
       return () => {
@@ -60,6 +66,9 @@ export default {
     },
     handleChange(value, inputValue) {
       console.log("cascader", value, inputValue);
+    },
+    handleAddressChange(value) {
+      console.log("value", value);
     }
   }
 }
