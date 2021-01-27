@@ -29,6 +29,11 @@ const routes = [
         path: '/table-pro',
         name: 'TablePro',
         component: () => import('../views/table-pro')
+      },
+      {
+        path: '/cascader',
+        name: 'Cascader',
+        component: () => import('../views/cascader')
       }
     ]
   }

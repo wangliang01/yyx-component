@@ -57,6 +57,12 @@ export default {
           name: 'TablePro',
           meta: { title: '表格Pro' }
           // component: () => import('../views/table-pro')
+        },
+        {
+          path: '/cascader',
+          name: 'Cascader',
+          meta: { title: '级联选择器' }
+          // component: () => import('../views/table-pro')
         }
       ]
     }
