@@ -1,35 +1,33 @@
 <template>
-  <keep-alive>
-    <div class="table-pro">
-      <y-form
+  <div class="table-pro">
+    <y-form
+      v-bind="$attrs"
+      v-on="$listeners"
+      v-model="queryParams"
+      :config="config"
+      :inline="true"
+      label-position="left"
+      :label-width="$attrs['label-width']"
+    >
+      <slot v-if="hasSearch" name="form">
+        <el-button @click="handleQuery">查询</el-button>
+      </slot>
+    </y-form>
+    <el-card style="width: 100%; margin-top: 20px;">
+      <y-table
+        :data="tableData"
+        :columns="columns && columns.filter(column => !column.hidden)"
+        v-loading="loading"
+        pagination
+        :total="total"
+        :reload="reloadData"
         v-bind="$attrs"
         v-on="$listeners"
-        v-model="queryParams"
-        :config="config"
-        :inline="true"
-        label-position="left"
-        :label-width="$attrs['label-width']"
       >
-        <slot v-if="hasSearch" name="form">
-          <el-button @click="handleQuery">查询</el-button>
-        </slot>
-      </y-form>
-      <el-card style="width: 100%; margin-top: 20px;">
-        <y-table
-          :data="tableData"
-          :columns="columns && columns.filter(column => !column.hidden)"
-          v-loading="loading"
-          pagination
-          :total="total"
-          :reload="reloadData"
-          v-bind="$attrs"
-          v-on="$listeners"
-        >
-          <slot name="table"></slot>
-        </y-table>
-      </el-card>
-    </div>
-  </keep-alive>
+        <slot name="table"></slot>
+      </y-table>
+    </el-card>
+  </div>
 </template>
 
 <script>
@@ -77,6 +75,7 @@ export default {
     this.loadData()
   },
   activated() {
+    console.log('activated')
     this.initConfig()
     this.loadData()
   },
