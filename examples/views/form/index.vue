@@ -124,7 +124,7 @@
           :config="dynamicValidateConfig"
           label-position="right"
           status-icon
-          width="500px"
+          width="600px"
           label-width="100px"
           :rules="rules2"
           ref="dynamicValidateForm"
@@ -149,7 +149,7 @@
           v-model="numberForm"
           label-width="100px"
           :config="numberConfig"
-          width="500px"
+          width="600px"
           ref="numberForm"
         >
           <el-form-item>
@@ -285,25 +285,24 @@ export default {
           prop: 'date',
           label: '活动时间',
           fieldType: 'DatePicker',
-          labelSuffix: '：',
-          cols: 13
+          labelSuffix: '：'
         },
-        time: {
-          prop: 'time',
-          label: '-',
-          hideLable: false,
-          labelPosition: 'center',
-          labelSuffix: '',
-          push: 1,
-          labelWidth: '25px',
-          fieldType: 'TimePicker',
-          cols: 10,
-          pickerOptions: {
-            start: '08:30',
-            step: '00:15',
-            end: '18:30'
-          }
-        },
+        // time: {
+        //   prop: 'time',
+        //   label: '-',
+        //   hideLable: false,
+        //   labelPosition: 'center',
+        //   labelSuffix: '',
+        //   labelWidth: '25px',
+        //   fieldType: 'TimePicker',
+        //   width: '60%',
+        //   display: 'inline-block',
+        //   pickerOptions: {
+        //     start: '08:30',
+        //     step: '00:15',
+        //     end: '18:30'
+        //   }
+        // },
         delivery: {
           prop: 'delivery',
           label: '即时配送',
