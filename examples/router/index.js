@@ -40,6 +40,12 @@ const routes = [
         name: 'Cascader',
         component: () => import('../views/cascader'),
         meta: { title: '级联选择器' }
+      },
+      {
+        path: '/batch-import',
+        name: 'BatchImport',
+        component: () => import('../views/batch-import'),
+        meta: { title: '批量导入' }
       }
     ]
   }
