@@ -52,7 +52,7 @@ export default {
   props: {
     // 父组件传递过来的值:  ['1', '2', '4']
     value: {
-      type: Array,
+      type: [Array, String],
       default: () => []
     },
     // 请求数据接口
@@ -67,6 +67,16 @@ export default {
     }
   },
   watch: {
+    value: {
+      handler(val) {
+        if (typeof val === 'string') {
+          this.currentValue = val.split(',')
+        } else {
+          this.currentValue = val
+        }
+      },
+      deep: true
+    },
     inputValue: {
       handler(val) {
         this.$nextTick(() => {

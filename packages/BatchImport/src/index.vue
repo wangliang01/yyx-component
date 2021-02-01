@@ -10,7 +10,7 @@
 
     <!-- 弹窗  -->
     <el-dialog
-      title="批量导入"
+      :title="btnText"
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
       modal-append-to-body
@@ -42,7 +42,7 @@
       </el-button-group>
 
       <y-table
-        :max-height="360"
+        :max-height="312"
         :data="tableData"
         :columns="currentColumns"
         pagination
@@ -108,7 +108,7 @@ export default {
             prop: 'name',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].name} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].name} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.name}</div>
               }
@@ -119,7 +119,7 @@ export default {
             prop: 'brand',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].brand} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].brand} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.brand}</div>
               }
@@ -130,7 +130,7 @@ export default {
             prop: 'spec',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].spec} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].spec} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.spec}</div>
               }
@@ -141,7 +141,7 @@ export default {
             prop: 'l1Name',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].l1Name} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].l1Name} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.l1Name}</div>
               }
@@ -152,7 +152,7 @@ export default {
             prop: 'l2Name',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].l2Name} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].l2Name} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.l2Name}</div>
               }
@@ -163,7 +163,7 @@ export default {
             prop: 'l3Name',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].l3Name} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].l3Name} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.l3Name}</div>
               }
@@ -174,7 +174,7 @@ export default {
             prop: 'manufacturer',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].manufacturer} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].manufacturer} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.manufacturer}</div>
               }
@@ -185,7 +185,7 @@ export default {
             prop: 'shelfLifeDays',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].shelfLifeDays} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].shelfLifeDays} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.shelfLifeDays}</div>
               }
@@ -196,7 +196,7 @@ export default {
             prop: 'priceUnit',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].priceUnit} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].priceUnit} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.priceUnit}</div>
               }
@@ -207,7 +207,7 @@ export default {
             prop: 'normal',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].normal} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].normal} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.normal}</div>
               }
@@ -218,7 +218,7 @@ export default {
             prop: 'saleTaxRate',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].saleTaxRate} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].saleTaxRate} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.saleTaxRate}</div>
               }
@@ -229,7 +229,7 @@ export default {
             prop: 'saleType',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].saleType} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].saleType} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.saleType}</div>
               }
@@ -240,7 +240,7 @@ export default {
             prop: 'taxRate',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].taxRate} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].taxRate} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.taxRate}</div>
               }
@@ -251,7 +251,7 @@ export default {
             prop: 'temperature',
             render: (h, { row }) => {
               if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].temperature} size='small' onBlur={this.handleToggleEdit}></el-input>
+                return <el-input v-model={this.tableData[row.index].temperature} size='small' clearable></el-input>
               } else {
                 return <div onClick={this.handleToggleEdit}>{row.temperature}</div>
               }
@@ -381,14 +381,14 @@ export default {
 
 <style scoped>
 .el-upload__tip {
-  margin-top: 20px;
+  margin-top: 10px;
   color: #999;
 }
 .download {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .edit {
-  margin-top: 20px;
-  margin-left: 20px;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 </style>

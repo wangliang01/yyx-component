@@ -17,7 +17,7 @@
       :show-message="field.showMessage || field['show-message']"
       :inline-message="field.inlineMessage || field['inline-message']"
       :size="field.size"
-      :style="`margin-left: ${field.marginLeft || 0}; margin-right: ${field.marginRight || ($attrs.inline ? '50px' : 0)}; display: ${field.display || 'block'}`"
+      :style="`margin-left: ${field.marginLeft || 0}; margin-right: ${field.marginRight || ($attrs.inline ? '50px' : 0)}; display: ${!$attrs.inline ? (field.display ? field.display : 'block') : 'inline-block'}`"
     >
       <component
         :is="field.fieldType"
