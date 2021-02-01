@@ -30,7 +30,8 @@ export default {
       /* eslint-disable */
       dataApi: this.getDataApi.apply(this, [{ a: 111 }]),
       inputValue: '选项1 / 选项2 / 选项4',
-      address: ["110000", "110100", "110101"]
+      // address: ["110000", "110100", "110101"]
+      address: '110000,110100,110102'
     }
   },
   props: {

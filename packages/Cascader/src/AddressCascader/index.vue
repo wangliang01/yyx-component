@@ -20,6 +20,19 @@ export default {
       type: [String, Array]
     }
   },
+  watch: {
+    value: {
+      handler(value) {
+        if (typeof this.value === 'string') {
+          this.currentValue = this.value.split(',')
+        } else {
+          this.currentValue = value
+        }
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   mounted() {
     this.options = getAddressMap()
   }
