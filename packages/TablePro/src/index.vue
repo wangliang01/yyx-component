@@ -56,18 +56,26 @@ export default {
     }
   },
   props: {
+    // 请求接口的api
     loadDataApi: {
       type: Function
     },
+    // 表格列
     columns: {
       type: Array,
       default: () => {
         return []
       }
     },
+    // 是否显示查询按钮
     hasSearch: {
       type: Boolean,
       default: true
+    },
+    // 传递过来的查询参数
+    params: {
+      type: Object,
+      default: () => {}
     }
   },
   mounted() {
@@ -111,7 +119,7 @@ export default {
         this.queryParams[key] = ''
       })
 
-      console.log('this.config', this.config)
+      this.queryParams = merge(this.queryParams, this.params)
     },
     /**
     * 【查询】
