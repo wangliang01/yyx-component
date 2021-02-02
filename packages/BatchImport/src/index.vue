@@ -86,6 +86,17 @@ export default {
       isEdit: false
     }
   },
+  watch: {
+    uploadSuccess: {
+      handler(val) {
+        if (val) {
+          this.dialogVisible = false
+        }
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   props: {
     btnText: {
       type: String,
@@ -98,6 +109,11 @@ export default {
     downLoadUrl: {
       type: String
       // required: true
+    },
+    // 是否上传成功
+    uploadSuccess: {
+      type: Boolean,
+      default: false
     },
     columns: {
       type: Array,
@@ -121,7 +137,9 @@ export default {
           {
             label: '一级品类',
             prop: 'oneCategory',
-            type: 'input'
+            type: 'remote-select',
+            queryParams: {},
+            queryApi: Function
           },
           {
             label: '二级品类',
@@ -141,7 +159,7 @@ export default {
           {
             label: '保质期',
             prop: 'shelfLifeDays',
-            type: 'date-picker'
+            type: 'input'
           },
           {
             label: '计价单位',
@@ -205,6 +223,16 @@ export default {
                 placeholder='选择日期'>
               </el-date-picker>
             }
+            // else if (item.type === 'remote-select') {
+            //   return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable>
+            //     { item.options.map((option) => {
+            //       return <el-option key={option.value}
+            //         label={option.label}
+            //         value={option.value}>
+            //       </el-option>
+            //     }) }
+            //   </el-select>
+            // }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
           }
