@@ -68,7 +68,7 @@
 
 <script>
 import XLSX from 'xlsx'
-import { merge, find, cloneDeep } from 'lodash'
+import { merge, find } from 'lodash'
 // import Vue from 'vue'
 export default {
   name: 'YBatchImport',
@@ -82,7 +82,7 @@ export default {
         size: 10
       },
       dbData: [],
-      currentColumns: cloneDeep(this.columns),
+      currentColumns: [],
       isEdit: false
     }
   },
@@ -141,7 +141,7 @@ export default {
           {
             label: '保质期',
             prop: 'shelfLifeDays',
-            type: 'input'
+            type: 'date-picker'
           },
           {
             label: '计价单位',
@@ -198,6 +198,12 @@ export default {
                   </el-option>
                 }) }
               </el-select>
+            } else if (item.type === 'date-picker') {
+              return <el-date-picker
+                v-model={this.tableData[row.index][item.prop]}
+                type='date'
+                placeholder='选择日期'>
+              </el-date-picker>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
@@ -324,9 +330,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .batch-import {
-  display: inline-block;
+  display: inline-block !important;
+  margin-left: 10px !important;
 }
 .el-upload__tip {
   margin-top: 10px;
