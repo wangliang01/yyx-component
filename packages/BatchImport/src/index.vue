@@ -1,5 +1,5 @@
 <template>
-  <div class="batch-import">
+  <div class="batch-import" style="display: inline-block;margin-left: 10px">
     <!-- 按钮 -->
     <el-button
      type="primary"
@@ -31,14 +31,15 @@
         >选择文件</el-button>
         <div
           class="el-upload__tip"
+          style="margin-top: 10px;"
           slot="tip"
         >
           只能上传excel文件<span v-if="size">，且不超过{{size}}kb</span>
         </div>
       </el-upload>
       <el-button-group>
-        <el-button class="download" @click="downLoadExcel">下载模板</el-button>
-        <el-button class="edit" v-if="tableData.length" @click="handleToggleEdit">{{!isEdit ?'编辑数据' : '查看数据'}}</el-button>
+        <el-button style="margin-top: 10px;" class="download" @click="downLoadExcel">下载模板</el-button>
+        <el-button style="margin-top: 10px;margin-left: 10px;" class="edit" v-if="tableData.length" @click="handleToggleEdit">{{!isEdit ?'编辑数据' : '查看数据'}}</el-button>
       </el-button-group>
 
       <y-table
@@ -222,17 +223,18 @@ export default {
                 type='date'
                 placeholder='选择日期'>
               </el-date-picker>
+            } else if (item.type === 'remote-select') {
+              return <el-select v-model={this.tableData[row.index][item.prop]} onFocus={ item.queryApi(item.queryParams).then(res => {
+                item.options = res.data
+              })} size='small' clearable>
+                { item.options.map((option) => {
+                  return <el-option key={option.value}
+                    label={option.label}
+                    value={option.value}>
+                  </el-option>
+                }) }
+              </el-select>
             }
-            // else if (item.type === 'remote-select') {
-            //   return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable>
-            //     { item.options.map((option) => {
-            //       return <el-option key={option.value}
-            //         label={option.label}
-            //         value={option.value}>
-            //       </el-option>
-            //     }) }
-            //   </el-select>
-            // }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
           }
@@ -358,20 +360,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.batch-import {
-  display: inline-block !important;
-  margin-left: 10px !important;
-}
-.el-upload__tip {
-  margin-top: 10px;
-  color: #999;
-}
-.download {
-  margin-top: 10px;
-}
-.edit {
-  margin-top: 10px;
-  margin-left: 10px;
-}
-</style>
