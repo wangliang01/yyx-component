@@ -2,7 +2,7 @@
   <div class="batch-import">
     <!-- 按钮 -->
     <el-button
-      type="success"
+     type="primary"
       icon="el-icon-upload"
       @click="dialogVisible=true"
     >{{btnText}}</el-button>
@@ -106,160 +106,105 @@ export default {
           {
             label: '商品名称',
             prop: 'name',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].name} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.name}</div>
-              }
-            }
+            type: 'input'
           },
           {
             label: '品牌',
             prop: 'brand',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].brand} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.brand}</div>
-              }
-            }
+            type: 'input'
           },
           {
             label: '规格',
             prop: 'spec',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].spec} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.spec}</div>
-              }
-            }
+            type: 'input'
           },
           {
             label: '一级品类',
-            prop: 'l1Name',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].l1Name} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.l1Name}</div>
-              }
-            }
+            prop: 'oneCategory',
+            type: 'input'
           },
           {
             label: '二级品类',
-            prop: 'l2Name',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].l2Name} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.l2Name}</div>
-              }
-            }
+            prop: 'twoCategory',
+            type: 'input'
           },
           {
             label: '三级品类',
-            prop: 'l3Name',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].l3Name} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.l3Name}</div>
-              }
-            }
+            prop: 'threeCategory',
+            type: 'input'
           },
           {
             label: '生产厂商',
             prop: 'manufacturer',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].manufacturer} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.manufacturer}</div>
-              }
-            }
+            type: 'input'
           },
           {
             label: '保质期',
             prop: 'shelfLifeDays',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].shelfLifeDays} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.shelfLifeDays}</div>
-              }
-            }
+            type: 'input'
           },
           {
             label: '计价单位',
             prop: 'priceUnit',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].priceUnit} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.priceUnit}</div>
-              }
-            }
+            type: 'input'
           },
           {
             label: '是否标品（是,否）',
             prop: 'normal',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].normal} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.normal}</div>
-              }
-            }
+            type: 'input'
           },
           {
-            label: '销项税',
-            prop: 'saleTaxRate',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].saleTaxRate} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.saleTaxRate}</div>
-              }
-            }
+            label: '销项税(%)',
+            prop: 'salesTaxRate',
+            type: 'input'
           },
           {
             label: '销售类型',
             prop: 'saleType',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].saleType} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.saleType}</div>
-              }
-            }
+            type: 'input'
           },
           {
-            label: '进项税',
-            prop: 'taxRate',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].taxRate} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.taxRate}</div>
-              }
-            }
+            label: '进项税(%)',
+            prop: 'procurementTaxRate',
+            type: 'input'
           },
           {
             label: '存储温层',
             prop: 'temperature',
-            render: (h, { row }) => {
-              if (this.isEdit) {
-                return <el-input v-model={this.tableData[row.index].temperature} size='small' clearable></el-input>
-              } else {
-                return <div onClick={this.handleToggleEdit}>{row.temperature}</div>
-              }
-            }
+            type: 'select',
+            options: [{ label: '冷冻（-18°C）', value: 'FREEZE' },
+              { label: '冷藏（0°C——8°C）', value: 'COLD' },
+              { label: '常温', value: 'NORMAL' }]
           }
         ]
       }
     }
+  },
+  created() {
+    this.currentColumns = this.columns.map((item) => {
+      return {
+        label: item.label,
+        prop: item.prop,
+        render: (h, { row }) => {
+          if (this.isEdit) {
+            if (item.type === 'input') {
+              return <el-input v-model={this.tableData[row.index][item.prop]} size='small' clearable></el-input>
+            } else if (item.type === 'select') {
+              return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable>
+                { item.options.map((option) => {
+                  return <el-option key={option.value}
+                    label={option.label}
+                    value={option.value}>
+                  </el-option>
+                }) }
+              </el-select>
+            }
+          } else {
+            return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
+          }
+        }
+      }
+    })
   },
   methods: {
     // 取消上传
@@ -299,7 +244,7 @@ export default {
         return this.$message.warning('请填写正确的模板链接')
       }
       const url = encodeURI(this.downLoadUrl)
-      window.location.href = url
+      window.open(url)
     },
     // 加载分页数据
     loadData() {
@@ -380,6 +325,9 @@ export default {
 </script>
 
 <style scoped>
+.batch-import {
+  display: inline-block;
+}
 .el-upload__tip {
   margin-top: 10px;
   color: #999;

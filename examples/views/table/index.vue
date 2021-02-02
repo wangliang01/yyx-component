@@ -28,6 +28,7 @@
     </el-card>
     <el-card class="mt-20">
       <h2>带状态表格</h2>
+      <p>可将表格内容 highlight 显示，方便区分「成功、信息、警告、危险」等内容。</p>
       <y-table
         :data="tableData"
         :columns="columns"
@@ -110,10 +111,30 @@
         :default-sort="{prop: 'date', order: 'descending'}"
         border
       ></y-table>
-      <div class="mt-20">
-        <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、三行的选择状态</el-button>
-        <el-button @click="toggleSelection()">取消选择</el-button>
-      </div>
+    </el-card>
+    <el-card class="mt-20">
+      <h2>流体高度</h2>
+      <p>当数据量动态变化时，可以为 Table 设置一个最大高度。</p>
+      <y-table
+        :data="tableData"
+        :columns="multipleColumns"
+        ref="multipleTable"
+        :default-sort="{prop: 'date', order: 'descending'}"
+        max-height="150"
+        border
+      ></y-table>
+    </el-card>
+    <el-card class="mt-20">
+      <h2>筛选</h2>
+      <p>对表格进行筛选，可快速查找到自己想看的数据。</p>
+      <y-table
+        :data="tableData"
+        :columns="multipleColumns"
+        ref="multipleTable"
+        :default-sort="{prop: 'date', order: 'descending'}"
+        max-height="150"
+        border
+      ></y-table>
     </el-card>
   </div>
 </template>
@@ -404,11 +425,11 @@ export default {
         this.$refs.multipleTable.clearSelection()
       }
     },
-    tableRowClassName({ row, rowIndex }) {
-      if (rowIndex === 1) {
-        return 'warning'
-      } else if (rowIndex === 3) {
-        return 'success'
+    tableRowClassName(row) {
+      if (row.rowIndex === 1) {
+        return 'warning-row'
+      } else if (row.rowIndex === 3) {
+        return 'success-row'
       }
       return ''
     }
@@ -417,4 +438,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .warning-row {
+  background:oldlace;
+}
+::v-deep .success-row {
+  background: #f0f9eb;
+}
 </style>
