@@ -264,7 +264,6 @@ export default {
     // 将tableData合并到dbData
     mergeTable() {
       const { size, current } = this.queryParams
-      console.log('this.tableData', this.tableData)
       const mergeData = this.tableData.map(item => {
         return {
           ...item,
@@ -291,6 +290,8 @@ export default {
     },
     // 重新加载
     reloadData({ type, pageSize: size, currentPage }) {
+      // 先保存当前页面的修改
+      this.mergeTable()
       if (type === 'size-change') {
         // 分页条数变更，需要重置current为1
         this.queryParams = merge(this.queryParams, { size, current: 1 })
@@ -299,7 +300,6 @@ export default {
         this.queryParams = merge(this.queryParams, { current: currentPage })
       }
       this.loadData()
-      this.mergeTable()
     },
     // 格式化dbData， 将excel文件的内容，转成后端需要的格式
     formatDbData(dbData) {
