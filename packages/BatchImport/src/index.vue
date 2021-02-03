@@ -1,5 +1,5 @@
 <template>
-  <div class="batch-import" style="display: inline-block;margin-left: 10px">
+  <div class="batch-import">
     <!-- 按钮 -->
     <el-button
      type="primary"
@@ -30,16 +30,15 @@
           icon="el-icon-upload"
         >选择文件</el-button>
         <div
-          class="el-upload__tip"
-          style="margin-top: 10px;"
+          class="el-upload__tip mt-10"
           slot="tip"
         >
           只能上传excel文件<span v-if="size">，且不超过{{size}}kb</span>
         </div>
       </el-upload>
       <el-button-group>
-        <el-button style="margin-top: 10px;" class="download" @click="downLoadExcel">下载模板</el-button>
-        <el-button style="margin-top: 10px;margin-left: 10px;" class="edit" v-if="tableData.length" @click="handleToggleEdit">{{!isEdit ?'编辑数据' : '查看数据'}}</el-button>
+        <el-button class="mt-10"  @click="downLoadExcel">下载模板</el-button>
+        <el-button class="mt-10"  v-if="tableData.length" @click="handleToggleEdit">{{!isEdit ?'编辑数据' : '查看数据'}}</el-button>
       </el-button-group>
 
       <y-table
@@ -111,7 +110,7 @@ export default {
       type: [String, Number],
       default: 0
     },
-    downLoadUrl: {
+    downloadUrl: {
       type: String
       // required: true
     },
@@ -221,6 +220,7 @@ export default {
               </el-select>
             } else if (item.type === 'date-picker') {
               return <el-date-picker
+                style={{ width: '95%', display: 'block' }}
                 v-model={this.tableData[row.index][item.prop]}
                 type='date'
                 size='small'
@@ -271,10 +271,10 @@ export default {
     },
     // 下载模板
     downLoadExcel() {
-      if (!this.downLoadUrl) {
+      if (!this.downloadUrl) {
         return this.$message.warning('请填写正确的模板链接')
       }
-      const url = encodeURI(this.downLoadUrl)
+      const url = encodeURI(this.downloadUrl)
       window.open(url)
     },
     // 加载分页数据
@@ -307,9 +307,13 @@ export default {
         Object.keys(item).forEach(key => {
           // 查找与key相同的column
           const column = find(this.columns, col => {
-            return col.label === key
+            if (col.label.trim() === 'SKU ID') {
+              console.log(key, key.length, col.label.trim() === key)
+            }
+            return col.label.trim() === key
           })
           if (column) {
+            console.log(key, item[key])
             obj[column.prop] = item[key]
           }
         })

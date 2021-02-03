@@ -1,6 +1,10 @@
 <template>
   <div class="batch-import">
-    <y-batch-import :uploadSuccess="uploadSuccess" @upload="upload"></y-batch-import>
+    <y-batch-import
+      :columns="columns"
+      :uploadSuccess="uploadSuccess"
+      @upload="upload"
+    ></y-batch-import>
   </div>
 </template>
 
@@ -9,7 +13,41 @@ export default {
   name: '',
   data() {
     return {
-      uploadSuccess: false
+      uploadSuccess: false,
+      columns: [
+        {
+          label: '客户ID',
+          prop: 'customerId',
+          type: 'input'
+        },
+        {
+          label: 'SKU ID',
+          prop: 'skuId',
+          type: 'input'
+        },
+        {
+          label: '数量',
+          prop: 'count',
+          type: 'input'
+        },
+        {
+          label: '单价',
+          prop: 'price',
+          type: 'input'
+        },
+        {
+          label: '下单日期',
+          prop: 'createTime',
+          type: 'date-picker',
+          width: '300px'
+        },
+        {
+          label: '要求配送日期',
+          prop: 'deliverTime',
+          type: 'date-picker',
+          width: '300px'
+        }
+      ]
     }
   },
   props: {
@@ -22,7 +60,6 @@ export default {
   },
   methods: {
     upload() {
-      alert('888')
       this.uploadSuccess = true
     }
   }
@@ -30,5 +67,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
