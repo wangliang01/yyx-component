@@ -28,7 +28,7 @@ export default {
         {
           label: '数量',
           prop: 'count',
-          type: 'input'
+          type: 'input-number'
         },
         {
           label: '单价',

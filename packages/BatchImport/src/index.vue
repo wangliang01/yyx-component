@@ -236,7 +236,7 @@ export default {
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'input-number') {
-              return <y-input-number v-model={this.tableData[row.index][item.prop]} size='small'></y-input-number>
+              return <y-input-number v-model={this.tableData[row.index][item.prop]} size='small' style={{ width: '100%' }} step={0.01}></y-input-number>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
