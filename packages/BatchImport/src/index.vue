@@ -110,7 +110,15 @@ export default {
       type: [String, Number],
       default: 0
     },
+<<<<<<< HEAD
     downloadUrl: {
+=======
+    // 读取表名
+    sheetName: {
+      type: String
+    },
+    downLoadUrl: {
+>>>>>>> 5a53e645d3b1455dcea25c9b1488e2c30da7ccc1
       type: String
       // required: true
     },
@@ -260,7 +268,6 @@ export default {
     // 将tableData合并到dbData
     mergeTable() {
       const { size, current } = this.queryParams
-      console.log('this.tableData', this.tableData)
       const mergeData = this.tableData.map(item => {
         return {
           ...item,
@@ -287,6 +294,8 @@ export default {
     },
     // 重新加载
     reloadData({ type, pageSize: size, currentPage }) {
+      // 先保存当前页面的修改
+      this.mergeTable()
       if (type === 'size-change') {
         // 分页条数变更，需要重置current为1
         this.queryParams = merge(this.queryParams, { size, current: 1 })
@@ -295,7 +304,6 @@ export default {
         this.queryParams = merge(this.queryParams, { current: currentPage })
       }
       this.loadData()
-      this.mergeTable()
     },
     // 格式化dbData， 将excel文件的内容，转成后端需要的格式
     formatDbData(dbData) {
@@ -341,7 +349,7 @@ export default {
           const workbook = XLSX.read(data, {
             type: 'binary' // 以字符编码的方式解析
           })
-          const exlname = workbook.SheetNames[0] // 取第一张表
+          const exlname = this.sheetName || workbook.SheetNames[0] // 根据传人的表名读取，否则读第一张
           const exl = XLSX.utils.sheet_to_json(workbook.Sheets[exlname]) // 生成json表格内容
           // 将 JSON 数据挂到 data 里
           this.dbData = this.formatDbData(exl)
