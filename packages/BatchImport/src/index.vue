@@ -111,6 +111,10 @@ export default {
       type: [String, Number],
       default: 0
     },
+    // 读取表名
+    sheetName: {
+      type: String
+    },
     downLoadUrl: {
       type: String
       // required: true
@@ -337,7 +341,7 @@ export default {
           const workbook = XLSX.read(data, {
             type: 'binary' // 以字符编码的方式解析
           })
-          const exlname = workbook.SheetNames[0] // 取第一张表
+          const exlname = this.sheetName || workbook.SheetNames[0] // 根据传人的表名读取，否则读第一张
           const exl = XLSX.utils.sheet_to_json(workbook.Sheets[exlname]) // 生成json表格内容
           // 将 JSON 数据挂到 data 里
           this.dbData = this.formatDbData(exl)
