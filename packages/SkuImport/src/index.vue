@@ -1,5 +1,5 @@
 <template>
-  <div class="batch-import" style="display: inline-block;margin-left: 10px">
+  <div class="sku-import" style="display: inline-block;margin-left: 10px">
     <!-- 按钮 -->
     <el-button
      type="primary"
@@ -70,9 +70,10 @@
 <script>
 import XLSX from 'xlsx'
 import { merge, find } from 'lodash'
+import { priceUnitOptions } from './unit'
 // import Vue from 'vue'
 export default {
-  name: 'YBatchImport',
+  name: 'YSkuImport',
   data() {
     return {
       dialogVisible: false,
@@ -167,35 +168,41 @@ export default {
           {
             label: '计价单位',
             prop: 'priceUnit',
-            type: 'input'
+            type: 'select',
+            options: priceUnitOptions
           },
           {
             label: '是否标品（是,否）',
             prop: 'normal',
-            type: 'input'
+            type: 'select',
+            options: [{ label: '是', value: '是' },
+              { label: '否', value: '否' }]
           },
           {
             label: '销项税(%)',
             prop: 'salesTaxRate',
-            type: 'input'
+            type: 'input-number'
           },
           {
             label: '销售类型',
             prop: 'saleType',
-            type: 'input'
+            type: 'select',
+            options: [{ label: '备货-代采', value: '备货-代采' },
+              { label: '直送', value: '直送' },
+              { label: '越库', value: '越库' }]
           },
           {
             label: '进项税(%)',
             prop: 'procurementTaxRate',
-            type: 'input'
+            type: 'input-number'
           },
           {
             label: '存储温层',
             prop: 'temperature',
             type: 'select',
-            options: [{ label: '冷冻（-18°C）', value: 'FREEZE' },
-              { label: '冷藏（0°C——8°C）', value: 'COLD' },
-              { label: '常温', value: 'NORMAL' }]
+            options: [{ label: '冷冻（-18°C）', value: '冷冻（-18°C）' },
+              { label: '冷藏（0°C——8°C）', value: '冷藏（0°C——8°C）' },
+              { label: '常温', value: '常温' }]
           }
         ]
       }
@@ -225,6 +232,31 @@ export default {
                 type='date'
                 placeholder='选择日期'>
               </el-date-picker>
+            } else if (item.type === 'input-number') {
+              <y-input-number
+                v-model={this.tableData[row.index][item.prop]} max={100} min={0}>
+              </y-input-number>
+            } else if (item.type === 'remote-select' && item.prop === 'oneCategory') {
+              return <el-select v-model={this.tableData[row.index][item.prop]} onFocus={item.queryApi(item.queryParams).then(res => {
+                item.options = res.data; console.log(item.options)
+              })} size='small' clearable>
+                { item.options?.map((option) => {
+                  return <el-option key={option.name}
+                    value={option.name}>
+                  </el-option>
+                }) }
+              </el-select>
+            } else if (item.type === 'remote-select' && item.prop === 'twoCategory') {
+              return <el-select v-model={this.tableData[row.index][item.prop]} onFocus={item.queryApi(item.queryParams).then(res => {
+                item.options = res.data
+              })} size='small' clearable>
+                { item.options?.map((option) => {
+                  return <el-option key={option.name}
+                    label={option.name}
+                    value={option.name}>
+                  </el-option>
+                }) }
+              </el-select>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
