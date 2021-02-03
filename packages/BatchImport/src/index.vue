@@ -2,7 +2,7 @@
   <div class="batch-import">
     <!-- 按钮 -->
     <el-button
-     type="primary"
+      type="primary"
       icon="el-icon-upload"
       @click="dialogVisible=true"
     >{{btnText}}</el-button>
@@ -15,6 +15,7 @@
       :close-on-click-modal="false"
       modal-append-to-body
       lock-scroll
+      destroy-on-close
       width="92%"
     >
       <el-upload
@@ -37,8 +38,15 @@
         </div>
       </el-upload>
       <el-button-group>
-        <el-button class="mt-10"  @click="downLoadExcel">下载模板</el-button>
-        <el-button class="mt-10"  v-if="tableData.length" @click="handleToggleEdit">{{!isEdit ?'编辑数据' : '查看数据'}}</el-button>
+        <el-button
+          class="mt-10"
+          @click="downLoadExcel"
+        >下载模板</el-button>
+        <el-button
+          class="mt-10"
+          v-if="tableData.length"
+          @click="handleToggleEdit"
+        >{{!isEdit ?'编辑数据' : '查看数据'}}</el-button>
       </el-button-group>
 
       <y-table
@@ -94,6 +102,7 @@ export default {
           this.tableData = []
           this.dbData = []
           this.total = 0
+          this.isEdit = false
           this.$forceUpdate()
         }
       },
@@ -110,15 +119,7 @@ export default {
       type: [String, Number],
       default: 0
     },
-<<<<<<< HEAD
     downloadUrl: {
-=======
-    // 读取表名
-    sheetName: {
-      type: String
-    },
-    downLoadUrl: {
->>>>>>> 5a53e645d3b1455dcea25c9b1488e2c30da7ccc1
       type: String
       // required: true
     },
@@ -219,12 +220,12 @@ export default {
               return <el-input v-model={this.tableData[row.index][item.prop]} size='small' clearable></el-input>
             } else if (item.type === 'select') {
               return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable>
-                { item.options.map((option) => {
+                {item.options.map((option) => {
                   return <el-option key={option.value}
                     label={option.label}
                     value={option.value}>
                   </el-option>
-                }) }
+                })}
               </el-select>
             } else if (item.type === 'date-picker') {
               return <el-date-picker
@@ -366,4 +367,13 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.batch-import {
+  display: inline-block;
+  margin-left: 10px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+</style>
 
