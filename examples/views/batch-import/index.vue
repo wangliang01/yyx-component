@@ -1,6 +1,6 @@
 <template>
   <div class="batch-import">
-    <y-batch-import></y-batch-import>
+    <y-batch-import :uploadSuccess="uploadSuccess" @upload="upload"></y-batch-import>
   </div>
 </template>
 
@@ -9,7 +9,7 @@ export default {
   name: '',
   data() {
     return {
-
+      uploadSuccess: false
     }
   },
   props: {
@@ -21,7 +21,10 @@ export default {
 
   },
   methods: {
-
+    upload() {
+      alert('888')
+      this.uploadSuccess = true
+    }
   }
 }
 </script>
