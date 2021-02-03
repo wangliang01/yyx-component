@@ -223,8 +223,11 @@ export default {
               return <el-date-picker
                 v-model={this.tableData[row.index][item.prop]}
                 type='date'
+                size='small'
                 placeholder='选择日期'>
               </el-date-picker>
+            } else if (item.type === 'input-number') {
+              return <y-input-number v-model={this.tableData[row.index][item.prop]} size='small'></y-input-number>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
@@ -237,6 +240,7 @@ export default {
     // 取消上传
     handleCancel() {
       this.tableData = []
+      this.total = 0
       document.getElementsByName('file')[0].value = ''
       this.dialogVisible = false
     },
