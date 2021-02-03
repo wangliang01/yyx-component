@@ -85,8 +85,8 @@ export default {
           label: '存储温层',
           prop: 'temperature',
           type: 'select',
-          options: [{ label: '冷冻（-18°C）', value: '冷冻（-18°C）' },
-            { label: '冷藏（0°C——8°C）', value: '冷藏（0°C——8°C）' },
+          options: [{ label: '冷冻（-18℃）', value: '冷冻（-18℃）' },
+            { label: '冷藏（0℃——8℃）', value: '冷藏（0℃——8℃）' },
             { label: '常温', value: '常温' }]
         }
       ]
