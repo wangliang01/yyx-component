@@ -9,11 +9,12 @@ import YUpload from './Upload'
 import Cascader from './Cascader'
 import YBatchImport from './BatchImport'
 import YSkuImport from './SkuImport'
+import YInput from './Input'
 
 const { YCategoryCascader, YAddressCascader } = Cascader
 
 // 组件列表
-const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport]
+const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput]
 
 // 定义install方法，接收Vue作为参数，通过Vue.use()的方式注册组件
 const install = Vue => {
@@ -42,5 +43,6 @@ export default {
   YCategoryCascader,
   YAddressCascader,
   YBatchImport,
-  YSkuImport
+  YSkuImport,
+  YInput
 }

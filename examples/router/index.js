@@ -12,6 +12,12 @@ const routes = [
         meta: { title: '表单' }
       },
       {
+        path: '/input',
+        name: 'Input',
+        component: () => import('../views/input'),
+        meta: { title: 'Input输入框' }
+      },
+      {
         path: '/input-number',
         name: 'InputNumber',
         component: () => import('../views/input-number'),

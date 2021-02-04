@@ -1,23 +1,12 @@
 <template>
-  <div class="y-button">
-    <slot name="default"></slot>
-  </div>
+  <el-button v-bind="$attrs" v-on="$listeners">
+    <slot></slot>
+  </el-button>
 </template>
 
 <script>
 export default {
-  name: 'YButton',
-  props: {
-    type: String
-  }
+  name: 'YButton'
 }
 </script>
 
-<style lang="scss" scoped>
-.y-button {
-  display: inline-block;
-  padding: 3px 6px;
-  background: #000;
-  color: #fff;
-}
-</style>

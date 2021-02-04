@@ -1,0 +1,27 @@
+<template>
+  <div class="input">
+    <el-card>
+      <h2>普通输入框</h2>
+      <y-input v-model="value"></y-input>
+    </el-card>
+    <el-card class="mt-20">
+      <h2>number类型输入框</h2>
+      <y-input v-model="number" :number="true"></y-input>
+    </el-card>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Input',
+  data() {
+    return {
+      value: 1,
+      number: ''
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+</style>
