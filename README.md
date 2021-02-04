@@ -37,10 +37,12 @@ new Vue({
   |--表格(YTable)
   |--高级表格(YTablePro)
   |--文件上传(YUpload)
+  |--输入框(YInput)  支持只能输入数字
   |--数字输入框(YInputNumber)
   |--级联选择器(Cascader)
     |--品类级联选择器(YCategoryCascader)
     |--地址级联选择器(YAddressCascader)
+  |--批量导入(YBatchImport)
 
 ```
 

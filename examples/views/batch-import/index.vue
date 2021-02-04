@@ -33,7 +33,7 @@ export default {
         {
           label: '单价',
           prop: 'price',
-          type: 'input'
+          type: 'input-number'
         },
         {
           label: '下单日期',

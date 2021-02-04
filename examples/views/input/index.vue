@@ -6,7 +6,7 @@
     </el-card>
     <el-card class="mt-20">
       <h2>number类型输入框</h2>
-      <y-input v-model="number" :number="true"></y-input>
+      <y-input v-model="number" number></y-input>
     </el-card>
   </div>
 </template>
