@@ -1,13 +1,19 @@
 # yyx-component
 
-云优选组件库，一个基于[Element](https://element.eleme.cn/#/zh-CN)进行二次开发的组件库
+云UI组件库，一个基于[Element](https://element.eleme.cn/#/zh-CN)进行二次开发的组件库
 
 ## 安装
 ### npm 安装
 推荐使用npm的方式安装，它能更好地和webpack打包工具配合使用
 
+npm方式
 ```node
 npm i yyx-component -S 
+```
+
+yarn方式
+```node
+yarn add yyx-component
 ```
 
 ## 快速上手
@@ -325,5 +331,153 @@ export default {
 }
 </script>
 ```
+
+#### 高级表格的使用
+```vue
+<template>
+  <y-table-pro
+  :loadDataApi="dataApi"
+  :columns="columns"
+  >
+  </y-table-pro>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      // 接口请求api   axios.get(xxx)
+      dataApi: new Promise((resolve, reject) => {
+
+      }),
+      columns: [
+        {
+          label: 'ID',
+          prop: 'id',
+          fieldType: 'Input',
+          filter: true,
+          marginRight: '50px',
+          cols: 3,
+          sm: 6
+        },
+        {
+          label: '姓名',
+          prop: 'name',
+          fieldType: 'Input',
+          filter: true,
+          marginRight: '50px',
+          cols: 3,
+          sm: 6
+        },
+        {
+          label: '年龄',
+          prop: 'age',
+          fieldType: 'Input',
+          filter: true,
+          marginRight: '50px',
+          cols: 3,
+          sm: 6
+        }
+      ]
+    }
+  }
+}
+</script>
+```
+
+#### Input输入框
+```vue
+<template>
+<el-card>
+  <h2>普通输入框</h2>
+  <y-input v-model="value"></y-input>
+</el-card>
+<el-card class="mt-20">
+  <h2>number类型输入框</h2>
+  <y-input v-model="number" number></y-input>
+</el-card>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      value: '',
+      number: ''
+    }
+  }
+}
+</script>
+```
+
+#### 级联选择器
+```vue
+<template>
+<el-card>
+  <h2>品类级联选择器</h2>
+  <y-category-cascader
+    style="width: 200px;"
+    :data-api="dataApi"
+    @value-change="handleChange"
+    :inputValue="inputValue"
+  ></y-category-cascader>
+</el-card>
+<el-card style="margin-top: 20px;">
+  <h2>地址级联选择器</h2>
+  <y-address-cascader
+    style="width: 200px;"
+    @change="handleAddressChange"
+    v-model="address"
+  >
+</el-card>
+</template>
+<script>
+export default {
+  data() {
+    retrun {
+      // 接口请求 dataApi: axios.get(xxx)
+      dataApi: new Promise(),
+      inputValue: '',
+      address: ''
+    }
+  },
+  methods: {
+    handleChange(value) {
+      console.log(value)
+    },
+    handleAddressChange(value) {
+      console.log(value)
+    }
+  }
+}
+</script>
+```
+
+#### 文件上传
+```vue
+<template>
+<el-card>
+  <h2>文件上传</h2>
+   <y-upload on-success="handleUpload" on-remove="handleUpload" :api="uploadAPI" isCropper :fileList="fileList"></y-upload>
+</el-card>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      // 上传文件的api axios.post(xxx)
+      uploadAPI: new Promise(),
+      // 文件列表
+      fileList: []
+    }
+  },
+  methods: {
+    handleUpload(e) {
+      // 处理文件上传
+      console.log(e.fileList)
+    }
+  }
+}
+</script>
+```
+
 # 目前该组件库存在的问题
 1. 不支持树型表格
