@@ -1,6 +1,6 @@
 <template>
   <el-date-picker
-    v-model="currentValue"
+    v-model.trim="currentValue"
     :readonly="$attrs.readonly || false"
     :disabled="$attrs.disabled || false"
     :editable="$attrs.editable || true"
@@ -39,13 +39,21 @@ export default {
   },
   props: {
     value: {
-      type: [Date, String]
+      type: [Date, String, Array]
+    },
+    onPick: {
+      type: Function,
+      default: () => {}
     }
   },
   methods: {
     handleInputEvent(value) {
       // 当选择框发生变化时，将值传递出去
       this.$emit('input', value)
+      if (typeof this.onPick === 'function') {
+        // 当type为daterange时，处理日期的回调
+        this.onPick(value)
+      }
     }
   },
   watch: {

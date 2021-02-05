@@ -10,7 +10,6 @@
           label-position="left"
           width="500px"
           label-width="100px"
-          ref="form"
         >
           <el-form-item>
             <el-button
@@ -33,8 +32,7 @@
           :config="configInline"
           label-position="left"
           label-width="100px"
-          :cols="3"
-          :lg="6"
+          :cols="8"
         >
           <el-form-item>
             <el-button type="primary">查询</el-button>
@@ -42,6 +40,33 @@
         </y-form>
       </el-card>
     </el-card>
+    <el-card class="mt-20">
+      <h2>对齐方式</h2>
+      <p>根据具体目标和制约因素，选择最佳的标签对齐方式。</p>
+      <el-card>
+        <el-radio-group
+          v-model="labelPosition"
+          size="small"
+        >
+          <el-radio-button label="left">左对齐</el-radio-button>
+          <el-radio-button label="right">右对齐</el-radio-button>
+          <el-radio-button label="top">顶部对齐</el-radio-button>
+        </el-radio-group>
+        <y-form
+          class="mt-20"
+          v-model="formInline"
+          :config="configInline"
+          :label-position="labelPosition"
+          label-width="100px"
+          width="500px"
+        >
+          <el-form-item>
+            <el-button type="primary">查询</el-button>
+          </el-form-item>
+        </y-form>
+      </el-card>
+    </el-card>
+
     <el-card class="mt-20">
       <h2>表单验证</h2>
       <p>在防止用户犯错的前提下，尽可能让用户更早地发现并纠正错误。</p>
@@ -53,13 +78,95 @@
           width="500px"
           label-width="100px"
           :rules="rules"
+          ref="form"
         >
           <el-form-item>
             <el-button
               type="primary"
-              @click="handleCreate"
+              @click="handleCreate('form')"
             >立即创建</el-button>
-            <el-button @click="handleCancel">取消</el-button>
+            <el-button @click="handleCancel">重置</el-button>
+          </el-form-item>
+        </y-form>
+      </el-card>
+    </el-card>
+
+    <el-card class="mt-20">
+      <h2>自定义验证</h2>
+      <p>在防止用户犯错的前提下，尽可能让用户更早地发现并纠正错误。</p>
+      <el-card>
+        <y-form
+          v-model="ruleForm"
+          :config="config2"
+          label-position="right"
+          status-icon
+          width="500px"
+          label-width="100px"
+          :rules="rules2"
+          ref="ruleForm"
+        >
+          <el-form-item label-width="100px">
+            <el-button
+              type="primary"
+              @click="submitForm('ruleForm')"
+            >提交</el-button>
+            <el-button @click="resetForm('ruleForm')">重置</el-button>
+          </el-form-item>
+        </y-form>
+      </el-card>
+    </el-card>
+
+    <el-card class="mt-20">
+      <h2>动态增减表单项</h2>
+      <el-card>
+        <y-form
+          v-model="dynamicValidateForm"
+          :config="dynamicValidateConfig"
+          label-position="right"
+          status-icon
+          width="600px"
+          label-width="100px"
+          :rules="rules2"
+          ref="dynamicValidateForm"
+        >
+          <el-form-item label-width="100px">
+            <el-button
+              type="primary"
+              @click="submitForm('dynamicValidateForm')"
+            >提交</el-button>
+            <el-button @click="addDomain">新增域名</el-button>
+            <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
+          </el-form-item>
+        </y-form>
+      </el-card>
+    </el-card>
+
+    <el-card class="mt-20">
+      <h2>数字类型验证</h2>
+      <el-card>
+
+        <y-form
+          v-model="numberForm"
+          label-width="100px"
+          :config="numberConfig"
+          width="600px"
+          ref="numberForm"
+        >
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('numberForm')">提交</el-button>
+            <el-button @click="resetForm('numberForm')">重置</el-button>
+          </el-form-item>
+        </y-form>
+      </el-card>
+    </el-card>
+
+    <el-card class="mt-20">
+      <h2>表单内组件尺寸控制</h2>
+      <el-card>
+        <y-form ref="sizeForm" v-model="form" :config="config" label-width="100px" width="500px" size="mini">
+          <el-form-item size="large">
+            <el-button @click="submitForm('sizeForm')" type="primary">立即创建</el-button>
+            <el-button @click="resetForm('sizeForm')">取消</el-button>
           </el-form-item>
         </y-form>
       </el-card>
@@ -68,16 +175,73 @@
 </template>
 
 <script>
+import DomainInput from '../../components/DomainInput'
 export default {
   name: '',
   data() {
+    var checkAge = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('年龄不能为空'))
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(Number(value))) {
+          callback(new Error('请输入数字值'))
+        } else {
+          if (value < 18) {
+            callback(new Error('必须年满18岁'))
+          } else {
+            callback()
+          }
+        }
+      }, 1000)
+    }
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass')
+        }
+        callback()
+      }
+    }
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
+      numberForm: {
+        age: ''
+      },
+      numberConfig: {
+        age: {
+          prop: 'age',
+          label: '年龄',
+          fieldType: 'Input',
+          rules: [
+            { required: true, message: '年龄不能为空' }
+          ]
+        }
+      },
+      dynamicValidateForm: {
+        domains: [{
+          url: ''
+        }],
+        email: ''
+      },
       form: {
         name: '',
         region: '',
         date: '',
         time: '',
         delivery: false,
+        startTime: '',
+        endTime: '',
         type: [],
         resource: '',
         desc: ''
@@ -105,29 +269,40 @@ export default {
             }
           ]
         },
+        dateRange: {
+          label: '日期范围',
+          fieldType: 'DatePicker',
+          type: 'daterange',
+          startPlaceholder: '请选择开始日期',
+          endPlaceholder: '请选择结束日期',
+          onPick: (value) => {
+            const [startTime, endTime] = value
+            this.form.startTime = startTime
+            this.form.endTime = endTime
+          }
+        },
         date: {
           prop: 'date',
           label: '活动时间',
           fieldType: 'DatePicker',
-          labelSuffix: '：',
-          cols: 13
+          labelSuffix: '：'
         },
-        time: {
-          prop: 'time',
-          label: '-',
-          hideLable: false,
-          labelPosition: 'center',
-          labelSuffix: '',
-          push: 1,
-          labelWidth: '25px',
-          fieldType: 'TimePicker',
-          cols: 10,
-          pickerOptions: {
-            start: '08:30',
-            step: '00:15',
-            end: '18:30'
-          }
-        },
+        // time: {
+        //   prop: 'time',
+        //   label: '-',
+        //   hideLable: false,
+        //   labelPosition: 'center',
+        //   labelSuffix: '',
+        //   labelWidth: '25px',
+        //   fieldType: 'TimePicker',
+        //   width: '60%',
+        //   display: 'inline-block',
+        //   pickerOptions: {
+        //     start: '08:30',
+        //     step: '00:15',
+        //     end: '18:30'
+        //   }
+        // },
         delivery: {
           prop: 'delivery',
           label: '即时配送',
@@ -172,10 +347,12 @@ export default {
           options: [
             {
               label: '线上品牌商赞助',
+              value: '0',
               cols: 12
             },
             {
               label: '线下场地免费',
+              value: '1',
               cols: 12
             }
           ]
@@ -252,16 +429,112 @@ export default {
             }
           ]
         }
+      },
+      labelPosition: 'left',
+      ruleForm: {
+        pass: '',
+        checkPass: '',
+        age: ''
+      },
+      config2: {
+        pass: {
+          prop: 'pass',
+          label: '密码',
+          fieldType: 'Input',
+          autocomplete: 'off',
+          type: 'password'
+        },
+        checkPass: {
+          prop: 'checkPass',
+          label: '确认密码',
+          fieldType: 'Input',
+          type: 'password'
+        },
+        age: {
+          prop: 'age',
+          label: '年龄',
+          fieldType: 'Input'
+        }
+      },
+      rules2: {
+        pass: [
+          { validator: validatePass, trigger: 'blur' }
+        ],
+        checkPass: [
+          { validator: validatePass2, trigger: 'blur' }
+        ],
+        age: [
+          { validator: checkAge, trigger: 'blur' }
+        ]
+      },
+      dynamicValidateConfig: {
+        email: {
+          prop: 'email',
+          label: '邮箱',
+          fieldType: 'Input'
+        },
+        domains: {
+          prop: 'domains',
+          label: '域名',
+          fieldType: 'Customer',
+          filter: {
+            render: (h) => {
+              return <DomainInput value={this.dynamicValidateForm.domains} onDel={this.removeDomain}></DomainInput>
+            }
+          }
+        }
       }
     }
   },
   methods: {
+    removeDomain(item) {
+      var index = this.dynamicValidateForm.domains.indexOf(item)
+      if (index !== -1) {
+        this.dynamicValidateForm.domains.splice(index, 1)
+      }
+    },
+    addDomain() {
+      this.dynamicValidateForm.domains.push({
+        url: '',
+        key: Date.now()
+      })
+      const i = this.dynamicValidateForm.domains.length
+      this.dynamicValidateConfig[`domains${i}`] = {
+        prop: `domains${i}`,
+        label: `域名${i}`,
+        fieldType: 'Customer',
+        filter: {
+          render: (h) => {
+            return <DomainInput value={this.dynamicValidateForm.domains}></DomainInput>
+          }
+        }
+      }
+    },
     handleCreate() {
-      console.log('立即创建', this.form)
+      console.log(this.form)
+      this.$refs.form.validate(valid => {
+        console.log(valid)
+        if (valid) {
+          console.log('立即创建', this.form)
+        }
+      })
     },
     handleCancel() {
       this.form = this.createForm()
       console.log('取消', this.form)
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
     },
     createForm() {
       return {
@@ -279,4 +552,4 @@ export default {
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="scss" scoped></style>

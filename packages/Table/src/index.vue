@@ -1,33 +1,24 @@
 <template>
-  <div v-bind="$attrs" class="base-table">
+  <div class="base-table">
     <slot name="default"></slot>
     <el-table
-      :data="data"
-      :ref="$attrs.ref"
+      :key="key"
       v-bind="tableAttrs"
-      style="width: 100%"
+      :data="data"
+      :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
+      style="`width: ${width || '100%'}`"
       v-on="$listeners"
     >
-      <template v-for="(col, index) in columnAttrs">
-        <!-- 没有render函数 -->
-        <el-table-column v-if="!col.render" v-bind="col" :key="index" />
-        <!-- 有render函数 -->
-        <el-table-column v-else-if="col.render" v-bind="col" :key="index">
-          <template slot-scope="scope">
-            <expandDom
-              :row="scope.row"
-              :col="col"
-              :render="col.render"
-              :col-index="index"
-            />
-          </template>
-        </el-table-column>
-      </template>
+      <TableItem
+        :col="col"
+        v-for="(col, index) in columnAttrs"
+        :key="index"
+      ></TableItem>
     </el-table>
     <el-pagination
       v-if="paginationAttrs.isPagination"
       v-bind="paginationAttrs"
-      class="pagination-container"
+      style="margin-top: 20px;text-align: right;"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -35,31 +26,11 @@
 </template>
 <script>
 import { defaultTableAttrs, defaultColumn, defaultPagination } from './config'
+import TableItem from './TableItem'
 export default {
   name: 'YTable',
   components: {
-    expandDom: {
-      functional: true,
-      props: {
-        row: Object,
-        col: Object,
-        render: Function,
-        colIndex: [Number, String]
-      },
-      render(h, ctx) {
-        const randomIndex = Math.random()
-          .toString(35)
-          .replace('.', '')
-        const params = {
-          row: { ...ctx.props.row },
-          colIndex: ctx.props.colIndex || randomIndex
-        }
-        if (ctx.props.col) {
-          params.col = ctx.props.col
-        }
-        return ctx.props.render && ctx.props.render(h, params)
-      }
-    }
+    TableItem
   },
   props: {
     /**
@@ -98,7 +69,8 @@ export default {
   },
   data() {
     return {
-      tableAttrs: {}, // 表格属性，同el-table上的属性
+      key: Math.random().toString(32).replace('.', ''),
+      tableAttrs: defaultTableAttrs, // 表格属性，同el-table上的属性
       columnAttrs: [], // 表格项属性， 同el-table-column上的属性
       paginationAttrs: {} // 分页属性，同el-pagination上的属性
     }
@@ -122,12 +94,22 @@ export default {
     }
   },
   created() {
-    this.$nextTick(() => {
-      this.init()
-    })
+    this.init()
   },
   methods: {
     init() {
+      // 解决y-table组件没有相关方法的问题
+      this.$children.forEach(component => {
+        const el = component.$el
+        const classList = [...el.classList]
+        if (classList.includes('el-table')) {
+          Object.keys(component).forEach(key => {
+            if (['clearSelection', 'toggleRowSelection', 'toggleAllSelection', 'toggleRowExpansion', 'setCurrentRow', 'clearSort', 'clearFilter', 'doLayout', 'sort'].includes(key)) {
+              this[key] = component[key]
+            }
+          })
+        }
+      })
       // 获取element table上的属性
       const tableAttrs = {}
       Object.keys(defaultTableAttrs).forEach(key => {
@@ -200,8 +182,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.pagination-container {
-  margin-top: 10px;
-  text-align: right;
+.base-table {
+  overflow: auto;
 }
 </style>

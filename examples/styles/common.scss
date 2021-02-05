@@ -1,3 +1,24 @@
+html, body, ul, li {
+  margin: 0;
+  padding: 0;
+}
+.mt-10 {
+  margin-top: 10px;
+}
 .mt-20 {
   margin-top: 20px;
 }
+
+.el-table__row.warning{
+  background: oldlace;
+}
+
+.el-table__row.success{
+  background: olivedrab;
+}
+
+.pagination-container {
+  margin-top: 10px;
+  text-align: right;
+}
+

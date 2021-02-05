@@ -3,61 +3,57 @@
     v-bind="$attrs"
     v-on="$listeners"
     :model="formData"
-    :ref="$attrs.ref"
-    :style="`width: ${width || '100%'}`"
+    :style="`width: ${width || '100%'}; overflow: hidden;`"
   >
-    <el-col
-      :style="$attrs.inline ? 'inline-block' : 'block'"
-      :span="field.cols ? field.cols : ($attrs.inline&&config.length >=4 ? 6 : $attrs.cols)"
-      :offset="field.offset || 0"
-      :push="field.push || 0"
-      :pull="field.pull || 0"
-      :xs="field.xs || $attrs.xs"
-      :sm="field.sm || $attrs.sm"
-      :md="field.md || $attrs.md"
-      :lg="field.lg || $attrs.lg"
-      :xl="field.xl || $attrs.xl"
+    <el-form-item
       v-for="(field, key) in config"
       :key="key"
+      :label="field.hideLable ? '' : field.label + (field.labelSuffix || '')"
+      :label-width="field.labelWidth ? field.labelWidth : (field['label-width'] ? field['label-width'] : $attrs['label-width'])"
+      :rules="field.rules"
+      :prop="field.prop"
+      :required="field.required || false"
+      :error="field.error"
+      :show-message="field.showMessage || field['show-message']"
+      :inline-message="field.inlineMessage || field['inline-message']"
+      :size="field.size"
+      :style="`margin-left: ${field.marginLeft || 0}; margin-right: ${field.marginRight || ($attrs.inline ? '50px' : 0)}; display: ${!$attrs.inline ? (field.display ? field.display : 'block') : 'inline-block'}`"
     >
-      <el-form-item
-        :label="field.hideLable ? '' : field.label + (field.labelSuffix || '')"
-        :label-width="field.labelWidth ? field.labelWidth : ($attrs.labelWidth ? $attrs.labelWidth : '100px') "
-        :prop="field.prop"
-      >
-        <component
-          :is="field.fieldType"
-          v-bind="field"
-          :value="formData[field.prop]"
-          @input="updateForm(field.prop, $event)"
-        ></component>
-      </el-form-item>
-    </el-col>
-    <slot v-if="$attrs.inline"></slot>
-    <el-col v-else>
-      <slot></slot>
-    </el-col>
+      <component
+        :is="field.fieldType"
+        v-bind="field"
+        :value="formData[field.prop]"
+        :onPick="field.onPick"
+        @input="updateForm(field.prop, $event)"
+        :style="`width: ${field.width || '100%'};`"
+      ></component>
+    </el-form-item>
+    <slot></slot>
   </el-form>
 </template>
 
 <script>
 import Input from './components/Input'
+import InputNumber from '../../InputNumber'
 import Radio from './components/Radio'
 import Select from './components/Select'
 import DatePicker from './components/DatePicker'
 import TimePicker from './components/TimePicker'
 import YSwitch from './components/Switch'
 import Checkbox from './components/Checkbox'
+import Customer from './components/Customer'
 export default {
   name: 'YForm',
   components: {
     Input,
+    InputNumber,
     Radio,
     Select,
     DatePicker,
     TimePicker,
     YSwitch,
-    Checkbox
+    Checkbox,
+    Customer
   },
   data() {
     return {
@@ -88,7 +84,24 @@ export default {
       deep: true
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    init() {
+      // 解决y-form组件没有validate等相关方法的问题
+      this.$children.forEach(component => {
+        const el = component.$el
+        const classList = [...el.classList]
+        if (classList.includes('el-form')) {
+          Object.keys(component).forEach(key => {
+            if (['clearValidate', 'resetFields', 'validate', 'validateField'].includes(key)) {
+              this[key] = component[key]
+            }
+          })
+        }
+      })
+    },
     getLabelWidth() {
       if (typeof this.config === 'object') {
         const keys = Object.keys(this.config)

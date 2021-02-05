@@ -6,13 +6,23 @@ module.exports = {
       filename: 'index.html'
     }
   },
-  // 扩展webpack配置，使packages加入编译
-  chainWebpack: config => {
-    config.module
-      .rule('js')
-      .include.add('/packages')
-      .end()
-      .use('babel')
-      .loader('babel-loader')
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader'
+          }
+        }
+      ]
+    },
+    output: {
+      libraryExport: 'default'
+    },
+    externals: {
+      'vue-router': 'VueRouter'
+    }
   }
 }

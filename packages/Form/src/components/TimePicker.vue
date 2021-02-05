@@ -1,6 +1,6 @@
 <template>
   <el-time-select
-    v-model="currentValue"
+    v-model.trim="currentValue"
     :picker-options="$attrs.pickerOptions"
     :placeholder="$attrs.placeholder || '选择时间'"
     :readonly="$attrs.readonly || false"

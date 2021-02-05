@@ -1,7 +1,7 @@
 <template>
   <el-input
     :type="$attrs.type || 'text'"
-    v-model="currentValue"
+    v-model.trim="currentValue"
     @input="handleInputEvent"
     :maxlength="$attrs.maxLength || 100"
     :minlength="$attrs.minLength"
@@ -26,6 +26,7 @@
     :label="$attrs.label"
     :tabindex="$attrs.tabindex"
     :validate-event="$attrs.validateEvent || true"
+    :disabled="$attrs.disabled"
     :form="$attrs.form"
     v-on="$listeners"
   ></el-input>

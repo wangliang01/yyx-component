@@ -1,6 +1,6 @@
 <template>
   <el-radio-group
-    v-model="currentValue"
+    v-model.trim="currentValue"
     @input="handleInputEvent"
   >
     <el-col
@@ -9,14 +9,13 @@
       :span="item.cols"
     >
       <el-radio
-        :label="item.label"
-        :value="item.value"
+        :label="item.value || item.label"
         :disabled="item.disabled"
         :border="item.border"
         :size="item.size"
         :name="item.name"
         v-on="$listeners"
-      ></el-radio>
+      >{{item.label}}</el-radio>
     </el-col>
   </el-radio-group>
 </template>
