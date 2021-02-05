@@ -24,7 +24,7 @@
     :popper-class="$attrs.popperClass"
     :reserve-keyword="$attrs.reserveKeyword || false"
     :default-first-option="$attrs.defaultFirstOption || false"
-    :popper-append-to-body="$attrs.popperAppendToBody || true"
+    :popper-append-to-body="$attrs.popperAppendToBody === undefined ?  true : $attrs.popperAppendToBody"
     :automatic-dropdown="$attrs.automaticDropdown || false"
     @input="handleInputEvent"
     v-on="$listeners"

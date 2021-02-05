@@ -35,13 +35,14 @@
           slot="tip"
         >
           只能上传excel文件<span v-if="size">，且不超过{{size}}kb</span>
+          <el-link
+            class="template"
+            type="primary"
+            :href="downloadUrl"
+          >下载模板</el-link>
         </div>
       </el-upload>
       <el-button-group>
-        <el-button
-          class="mt-10"
-          @click="downLoadExcel"
-        >下载模板</el-button>
         <el-button
           class="mt-10"
           v-if="tableData.length"
@@ -374,6 +375,11 @@ export default {
 }
 .mt-10 {
   margin-top: 10px;
+}
+.template{
+  position: relative;
+  margin-left: 10px;
+  top: -1px;
 }
 </style>
 

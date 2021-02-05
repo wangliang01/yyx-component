@@ -4,6 +4,7 @@
       :columns="columns"
       :uploadSuccess="uploadSuccess"
       @upload="upload"
+      download-url="https://yyx-mall.oss-cn-chengdu.aliyuncs.com/template/订单导入.xlsx"
     ></y-batch-import>
   </div>
 </template>
@@ -38,14 +39,12 @@ export default {
         {
           label: '下单日期',
           prop: 'createTime',
-          type: 'date-picker',
-          width: '300px'
+          type: 'date-picker'
         },
         {
           label: '要求配送日期',
           prop: 'deliverTime',
-          type: 'date-picker',
-          width: '300px'
+          type: 'date-picker'
         }
       ]
     }
