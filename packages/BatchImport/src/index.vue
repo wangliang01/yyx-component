@@ -17,6 +17,7 @@
       lock-scroll
       destroy-on-close
       width="92%"
+      :before-close="handleBeforeClose"
     >
       <el-upload
         class="upload"
@@ -77,7 +78,7 @@
 
 <script>
 import XLSX from 'xlsx'
-import { merge, find } from 'lodash'
+import { merge, find, isEmpty } from 'lodash'
 // import Vue from 'vue'
 export default {
   name: 'YBatchImport',
@@ -218,9 +219,9 @@ export default {
         render: (h, { row }) => {
           if (this.isEdit) {
             if (item.type === 'input') {
-              return <el-input v-model={this.tableData[row.index][item.prop]} size='small' clearable></el-input>
+              return <el-input v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}></el-input>
             } else if (item.type === 'select') {
-              return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable>
+              return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}>
                 {item.options.map((option) => {
                   return <el-option key={option.value}
                     label={option.label}
@@ -230,14 +231,16 @@ export default {
               </el-select>
             } else if (item.type === 'date-picker') {
               return <el-date-picker
+                rules={row.rules}
                 style={{ width: '95%', display: 'block' }}
                 v-model={this.tableData[row.index][item.prop]}
                 type='date'
                 size='small'
+                value-format='YYYY-MM-DD'
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'input-number') {
-              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' clearable number></y-input>
+              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' clearable number rules={row.rules}></y-input>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
@@ -247,6 +250,42 @@ export default {
     })
   },
   methods: {
+    // 校验数据
+    validate(data) {
+      return new Promise((resolve, reject) => {
+        data.forEach((item, index) => {
+          Object.keys(item).forEach(key => {
+            // 查找与当前key匹配的column
+            const column = find(this.columns, (col) => {
+              return col.prop === key
+            })
+            if (!isEmpty(column)) {
+              // column存在
+              if (column.required) {
+                // 如果required有值，则需要校验
+                if (item[key] === '' || item[key] === undefined || item[key] === null) {
+                  // 如果没有值，则提示报错
+                  reject(`第${index + 1}行[${column.label}] 值不能为空`)
+                }
+              }
+              console.log('pattern', column)
+              if (column.pattern) {
+                if (!new RegExp(column.pattern).test(item[key])) {
+                  reject(`第${index + 1}行的[${column.label}] 值格式不正确`)
+                }
+              }
+            }
+          })
+        })
+        resolve(true)
+      })
+    },
+    // 关闭弹窗
+    handleBeforeClose(done) {
+      console.log('关闭弹窗')
+      this.handleCancel()
+      done()
+    },
     // 取消上传
     handleCancel() {
       this.tableData = []
@@ -257,7 +296,13 @@ export default {
     // 确认上传
     handleConfirm() {
       this.mergeTable()
-      this.$emit('upload', this.dbData)
+      this.validate(this.dbData).then(valid => {
+        if (valid) {
+          this.$emit('upload', this.dbData)
+        }
+      }).catch(err => {
+        this.$message.warning(err)
+      })
     },
     // 编辑，查看切换
     handleToggleEdit() {
@@ -277,14 +322,6 @@ export default {
         }
       })
       this.dbData.splice((current - 1) * size, size, ...mergeData)
-    },
-    // 下载模板
-    downLoadExcel() {
-      if (!this.downloadUrl) {
-        return this.$message.warning('请填写正确的模板链接')
-      }
-      const url = encodeURI(this.downloadUrl)
-      window.open(url)
     },
     // 加载分页数据
     loadData() {
@@ -317,13 +354,9 @@ export default {
         Object.keys(item).forEach(key => {
           // 查找与key相同的column
           const column = find(this.columns, col => {
-            if (col.label.trim() === 'SKU ID') {
-              console.log(key, key.length, col.label.trim() === key)
-            }
             return col.label.trim() === key
           })
           if (column) {
-            console.log(key, item[key])
             obj[column.prop] = item[key]
           }
         })
@@ -376,7 +409,7 @@ export default {
 .mt-10 {
   margin-top: 10px;
 }
-.template{
+.template {
   position: relative;
   margin-left: 10px;
   top: -1px;

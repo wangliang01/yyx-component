@@ -214,7 +214,6 @@ export default {
 </script>
 ```
 
-
 #### 表格的使用
 ```vue
 <template>

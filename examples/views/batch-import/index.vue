@@ -19,32 +19,40 @@ export default {
         {
           label: '客户ID',
           prop: 'customerId',
-          type: 'input'
+          type: 'input',
+          required: true
         },
         {
-          label: 'SKU ID',
+          label: 'SKUID',
           prop: 'skuId',
-          type: 'input'
+          type: 'input',
+          required: true
         },
         {
           label: '数量',
           prop: 'count',
-          type: 'input-number'
+          type: 'input-number',
+          required: true
         },
         {
           label: '单价',
           prop: 'price',
-          type: 'input-number'
+          type: 'input-number',
+          required: true
         },
         {
           label: '下单日期',
           prop: 'createTime',
-          type: 'date-picker'
+          type: 'date-picker',
+          required: true,
+          pattern: /^[1-2][0-9][0-9][0-9][-\.\/][0-1]{0,1}[0-9][-\.\/][0-3]{0,1}[0-9]$/
         },
         {
           label: '要求配送日期',
           prop: 'deliverTime',
-          type: 'date-picker'
+          type: 'date-picker',
+          required: true,
+          pattern: /^[1-2][0-9][0-9][0-9][-\.\/][0-1]{0,1}[0-9][-\.\/][0-3]{0,1}[0-9]$/
         }
       ]
     }
@@ -58,8 +66,11 @@ export default {
 
   },
   methods: {
-    upload() {
+    upload(data) {
       this.uploadSuccess = true
+      this.$nextTick(() => {
+        this.uploadSuccess = false
+      })
     }
   }
 }
