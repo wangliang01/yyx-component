@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.5.27",
+  "version": "1.5.28",
   "main": "lib/yui.common.js",
   "license": "MIT",
   "scripts": {
@@ -25,6 +25,7 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.14.1",
     "lodash": "^4.17.20",
+    "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-cropper": "^0.5.6",
     "xlsx": "^0.16.9"

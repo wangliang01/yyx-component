@@ -28,7 +28,6 @@ export default {
     }
   },
   mounted() {
-    console.log('attrs', this.$attrs)
     this.$nextTick(() => {
       [...document.querySelectorAll('.el-input-number .el-input__inner')].forEach(item => {
         item.style['text-align'] = this.textAlign

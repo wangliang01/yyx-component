@@ -1,11 +1,20 @@
 <template>
   <div class="batch-import">
-    <y-batch-import
-      :columns="columns"
-      :uploadSuccess="uploadSuccess"
-      @upload="upload"
-      download-url="https://yyx-mall.oss-cn-chengdu.aliyuncs.com/template/订单导入.xlsx"
-    ></y-batch-import>
+    <el-card>
+      <h2>批量导入</h2>
+      <y-batch-import
+        :columns="columns"
+        :uploadSuccess="uploadSuccess"
+        @upload="upload"
+        download-url="https://yyx-mall.oss-cn-chengdu.aliyuncs.com/template/订单导入.xlsx"
+      ></y-batch-import>
+    </el-card>
+
+    <el-card class="mt-20">
+      <!-- sku导入 -->
+      <h2>sku导入</h2>
+      <y-sku-import download-url="https://yyx-mall.oss-cn-chengdu.aliyuncs.com/template/商品导入.xlsx"></y-sku-import>
+    </el-card>
   </div>
 </template>
 

@@ -83,7 +83,6 @@ export default {
     this.loadData()
   },
   activated() {
-    console.log('activated')
     this.initConfig()
     this.loadData()
   },

@@ -67,7 +67,7 @@ export default {
           required: true
         },
         {
-          label: '是否标品(是,否)',
+          label: '是否标品（是,否）',
           prop: 'normal',
           type: 'select',
           options: [{ label: '是', value: '是' },

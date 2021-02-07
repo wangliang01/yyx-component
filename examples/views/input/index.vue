@@ -19,11 +19,6 @@ export default {
       value: 1,
       number: ''
     }
-  },
-  watch: {
-    number(val) {
-      console.log('watch: number', val)
-    }
   }
 }
 </script>

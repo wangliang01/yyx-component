@@ -79,6 +79,7 @@
 <script>
 import XLSX from 'xlsx'
 import { merge, find, isEmpty } from 'lodash'
+import moment from 'moment'
 // import Vue from 'vue'
 export default {
   name: 'YBatchImport',
@@ -231,12 +232,11 @@ export default {
               </el-select>
             } else if (item.type === 'date-picker') {
               return <el-date-picker
-                rules={row.rules}
                 style={{ width: '95%', display: 'block' }}
                 v-model={this.tableData[row.index][item.prop]}
                 type='date'
                 size='small'
-                value-format='YYYY-MM-DD'
+                onChange={() => { this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') }}
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'input-number') {
@@ -268,7 +268,6 @@ export default {
                   reject(`第${index + 1}行[${column.label}] 值不能为空`)
                 }
               }
-              console.log('pattern', column)
               if (column.pattern) {
                 if (!new RegExp(column.pattern).test(item[key])) {
                   reject(`第${index + 1}行的[${column.label}] 值格式不正确`)
@@ -282,7 +281,6 @@ export default {
     },
     // 关闭弹窗
     handleBeforeClose(done) {
-      console.log('关闭弹窗')
       this.handleCancel()
       done()
     },
@@ -354,7 +352,7 @@ export default {
         Object.keys(item).forEach(key => {
           // 查找与key相同的column
           const column = find(this.columns, col => {
-            return col.label.trim() === key
+            return col.label.trim().includes(key)
           })
           if (column) {
             obj[column.prop] = item[key]
