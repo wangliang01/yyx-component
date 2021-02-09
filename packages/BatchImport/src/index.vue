@@ -5,7 +5,7 @@
       type="primary"
       icon="el-icon-upload"
       @click="dialogVisible=true"
-    >{{btnText}}</el-button>
+    >{{ btnText }}</el-button>
     <!-- 按钮 end -->
 
     <!-- 弹窗  -->
@@ -32,10 +32,10 @@
           icon="el-icon-upload"
         >选择文件</el-button>
         <div
-          class="el-upload__tip mt-10"
           slot="tip"
+          class="el-upload__tip mt-10"
         >
-          只能上传excel文件<span v-if="size">，且不超过{{size}}kb</span>
+          只能上传excel文件<span v-if="size">，且不超过{{ size }}kb</span>
           <el-link
             class="template"
             type="primary"
@@ -45,10 +45,10 @@
       </el-upload>
       <el-button-group>
         <el-button
-          class="mt-10"
           v-if="tableData.length"
+          class="mt-10"
           @click="handleToggleEdit"
-        >{{!isEdit ?'编辑数据' : '查看数据'}}</el-button>
+        >{{ !isEdit ?'编辑数据' : '查看数据' }}</el-button>
       </el-button-group>
 
       <y-table
@@ -58,7 +58,7 @@
         pagination
         :total="total"
         :reload="reloadData"
-        :colIndex="1"
+        :col-index="1"
       ></y-table>
 
       <span
@@ -83,36 +83,6 @@ import moment from 'moment'
 // import Vue from 'vue'
 export default {
   name: 'YBatchImport',
-  data() {
-    return {
-      dialogVisible: false,
-      tableData: [],
-      total: 0,
-      queryParams: {
-        current: 1,
-        size: 10
-      },
-      dbData: [],
-      currentColumns: [],
-      isEdit: false
-    }
-  },
-  watch: {
-    uploadSuccess: {
-      handler(val) {
-        if (val) {
-          this.dialogVisible = false
-          this.tableData = []
-          this.dbData = []
-          this.total = 0
-          this.isEdit = false
-          this.$forceUpdate()
-        }
-      },
-      deep: true,
-      immediate: true
-    }
-  },
   props: {
     btnText: {
       type: String,
@@ -123,8 +93,8 @@ export default {
       default: 0
     },
     downloadUrl: {
-      type: String
-      // required: true
+      type: String,
+      required: true
     },
     // 是否上传成功
     uploadSuccess: {
@@ -210,6 +180,36 @@ export default {
           }
         ]
       }
+    }
+  },
+  data() {
+    return {
+      dialogVisible: false,
+      tableData: [],
+      total: 0,
+      queryParams: {
+        current: 1,
+        size: 10
+      },
+      dbData: [],
+      currentColumns: [],
+      isEdit: false
+    }
+  },
+  watch: {
+    uploadSuccess: {
+      handler(val) {
+        if (val) {
+          this.dialogVisible = false
+          this.tableData = []
+          this.dbData = []
+          this.total = 0
+          this.isEdit = false
+          this.$forceUpdate()
+        }
+      },
+      deep: true,
+      immediate: true
     }
   },
   created() {

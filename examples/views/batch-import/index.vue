@@ -4,9 +4,9 @@
       <h2>批量导入</h2>
       <y-batch-import
         :columns="columns"
-        :uploadSuccess="uploadSuccess"
-        @upload="upload"
+        :upload-success="uploadSuccess"
         download-url="https://yyx-mall.oss-cn-chengdu.aliyuncs.com/template/订单导入.xlsx"
+        @upload="upload"
       ></y-batch-import>
     </el-card>
 
@@ -21,6 +21,11 @@
 <script>
 export default {
   name: '',
+  components: {
+  },
+  props: {
+
+  },
   data() {
     return {
       uploadSuccess: false,
@@ -65,11 +70,6 @@ export default {
         }
       ]
     }
-  },
-  props: {
-
-  },
-  components: {
   },
   mounted() {
 

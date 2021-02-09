@@ -1,13 +1,13 @@
 <template>
   <div class="table-pro">
     <y-form
-      v-bind="$attrs"
-      v-on="$listeners"
       v-model="queryParams"
+      v-bind="$attrs"
       :config="config"
       :inline="true"
       label-position="left"
       :label-width="$attrs['label-width']"
+      v-on="$listeners"
     >
       <slot v-if="hasSearch" name="form">
         <el-button @click="handleQuery">查询</el-button>
@@ -15,9 +15,9 @@
     </y-form>
     <el-card style="width: 100%; margin-top: 20px;">
       <y-table
+        v-loading="loading"
         :data="tableData"
         :columns="columns && columns.filter(column => !column.hidden)"
-        v-loading="loading"
         pagination
         :total="total"
         :reload="reloadData"
@@ -34,6 +34,30 @@
 import { filter, merge, cloneDeep } from 'lodash'
 export default {
   name: 'YTablePro',
+  props: {
+    // 请求接口的api
+    loadDataApi: {
+      type: Function,
+      required: true
+    },
+    // 表格列
+    columns: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
+    // 是否显示查询按钮
+    hasSearch: {
+      type: Boolean,
+      default: true
+    },
+    // 传递过来的查询参数
+    params: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       tableData: [],
@@ -53,29 +77,6 @@ export default {
         this.initConfig()
       },
       deep: true
-    }
-  },
-  props: {
-    // 请求接口的api
-    loadDataApi: {
-      type: Function
-    },
-    // 表格列
-    columns: {
-      type: Array,
-      default: () => {
-        return []
-      }
-    },
-    // 是否显示查询按钮
-    hasSearch: {
-      type: Boolean,
-      default: true
-    },
-    // 传递过来的查询参数
-    params: {
-      type: Object,
-      default: () => {}
     }
   },
   mounted() {

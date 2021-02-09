@@ -1,5 +1,5 @@
 <template>
-  <el-cascader v-bind="$attrs" v-on="$listeners" clearable v-model="currentValue" :ref="ref" :options="options">
+  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" v-on="$listeners">
   </el-cascader>
 </template>
 
@@ -7,17 +7,17 @@
 import { getAddressMap } from './address'
 export default {
   name: 'YAddressCascader',
+  props: {
+    // 父组件传递过来的值
+    value: {
+      type: [String, Array]
+    }
+  },
   data() {
     return {
       currentValue: this.value,
       ref: `category_cascader_${Date.now()}`,
       options: []
-    }
-  },
-  props: {
-    // 父组件传递过来的值
-    value: {
-      type: [String, Array]
     }
   },
   watch: {

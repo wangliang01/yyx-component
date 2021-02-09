@@ -28,26 +28,26 @@
 <script>
 export default {
   name: 'TimePicker',
-  data() {
-    return {
-      currentValue: this.value
-    }
-  },
   props: {
     value: {
       type: [String, Date]
     }
   },
-  methods: {
-    handleInputEvent(value) {
-      // 当选择框发生变化时，将值传递出去
-      this.$emit('input', value)
+  data() {
+    return {
+      currentValue: this.value
     }
   },
   watch: {
     // 监听外部的value
     value(val) {
       this.currentValue = val
+    }
+  },
+  methods: {
+    handleInputEvent(value) {
+      // 当选择框发生变化时，将值传递出去
+      this.$emit('input', value)
     }
   }
 }

@@ -5,16 +5,16 @@
       <y-category-cascader
         style="width: 200px;"
         :data-api="dataApi"
+        :input-value="inputValue"
         @value-change="handleChange"
-        :inputValue="inputValue"
       ></y-category-cascader>
     </el-card>
     <el-card style="margin-top: 20px;">
       <h2>地址级联选择器</h2>
       <y-address-cascader
+        v-model="address"
         style="width: 200px;"
         @change="handleAddressChange"
-        v-model="address"
       >
 
       </y-address-cascader>

@@ -5,15 +5,15 @@
 <script>
 export default {
   name: 'Customer',
-  data() {
-    return {
-      currentValue: this.value
-    }
+  components: {
   },
   props: {
     value: [String, Boolean, Number, Object, Array]
   },
-  components: {
+  data() {
+    return {
+      currentValue: this.value
+    }
   },
   watch: {
     value: {

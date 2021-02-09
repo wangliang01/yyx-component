@@ -10,9 +10,9 @@
       v-on="$listeners"
     >
       <TableItem
-        :col="col"
         v-for="(col, index) in columnAttrs"
         :key="index"
+        :col="col"
       ></TableItem>
     </el-table>
     <el-pagination
@@ -21,7 +21,7 @@
       style="margin-top: 20px;text-align: right;"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    />
+    ></el-pagination>
   </div>
 </template>
 <script>

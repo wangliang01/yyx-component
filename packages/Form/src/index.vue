@@ -1,9 +1,9 @@
 <template>
   <el-form
     v-bind="$attrs"
-    v-on="$listeners"
     :model="formData"
     :style="`width: ${width || '100%'}; overflow: hidden;`"
+    v-on="$listeners"
   >
     <el-form-item
       v-for="(field, key) in config"
@@ -23,9 +23,9 @@
         :is="field.fieldType"
         v-bind="field"
         :value="formData[field.prop]"
-        :onPick="field.onPick"
-        @input="updateForm(field.prop, $event)"
+        :on-pick="field.onPick"
         :style="`width: ${field.width || '100%'};`"
+        @input="updateForm(field.prop, $event)"
       ></component>
     </el-form-item>
     <slot></slot>
@@ -55,12 +55,6 @@ export default {
     Checkbox,
     Customer
   },
-  data() {
-    return {
-      formData: { ...this.value },
-      currentValue: ''
-    }
-  },
   props: {
     width: {
       type: String
@@ -74,6 +68,12 @@ export default {
       // 表单数据
       type: Object,
       required: true
+    }
+  },
+  data() {
+    return {
+      formData: { ...this.value },
+      currentValue: ''
     }
   },
   watch: {

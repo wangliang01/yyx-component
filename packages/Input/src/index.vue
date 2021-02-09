@@ -1,10 +1,10 @@
 <template>
   <el-input
     v-model="currentValue"
-    @input="handleInputEvent"
-    @change="handleInputChange"
     :clearable="$attrs.clearable || true"
     v-bind="$attrs"
+    @input="handleInputEvent"
+    @change="handleInputChange"
     v-on="$listeners"
   ></el-input>
 </template>

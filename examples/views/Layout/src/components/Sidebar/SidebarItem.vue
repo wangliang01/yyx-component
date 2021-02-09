@@ -6,7 +6,7 @@
       :index="route.path"
     >
       <template slot="title">
-        {{route.meta && route.meta.title}}
+        {{ route.meta && route.meta.title }}
       </template>
       <template v-for="(item, idx) in route.children">
         <SidebarItem :key="idx" :route="item"></SidebarItem>
@@ -17,7 +17,7 @@
       v-else
       :index="route.path"
     >
-      {{route.meta && route.meta.title}}
+      {{ route.meta && route.meta.title }}
     </el-menu-item>
   </div>
 </template>
@@ -25,17 +25,17 @@
 <script>
 export default {
   name: 'SidebarItem',
-  data() {
-    return {
-
-    }
+  components: {
   },
   props: {
     route: {
       type: Object // 路由对象
     }
   },
-  components: {
+  data() {
+    return {
+
+    }
   },
   mounted() {
 

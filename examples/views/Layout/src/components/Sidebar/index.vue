@@ -5,10 +5,10 @@
       router
       :collapse="isCollapse"
       class="menu"
-      @close="handleClose"
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b"
+      @close="handleClose"
     >
       <template v-for="(route, index) in routes">
         <SidebarItem
@@ -25,17 +25,17 @@ import SidebarItem from './SidebarItem'
 const routes = require('../../../../../router')
 export default {
   name: '',
+  components: {
+    SidebarItem
+  },
+  props: {
+
+  },
   data() {
     return {
       isCollapse: false,
       routes: routes[0].children
     }
-  },
-  props: {
-
-  },
-  components: {
-    SidebarItem
   },
   mounted() {
 

@@ -15,7 +15,7 @@
         :size="item.size"
         :name="item.name"
         v-on="$listeners"
-      >{{item.label}}</el-radio>
+      >{{ item.label }}</el-radio>
     </el-col>
   </el-radio-group>
 </template>
@@ -23,11 +23,6 @@
 <script>
 export default {
   name: 'Radio',
-  data() {
-    return {
-      currentValue: this.value
-    }
-  },
   props: {
     value: {
       type: [String, Number, Boolean]
@@ -35,6 +30,11 @@ export default {
     options: {
       // 单选框选项数组
       type: Array
+    }
+  },
+  data() {
+    return {
+      currentValue: this.value
     }
   },
   watch: {

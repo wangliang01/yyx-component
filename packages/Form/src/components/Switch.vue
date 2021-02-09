@@ -21,14 +21,15 @@
 <script>
 export default {
   name: 'YSwitch',
+  props: {
+    value: {
+      type: [String, Boolean],
+      required: true
+    }
+  },
   data() {
     return {
       currentValue: this.value
-    }
-  },
-  props: {
-    value: {
-      type: [String, Boolean]
     }
   },
   watch: {

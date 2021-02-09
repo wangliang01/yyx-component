@@ -78,17 +78,6 @@
 <script>
 export default {
   name: 'TableItem',
-  props: {
-    col: {
-      type: Object,
-      default() {
-        return {}
-      }
-    },
-    index: {
-      type: [String, Number]
-    }
-  },
   components: {
     expandDom: {
       functional: true,
@@ -111,6 +100,17 @@ export default {
         }
         return ctx.props.render && ctx.props.render(h, params)
       }
+    }
+  },
+  props: {
+    col: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
+    index: {
+      type: [String, Number]
     }
   }
 }

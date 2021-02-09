@@ -1,7 +1,7 @@
 <template>
   <div class="table-pro">
     <y-table-pro
-      :loadDataApi="pagelist"
+      :load-data-api="pagelist"
       :columns="columns"
     >
     </y-table-pro>
@@ -28,9 +28,9 @@
       <h2>筛选</h2>
       <p>对表格进行筛选，可快速查找到自己想看的数据。</p>
       <y-table
+        ref="filterTable"
         :data="tableData"
         :columns="filterColumns"
-        ref="filterTable"
       >
         <el-button @click="resetDateFilter">清除日期过滤器</el-button>
         <el-button @click="clearFilter">清除所有过滤器</el-button>
@@ -83,20 +83,25 @@
       <p>表头支持自定义。</p>
     </el-card>
 
-    <!-- <el-card class="mt-20">
+    <el-card class="mt-20">
       <h2>带过滤条件的表格</h2>
       <y-table-pro
-        url=""
+        :load-data-api="pagelist"
         :columns="columns"
         label-width="60px"
       ></y-table-pro>
-    </el-card> -->
+    </el-card>
   </div>
 </template>
 
 <script>
 export default {
   name: 'TablePro',
+  components: {
+  },
+  props: {
+
+  },
   data() {
     return {
       tableData: [{
@@ -279,6 +284,7 @@ export default {
           fieldType: 'Input',
           filter: true,
           marginRight: '50px',
+          hidden: true,
           cols: 3,
           sm: 6
         },
@@ -375,11 +381,6 @@ export default {
         }
       ]
     }
-  },
-  props: {
-
-  },
-  components: {
   },
   mounted() {
 

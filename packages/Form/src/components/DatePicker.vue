@@ -32,11 +32,6 @@
 <script>
 export default {
   name: 'DatePicker',
-  data() {
-    return {
-      currentValue: this.value
-    }
-  },
   props: {
     value: {
       type: [Date, String, Array]
@@ -44,6 +39,17 @@ export default {
     onPick: {
       type: Function,
       default: () => {}
+    }
+  },
+  data() {
+    return {
+      currentValue: this.value
+    }
+  },
+  watch: {
+    // 监听外部的value
+    value(val) {
+      this.currentValue = val
     }
   },
   methods: {
@@ -54,12 +60,6 @@ export default {
         // 当type为daterange时，处理日期的回调
         this.onPick(value)
       }
-    }
-  },
-  watch: {
-    // 监听外部的value
-    value(val) {
-      this.currentValue = val
     }
   }
 }

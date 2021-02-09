@@ -1,5 +1,5 @@
 <template>
-  <el-input-number v-bind="$attrs" v-on="$listeners" :precision="precision" :min="min" :max="max" :controls="controls" :style="{'text-align': textAlign}" @change="handleInputChange"></el-input-number>
+  <el-input-number v-bind="$attrs" :precision="precision" :min="min" :max="max" :controls="controls" :style="{'text-align': textAlign}" v-on="$listeners" @change="handleInputChange"></el-input-number>
 </template>
 
 <script>

@@ -11,15 +11,15 @@
 <script>
 export default {
   name: '',
-  data() {
-    return {
-
-    }
+  components: {
   },
   props: {
 
   },
-  components: {
+  data() {
+    return {
+
+    }
   },
   mounted() {
 
