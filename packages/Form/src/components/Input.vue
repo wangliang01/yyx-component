@@ -37,11 +37,13 @@ export default {
   name: 'Input',
   props: {
     label: {
-      type: String // 属性别名
+      type: String, // 属性别名
+      default: ''
     },
     value: {
       // 默认值
-      type: [String, Number, Boolean, Object]
+      type: [String, Number, Boolean, Object],
+      default: ''
     }
   },
   data() {

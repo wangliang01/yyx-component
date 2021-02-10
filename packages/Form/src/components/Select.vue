@@ -44,10 +44,12 @@ export default {
   props: {
     value: {
       // 默认值
-      type: [String, Number, Boolean, Object]
+      type: [String, Number, Boolean, Object],
+      default: ''
     },
     options: {
-      type: Array // 下拉框选项列表
+      type: Array, // 下拉框选项列表
+      default: () => []
     }
   },
   data() {

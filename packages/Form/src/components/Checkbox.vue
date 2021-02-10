@@ -30,10 +30,12 @@ export default {
   name: 'Checkbox',
   props: {
     value: {
-      type: [Array, String, Boolean]
+      type: [Array, String, Boolean],
+      default: ''
     },
     options: {
-      type: Array
+      type: Array,
+      default: () => []
     }
   },
   data() {

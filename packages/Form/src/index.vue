@@ -57,7 +57,8 @@ export default {
   },
   props: {
     width: {
-      type: String
+      type: String,
+      default: 'auto'
     },
     config: {
       // 表单配置项

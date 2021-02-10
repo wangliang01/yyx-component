@@ -34,7 +34,8 @@ export default {
   name: 'DatePicker',
   props: {
     value: {
-      type: [Date, String, Array]
+      type: [Date, String, Array],
+      default: ''
     },
     onPick: {
       type: Function,

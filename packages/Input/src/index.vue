@@ -13,7 +13,8 @@ export default {
   name: 'YInput',
   props: {
     value: {
-      type: [String, Number]
+      type: [String, Number],
+      default: ''
     },
     number: {
       type: Boolean,

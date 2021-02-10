@@ -24,7 +24,7 @@ export default {
   props: {
     value: {
       type: [String, Boolean],
-      required: true
+      default: ''
     }
   },
   data() {

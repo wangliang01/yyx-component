@@ -19,6 +19,10 @@ export default {
       type: [String, Array],
       default: ''
     },
+    inputValue: {
+      type: String,
+      default: ''
+    },
     lastChild: {
       type: Boolean,
       default: true
@@ -33,19 +37,33 @@ export default {
     }
   },
   watch: {
-    value: {
-      handler(value) {
-        if (typeof this.value === 'string') {
-          this.currentValue = this.value.split(',')
-        } else {
-          this.currentValue = value
-        }
+    // value: {
+    //   handler(value) {
+    //     if (typeof this.value === 'string') {
+    //       this.currentValue = this.value.split(',')
+    //     } else {
+    //       this.currentValue = value
+    //     }
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // },
+    inputValue: {
+      handler(val) {
+        this.$nextTick(() => {
+          this.$refs[this.ref].presentText = val
+        })
       },
       deep: true,
       immediate: true
     }
   },
   async created() {
+    if (typeof this.value === 'string') {
+      this.currentValue = this.value.split(',')
+    } else {
+      this.currentValue = this.value
+    }
     try {
       // 从接口获取数据
       const res = await this.dataApi()

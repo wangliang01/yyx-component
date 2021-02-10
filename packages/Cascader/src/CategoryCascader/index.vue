@@ -30,10 +30,6 @@ export default {
     inputValue: {
       type: String,
       default: ''
-    },
-    lastChild: {
-      type: Boolean,
-      default: true
     }
   },
   data() {
@@ -97,13 +93,7 @@ export default {
       this.$nextTick(() => {
         const inputValue = this.$refs[this.ref].presentText
         if (Array.isArray(value)) {
-          let currentValue
-          if (this.lastChild) {
-            currentValue = value.slice(-1).join(',')
-          } else {
-            currentValue = value.join(',')
-          }
-          this.$emit('input', currentValue)
+          this.$emit('input', value.join(','))
         } else {
           this.$emit('input', value)
         }

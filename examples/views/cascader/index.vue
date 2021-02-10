@@ -16,6 +16,7 @@
         v-model="address"
         style="width: 200px;"
         @change="handleAddressChange"
+        @input-value="handleInputValue"
       >
 
       </y-address-cascader>
@@ -73,6 +74,9 @@ export default {
     },
     handleAddressChange(value) {
       console.log("value", value);
+    },
+    handleInputValue(value, inputValue) {
+      console.log('inputValue', value, inputValue);
     }
   }
 }

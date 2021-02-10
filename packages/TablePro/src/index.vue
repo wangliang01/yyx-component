@@ -118,15 +118,8 @@ export default {
       const filterColumns = filter(this.columns, column => column.filter)
       filterColumns.forEach(column => {
         const key = column.prop
-        // 为column添加默认值
-        const defaultColumn = {
-          fieldType: 'Input',
-          clearable: true,
-          hidden: false
-        }
-        column = Object.assign({}, defaultColumn, column)
         // 生成表单的数据
-        this.$set(this.config, key, column)
+        this.$set(this.config, key, { ...column, clearable: true, hidden: false })
 
         // 生成查询参数
         this.queryParams[key] = ''

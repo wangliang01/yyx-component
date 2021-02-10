@@ -30,7 +30,8 @@ export default {
   name: 'TimePicker',
   props: {
     value: {
-      type: [String, Date]
+      type: [String, Date],
+      default: ''
     }
   },
   data() {

@@ -44,6 +44,12 @@ export default {
       } else {
         this.$emit('input', value)
       }
+      this.$nextTick(() => {
+        const inputValue = this.$refs[this.ref].presentText
+        const separator = this.$refs[this.ref].separator
+        const reg = new RegExp(separator, 'g')
+        this.$emit('input-value', inputValue.replace(reg, ','))
+      })
     }
   }
 }

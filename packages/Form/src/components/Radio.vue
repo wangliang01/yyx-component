@@ -3,20 +3,16 @@
     v-model.trim="currentValue"
     @input="handleInputEvent"
   >
-    <el-col
+    <el-radio
       v-for="item in options"
       :key="item.value"
-      :span="item.cols"
-    >
-      <el-radio
-        :label="item.value || item.label"
-        :disabled="item.disabled"
-        :border="item.border"
-        :size="item.size"
-        :name="item.name"
-        v-on="$listeners"
-      >{{ item.label }}</el-radio>
-    </el-col>
+      :label="item.value || item.label"
+      :disabled="item.disabled"
+      :border="item.border"
+      :size="item.size"
+      :name="item.name"
+      v-on="$listeners"
+    >{{ item.label }}</el-radio>
   </el-radio-group>
 </template>
 
@@ -25,11 +21,13 @@ export default {
   name: 'Radio',
   props: {
     value: {
-      type: [String, Number, Boolean]
+      type: [String, Number, Boolean],
+      default: ''
     },
     options: {
       // 单选框选项数组
-      type: Array
+      type: Array,
+      default: () => []
     }
   },
   data() {

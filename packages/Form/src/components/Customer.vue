@@ -1,5 +1,9 @@
 <template>
-  <component :is="$attrs.filter || $attrs.render" :value="currentValue" @input="handleInputEvent"></component>
+  <component
+    :is="$attrs.filter || $attrs.render"
+    :value="currentValue"
+    @input="handleInputEvent"
+  ></component>
 </template>
 
 <script>
@@ -8,7 +12,7 @@ export default {
   components: {
   },
   props: {
-    value: [String, Boolean, Number, Object, Array]
+    value: { type: [String, Boolean, Number, Object, Array], default: '' }
   },
   data() {
     return {
@@ -32,5 +36,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>
