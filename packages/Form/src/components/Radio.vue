@@ -6,7 +6,7 @@
     <el-radio
       v-for="item in options"
       :key="item.value"
-      :label="item.value || item.label"
+      :label="(item.value !== undefined && item.value !== null) ? item.value : item.label"
       :disabled="item.disabled"
       :border="item.border"
       :size="item.size"
