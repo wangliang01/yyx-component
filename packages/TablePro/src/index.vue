@@ -77,6 +77,12 @@ export default {
         this.initConfig()
       },
       deep: true
+    },
+    params: {
+      handler(val) {
+        this.queryParams = merge(this.queryParams, val)
+      },
+      deep: true
     }
   },
   mounted() {
@@ -112,6 +118,13 @@ export default {
       const filterColumns = filter(this.columns, column => column.filter)
       filterColumns.forEach(column => {
         const key = column.prop
+        // 为column添加默认值
+        const defaultColumn = {
+          fieldType: 'Input',
+          clearable: true,
+          hidden: false
+        }
+        column = Object.assign({}, defaultColumn, column)
         // 生成表单的数据
         this.$set(this.config, key, column)
 

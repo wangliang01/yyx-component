@@ -82,6 +82,12 @@ export default {
         this.formData = val
       },
       deep: true
+    },
+    config: {
+      handler(val) {
+        console.log('config watch: ', val)
+      },
+      deep: true
     }
   },
   mounted() {

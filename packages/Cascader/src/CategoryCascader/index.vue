@@ -30,6 +30,10 @@ export default {
     inputValue: {
       type: String,
       default: ''
+    },
+    lastChild: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -92,7 +96,17 @@ export default {
       // 在为要从DOM从取相关的文本内容，所以在这里用到了this.$nextTick
       this.$nextTick(() => {
         const inputValue = this.$refs[this.ref].presentText
-        this.$emit('input', value)
+        if (Array.isArray(value)) {
+          let currentValue
+          if (this.lastChild) {
+            currentValue = value.slice(-1).join(',')
+          } else {
+            currentValue = value.join(',')
+          }
+          this.$emit('input', currentValue)
+        } else {
+          this.$emit('input', value)
+        }
         this.$emit('value-change', value, inputValue)
       })
     }

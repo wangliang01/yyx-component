@@ -281,30 +281,24 @@ export default {
         {
           label: 'ID',
           prop: 'id',
-          fieldType: 'Input',
-          filter: true,
-          marginRight: '50px',
-          hidden: true,
-          cols: 3,
-          sm: 6
+          filter: true
+          // fieldType: 'Select'
+          // marginRight: '50px',
+          // hidden: true
         },
         {
           label: '姓名',
           prop: 'name',
           fieldType: 'Input',
           filter: true,
-          marginRight: '50px',
-          cols: 3,
-          sm: 6
+          marginRight: '50px'
         },
         {
           label: '年龄',
           prop: 'age',
           fieldType: 'Input',
           filter: true,
-          marginRight: '50px',
-          cols: 3,
-          sm: 6
+          marginRight: '50px'
         }
       ],
       treeTableData: [{

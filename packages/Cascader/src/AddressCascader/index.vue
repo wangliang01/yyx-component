@@ -1,5 +1,5 @@
 <template>
-  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" v-on="$listeners">
+  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" v-on="$listeners" @change="handleValueChange">
   </el-cascader>
 </template>
 
@@ -10,7 +10,8 @@ export default {
   props: {
     // 父组件传递过来的值
     value: {
-      type: [String, Array]
+      type: [String, Array],
+      required: true
     }
   },
   data() {
@@ -35,6 +36,15 @@ export default {
   },
   mounted() {
     this.options = getAddressMap()
+  },
+  methods: {
+    handleValueChange(value) {
+      if (Array.isArray(value)) {
+        this.$emit('input', value.join(','))
+      } else {
+        this.$emit('input', value)
+      }
+    }
   }
 }
 </script>
