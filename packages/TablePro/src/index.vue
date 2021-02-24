@@ -86,6 +86,7 @@ export default {
     }
   },
   mounted() {
+    this.queryDataByEnterKey()
     this.initConfig()
     this.loadData()
   },
@@ -94,6 +95,15 @@ export default {
     this.loadData()
   },
   methods: {
+    // 通过点击enter键来查询数据
+    queryDataByEnterKey() {
+      window.addEventListener('keyup', (e) => {
+        const keyCode = e.keyCode || e.which
+        if (keyCode === 13) {
+          this.loadData()
+        }
+      }, false)
+    },
     async loadData() {
       const data = cloneDeep(this.queryParams)
       for (const item in data) {
