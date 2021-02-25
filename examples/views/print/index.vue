@@ -11,13 +11,18 @@
         <el-table-column prop="hobby" label="爱好"></el-table-column>
       </el-table>
     </y-print>
+    <y-print print-style=".print-demo {color: red;}" type="primary">
+      <print></print>
+    </y-print>
   </div>
 </template>
 
 <script>
+import Print from './Print'
 export default {
   name: '',
   components: {
+    Print
   },
   props: {
 
