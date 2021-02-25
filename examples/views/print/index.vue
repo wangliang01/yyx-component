@@ -1,0 +1,141 @@
+<template>
+  <div class="print">
+    <y-print css="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+      <el-table :data="tableData">
+        <el-table-column prop="date" label="日期" width="120"></el-table-column>
+        <el-table-column prop="name" label="姓名"></el-table-column>
+        <el-table-column prop="province" label="省份"></el-table-column>
+        <el-table-column prop="city" label="市区"></el-table-column>
+        <el-table-column prop="adress" label="地址"></el-table-column>
+        <el-table-column prop="zip" label="邮编"></el-table-column>
+        <el-table-column prop="hobby" label="爱好"></el-table-column>
+      </el-table>
+    </y-print>
+  </div>
+</template>
+
+<script>
+export default {
+  name: '',
+  components: {
+  },
+  props: {
+
+  },
+  data() {
+    return {
+      tableData: [{
+        date: '2016-05-03',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-02',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-01',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-08',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-06',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-07',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }],
+      columns: [
+        {
+          prop: 'date',
+          label: '日期'
+        },
+        {
+          prop: 'name',
+          label: '姓名'
+        },
+        {
+          prop: 'province',
+          label: '省份'
+        },
+        {
+          prop: 'city',
+          label: '市区'
+        },
+        {
+          prop: 'address',
+          label: '地址',
+          'show-overflow-tooltip': true
+        },
+        {
+          prop: 'zip',
+          label: '邮编'
+        },
+        {
+          prop: 'hobby',
+          label: '爱好'
+        },
+        {
+          prop: 'zip',
+          label: '邮编'
+        },
+        {
+          prop: 'hobby',
+          label: '爱好'
+        },
+        {
+          label: '操作',
+          fixed: 'right',
+          render() {
+            return (
+              <div>
+                <el-button type='text'>查看</el-button>
+                <el-button type='text'>编辑</el-button>
+              </div>
+            )
+          }
+        }
+      ]
+    }
+  },
+  mounted() {
+
+  },
+  methods: {
+
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+
+</style>

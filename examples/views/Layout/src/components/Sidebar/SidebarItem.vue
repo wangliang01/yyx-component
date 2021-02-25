@@ -29,7 +29,8 @@ export default {
   },
   props: {
     route: {
-      type: Object // 路由对象
+      type: Object, // 路由对象
+      default: () => {}
     }
   },
   data() {

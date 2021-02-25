@@ -19,6 +19,10 @@ export default {
     number: {
       type: Boolean,
       default: false
+    },
+    integer: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -34,11 +38,14 @@ export default {
   methods: {
     handleInputEvent(val) {
       const reg = /^(([1-9]{1}\d{0,9})|(0{1}))\.?(\d{1,2})?$/
-      this.handleInputValue(val, reg)
+      const intReg = /^(([1-9]{1}\d{0,9})|(0{1}))$/
+      this.number
+        ? this.handleInputValue(val, reg)
+        : this.handleInputValue(val, intReg)
     },
     handleInputValue(val, reg) {
-      if (this.number) {
-        // 输入类型为number类型
+      if (reg) {
+        // 输入类型为number类型,或者integer类型
         reg = new RegExp(reg)
         if (reg.test(val)) {
           this.$nextTick(() => {

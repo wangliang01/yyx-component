@@ -22,8 +22,8 @@
     <template v-if="col.children && col.children.length">
 
       <TableItem
-        v-for="(item, index) in col.children"
-        :key="index"
+        v-for="(item, idx) in col.children"
+        :key="idx"
         :col="item"
         :column-key="item.columnKey || item['column-key']"
         :min-width="item.minWidth || item['min-width']"
@@ -110,7 +110,8 @@ export default {
       }
     },
     index: {
-      type: [String, Number]
+      type: [String, Number],
+      default: ''
     }
   }
 }

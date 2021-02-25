@@ -21,6 +21,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import render from './node'
 export default {
   name: 'YTreeOrg',
