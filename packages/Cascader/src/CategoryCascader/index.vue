@@ -81,6 +81,7 @@ export default {
       handler(val) {
         this.$nextTick(() => {
           this.$refs[this.ref].presentText = val
+          this.$refs[this.ref].inputValue = val
         })
       },
       deep: true,

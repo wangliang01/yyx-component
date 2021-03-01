@@ -11,7 +11,7 @@
         <el-table-column prop="hobby" label="爱好"></el-table-column>
       </el-table>
     </y-print>
-    <y-print print-style=".print-demo {color: red;}" type="primary">
+    <y-print :print-style="printStyle" type="primary">
       <print></print>
     </y-print>
   </div>
@@ -129,7 +129,49 @@ export default {
             )
           }
         }
-      ]
+      ],
+      printStyle: `
+        .order-ticket{
+          position: relative;
+          max-width: 802px;
+          border: 1px solid #eee;
+          padding: 12px;
+          line-height: 1.5em;
+          font-size: 14px;
+        }
+        .order-title{
+          position: absolute;
+          right: 15px;
+          font-size: 24px;
+          font-weight: bold;
+        }
+        .order-detail{
+          margin-top: 50px;
+          display: flex;
+          flex-wrap: wrap;
+          
+        }
+        .order-detail .order-item {
+          flex: 0 0 33.33%;
+        }
+
+        .list{
+          margin: 10px 0;
+          border: 1px solid #eee;
+          text-align: right;
+          
+        }
+
+        .list .order-item{
+          margin: 10px 20px;
+        }
+
+
+        .staff-info{
+          display: flex;
+          justify-content: space-between;
+        }
+      `
     }
   },
   mounted() {

@@ -45,6 +45,8 @@ export default {
   methods: {
     handlePrint() {
       const printDom = this.$refs[this.ref]
+      const style = window.getComputedStyle(printDom)
+      console.log('style', style)
       const printFrame = document.createElement('iframe')
       printFrame.setAttribute('style', 'visibility: hidden; height: 0; width: 0; position: absolute;')
       const html = `<html>
@@ -77,6 +79,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.print{
+  display: inline-block;
+}
 .print-content {
   position: absolute;
   display: none;
