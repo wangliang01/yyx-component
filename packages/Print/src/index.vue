@@ -1,7 +1,9 @@
 <template>
   <div class="print">
     <el-button
-      :type="type"
+      :type="$attrs.type || 'text'"
+      :size="$attrs.size || 'mini'"
+      v-bind="$attrs"
       @click="handlePrint"
     >{{ text }}</el-button>
     <div :ref="ref" class="print-content">
@@ -17,10 +19,6 @@ export default {
   components: {
   },
   props: {
-    type: {
-      type: String,
-      default: 'text'
-    },
     text: {
       type: String,
       default: '打印'
@@ -45,19 +43,42 @@ export default {
   methods: {
     handlePrint() {
       const printDom = this.$refs[this.ref]
-      const style = window.getComputedStyle(printDom)
-      console.log('style', style)
       const printFrame = document.createElement('iframe')
       printFrame.setAttribute('style', 'visibility: hidden; height: 0; width: 0; position: absolute;')
       const html = `<html>
         <head>
           <meta http-equiv=content-type content="text/html; charset=utf-8">
-          <!--引入外部样式 -->
-          <link href="${this.css ? this.css : ''}" rel="stylesheet" >
+          <link rel="stylesheet" href="${this.css ? this.css : ''}">
           <style>
-            @page { margin: 0; } // 去掉页眉页脚
+            @page { margin: 0; }
+            * {
+              margin: 0;
+              padding: 0;
+            }
+            table {
+              border-collapse: collapse;
+              margin: 0 auto;
+              text-align: center;
+              border-color: #000 !important;
+              color: #000 !important;
+            }
+            table td,
+            table th {
+              border: 1px solid #000;
+              color: #000 !important;
+              height: 30px;
+            }
+            table thead th {
+              background-color: #cce8eb;
+              width: 100px;
+            }
+            table tr:nth-child(odd) {
+              background: #fff;
+            }
+            table tr:nth-child(even) {
+              background: #fff;
+            }
           </style>
-          <!--引入内部样式 -->
           <style>
             ${this.printStyle ? this.printStyle : ''}
           </style>
