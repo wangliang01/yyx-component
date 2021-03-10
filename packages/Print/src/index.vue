@@ -8,7 +8,7 @@
     >{{ text }}</el-button>
     <div :ref="ref" class="print-content">
       <!-- 打印内容 -->
-      <slot>打印内容</slot>
+      <slot v-if="showContent">打印内容</slot>
     </div>
   </div>
 </template>
@@ -34,7 +34,8 @@ export default {
   },
   data() {
     return {
-      ref: Math.random().toString(36).replace('.', '')
+      ref: Math.random().toString(36).replace('.', ''),
+      showContent: false
     }
   },
   mounted() {
@@ -42,58 +43,61 @@ export default {
   },
   methods: {
     handlePrint() {
-      const printDom = this.$refs[this.ref]
-      const printFrame = document.createElement('iframe')
-      printFrame.setAttribute('style', 'visibility: hidden; height: 0; width: 0; position: absolute;')
-      const html = `<html>
-        <head>
-          <meta http-equiv=content-type content="text/html; charset=utf-8">
-          <link rel="stylesheet" href="${this.css ? this.css : ''}">
-          <style>
-            @page { margin: 0; }
-            * {
-              margin: 0;
-              padding: 0;
-            }
-            table {
-              border-collapse: collapse;
-              margin: 0 auto;
-              text-align: center;
-              border-color: #000 !important;
-              color: #000 !important;
-            }
-            table td,
-            table th {
-              border: 1px solid #000;
-              color: #000 !important;
-              height: 30px;
-            }
-            table thead th {
-              background-color: #cce8eb;
-              width: 100px;
-            }
-            table tr:nth-child(odd) {
-              background: #fff;
-            }
-            table tr:nth-child(even) {
-              background: #fff;
-            }
-          </style>
-          <style>
-            ${this.printStyle ? this.printStyle : ''}
-          </style>
-        </head>
-        <body>
-          ${printDom.innerHTML}
-        </body>
-      </html>`
+      this.showContent = true
+      this.$nextTick(() => {
+        const printDom = this.$refs[this.ref]
+        const printFrame = document.createElement('iframe')
+        printFrame.setAttribute('style', 'visibility: hidden; height: 0; width: 0; position: absolute;')
+        const html = `<html>
+          <head>
+            <meta http-equiv=content-type content="text/html; charset=utf-8">
+            <link rel="stylesheet" href="${this.css ? this.css : ''}">
+            <style>
+              @page { margin: 0; }
+              * {
+                margin: 0;
+                padding: 0;
+              }
+              table {
+                border-collapse: collapse;
+                margin: 0 auto;
+                text-align: center;
+                border-color: #000 !important;
+                color: #000 !important;
+              }
+              table td,
+              table th {
+                border: 1px solid #000;
+                color: #000 !important;
+                height: 30px;
+              }
+              table thead th {
+                background-color: #cce8eb;
+                width: 100px;
+              }
+              table tr:nth-child(odd) {
+                background: #fff;
+              }
+              table tr:nth-child(even) {
+                background: #fff;
+              }
+            </style>
+            <style>
+              ${this.printStyle ? this.printStyle : ''}
+            </style>
+          </head>
+          <body>
+            ${printDom.innerHTML}
+          </body>
+        </html>`
 
-      printFrame.srcdoc = html
-      document.getElementsByTagName('body')[0].appendChild(printFrame)
-      printFrame.contentWindow.print()
-      setTimeout(() => {
-        document.getElementsByTagName('body')[0].removeChild(printFrame)
-      }, 1000)
+        printFrame.srcdoc = html
+        document.getElementsByTagName('body')[0].appendChild(printFrame)
+        printFrame.contentWindow.print()
+        setTimeout(() => {
+          document.getElementsByTagName('body')[0].removeChild(printFrame)
+        }, 1000)
+      })
     }
   }
 }
