@@ -43,6 +43,11 @@ export default {
   },
   methods: {
     handlePrint() {
+      const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime)
+
+      if (!isChrome) {
+        return this.$message.warning('该浏览器暂不支持打印功能，建议使用最新的chrome浏览器再试')
+      }
       this.showContent = true
       this.$nextTick(() => {
         const printDom = this.$refs[this.ref]
