@@ -8,7 +8,7 @@
     >{{ text }}</el-button>
     <div :ref="ref" class="print-content">
       <!-- 打印内容 -->
-      <slot v-if="showContent">打印内容</slot>
+      <slot>打印内容</slot>
     </div>
   </div>
 </template>
@@ -34,8 +34,7 @@ export default {
   },
   data() {
     return {
-      ref: Math.random().toString(36).replace('.', ''),
-      showContent: false
+      ref: Math.random().toString(36).replace('.', '')
     }
   },
   mounted() {
@@ -48,7 +47,6 @@ export default {
       if (!isChrome) {
         return this.$message.warning('该浏览器暂不支持打印功能，建议使用最新的chrome浏览器再试')
       }
-      this.showContent = true
       this.$nextTick(() => {
         const printDom = this.$refs[this.ref]
         const printFrame = document.createElement('iframe')
