@@ -8,7 +8,7 @@
     >{{ text }}</el-button>
     <div :ref="ref" class="print-content">
       <!-- 打印内容 -->
-      <slot>打印内容</slot>
+      <slot v-if="showPrintContent" :res="res">打印内容</slot>
     </div>
   </div>
 </template>
@@ -19,6 +19,10 @@ export default {
   components: {
   },
   props: {
+    api: {
+      type: Function,
+      required: true
+    },
     text: {
       type: String,
       default: '打印'
@@ -34,15 +38,20 @@ export default {
   },
   data() {
     return {
-      ref: Math.random().toString(36).replace('.', '')
+      ref: Math.random().toString(36).replace('.', ''),
+      res: {},
+      showPrintContent: false // 显示打印内容
     }
   },
-  mounted() {
-
-  },
   methods: {
-    handlePrint() {
-      const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime)
+    async handlePrint() {
+      if (this.api instanceof Function) {
+        this.res = await this.api()
+      }
+      // 显示打印内容
+      console.log('res', this.res)
+      this.showPrintContent = true
+      const isChrome = window.navigator.userAgent.includes('Chrome')
 
       if (!isChrome) {
         return this.$message.warning('该浏览器暂不支持打印功能，建议使用最新的chrome浏览器再试')
@@ -99,6 +108,7 @@ export default {
         printFrame.contentWindow.print()
         setTimeout(() => {
           document.getElementsByTagName('body')[0].removeChild(printFrame)
+          this.showPrintContent = false
         }, 1000)
       })
     }
