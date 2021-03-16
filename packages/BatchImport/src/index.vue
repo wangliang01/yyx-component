@@ -219,8 +219,9 @@ export default {
         prop: item.prop,
         render: (h, { row }) => {
           if (this.isEdit) {
+            const type = item.fieldType || 'text'
             if (item.type === 'input') {
-              return <el-input v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}></el-input>
+              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules} number={type === 'number'} integer={type === 'integer'}></y-input>
             } else if (item.type === 'select') {
               return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}>
                 {item.options.map((option) => {

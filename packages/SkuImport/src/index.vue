@@ -57,7 +57,8 @@ export default {
           label: '保质期',
           prop: 'shelfLifeDays',
           type: 'input',
-          required: true
+          required: true,
+          fieldType: 'integer'
         },
         {
           label: '计价单位',
