@@ -68,6 +68,7 @@
         <el-button @click="handleCancel">取 消</el-button>
         <el-button
           type="primary"
+          :disabled="!total"
           @click="handleConfirm"
         >确 定</el-button>
       </span>
@@ -79,6 +80,7 @@
 <script>
 import XLSX from 'xlsx'
 import { merge, find, isEmpty } from 'lodash'
+import { Message } from 'element-ui'
 import moment from 'moment'
 // import Vue from 'vue'
 export default {
@@ -221,7 +223,7 @@ export default {
           if (this.isEdit) {
             const type = item.fieldType || 'text'
             if (item.type === 'input') {
-              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules} number={type === 'number'} integer={type === 'integer'}></y-input>
+              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={type === 'number'} integer={type === 'integer'}></y-input>
             } else if (item.type === 'select') {
               return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}>
                 {item.options.map((option) => {
@@ -241,7 +243,7 @@ export default {
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'input-number') {
-              return <y-input v-model={this.tableData[row.index][item.prop]} max={item.max} min={item.min} size='small' clearable number rules={row.rules}></y-input>
+              return <YInputNumber v-model={this.tableData[row.index][item.prop]} max={item.max} min={item.min} size='small' clearable rules={row.rules}></YInputNumber>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
@@ -357,6 +359,8 @@ export default {
           })
           if (column) {
             obj[column.prop] = item[key]
+          } else {
+            throw new TypeError('上传文件不正确，不符合模板格式，请检查后上传！')
           }
         })
         return obj
@@ -385,12 +389,21 @@ export default {
           })
           const exlname = this.sheetName || workbook.SheetNames[0] // 根据传人的表名读取，否则读第一张
           const exl = XLSX.utils.sheet_to_json(workbook.Sheets[exlname]) // 生成json表格内容
+          if (!exl) {
+            this.$message.error('未找到对应表格，请重新上传！')
+            return false
+          }
           // 将 JSON 数据挂到 data 里
           this.dbData = this.formatDbData(exl)
           this.loadData()
           this.total = this.dbData.length
           // document.getElementsByName('file')[0].value = '' // 根据自己需求，可重置上传value为空，允许重复上传同一文件
         } catch (e) {
+          Message({
+            showClose: true,
+            message: e,
+            type: 'error'
+          })
           console.log('出错了：：')
           return false
         }
