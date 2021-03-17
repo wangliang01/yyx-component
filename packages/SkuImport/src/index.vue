@@ -56,7 +56,7 @@ export default {
         {
           label: '保质期',
           prop: 'shelfLifeDays',
-          type: 'input',
+          type: 'input-number',
           required: true
         },
         {

@@ -240,7 +240,7 @@ export default {
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'input-number') {
-              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' clearable number rules={row.rules}></y-input>
+              return <y-input v-model={this.tableData[row.index][item.prop]} max={item.max} min={item.min} size='small' clearable number rules={row.rules}></y-input>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
