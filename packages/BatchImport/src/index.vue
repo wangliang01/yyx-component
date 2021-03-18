@@ -276,6 +276,34 @@ export default {
                   reject(`第${index + 1}行的[${column.label}] 值格式不正确`)
                 }
               }
+              // 如果有最大值限制
+              if (column.max) {
+                if (item[key] > column.max) {
+                  // 如果没有值，则提示报错
+                  reject(`第${index + 1}行[${column.label}] 值不能大于${column.max}`)
+                }
+              }
+              // 如果有最小值限制
+              if (column.max) {
+                if (item[key] < column.min) {
+                  // 如果没有值，则提示报错
+                  reject(`第${index + 1}行[${column.label}] 值不能小于${column.min}`)
+                }
+              }
+              // 如果有最大长度值限制
+              if (column.maxLength) {
+                if (item[key].length > column.maxLength) {
+                  // 如果没有值，则提示报错
+                  reject(`第${index + 1}行[${column.label}] 值长度不能大于${column.maxLength}位`)
+                }
+              }
+              // 如果下拉框的不存在
+              if (column.options) {
+                if (!column.options.find((option) => option.value === item[key])) {
+                  // 如果没有值，则提示报错
+                  reject(`第${index + 1}行[${column.label}] 值不存在于选择项中`)
+                }
+              }
             }
           })
         })
