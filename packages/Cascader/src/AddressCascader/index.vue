@@ -48,7 +48,9 @@ export default {
         const inputValue = this.$refs[this.ref].presentText
         const separator = this.$refs[this.ref].separator
         const reg = new RegExp(separator, 'g')
-        this.$emit('input-value', inputValue.replace(reg, ','))
+        if (inputValue) {
+          this.$emit('input-value', inputValue.replace(reg, ','))
+        }
       })
     }
   }

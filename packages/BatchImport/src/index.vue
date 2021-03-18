@@ -55,7 +55,7 @@
         :max-height="312"
         :data="tableData"
         :columns="currentColumns"
-        pagination
+        :pagination="importPagination"
         :total="total"
         :reload="reloadData"
         :col-index="1"
@@ -195,7 +195,24 @@ export default {
       },
       dbData: [],
       currentColumns: [],
-      isEdit: false
+      isEdit: false,
+      importPagination: {
+        small: false,
+        background: false,
+        'page-size': 10,
+        total: 0,
+        'page-count': 0,
+        'pager-count': 7,
+        'current-page': 1,
+        layout: 'total, sizes, prev, pager, next, jumper',
+        'page-sizes': [10, 20],
+        'popper-class': '',
+        'prev-text': '',
+        'next-text': '',
+        disabled: false,
+        'hide-on-single-page': false
+      }
+
     }
   },
   watch: {
