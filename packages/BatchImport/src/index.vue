@@ -415,6 +415,11 @@ export default {
     // 选择文件
     httpRequest(e) {
       this.tableData = []
+      this.total = 0
+      this.queryParams = {
+        current: 1,
+        size: 10
+      }
       const file = e.file // 文件信息
       if (!file) {
         // 没有文件
