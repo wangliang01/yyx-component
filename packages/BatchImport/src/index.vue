@@ -401,7 +401,7 @@ export default {
         } catch (e) {
           Message({
             showClose: true,
-            message: e,
+            message: e.message,
             type: 'error'
           })
           console.log('出错了：：')
