@@ -6,7 +6,7 @@
     </el-card>
     <el-card class="mt-20">
       <h2>number类型输入框</h2>
-      <y-input v-model="number" number></y-input>
+      <y-input v-model="number" integer></y-input>
     </el-card>
   </div>
 </template>
@@ -18,11 +18,6 @@ export default {
     return {
       value: 1,
       number: ''
-    }
-  },
-  watch: {
-    number(val) {
-      console.log('watch: number', val)
     }
   }
 }

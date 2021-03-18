@@ -3,18 +3,20 @@
     <el-card>
       <h2>品类级联选择器</h2>
       <y-category-cascader
+        v-model="value"
         style="width: 200px;"
         :data-api="dataApi"
+        :input-value="inputValue"
         @value-change="handleChange"
-        :inputValue="inputValue"
       ></y-category-cascader>
     </el-card>
     <el-card style="margin-top: 20px;">
       <h2>地址级联选择器</h2>
       <y-address-cascader
+        v-model="address"
         style="width: 200px;"
         @change="handleAddressChange"
-        v-model="address"
+        @input-value="handleInputValue"
       >
 
       </y-address-cascader>
@@ -30,6 +32,7 @@ export default {
       /* eslint-disable */
       dataApi: this.getDataApi.apply(this, [{ a: 111 }]),
       inputValue: '选项1 / 选项2 / 选项4',
+      value: '1,2,4',
       // address: ["110000", "110100", "110101"]
       address: '110000,110100,110102'
     }
@@ -66,10 +69,14 @@ export default {
       }
     },
     handleChange(value, inputValue) {
+      console.log(this.value);
       console.log("cascader", value, inputValue);
     },
     handleAddressChange(value) {
       console.log("value", value);
+    },
+    handleInputValue(value, inputValue) {
+      console.log('inputValue', value, inputValue);
     }
   }
 }

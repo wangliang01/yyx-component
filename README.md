@@ -15,7 +15,9 @@ yarn方式
 ```node
 yarn add yyx-component
 ```
-
+## 组件文档使用链接：
+【腾讯文档】YYX-COMPONENT
+https://docs.qq.com/doc/DWGpVVGxndnlGcmd4
 ## 快速上手
 ### 引入yui
 在main.js中写入以下内容
@@ -213,7 +215,6 @@ export default {
 }
 </script>
 ```
-
 
 #### 表格的使用
 ```vue

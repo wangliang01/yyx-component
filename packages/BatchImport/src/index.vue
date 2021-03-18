@@ -5,7 +5,7 @@
       type="primary"
       icon="el-icon-upload"
       @click="dialogVisible=true"
-    >{{btnText}}</el-button>
+    >{{ btnText }}</el-button>
     <!-- 按钮 end -->
 
     <!-- 弹窗  -->
@@ -17,6 +17,7 @@
       lock-scroll
       destroy-on-close
       width="92%"
+      :before-close="handleBeforeClose"
     >
       <el-upload
         class="upload"
@@ -31,10 +32,10 @@
           icon="el-icon-upload"
         >选择文件</el-button>
         <div
-          class="el-upload__tip mt-10"
           slot="tip"
+          class="el-upload__tip mt-10"
         >
-          只能上传excel文件<span v-if="size">，且不超过{{size}}kb</span>
+          只能上传excel文件<span v-if="size">，且不超过{{ size }}kb</span>
           <el-link
             class="template"
             type="primary"
@@ -44,10 +45,10 @@
       </el-upload>
       <el-button-group>
         <el-button
-          class="mt-10"
           v-if="tableData.length"
+          class="mt-10"
           @click="handleToggleEdit"
-        >{{!isEdit ?'编辑数据' : '查看数据'}}</el-button>
+        >{{ !isEdit ?'编辑数据' : '查看数据' }}</el-button>
       </el-button-group>
 
       <y-table
@@ -57,7 +58,7 @@
         pagination
         :total="total"
         :reload="reloadData"
-        :colIndex="1"
+        :col-index="1"
       ></y-table>
 
       <span
@@ -67,6 +68,7 @@
         <el-button @click="handleCancel">取 消</el-button>
         <el-button
           type="primary"
+          :disabled="!total"
           @click="handleConfirm"
         >确 定</el-button>
       </span>
@@ -77,40 +79,12 @@
 
 <script>
 import XLSX from 'xlsx'
-import { merge, find } from 'lodash'
+import { merge, find, isEmpty } from 'lodash'
+import { Message } from 'element-ui'
+import moment from 'moment'
 // import Vue from 'vue'
 export default {
   name: 'YBatchImport',
-  data() {
-    return {
-      dialogVisible: false,
-      tableData: [],
-      total: 0,
-      queryParams: {
-        current: 1,
-        size: 10
-      },
-      dbData: [],
-      currentColumns: [],
-      isEdit: false
-    }
-  },
-  watch: {
-    uploadSuccess: {
-      handler(val) {
-        if (val) {
-          this.dialogVisible = false
-          this.tableData = []
-          this.dbData = []
-          this.total = 0
-          this.isEdit = false
-          this.$forceUpdate()
-        }
-      },
-      deep: true,
-      immediate: true
-    }
-  },
   props: {
     btnText: {
       type: String,
@@ -121,8 +95,8 @@ export default {
       default: 0
     },
     downloadUrl: {
-      type: String
-      // required: true
+      type: String,
+      required: true
     },
     // 是否上传成功
     uploadSuccess: {
@@ -210,6 +184,36 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      dialogVisible: false,
+      tableData: [],
+      total: 0,
+      queryParams: {
+        current: 1,
+        size: 10
+      },
+      dbData: [],
+      currentColumns: [],
+      isEdit: false
+    }
+  },
+  watch: {
+    uploadSuccess: {
+      handler(val) {
+        if (val) {
+          this.dialogVisible = false
+          this.tableData = []
+          this.dbData = []
+          this.total = 0
+          this.isEdit = false
+          this.$forceUpdate()
+        }
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   created() {
     this.currentColumns = this.columns.map((item) => {
       return {
@@ -217,10 +221,11 @@ export default {
         prop: item.prop,
         render: (h, { row }) => {
           if (this.isEdit) {
+            const type = item.fieldType || 'text'
             if (item.type === 'input') {
-              return <el-input v-model={this.tableData[row.index][item.prop]} size='small' clearable></el-input>
+              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={type === 'number'} integer={type === 'integer'}></y-input>
             } else if (item.type === 'select') {
-              return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable>
+              return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}>
                 {item.options.map((option) => {
                   return <el-option key={option.value}
                     label={option.label}
@@ -234,10 +239,11 @@ export default {
                 v-model={this.tableData[row.index][item.prop]}
                 type='date'
                 size='small'
+                onChange={() => { this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') }}
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'input-number') {
-              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' clearable number></y-input>
+              return <YInputNumber v-model={this.tableData[row.index][item.prop]} max={item.max} min={item.min} size='small' clearable rules={row.rules}></YInputNumber>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
@@ -247,6 +253,40 @@ export default {
     })
   },
   methods: {
+    // 校验数据
+    validate(data) {
+      return new Promise((resolve, reject) => {
+        data.forEach((item, index) => {
+          Object.keys(item).forEach(key => {
+            // 查找与当前key匹配的column
+            const column = find(this.columns, (col) => {
+              return col.prop === key
+            })
+            if (!isEmpty(column)) {
+              // column存在
+              if (column.required) {
+                // 如果required有值，则需要校验
+                if (item[key] === '' || item[key] === undefined || item[key] === null) {
+                  // 如果没有值，则提示报错
+                  reject(`第${index + 1}行[${column.label}] 值不能为空`)
+                }
+              }
+              if (column.pattern) {
+                if (!new RegExp(column.pattern).test(item[key])) {
+                  reject(`第${index + 1}行的[${column.label}] 值格式不正确`)
+                }
+              }
+            }
+          })
+        })
+        resolve(true)
+      })
+    },
+    // 关闭弹窗
+    handleBeforeClose(done) {
+      this.handleCancel()
+      done()
+    },
     // 取消上传
     handleCancel() {
       this.tableData = []
@@ -257,7 +297,13 @@ export default {
     // 确认上传
     handleConfirm() {
       this.mergeTable()
-      this.$emit('upload', this.dbData)
+      this.validate(this.dbData).then(valid => {
+        if (valid) {
+          this.$emit('upload', this.dbData)
+        }
+      }).catch(err => {
+        this.$message.warning(err)
+      })
     },
     // 编辑，查看切换
     handleToggleEdit() {
@@ -277,14 +323,6 @@ export default {
         }
       })
       this.dbData.splice((current - 1) * size, size, ...mergeData)
-    },
-    // 下载模板
-    downLoadExcel() {
-      if (!this.downloadUrl) {
-        return this.$message.warning('请填写正确的模板链接')
-      }
-      const url = encodeURI(this.downloadUrl)
-      window.open(url)
     },
     // 加载分页数据
     loadData() {
@@ -317,14 +355,12 @@ export default {
         Object.keys(item).forEach(key => {
           // 查找与key相同的column
           const column = find(this.columns, col => {
-            if (col.label.trim() === 'SKU ID') {
-              console.log(key, key.length, col.label.trim() === key)
-            }
-            return col.label.trim() === key
+            return col.label.trim().includes(key)
           })
           if (column) {
-            console.log(key, item[key])
             obj[column.prop] = item[key]
+          } else {
+            throw new TypeError('上传文件不正确，不符合模板格式，请检查后上传！')
           }
         })
         return obj
@@ -353,12 +389,21 @@ export default {
           })
           const exlname = this.sheetName || workbook.SheetNames[0] // 根据传人的表名读取，否则读第一张
           const exl = XLSX.utils.sheet_to_json(workbook.Sheets[exlname]) // 生成json表格内容
+          if (!exl) {
+            this.$message.error('未找到对应表格，请重新上传！')
+            return false
+          }
           // 将 JSON 数据挂到 data 里
           this.dbData = this.formatDbData(exl)
           this.loadData()
           this.total = this.dbData.length
           // document.getElementsByName('file')[0].value = '' // 根据自己需求，可重置上传value为空，允许重复上传同一文件
         } catch (e) {
+          Message({
+            showClose: true,
+            message: e,
+            type: 'error'
+          })
           console.log('出错了：：')
           return false
         }
@@ -376,7 +421,7 @@ export default {
 .mt-10 {
   margin-top: 10px;
 }
-.template{
+.template {
   position: relative;
   margin-left: 10px;
   top: -1px;

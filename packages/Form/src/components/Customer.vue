@@ -1,19 +1,23 @@
 <template>
-  <component :is="$attrs.filter || $attrs.render" :value="currentValue" @input="handleInputEvent"></component>
+  <component
+    :is="$attrs.filter || $attrs.render"
+    :value="currentValue"
+    @input="handleInputEvent"
+  ></component>
 </template>
 
 <script>
 export default {
   name: 'Customer',
+  components: {
+  },
+  props: {
+    value: { type: [String, Boolean, Number, Object, Array], default: '' }
+  },
   data() {
     return {
       currentValue: this.value
     }
-  },
-  props: {
-    value: [String, Boolean, Number, Object, Array]
-  },
-  components: {
   },
   watch: {
     value: {
@@ -32,5 +36,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

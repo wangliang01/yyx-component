@@ -24,7 +24,7 @@
     :popper-class="$attrs.popperClass"
     :reserve-keyword="$attrs.reserveKeyword || false"
     :default-first-option="$attrs.defaultFirstOption || false"
-    :popper-append-to-body="$attrs.popperAppendToBody === undefined ?  true : $attrs.popperAppendToBody"
+    :popper-append-to-body="$attrs.popperAppendToBody === undefined ? true : $attrs.popperAppendToBody"
     :automatic-dropdown="$attrs.automaticDropdown || false"
     @input="handleInputEvent"
     v-on="$listeners"
@@ -41,30 +41,32 @@
 <script>
 export default {
   name: 'Select',
-  data() {
-    return {
-      currentValue: this.value
-    }
-  },
   props: {
     value: {
       // 默认值
-      type: [String, Number, Boolean, Object]
+      type: [String, Number, Boolean, Object],
+      default: ''
     },
     options: {
-      type: Array // 下拉框选项列表
+      type: Array, // 下拉框选项列表
+      default: () => []
     }
   },
-  methods: {
-    handleInputEvent(value) {
-      // 当选择框发生变化时，将值传递出去
-      this.$emit('input', value)
+  data() {
+    return {
+      currentValue: this.value
     }
   },
   watch: {
     // 监听外部的value
     value(val) {
       this.currentValue = val
+    }
+  },
+  methods: {
+    handleInputEvent(value) {
+      // 当选择框发生变化时，将值传递出去
+      this.$emit('input', value)
     }
   }
 }

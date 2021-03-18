@@ -14,17 +14,17 @@
 import { Sidebar, AppMain } from './components'
 export default {
   name: 'Layout',
-  data() {
-    return {
-
-    }
+  components: {
+    Sidebar,
+    AppMain
   },
   props: {
 
   },
-  components: {
-    Sidebar,
-    AppMain
+  data() {
+    return {
+
+    }
   },
   mounted() {
 

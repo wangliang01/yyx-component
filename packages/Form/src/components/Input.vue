@@ -1,8 +1,7 @@
 <template>
   <el-input
-    :type="$attrs.type || 'text'"
     v-model.trim="currentValue"
-    @input="handleInputEvent"
+    :type="$attrs.type || 'text'"
     :maxlength="$attrs.maxLength || 100"
     :minlength="$attrs.minLength"
     :show-word-limit="$attrs.showWordLimit"
@@ -28,6 +27,7 @@
     :validate-event="$attrs.validateEvent || true"
     :disabled="$attrs.disabled"
     :form="$attrs.form"
+    @input="handleInputEvent"
     v-on="$listeners"
   ></el-input>
 </template>
@@ -35,30 +35,32 @@
 <script>
 export default {
   name: 'Input',
-  data() {
-    return {
-      currentValue: this.value
-    }
-  },
   props: {
     label: {
-      type: String // 属性别名
+      type: String, // 属性别名
+      default: ''
     },
     value: {
       // 默认值
-      type: [String, Number, Boolean, Object]
+      type: [String, Number, Boolean, Object],
+      default: ''
     }
   },
-  methods: {
-    handleInputEvent(value) {
-      // 当选择框发生变化时，将值传递出去
-      this.$emit('input', value)
+  data() {
+    return {
+      currentValue: this.value
     }
   },
   watch: {
     // 监听外部的value
     value(val) {
       this.currentValue = val
+    }
+  },
+  methods: {
+    handleInputEvent(value) {
+      // 当选择框发生变化时，将值传递出去
+      this.$emit('input', value)
     }
   }
 }

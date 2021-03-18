@@ -10,9 +10,9 @@
       v-on="$listeners"
     >
       <TableItem
-        :col="col"
         v-for="(col, index) in columnAttrs"
         :key="index"
+        :col="col"
       ></TableItem>
     </el-table>
     <el-pagination
@@ -21,7 +21,7 @@
       style="margin-top: 20px;text-align: right;"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    />
+    ></el-pagination>
   </div>
 </template>
 <script>
@@ -55,7 +55,8 @@ export default {
      * pagination: 分页属性：如果为Boolean为true,则取默认值，如果是对象，则merge默认值， 如果total有值，会覆盖pagination中的total属性
      */
     pagination: {
-      type: [Object, Boolean]
+      type: [Object, Boolean],
+      default: false
     },
     /**
      * 分页总数，
@@ -65,7 +66,12 @@ export default {
       default: 0
     },
     // 重新加载函数
-    reload: Function
+    reload: {
+      type: Function,
+      default() {
+        return () => {}
+      }
+    }
   },
   data() {
     return {

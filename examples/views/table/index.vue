@@ -77,9 +77,9 @@
       <h2>单选表格</h2>
       <p>数据结构比较复杂的时候，可使用多级表头来展现数据的层次关系。</p>
       <y-table
+        ref="singleTable"
         :data="tableData"
         :columns="singleColumns"
-        ref="singleTable"
         border
       ></y-table>
       <div class="mt-20">
@@ -91,9 +91,9 @@
       <h2>多选表格</h2>
       <p>数据结构比较复杂的时候，可使用多级表头来展现数据的层次关系。</p>
       <y-table
+        ref="multipleTable"
         :data="tableData"
         :columns="multipleColumns"
-        ref="multipleTable"
         border
       ></y-table>
       <div class="mt-20">
@@ -105,9 +105,9 @@
       <h2>排序</h2>
       <p>对表格进行排序，可快速查找或对比数据。</p>
       <y-table
+        ref="multipleTable"
         :data="tableData"
         :columns="multipleColumns"
-        ref="multipleTable"
         :default-sort="{prop: 'date', order: 'descending'}"
         border
       ></y-table>
@@ -116,9 +116,9 @@
       <h2>流体高度</h2>
       <p>当数据量动态变化时，可以为 Table 设置一个最大高度。</p>
       <y-table
+        ref="multipleTable"
         :data="tableData"
         :columns="multipleColumns"
-        ref="multipleTable"
         :default-sort="{prop: 'date', order: 'descending'}"
         max-height="150"
         border
@@ -128,9 +128,9 @@
       <h2>筛选</h2>
       <p>对表格进行筛选，可快速查找到自己想看的数据。</p>
       <y-table
+        ref="multipleTable"
         :data="tableData"
         :columns="multipleColumns"
-        ref="multipleTable"
         :default-sort="{prop: 'date', order: 'descending'}"
         max-height="150"
         border
@@ -142,6 +142,11 @@
 <script>
 export default {
   name: '',
+  components: {
+  },
+  props: {
+
+  },
   data() {
     return {
       tableData: [{
@@ -403,11 +408,6 @@ export default {
         }
       ]
     }
-  },
-  props: {
-
-  },
-  components: {
   },
   mounted() {
 

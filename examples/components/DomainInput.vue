@@ -5,7 +5,7 @@
         <el-input v-model.trim="item.url" @input="handleInputEvent(index, $event)"></el-input>
       </el-col>
       <el-col :span="4" :offset="1">
-        <el-button @click="delDomain(item)" style="width: 100%;">删除</el-button>
+        <el-button style="width: 100%;" @click="delDomain(item)">删除</el-button>
       </el-col>
     </el-row>
   </div>
@@ -14,10 +14,7 @@
 <script>
 export default {
   name: '',
-  data() {
-    return {
-      currentValue: this.value
-    }
+  components: {
   },
   props: {
     value: {
@@ -27,9 +24,10 @@ export default {
       }
     }
   },
-  components: {
-  },
-  mounted() {
+  data() {
+    return {
+      currentValue: this.value
+    }
   },
   watch: {
     value: {
@@ -38,6 +36,8 @@ export default {
       },
       deep: true
     }
+  },
+  mounted() {
   },
   methods: {
     delDomain(item) {

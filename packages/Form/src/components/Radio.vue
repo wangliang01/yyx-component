@@ -3,38 +3,36 @@
     v-model.trim="currentValue"
     @input="handleInputEvent"
   >
-    <el-col
+    <el-radio
       v-for="item in options"
       :key="item.value"
-      :span="item.cols"
-    >
-      <el-radio
-        :label="item.value || item.label"
-        :disabled="item.disabled"
-        :border="item.border"
-        :size="item.size"
-        :name="item.name"
-        v-on="$listeners"
-      >{{item.label}}</el-radio>
-    </el-col>
+      :label="(item.value !== undefined && item.value !== null) ? item.value : item.label"
+      :disabled="item.disabled"
+      :border="item.border"
+      :size="item.size"
+      :name="item.name"
+      v-on="$listeners"
+    >{{ item.label }}</el-radio>
   </el-radio-group>
 </template>
 
 <script>
 export default {
   name: 'Radio',
-  data() {
-    return {
-      currentValue: this.value
-    }
-  },
   props: {
     value: {
-      type: [String, Number, Boolean]
+      type: [String, Number, Boolean],
+      default: ''
     },
     options: {
       // 单选框选项数组
-      type: Array
+      type: Array,
+      default: () => []
+    }
+  },
+  data() {
+    return {
+      currentValue: this.value
     }
   },
   watch: {

@@ -7,15 +7,15 @@
 <script>
 export default {
   name: 'AppMain',
-  data() {
-    return {
-
-    }
+  components: {
   },
   props: {
 
   },
-  components: {
+  data() {
+    return {
+
+    }
   },
   mounted() {
 

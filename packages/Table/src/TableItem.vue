@@ -22,8 +22,8 @@
     <template v-if="col.children && col.children.length">
 
       <TableItem
-        v-for="(item, index) in col.children"
-        :key="index"
+        v-for="(item, idx) in col.children"
+        :key="idx"
         :col="item"
         :column-key="item.columnKey || item['column-key']"
         :min-width="item.minWidth || item['min-width']"
@@ -78,17 +78,6 @@
 <script>
 export default {
   name: 'TableItem',
-  props: {
-    col: {
-      type: Object,
-      default() {
-        return {}
-      }
-    },
-    index: {
-      type: [String, Number]
-    }
-  },
   components: {
     expandDom: {
       functional: true,
@@ -111,6 +100,18 @@ export default {
         }
         return ctx.props.render && ctx.props.render(h, params)
       }
+    }
+  },
+  props: {
+    col: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
+    index: {
+      type: [String, Number],
+      default: ''
     }
   }
 }

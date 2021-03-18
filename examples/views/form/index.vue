@@ -27,8 +27,8 @@
       <el-card>
 
         <y-form
-          :inline="true"
           v-model="formInline"
+          :inline="true"
           :config="configInline"
           label-position="left"
           label-width="100px"
@@ -53,8 +53,8 @@
           <el-radio-button label="top">顶部对齐</el-radio-button>
         </el-radio-group>
         <y-form
-          class="mt-20"
           v-model="formInline"
+          class="mt-20"
           :config="configInline"
           :label-position="labelPosition"
           label-width="100px"
@@ -72,13 +72,13 @@
       <p>在防止用户犯错的前提下，尽可能让用户更早地发现并纠正错误。</p>
       <el-card>
         <y-form
+          ref="form"
           v-model="form"
           :config="config"
           label-position="left"
           width="500px"
           label-width="100px"
           :rules="rules"
-          ref="form"
         >
           <el-form-item>
             <el-button
@@ -96,6 +96,7 @@
       <p>在防止用户犯错的前提下，尽可能让用户更早地发现并纠正错误。</p>
       <el-card>
         <y-form
+          ref="ruleForm"
           v-model="ruleForm"
           :config="config2"
           label-position="right"
@@ -103,7 +104,6 @@
           width="500px"
           label-width="100px"
           :rules="rules2"
-          ref="ruleForm"
         >
           <el-form-item label-width="100px">
             <el-button
@@ -120,6 +120,7 @@
       <h2>动态增减表单项</h2>
       <el-card>
         <y-form
+          ref="dynamicValidateForm"
           v-model="dynamicValidateForm"
           :config="dynamicValidateConfig"
           label-position="right"
@@ -127,7 +128,6 @@
           width="600px"
           label-width="100px"
           :rules="rules2"
-          ref="dynamicValidateForm"
         >
           <el-form-item label-width="100px">
             <el-button
@@ -146,11 +146,11 @@
       <el-card>
 
         <y-form
+          ref="numberForm"
           v-model="numberForm"
           label-width="100px"
           :config="numberConfig"
           width="600px"
-          ref="numberForm"
         >
           <el-form-item>
             <el-button type="primary" @click="submitForm('numberForm')">提交</el-button>
@@ -165,7 +165,7 @@
       <el-card>
         <y-form ref="sizeForm" v-model="form" :config="config" label-width="100px" width="500px" size="mini">
           <el-form-item size="large">
-            <el-button @click="submitForm('sizeForm')" type="primary">立即创建</el-button>
+            <el-button type="primary" @click="submitForm('sizeForm')">立即创建</el-button>
             <el-button @click="resetForm('sizeForm')">取消</el-button>
           </el-form-item>
         </y-form>

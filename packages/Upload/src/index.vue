@@ -1,33 +1,34 @@
 <template>
   <div v-if="!refresh">
-    <el-upload :disabled="disabled" :class="{'off-add': this.limit<=defaultFile.length}" :ref="refUpload" list-type="picture-card" action="" :on-preview="handlePictureCardPreview" :before-upload="handleBeforeUpload" :on-remove="handleRemove" :file-list="defaultFile">
+    <el-upload :ref="refUpload" :disabled="disabled" :class="{'off-add': limit<=defaultFile.length}" list-type="picture-card" action="" :on-preview="handlePictureCardPreview" :before-upload="handleBeforeUpload" :on-remove="handleRemove" :file-list="defaultFile">
       <i class="el-icon-plus"></i>
     </el-upload>
 
     <el-dialog :append-to-body="true" :visible.sync="dialogVisible">
-      <img style="width:100%" :src="dialogImageUrl" alt="" />
+      <img style="width:100%" :src="dialogImageUrl" alt="">
     </el-dialog>
 
     <el-dialog :append-to-body="true" :visible.sync="modalImg" title="操作图片">
       <div class="cropper">
         <vueCropper
-          style="width:100%;height:500px;"
           ref="cropper"
+          style="width:100%;height:500px;"
           :img="option.img"
-          :outputSize="option.size"
-          :outputType="option.outputType"
+          :output-size="option.size"
+          :output-type="option.outputType"
           :info="true"
           :full="option.full"
-          :canMove="option.canMove"
-          :canMoveBox="option.canMoveBox"
+          :can-move="option.canMove"
+          :can-move-box="option.canMoveBox"
           :original="option.original"
-          :autoCrop="option.autoCrop"
+          :auto-crop="option.autoCrop"
           :fixed="option.fixed"
-          :fixedNumber="option.fixedNumber"
-          :centerBox="option.centerBox"
-          :infoTrue="option.infoTrue"
-          :fixedBox="option.fixedBox"
-          :canScale="option.canScale">
+          :fixed-number="option.fixedNumber"
+          :center-box="option.centerBox"
+          :info-true="option.infoTrue"
+          :fixed-box="option.fixedBox"
+          :can-scale="option.canScale"
+        >
         </vueCropper>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -133,6 +134,14 @@ export default {
         infoTrue: false // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
       }
     }
+  },
+  watch: {
+    fileList() {
+      this.formatDefaultFile()
+    }
+  },
+  mounted() {
+    this.formatDefaultFile()
   },
   methods: {
     handleRemove(file, fileList) {
@@ -278,14 +287,6 @@ export default {
         file: response.data,
         fileList: this.defaultFile
       })
-    }
-  },
-  mounted() {
-    this.formatDefaultFile()
-  },
-  watch: {
-    fileList() {
-      this.formatDefaultFile()
     }
   }
 }

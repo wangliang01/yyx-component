@@ -1,13 +1,13 @@
 <template>
   <div class="table-pro">
     <y-form
-      v-bind="$attrs"
-      v-on="$listeners"
       v-model="queryParams"
+      v-bind="$attrs"
       :config="config"
       :inline="true"
       label-position="left"
       :label-width="$attrs['label-width']"
+      v-on="$listeners"
     >
       <slot v-if="hasSearch" name="form">
         <el-button @click="handleQuery">查询</el-button>
@@ -15,9 +15,9 @@
     </y-form>
     <el-card style="width: 100%; margin-top: 20px;">
       <y-table
+        v-loading="loading"
         :data="tableData"
         :columns="columns && columns.filter(column => !column.hidden)"
-        v-loading="loading"
         pagination
         :total="total"
         :reload="reloadData"
@@ -34,31 +34,11 @@
 import { filter, merge, cloneDeep } from 'lodash'
 export default {
   name: 'YTablePro',
-  data() {
-    return {
-      tableData: [],
-      total: 0,
-      loading: false,
-      queryParams: {
-        current: 1,
-        size: 10
-      },
-      config: {} // 渲染表单的数据
-
-    }
-  },
-  watch: {
-    columns: {
-      handler(val) {
-        this.initConfig()
-      },
-      deep: true
-    }
-  },
   props: {
     // 请求接口的api
     loadDataApi: {
-      type: Function
+      type: Function,
+      required: true
     },
     // 表格列
     columns: {
@@ -78,16 +58,52 @@ export default {
       default: () => {}
     }
   },
+  data() {
+    return {
+      tableData: [],
+      total: 0,
+      loading: false,
+      queryParams: {
+        current: 1,
+        size: 10
+      },
+      config: {} // 渲染表单的数据
+
+    }
+  },
+  watch: {
+    columns: {
+      handler(val) {
+        this.initConfig()
+      },
+      deep: true
+    },
+    params: {
+      handler(val) {
+        this.queryParams = merge(this.queryParams, val)
+      },
+      deep: true
+    }
+  },
   mounted() {
+    this.queryDataByEnterKey()
     this.initConfig()
     this.loadData()
   },
   activated() {
-    console.log('activated')
     this.initConfig()
     this.loadData()
   },
   methods: {
+    // 通过点击enter键来查询数据
+    queryDataByEnterKey() {
+      window.addEventListener('keyup', (e) => {
+        const keyCode = e.keyCode || e.which
+        if (keyCode === 13) {
+          this.loadData()
+        }
+      }, false)
+    },
     async loadData() {
       const data = cloneDeep(this.queryParams)
       for (const item in data) {
@@ -113,7 +129,7 @@ export default {
       filterColumns.forEach(column => {
         const key = column.prop
         // 生成表单的数据
-        this.$set(this.config, key, column)
+        this.$set(this.config, key, { ...column, clearable: true, hidden: false })
 
         // 生成查询参数
         this.queryParams[key] = ''

@@ -7,15 +7,15 @@
 <script>
 export default {
   name: 'Navbar',
-  data() {
-    return {
-
-    }
+  components: {
   },
   props: {
 
   },
-  components: {
+  data() {
+    return {
+
+    }
   },
   mounted() {
 

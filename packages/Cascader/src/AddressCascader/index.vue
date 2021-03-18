@@ -1,5 +1,5 @@
 <template>
-  <el-cascader v-bind="$attrs" v-on="$listeners" clearable v-model="currentValue" :ref="ref" :options="options">
+  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" v-on="$listeners" @change="handleValueChange">
   </el-cascader>
 </template>
 
@@ -7,17 +7,18 @@
 import { getAddressMap } from './address'
 export default {
   name: 'YAddressCascader',
+  props: {
+    // 父组件传递过来的值
+    value: {
+      type: [String, Array],
+      required: true
+    }
+  },
   data() {
     return {
       currentValue: this.value,
       ref: `category_cascader_${Date.now()}`,
       options: []
-    }
-  },
-  props: {
-    // 父组件传递过来的值
-    value: {
-      type: [String, Array]
     }
   },
   watch: {
@@ -35,6 +36,21 @@ export default {
   },
   mounted() {
     this.options = getAddressMap()
+  },
+  methods: {
+    handleValueChange(value) {
+      if (Array.isArray(value)) {
+        this.$emit('input', value.join(','))
+      } else {
+        this.$emit('input', value)
+      }
+      this.$nextTick(() => {
+        const inputValue = this.$refs[this.ref].presentText
+        const separator = this.$refs[this.ref].separator
+        const reg = new RegExp(separator, 'g')
+        this.$emit('input-value', inputValue.replace(reg, ','))
+      })
+    }
   }
 }
 </script>

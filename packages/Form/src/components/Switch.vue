@@ -21,14 +21,15 @@
 <script>
 export default {
   name: 'YSwitch',
+  props: {
+    value: {
+      type: [String, Boolean],
+      default: ''
+    }
+  },
   data() {
     return {
       currentValue: this.value
-    }
-  },
-  props: {
-    value: {
-      type: [String, Boolean]
     }
   },
   watch: {
@@ -41,7 +42,6 @@ export default {
   },
   methods: {
     handleInputEvent(value) {
-      console.log(value)
       this.$emit('input', value)
     }
   }

@@ -5,12 +5,12 @@
   >
     <el-col
       v-for="(item, index) in options"
-      :span="item.cols"
       :key="index"
+      :span="item.cols"
     >
       <el-checkbox
-        :label="item.label"
         v-model="item.value"
+        :label="item.label"
         :true-label="item.trueLabel"
         :false-label="item.falseLable"
         :disabled="item.disabled || false"
@@ -28,17 +28,19 @@
 <script>
 export default {
   name: 'Checkbox',
+  props: {
+    value: {
+      type: [Array, String, Boolean],
+      default: ''
+    },
+    options: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       currentValue: this.value
-    }
-  },
-  props: {
-    value: {
-      type: [Array, String, Boolean]
-    },
-    options: {
-      type: Array
     }
   },
   watch: {
