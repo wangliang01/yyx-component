@@ -4,7 +4,6 @@
     :clearable="$attrs.clearable || true"
     v-bind="$attrs"
     @input="handleInputEvent"
-    @change="handleInputChange"
     v-on="$listeners"
   ></el-input>
 </template>
@@ -39,9 +38,12 @@ export default {
     handleInputEvent(val) {
       const reg = /^(([1-9]{1}\d{0,9})|(0{1}))\.?(\d{1,2})?$/
       const intReg = /^(([1-9]{1}\d{0,9})|(0{1}))$/
-      this.number
-        ? this.handleInputValue(val, reg)
-        : this.handleInputValue(val, intReg)
+      if (this.number) {
+        this.handleInputValue(val, reg)
+      }
+      if (this.integer) {
+        this.handleInputValue(val, intReg)
+      }
     },
     handleInputValue(val, reg) {
       if (reg) {
@@ -60,11 +62,11 @@ export default {
         // 其他输入类型
         this.$emit('input', val)
       }
-    },
-    handleInputChange(val) {
-      const reg = /^(([1-9]{1}\d{0,9})|(0{1}))(\.\d{1,2})?$/
-      this.handleInputValue(val, reg)
     }
+    // handleInputChange(val) {
+    //   const reg = /^(([1-9]{1}\d{0,9})|(0{1}))(\.\d{1,2})?$/
+    //   this.handleInputValue(val, reg)
+    // }
   }
 }
 </script>
