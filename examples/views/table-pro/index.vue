@@ -4,6 +4,9 @@
       :load-data-api="pagelist"
       :columns="columns"
     >
+      <div slot="botton">
+        <el-button type="primary">主要按钮</el-button>
+      </div>
     </y-table-pro>
     <h1>高级表格</h1>
     <el-card>
