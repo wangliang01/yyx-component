@@ -22,6 +22,11 @@ export default {
     integer: {
       type: Boolean,
       default: false
+    },
+    precision: {
+      type: [Number, String],
+      default: 2
+
     }
   },
   computed: {
@@ -34,16 +39,27 @@ export default {
       }
     }
   },
+  created() {
+    this.dealPrecision()
+  },
   methods: {
+    dealPrecision() {
+      if (isNaN(this.precision)) {
+        this.precision = 2
+      }
+      if (this.precision < 0) {
+        this.precision = 2
+      }
+    },
     handleInputEvent(val) {
-      const reg = /^(([1-9]{1}\d{0,9})|(0{1}))\.?(\d{1,2})?$/
-      const intReg = /^(([1-9]{1}\d{0,9})|(0{1}))$/
-      if (this.number) {
-        this.handleInputValue(val, reg)
-      }
+      let reg
       if (this.integer) {
-        this.handleInputValue(val, intReg)
+        reg = new RegExp(`^(([1-9]{1}\\d{0,9})|(0{1}))$`)
       }
+      if (this.number) {
+        reg = new RegExp(`^(([1-9]{1}\\d{0,9})|(0{1}))\.?(\\d{1,${this.precision}})?$`)
+      }
+      this.handleInputValue(val, reg)
     },
     handleInputValue(val, reg) {
       if (reg) {
