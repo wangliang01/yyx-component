@@ -13,6 +13,7 @@
         <el-button @click="handleQuery">查询</el-button>
       </slot>
     </y-form>
+    <slot name="botton"></slot>
     <el-card style="width: 100%; margin-top: 20px;">
       <y-table
         v-loading="loading"
