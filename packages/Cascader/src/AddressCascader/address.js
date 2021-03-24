@@ -4069,7 +4069,7 @@ export const getCityList = (provinceCode) => {
   return transferAddress(addressMap.city_list).filter(city => {
     const { value: code } = city
     const provinceCodePrefix = code.substr(0, 2)
-    if (provinceCode.includes(provinceCodePrefix)) {
+    if (provinceCode.substr(0, 2) === provinceCodePrefix) {
       return true
     }
   })
@@ -4080,7 +4080,7 @@ export const getCountyList = (cityCode) => {
   return transferAddress(addressMap.county_list).filter(county => {
     const { value: code } = county
     const cityCodePrefix = code.substr(0, 4)
-    if (cityCode.includes(cityCodePrefix)) {
+    if (cityCode.substr(0, 4) === cityCodePrefix) {
       return true
     }
   })

@@ -26,7 +26,14 @@ export default {
     precision: {
       type: [Number, String],
       default: 2
-
+    },
+    min: {
+      type: [Number, String],
+      default: 0
+    },
+    max: {
+      type: [Number, String],
+      default: Infinity
     }
   },
   computed: {
@@ -67,7 +74,16 @@ export default {
         reg = new RegExp(reg)
         if (reg.test(val)) {
           this.$nextTick(() => {
-            this.$emit('input', val)
+            if (this.min && val < this.min) {
+              // 如果传入min,且不为0时,并且val小于min时
+              this.$emit('input', this.min)
+            } else if (this.max && val > this.max) {
+              // 如果传入max,,并且val大于min时
+              this.$emit('input', this.max)
+            } else {
+              // 没有min,或者max
+              this.$emit('input', val)
+            }
           })
         } else {
           this.$nextTick(() => {
