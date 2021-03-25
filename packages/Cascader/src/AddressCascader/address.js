@@ -37,8 +37,8 @@ const addressMap = {
     900000: '海外'
   },
   city_list: {
-    110100: '北京市',
-    120100: '天津市',
+    110100: '市辖区',
+    120100: '市辖区',
     130100: '石家庄市',
     130200: '唐山市',
     130300: '秦皇岛市',
@@ -109,7 +109,7 @@ const addressMap = {
     231100: '黑河市',
     231200: '绥化市',
     232700: '大兴安岭地区',
-    310100: '上海市',
+    310100: '市辖区',
     320100: '南京市',
     320200: '无锡市',
     320300: '徐州市',
@@ -272,7 +272,7 @@ const addressMap = {
     460300: '三沙市',
     460400: '儋州市',
     469000: '省直辖县',
-    500100: '重庆市',
+    500100: '市辖区',
     500200: '县',
     510100: '成都市',
     510300: '自贡市',
@@ -4069,7 +4069,7 @@ export const getCityList = (provinceCode) => {
   return transferAddress(addressMap.city_list).filter(city => {
     const { value: code } = city
     const provinceCodePrefix = code.substr(0, 2)
-    if (provinceCode.includes(provinceCodePrefix)) {
+    if (provinceCode.substr(0, 2) === provinceCodePrefix) {
       return true
     }
   })
@@ -4080,7 +4080,7 @@ export const getCountyList = (cityCode) => {
   return transferAddress(addressMap.county_list).filter(county => {
     const { value: code } = county
     const cityCodePrefix = code.substr(0, 4)
-    if (cityCode.includes(cityCodePrefix)) {
+    if (cityCode.substr(0, 4) === cityCodePrefix) {
       return true
     }
   })
