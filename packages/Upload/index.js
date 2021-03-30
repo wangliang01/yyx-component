@@ -6,6 +6,7 @@ import YAvatar from './src/Avatar'
 YUpload.install = function(Vue) {
   Vue.component(YUpload.name, YUpload)
 }
+
 YAvatar.install = function(Vue) {
   Vue.component(YAvatar.name, YAvatar)
 }

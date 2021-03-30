@@ -304,9 +304,14 @@ export default {
   height: 80px;
   line-height: 80px;
 }
+.avatar-upload .el-upload-list--picture-card{
+  display: inline-block;
+  height: 80px;
+}
 .avatar-upload .el-upload-list--picture-card .el-upload-list__item {
   width: 80px;
   height: 80px;
+  margin: 0 8px 0 0;
 }
 .off-add .el-upload--picture-card {
   display: none;
