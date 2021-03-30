@@ -22,6 +22,18 @@ export default {
     integer: {
       type: Boolean,
       default: false
+    },
+    precision: {
+      type: [Number, String],
+      default: 2
+    },
+    min: {
+      type: [Number, String],
+      default: 0
+    },
+    max: {
+      type: [Number, String],
+      default: Infinity
     }
   },
   computed: {
@@ -34,16 +46,27 @@ export default {
       }
     }
   },
+  created() {
+    this.dealPrecision()
+  },
   methods: {
+    dealPrecision() {
+      if (isNaN(this.precision)) {
+        this.precision = 2
+      }
+      if (this.precision < 0) {
+        this.precision = 2
+      }
+    },
     handleInputEvent(val) {
-      const reg = /^(([1-9]{1}\d{0,9})|(0{1}))\.?(\d{1,2})?$/
-      const intReg = /^(([1-9]{1}\d{0,9})|(0{1}))$/
-      if (this.number) {
-        this.handleInputValue(val, reg)
-      }
+      let reg
       if (this.integer) {
-        this.handleInputValue(val, intReg)
+        reg = new RegExp(`^(([1-9]{1}\\d{0,9})|(0{1}))$`)
       }
+      if (this.number) {
+        reg = new RegExp(`^(([1-9]{1}\\d{0,9})|(0{1}))\.?(\\d{1,${this.precision}})?$`)
+      }
+      this.handleInputValue(val, reg)
     },
     handleInputValue(val, reg) {
       if (reg) {
@@ -51,7 +74,16 @@ export default {
         reg = new RegExp(reg)
         if (reg.test(val)) {
           this.$nextTick(() => {
-            this.$emit('input', val)
+            if (this.min && val < this.min) {
+              // 如果传入min,且不为0时,并且val小于min时
+              this.$emit('input', this.min)
+            } else if (this.max && val > this.max) {
+              // 如果传入max,,并且val大于min时
+              this.$emit('input', this.max)
+            } else {
+              // 没有min,或者max
+              this.$emit('input', val)
+            }
           })
         } else {
           this.$nextTick(() => {
