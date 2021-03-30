@@ -289,8 +289,8 @@ export default {
               return col.prop === key
             })
             if (!isEmpty(column)) {
-              // column存在
-              if (column.required) {
+              // column存在,relationProp:需要某一项为真时，才校验
+              if (column.required && (!column.relationProp || (column.relationProp && item[column.relationProp]) === '是')) {
                 // 如果required有值，则需要校验
                 if (item[key] === '' || item[key] === undefined || item[key] === null) {
                   // 如果没有值，则提示报错
