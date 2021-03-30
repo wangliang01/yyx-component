@@ -259,6 +259,15 @@ export default {
                 onChange={() => { this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') }}
                 placeholder='选择日期'>
               </el-date-picker>
+            } else if (item.type === 'date-picker-time') {
+              return <el-date-picker
+                style={{ width: '95%', display: 'block' }}
+                v-model={this.tableData[row.index][item.prop]}
+                type='datetime'
+                size='small'
+                onChange={() => { this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss') }}
+                placeholder='选择日期'>
+              </el-date-picker>
             } else if (item.type === 'input-number') {
               return <YInputNumber v-model={this.tableData[row.index][item.prop]} max={item.max} min={item.min} size='small' clearable rules={row.rules}></YInputNumber>
             }
@@ -280,8 +289,8 @@ export default {
               return col.prop === key
             })
             if (!isEmpty(column)) {
-              // column存在
-              if (column.required) {
+              // column存在,relationProp:需要某一项为真时，才校验
+              if (column.required && (!column.relationProp || (column.relationProp && item[column.relationProp]) === '是')) {
                 // 如果required有值，则需要校验
                 if (item[key] === '' || item[key] === undefined || item[key] === null) {
                   // 如果没有值，则提示报错

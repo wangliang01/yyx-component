@@ -41,12 +41,10 @@
 </template>
 <script>
 import { VueCropper } from 'vue-cropper'
-// import axios from '../../../examples/utils/request'
 
 const defaultAPI = function(params) {
-  // return axios.post('/file/upload', params)
-  return new Promise(res => {
-    res(
+  return new Promise(resolve => {
+    resolve(
       {
         data: {
           url: 'https://yyx-temp.oss-cn-chengdu.aliyuncs.com/common/image/png/abe074b524fd8888f85b58e4ce09832e.png'

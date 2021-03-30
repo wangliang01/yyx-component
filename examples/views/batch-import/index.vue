@@ -40,6 +40,7 @@ export default {
           label: 'SKUID',
           prop: 'skuId',
           type: 'input',
+          relationProp: 'customerId',
           required: true
         },
         {
