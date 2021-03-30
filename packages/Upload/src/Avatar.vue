@@ -104,6 +104,10 @@ export default {
     compressRatio: {
       type: Number,
       default: 360
+    },
+    fileSize: {
+      type: [Number, String],
+      default: 1024
     }
   },
   data() {
@@ -261,6 +265,10 @@ export default {
           message: '请选择图片',
           type: 'warning'
         })
+        return false
+      }
+      if (this.fileSize && file.size > this.fileSize * 1024) {
+        this.$message.warning(`上传图片最大为${this.fileSize}kb`)
         return false
       }
       this.fileinfo = file
