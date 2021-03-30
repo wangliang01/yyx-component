@@ -447,7 +447,7 @@ export default {
             type: 'binary' // 以字符编码的方式解析
           })
           const exlname = this.sheetName || workbook.SheetNames[0] // 根据传人的表名读取，否则读第一张
-          const exl = XLSX.utils.sheet_to_json(workbook.Sheets[exlname]) // 生成json表格内容
+          const exl = XLSX.utils.sheet_to_json(workbook.Sheets[exlname], { defval: '' }) // 生成json表格内容
           if (!exl) {
             this.$message.error('未找到对应表格，请重新上传！')
             return false
