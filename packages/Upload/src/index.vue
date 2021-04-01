@@ -100,6 +100,10 @@ export default {
     compressRatio: {
       type: Number,
       default: 360
+    },
+    maxSize: {
+      type: Number,
+      default: 1
     }
   },
   data() {
@@ -246,6 +250,14 @@ export default {
       if (check) {
         this.$message({
           message: '上传失败，已达上传上限',
+          type: 'warning'
+        })
+        return false
+      }
+      const fileSize = file.size / 1024 / 1024
+      if (fileSize > this.maxSize) {
+        this.$message({
+          message: `上传图片大小不能超过 ${this.maxSize}MB!`,
           type: 'warning'
         })
         return false
