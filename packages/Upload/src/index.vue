@@ -104,6 +104,10 @@ export default {
     maxSize: {
       type: Number,
       default: 1
+    },
+    allowPdf: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -155,12 +159,16 @@ export default {
       })
     },
     handlePictureCardPreview(file) {
+      if (file.pdf) {
+        window.open(file.pdf)
+        return
+      }
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     },
-    async uploadSuccess() {
+    async uploadSuccess(isPdf) {
       this.loading = true
-      if (this.isCropper) {
+      if (this.isCropper && !isPdf) {
         this.$refs.cropper.getCropBlob(async(data) => {
           let base64 = await this.blobToDataURL(data) // 转base64
           base64 = await this.compress(base64) // 压缩
@@ -193,6 +201,7 @@ export default {
         this.defaultFile = this.$refs[this.refUpload].fileList
         this.handleSuccess(res)
         this.modalImg = false
+        this.loading = false
       }
     },
     // blob转File 上传的时候用
@@ -263,10 +272,13 @@ export default {
         return false
       }
       const testmsg = file.name.substring(file.name.lastIndexOf('.') + 1)
-      const imgExt = /(jpg|JPG|bmp|BMP|gif|GIF|ico|ICO|pcx|PCX|jpeg|JPEG|tif|TIF|png|PNG|raw|RAW|tga|TGA)$/
+      let imgExt = /(jpg|JPG|bmp|BMP|gif|GIF|ico|ICO|pcx|PCX|jpeg|JPEG|tif|TIF|png|PNG|raw|RAW|tga|TGA)$/
+      if (this.allowPdf) {
+        imgExt = /(jpg|JPG|bmp|BMP|gif|GIF|ico|ICO|pcx|PCX|jpeg|JPEG|tif|TIF|png|PNG|raw|RAW|tga|TGA|pdf)$/
+      }
       if (!imgExt.test(testmsg)) {
         this.$message({
-          message: '请选择图片',
+          message: `请选择图片${this.allowPdf ? '或pdf' : ''}`,
           type: 'warning'
         })
         return false
@@ -274,17 +286,28 @@ export default {
       this.fileinfo = file
       const data = window.URL.createObjectURL(new Blob([file]))
       this.img = data
-      if (this.isCropper) {
+      if (this.isCropper && testmsg !== 'pdf') {
         this.modalImg = true
       } else {
-        this.uploadSuccess()
+        this.uploadSuccess(testmsg === 'pdf')
       }
       return false // 取消自动上传
     },
     formatDefaultFile() {
-      this.defaultFile = this.fileList.map((i) => {
-        return {
-          url: i
+      this.defaultFile = this.fileList.map(item => {
+        if (item.split('.').pop() === 'pdf') {
+          return {
+            pdf: item,
+            url: 'https://yyx-mall.oss-cn-chengdu.aliyuncs.com/common/image/png/icon-pdf.png',
+            name: '图片',
+            status: 'finished'
+          }
+        } else {
+          return {
+            url: item,
+            name: '图片',
+            status: 'finished'
+          }
         }
       })
       this.refresh = true
