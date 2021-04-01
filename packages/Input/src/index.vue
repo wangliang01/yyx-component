@@ -23,6 +23,10 @@ export default {
       type: Boolean,
       default: false
     },
+    integerDigit: { // 整数位数
+      type: [Number, String],
+      default: 10
+    },
     precision: {
       type: [Number, String],
       default: 2
@@ -61,10 +65,10 @@ export default {
     handleInputEvent(val) {
       let reg
       if (this.integer) {
-        reg = new RegExp(`^(([1-9]{1}\\d{0,9})|(0{1}))$`)
+        reg = new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1})|(0{1}))$`)
       }
       if (this.number) {
-        reg = new RegExp(`^(([1-9]{1}\\d{0,9})|(0{1}))\.?(\\d{1,${this.precision}})?$`)
+        reg = new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))([.](\\d{1,${this.precision}}))?$`)
       }
       this.handleInputValue(val, reg)
     },
@@ -72,7 +76,8 @@ export default {
       if (reg) {
         // 输入类型为number类型,或者integer类型
         reg = new RegExp(reg)
-        if (reg.test(val)) {
+        const matches = val.match(reg)
+        if (matches) {
           this.$nextTick(() => {
             if (this.min && val < this.min) {
               // 如果传入min,且不为0时,并且val小于min时
@@ -87,7 +92,31 @@ export default {
           })
         } else {
           this.$nextTick(() => {
-            this.$emit('input', val.toString().slice(0, -1))
+            // 10位整数，及小数的正则表达式
+            reg = new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))\\.?(\\d{1,${this.precision}})?`)
+            // 10位整数的正则表达式
+            const intReg = new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))[.]?$`)
+            const matchesFloat = val.match(reg)
+            const matchesInt = val.match(intReg)
+            const numberReg = /^\d*$/
+            if (matchesFloat) {
+              // 整数，小数
+              if (numberReg.test(matchesFloat[0])) {
+                // 整数
+                if (matchesInt) {
+                  // 满足integerDigit
+                  this.$emit('input', matchesInt[0])
+                } else {
+                  // 不满足integerDigit
+                  this.$emit('input', matchesFloat[0].slice(0, -1))
+                }
+              } else {
+                // 含有小数点.
+                this.$emit('input', matchesFloat[0])
+              }
+            } else {
+              this.$emit('input', '')
+            }
           })
         }
       } else {
@@ -95,10 +124,6 @@ export default {
         this.$emit('input', val)
       }
     }
-    // handleInputChange(val) {
-    //   const reg = /^(([1-9]{1}\d{0,9})|(0{1}))(\.\d{1,2})?$/
-    //   this.handleInputValue(val, reg)
-    // }
   }
 }
 </script>
