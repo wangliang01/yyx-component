@@ -239,7 +239,7 @@ export default {
         render: (h, { row }) => {
           if (this.isEdit) {
             if (item.type === 'input') {
-              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!item.integer} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
+              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
             } else if (item.type === 'select') {
               return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}>
                 {item.options.map((option) => {
@@ -300,7 +300,11 @@ export default {
               }
               if (column.pattern) {
                 if (!new RegExp(column.pattern).test(item[key])) {
-                  reject(`第${index + 1}行的[${column.label}] 值格式不正确`)
+                  if (column.message) {
+                    reject(`第${index + 1}行的[${column.label}]${column.message}`)
+                  } else {
+                    reject(`第${index + 1}行的[${column.label}] 值格式不正确`)
+                  }
                 }
               }
               // 如果有最大值限制
