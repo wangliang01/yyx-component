@@ -511,9 +511,7 @@ export default {
       }
     },
     handleCreate() {
-      console.log(this.form)
       this.$refs.form.validate(valid => {
-        console.log(valid)
         if (valid) {
           console.log('立即创建', this.form)
         }
@@ -521,7 +519,6 @@ export default {
     },
     handleCancel() {
       this.form = this.createForm()
-      console.log('取消', this.form)
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {

@@ -91,12 +91,6 @@ export default {
     },
     total() {
       this.getPagination()
-    },
-    data: {
-      handler(val) {
-        console.log(val)
-      },
-      deep: true
     }
   },
   created() {

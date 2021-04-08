@@ -49,7 +49,6 @@ export default {
         this.res = await this.api()
       }
       // 显示打印内容
-      console.log('res', this.res)
       this.showPrintContent = true
       const isChrome = window.navigator.userAgent.includes('Chrome')
 

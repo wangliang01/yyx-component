@@ -239,7 +239,6 @@ export default {
         render: (h, { row }) => {
           if (this.isEdit) {
             if (item.type === 'input') {
-              console.log('input', !item.integer, !!item.integer)
               return <y-input v-model={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!item.integer} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
             } else if (item.type === 'select') {
               return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}>
@@ -251,15 +250,17 @@ export default {
                 })}
               </el-select>
             } else if (item.type === 'date-picker') {
+              this.tableData[row.index][item.prop] = (moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD'))
               return <el-date-picker
                 style={{ width: '95%', display: 'block' }}
                 v-model={this.tableData[row.index][item.prop]}
                 type='date'
                 size='small'
-                onChange={() => { this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') }}
+                onChange={() => { this.tableData[row.index][item.prop] = (moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD')) }}
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'date-picker-time') {
+              this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss')
               return <el-date-picker
                 style={{ width: '95%', display: 'block' }}
                 v-model={this.tableData[row.index][item.prop]}

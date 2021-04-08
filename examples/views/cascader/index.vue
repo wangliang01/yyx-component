@@ -47,7 +47,6 @@ export default {
   },
   methods: {
     getDataApi(params) {
-      console.log(params);
       let id = 0
       let level = 0
       return () => {
@@ -69,14 +68,10 @@ export default {
       }
     },
     handleChange(value, inputValue) {
-      console.log(this.value);
-      console.log("cascader", value, inputValue);
     },
     handleAddressChange(value) {
-      console.log("value", value);
     },
     handleInputValue(value, inputValue) {
-      console.log('inputValue', value, inputValue);
     }
   }
 }
