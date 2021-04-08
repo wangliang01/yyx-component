@@ -92,10 +92,10 @@ export default {
           })
         } else {
           this.$nextTick(() => {
-            // 10位整数，及小数的正则表达式
-            reg = new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))\\.?(\\d{1,${this.precision}})?`)
             // 10位整数的正则表达式
             const intReg = new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))[.]?$`)
+            // 10位整数，及小数的正则表达式
+            reg = new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))\\.?(\\d{1,${this.precision}})?`)
             const matchesFloat = val.match(reg)
             const matchesInt = val.match(intReg)
             const numberReg = /^\d*$/
@@ -104,15 +104,18 @@ export default {
               if (numberReg.test(matchesFloat[0])) {
                 // 整数
                 if (matchesInt) {
-                  // 满足integerDigit
                   this.$emit('input', matchesInt[0])
                 } else {
                   // 不满足integerDigit
                   this.$emit('input', matchesFloat[0].slice(0, -1))
                 }
               } else {
-                // 含有小数点.
-                this.$emit('input', matchesFloat[0])
+                if (this.number) {
+                  // 含有小数点.
+                  this.$emit('input', matchesFloat[0])
+                } else {
+                  this.$emit('input', matchesFloat[0].slice(0, -1))
+                }
               }
             } else {
               this.$emit('input', '')
