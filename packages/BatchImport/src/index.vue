@@ -298,7 +298,8 @@ export default {
                   reject(`第${index + 1}行[${column.label}] 值不能为空`)
                 }
               }
-              if (column.pattern) {
+              if (column.pattern && item[key]) {
+                // 如果有值，须满足规则
                 if (!new RegExp(column.pattern).test(item[key])) {
                   if (column.message) {
                     reject(`第${index + 1}行的[${column.label}]${column.message}`)
