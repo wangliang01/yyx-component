@@ -29,7 +29,7 @@ export default {
     },
     css: {
       type: String,
-      default: 'https://unpkg.com/element-ui/lib/theme-chalk/index.css'
+      default: ''
     },
     printStyle: {
       type: String,
@@ -40,11 +40,14 @@ export default {
     return {
       ref: Math.random().toString(36).replace('.', ''),
       res: {},
-      showPrintContent: false // 显示打印内容
+      showPrintContent: false, // 显示打印内容
+      isPrinting: false
     }
   },
   methods: {
     async handlePrint() {
+      if (this.isPrinting) return
+      this.isPrinting = true
       if (this.api instanceof Function) {
         this.res = await this.api()
       }
@@ -108,6 +111,7 @@ export default {
         setTimeout(() => {
           document.getElementsByTagName('body')[0].removeChild(printFrame)
           this.showPrintContent = false
+          this.isPrinting = false
         }, 1000)
       })
     }
