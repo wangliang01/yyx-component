@@ -68,7 +68,7 @@ export default {
           required: true
         },
         {
-          label: '计价单位',
+          label: '基础单位',
           prop: 'priceUnit',
           type: 'select',
           options: priceUnitOptions,
