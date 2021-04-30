@@ -4,6 +4,7 @@
     :clearable="$attrs.clearable || true"
     v-bind="$attrs"
     @input="handleInputEvent"
+    @blur="handleBlurEvent"
     v-on="$listeners"
   ></el-input>
 </template>
@@ -62,6 +63,20 @@ export default {
         this.precision = 2
       }
     },
+    handleBlurEvent() {
+      this.$nextTick(() => {
+        if (this.min && this.currentValue < this.min) {
+          // 如果传入min,且不为0时,并且val小于min时
+          this.$emit('input', this.min)
+        } else if (this.max && this.currentValue > this.max) {
+          // 如果传入max,,并且val大于min时
+          this.$emit('input', this.max)
+        } else {
+          // 没有min,或者max
+          this.$emit('input', this.currentValue)
+        }
+      })
+    },
     handleInputEvent(val) {
       let reg
       if (this.integer) {
@@ -78,18 +93,18 @@ export default {
         reg = new RegExp(reg)
         const matches = val.match(reg)
         if (matches) {
-          this.$nextTick(() => {
-            if (this.min && val < this.min) {
-              // 如果传入min,且不为0时,并且val小于min时
-              this.$emit('input', this.min)
-            } else if (this.max && val > this.max) {
-              // 如果传入max,,并且val大于min时
-              this.$emit('input', this.max)
-            } else {
-              // 没有min,或者max
-              this.$emit('input', val)
-            }
-          })
+          // this.$nextTick(() => {
+          //   if (this.min && val < this.min) {
+          //     // 如果传入min,且不为0时,并且val小于min时
+          //     this.$emit('input', this.min)
+          //   } else if (this.max && val > this.max) {
+          //     // 如果传入max,,并且val大于min时
+          //     this.$emit('input', this.max)
+          //   } else {
+          //     // 没有min,或者max
+          //     this.$emit('input', val)
+          //   }
+          // })
         } else {
           this.$nextTick(() => {
             // 10位整数的正则表达式
