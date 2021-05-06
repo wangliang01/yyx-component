@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.7.42",
+  "version": "1.7.43",
   "main": "lib/yui.common.js",
   "license": "MIT",
   "scripts": {
@@ -22,6 +22,7 @@
     ]
   },
   "dependencies": {
+    "bignumber.js": "^9.0.1",
     "core-js": "^3.6.5",
     "element-ui": "^2.14.1",
     "lodash": "^4.17.20",

@@ -9,6 +9,7 @@
   ></el-input>
 </template>
 <script>
+import { isLessThan } from '../../utils/bigNumber'
 export default {
   name: 'YInput',
   props: {
@@ -65,10 +66,10 @@ export default {
     },
     handleBlurEvent() {
       this.$nextTick(() => {
-        if (this.min && this.currentValue < this.min) {
+        if (this.min && isLessThan(this.currentValue, this.min)) {
           // 如果传入min,且不为0时,并且val小于min时
           this.$emit('input', this.min)
-        } else if (this.max && this.currentValue > this.max) {
+        } else if (this.max && isLessThan(this.max, this.currentValue)) {
           // 如果传入max,,并且val大于min时
           this.$emit('input', this.max)
         } else {
