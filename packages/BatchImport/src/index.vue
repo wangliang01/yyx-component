@@ -2,7 +2,7 @@
   <div class="batch-import">
     <!-- 按钮 -->
     <el-button
-      type="primary"
+      :type="$attrs.type"
       icon="el-icon-upload"
       @click="dialogVisible=true"
     >{{ btnText }}</el-button>

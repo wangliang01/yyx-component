@@ -1,18 +1,21 @@
 <template>
   <div class="table-pro">
-    <y-form
-      v-model="queryParams"
-      v-bind="$attrs"
-      :config="config"
-      :inline="true"
-      label-position="left"
-      :label-width="$attrs['label-width']"
-      v-on="$listeners"
-    >
-      <slot v-if="hasSearch" name="form">
-        <el-button @click="handleQuery">查询</el-button>
-      </slot>
-    </y-form>
+    <div class="y-form-wrapper">
+      <y-form
+        v-model="queryParams"
+        v-bind="$attrs"
+        :config="config"
+        :inline="true"
+        label-position="left"
+        :label-width="$attrs['label-width']"
+        v-on="$listeners"
+      >
+      </y-form>
+      <div v-if="hasSearch">
+        <el-divider class="y-divider"></el-divider>
+        <el-button @click="handleQuery" type="primary">查询</el-button>
+      </div>
+    </div>
     <slot name="botton"></slot>
     <el-card style="width: 100%; margin-top: 20px;">
       <y-table
