@@ -96,6 +96,10 @@ export default {
       type: Boolean,
       default: () => true
     },
+    isCompress: {
+      type: Boolean,
+      default: false
+    },
     // 图片的压缩宽度，根据该宽度和fixedNumber计算出高度，然后对图片进行压缩
     compressRatio: {
       type: Number,
@@ -171,7 +175,10 @@ export default {
       if (this.isCropper && !isPdf) {
         this.$refs.cropper.getCropBlob(async(data) => {
           let base64 = await this.blobToDataURL(data) // 转base64
-          base64 = await this.compress(base64) // 压缩
+          if (this.isCompress) {
+            // 如果要压缩图片
+            base64 = await this.compress(base64) // 压缩
+          }
           const blob = this.dataURLtoBlob(base64) // 转blob
           try {
             const formData = new FormData()
