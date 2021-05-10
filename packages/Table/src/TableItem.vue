@@ -4,7 +4,7 @@
     v-if="!col.render"
     v-bind="col"
     :column-key="col.columnKey || col['column-key']"
-    :min-width="col.minWidth || col['min-width']"
+    :min-width="col.minWidth || col['min-width'] || getMinWidth(columns)"
     :render-header="col.renderHeader || col['render-header']"
     :sort-method="col.sortMethod || col['sort-method']"
     :sort-by="col.sortBy || col['sort-by']"
@@ -26,7 +26,7 @@
         :key="idx"
         :col="item"
         :column-key="item.columnKey || item['column-key']"
-        :min-width="item.minWidth || item['min-width']"
+        :min-width="item.minWidth || item['min-width'] || getMinWidth(col.children)"
         :render-header="item.renderHeader || item['render-header']"
         :sort-method="item.sortMethod || item['sort-method']"
         :sort-by="item.sortBy || item['sort-by']"
@@ -48,7 +48,7 @@
     v-else-if="col.render"
     v-bind="col"
     :column-key="col.columnKey || col['column-key']"
-    :min-width="col.minWidth || col['min-width']"
+    :min-width="col.minWidth || col['min-width'] || getMinWidth(columns)"
     :render-header="col.renderHeader || col['render-header']"
     :sort-method="col.sortMethod || col['sort-method']"
     :sort-by="col.sortBy || col['sort-by']"
@@ -103,6 +103,12 @@ export default {
     }
   },
   props: {
+    columns: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
     col: {
       type: Object,
       default() {
@@ -112,6 +118,15 @@ export default {
     index: {
       type: [String, Number],
       default: ''
+    }
+  },
+  methods: {
+    getMinWidth(cols) {
+      if (Array.isArray(cols)) {
+        const len = cols.length
+        const minWidth = Math.random(100 / len)
+        return minWidth + '%'
+      }
     }
   }
 }

@@ -13,6 +13,7 @@
         v-for="(col, index) in columnAttrs"
         :key="index"
         :col="col"
+        :columns="columns"
       ></TableItem>
     </el-table>
     <el-pagination
