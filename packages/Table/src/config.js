@@ -50,7 +50,7 @@ export const defaultColumn = {
   'sort-orders': ['ascending', 'descending', null],
   resizable: true,
   formatter: null,
-  'show-overflow-tooltip': false,
+  'show-overflow-tooltip': true,
   align: 'left',
   'header-align': null,
   'class-name': null,
