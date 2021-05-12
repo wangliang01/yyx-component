@@ -120,7 +120,7 @@ export default {
           // Set the iframe to be is visible on the page (guaranteed by fixed position) but hidden using opacity 0, because
           // this works in Firefox. The height needs to be sufficient for some part of the document other than the PDF
           // viewer's toolbar to be visible in the page
-          printFrame.setAttribute('style', 'width: 1px; height: 100px; position: fixed; left: 0; top: 0; opacity: 0; border-width: 0; margin: 0; padding: 0')
+          printFrame.setAttribute('style', 'width: 1px; height: 100px; position: fixed; left: 0; top: 0; opacity: 0; margin: 0; padding: 0')
         } else {
           // Hide the iframe in other browsers
           printFrame.setAttribute('style', 'visibility: hidden; height: 0; width: 0; position: absolute; border: 0')
@@ -175,6 +175,12 @@ export default {
         printFrame.srcdoc = html
 
         Print.send(params, printFrame)
+
+        setTimeout(() => {
+          document.getElementsByTagName('body')[0].removeChild(printFrame)
+          this.showPrintContent = false
+          this.isPrinting = false
+        }, 1000)
       })
     }
   }
