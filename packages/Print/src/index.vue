@@ -140,14 +140,21 @@ export default {
                 padding: 0;
               }
               table {
-                border-collapse: collapse;
                 margin: 0 auto;
                 text-align: center;
                 border-color: #000 !important;
                 color: #000 !important;
+                border-spacing: 0;
+                border-collapse: ${Browser.isChrome() ? 'collapse' : 'unset'};
+                -moz-border-top: #000 2px solid;
+                -moz-border-right: #000 1px solid;
+                border: #000 1px solid;
+                
               }
               table td,
               table th {
+                -moz-border-left: #000 1px solid;
+	              -moz-border-bottom: #000 1px solid;
                 border: 1px solid #000;
                 color: #000 !important;
                 height: 30px;
