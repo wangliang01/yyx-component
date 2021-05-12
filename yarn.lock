@@ -6813,6 +6813,11 @@ pretty-error@^2.0.2:
     lodash "^4.17.20"
     renderkid "^2.0.4"
 
+print-js@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/print-js/-/print-js-1.6.0.tgz#692b046cf31992b46afa6c6d8a9db1c69d431d1f"
+  integrity sha512-BfnOIzSKbqGRtO4o0rnj/K3681BSd2QUrsIZy/+WdCIugjIswjmx3lDEZpXB2ruGf9d4b3YNINri81+J0FsBWg==
+
 printj@~1.1.0, printj@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npm.taobao.org/printj/download/printj-1.1.2.tgz#d90deb2975a8b9f600fb3a1c94e3f4c53c78a222"
@@ -8517,6 +8522,13 @@ vue-loader@^15.9.2:
     loader-utils "^1.1.0"
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
+
+vue-print-nb@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/vue-print-nb/-/vue-print-nb-1.6.3.tgz#8c214d313c12113c1024a88b692df3a8bae01464"
+  integrity sha512-zn1EcHiIGs93bSKKbWSHHTEP7IDHeIM64sxHjQyK3XLtANLEjQ8S7BuCFL0mP2j7BLua9qSRwmNiRJCB/fjKOA==
+  dependencies:
+    vue "^2.6.11"
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"

@@ -13,7 +13,7 @@
       </y-form>
       <div v-if="hasSearch">
         <el-divider class="y-divider"></el-divider>
-        <el-button @click="handleQuery" type="primary">查询</el-button>
+        <el-button type="primary" @click="handleQuery">查询</el-button>
       </div>
     </div>
     <slot name="botton"></slot>

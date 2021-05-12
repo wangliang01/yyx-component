@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.7.47",
+  "version": "1.7.48",
   "main": "lib/yui.common.js",
   "license": "MIT",
   "scripts": {
@@ -18,7 +18,7 @@
   "lint-staged": {
     "src/**/*.{js,json,css,vue}": [
       "eslint --ext .js,.vue packages examples --fix",
-      "git add"
+      "git add ."
     ]
   },
   "dependencies": {
@@ -27,8 +27,10 @@
     "element-ui": "^2.14.1",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
+    "print-js": "^1.6.0",
     "vue": "^2.6.11",
     "vue-cropper": "^0.5.6",
+    "vue-print-nb": "^1.6.3",
     "xlsx": "^0.16.9"
   },
   "devDependencies": {
