@@ -52,6 +52,7 @@
       </el-button-group>
 
       <y-table
+        class="mt-10"
         :max-height="312"
         :data="tableData"
         :columns="currentColumns"
@@ -79,7 +80,7 @@
 
 <script>
 import XLSX from 'xlsx'
-import { merge, find, isEmpty } from 'lodash'
+import { merge, find, isEmpty, cloneDeep } from 'lodash'
 import { Message } from 'element-ui'
 import moment from 'moment'
 // import Vue from 'vue'
@@ -282,6 +283,8 @@ export default {
   methods: {
     // 校验数据
     validate(data) {
+      // 校验之前，先把index加入到tableData
+      this.loadData()
       return new Promise((resolve, reject) => {
         data.forEach((item, index) => {
           Object.keys(item).forEach(key => {
@@ -359,7 +362,7 @@ export default {
       this.mergeTable()
       this.validate(this.dbData).then(valid => {
         if (valid) {
-          this.$emit('upload', this.dbData)
+          this.$emit('upload', cloneDeep(this.dbData))
         }
       }).catch(err => {
         this.$message.warning(err)
@@ -377,10 +380,8 @@ export default {
     mergeTable() {
       const { size, current } = this.queryParams
       const mergeData = this.tableData.map(item => {
-        return {
-          ...item,
-          index: undefined
-        }
+        delete item.index
+        return item
       })
       this.dbData.splice((current - 1) * size, size, ...mergeData)
     },
@@ -427,14 +428,17 @@ export default {
       })
       return res
     },
-    // 选择文件
-    httpRequest(e) {
+    initData() {
       this.tableData = []
       this.total = 0
       this.queryParams = {
         current: 1,
         size: 10
       }
+    },
+    // 选择文件
+    httpRequest(e) {
+      this.initData()
       const file = e.file // 文件信息
       if (!file) {
         // 没有文件
@@ -469,7 +473,8 @@ export default {
             message: e.message,
             type: 'error'
           })
-          console.log('出错了：：')
+          console.log('出错了', e.message)
+          this.initData()
           return false
         }
       }
