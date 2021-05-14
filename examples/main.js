@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import ELEMENT from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
 import './styles/common.scss'
 
 // 导入组件库
 import yui from '../packages'
 
 // 注册组件库
-Vue.use(ElementUI)
+Vue.use(ELEMENT)
 Vue.use(yui)
 Vue.config.productionTip = false
 

@@ -22,7 +22,9 @@ module.exports = {
       libraryExport: 'default'
     },
     externals: {
-      'vue-router': 'VueRouter'
+      'vue': 'Vue',
+      'vue-router': 'VueRouter',
+      'element-ui': 'ELEMENT'
     }
   }
 }
