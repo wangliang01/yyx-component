@@ -59,6 +59,7 @@
         :total="total"
         :reload="reloadData"
         :col-index="1"
+        @mouseleave="hadden"
       ></y-table>
 
       <span
@@ -241,7 +242,7 @@ export default {
             if (item.type === 'input') {
               return <y-input v-model={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
             } else if (item.type === 'select') {
-              return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}>
+              return <el-select ref='select' v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}>
                 {item.options.map((option) => {
                   return <el-option key={option.value}
                     label={option.label}
@@ -280,6 +281,10 @@ export default {
     })
   },
   methods: {
+    // 滑动隐藏下拉框
+    hadden() {
+      this.$refs.select.blur()
+    },
     // 校验数据
     validate(data) {
       return new Promise((resolve, reject) => {
