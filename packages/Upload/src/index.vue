@@ -13,6 +13,7 @@
         <vueCropper
           ref="cropper"
           style="width:100%;height:500px;"
+          :high="option.high"
           :img="option.img"
           :output-size="option.size"
           :output-type="option.outputType"
@@ -130,6 +131,7 @@ export default {
       return {
         img: this.img, // 裁剪图片的地址
         info: true, // 裁剪框的大小信息
+        high: true, // 是否根据dpr生成适合屏幕的高清图片
         outputSize: 0.8, // 裁剪生成图片的质量
         outputType: 'png', // 裁剪生成图片的格式
         canScale: true, // 图片是否允许滚轮缩放
@@ -140,7 +142,7 @@ export default {
         full: true, // 是否输出原图比例的截图
         canMoveBox: false, // 截图框能否拖动
         original: false, // 上传图片按照原始比例渲染
-        centerBox: false, // 截图框是否被限制在图片里面
+        centerBox: true, // 截图框是否被限制在图片里面
         infoTrue: false // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
       }
     }
