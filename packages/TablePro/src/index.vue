@@ -10,10 +10,19 @@
         :label-width="$attrs['label-width']"
         v-on="$listeners"
       >
+        <el-form-item v-if="hasSearch && formConfig.length <= 3">
+          <el-button
+            class="inline-button"
+            type="primary"
+            @click="handleQuery"
+          >查询</el-button>
+        </el-form-item>
       </y-form>
-      <div v-if="hasSearch">
-        <el-divider class="y-divider"></el-divider>
-        <el-button type="primary" @click="handleQuery">查询</el-button>
+      <div v-if="hasSearch && formConfig.length > 3">
+        <el-button
+          type="primary"
+          @click="handleQuery"
+        >查询</el-button>
       </div>
     </div>
     <slot name="botton"></slot>
@@ -59,7 +68,7 @@ export default {
     // 传递过来的查询参数
     params: {
       type: Object,
-      default: () => {}
+      default: () => { }
     }
   },
   data() {
@@ -73,6 +82,12 @@ export default {
       },
       config: {} // 渲染表单的数据
 
+    }
+  },
+  computed: {
+    formConfig() {
+      const filterColumns = filter(this.columns, column => column.filter)
+      return filterColumns
     }
   },
   watch: {
@@ -167,4 +182,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.inline-button {
+  position: relative;
+  left: -40px;
+}
 </style>
