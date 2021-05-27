@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.7.70",
+  "version": "1.7.72",
   "main": "lib/yui.common.js",
   "license": "MIT",
   "scripts": {

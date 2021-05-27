@@ -1,6 +1,6 @@
 <template>
   <div class="table-pro">
-    <div class="y-form-wrapper">
+    <div :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
       <y-form
         v-model="queryParams"
         v-bind="$attrs"
