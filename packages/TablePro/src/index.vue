@@ -12,7 +12,6 @@
       >
         <el-form-item v-if="hasSearch && formConfig.length <= 3">
           <el-button
-            class="inline-button"
             type="primary"
             @click="handleQuery"
           >查询</el-button>
@@ -182,8 +181,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.inline-button {
-  position: relative;
-  left: -40px;
-}
 </style>
