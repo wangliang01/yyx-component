@@ -42,6 +42,11 @@ export default {
       default: Infinity
     }
   },
+  data() {
+    return {
+      prevValue: this.value
+    }
+  },
   computed: {
     currentValue: {
       get() {
@@ -69,12 +74,15 @@ export default {
         if (this.min && isLessThan(this.currentValue, this.min)) {
           // 如果传入min,且不为0时,并且val小于min时
           this.$emit('input', this.min)
+          this.prevValue = this.min
         } else if (this.max && isLessThan(this.max, this.currentValue)) {
           // 如果传入max,,并且val大于min时
           this.$emit('input', this.max)
+          this.prevValue = this.max
         } else {
           // 没有min,或者max
           this.$emit('input', this.currentValue)
+          this.prevValue = this.currentValue
         }
       })
     },
@@ -121,16 +129,20 @@ export default {
                 // 整数
                 if (matchesInt) {
                   this.$emit('input', matchesInt[0])
+                  this.prevValue = matchesInt[0]
                 } else {
                   // 不满足integerDigit
-                  this.$emit('input', matchesFloat[0].slice(0, -1))
+                  // this.$emit('input', matchesFloat[0].slice(0, -1))
+                  this.$emit('input', this.prevValue)
                 }
               } else {
                 if (this.number) {
                   // 含有小数点.
                   this.$emit('input', matchesFloat[0])
+                  this.prevValue = matchesFloat[0]
                 } else {
-                  this.$emit('input', matchesFloat[0].slice(0, -1))
+                  // this.$emit('input', matchesFloat[0].slice(0, -1))
+                  this.$emit('input', this.prevValue)
                 }
               }
             } else {

@@ -6,7 +6,7 @@
       v-bind="tableAttrs"
       :data="data"
       :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
-      style="`width: ${width || '100%'}`"
+      :style="`width: ${width || '100%'}`"
       v-on="$listeners"
     >
       <TableItem
