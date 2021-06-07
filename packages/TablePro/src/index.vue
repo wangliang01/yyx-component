@@ -15,6 +15,7 @@
             type="primary"
             @click="handleQuery"
           >查询</el-button>
+          <slot name="botton"></slot>
         </el-form-item>
       </y-form>
       <div v-if="hasSearch && formConfig.length > 3">
@@ -22,9 +23,9 @@
           type="primary"
           @click="handleQuery"
         >查询</el-button>
+        <slot name="botton"></slot>
       </div>
     </div>
-    <slot name="botton"></slot>
     <el-card style="width: 100%; margin-top: 20px;">
       <y-table
         v-loading="loading"
