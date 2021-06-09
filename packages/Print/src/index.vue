@@ -184,9 +184,11 @@ export default {
         Print.send(params, printFrame)
 
         setTimeout(() => {
-          document.getElementsByTagName('body')[0].removeChild(printFrame)
-          this.showPrintContent = false
-          this.isPrinting = false
+          if (printFrame) {
+            document.getElementsByTagName('body')[0].removeChild(printFrame)
+            this.showPrintContent = false
+            this.isPrinting = false
+          }
         }, 1000)
       })
     }
