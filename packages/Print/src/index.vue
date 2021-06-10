@@ -185,7 +185,7 @@ export default {
 
         setTimeout(() => {
           if (printFrame) {
-            document.getElementsByTagName('body')[0].removeChild(printFrame)
+            printFrame.parentNode.removeChild(printFrame)
             this.showPrintContent = false
             this.isPrinting = false
           }
