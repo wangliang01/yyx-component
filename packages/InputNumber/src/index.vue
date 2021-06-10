@@ -43,4 +43,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-input-number {
+  width: 100%;
+}
 </style>

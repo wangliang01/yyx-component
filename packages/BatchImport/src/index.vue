@@ -18,6 +18,7 @@
       destroy-on-close
       width="92%"
       :before-close="handleBeforeClose"
+      @opened="handleOpen"
     >
       <el-upload
         class="upload"
@@ -52,6 +53,7 @@
       </el-button-group>
 
       <y-table
+        ref="table"
         class="mt-10"
         :max-height="312"
         :data="tableData"
@@ -60,7 +62,6 @@
         :total="total"
         :reload="reloadData"
         :col-index="1"
-        @mouseleave="hadden"
       ></y-table>
 
       <span
@@ -81,7 +82,7 @@
 
 <script>
 import XLSX from 'xlsx'
-import { merge, find, isEmpty, cloneDeep } from 'lodash'
+import { merge, find, isEmpty, cloneDeep, debounce } from 'lodash'
 import { Message } from 'element-ui'
 import moment from 'moment'
 // import Vue from 'vue'
@@ -213,7 +214,8 @@ export default {
         'next-text': '',
         disabled: false,
         'hide-on-single-page': false
-      }
+      },
+      zIndex: -1
 
     }
   },
@@ -243,7 +245,7 @@ export default {
             if (item.type === 'input') {
               return <y-input v-model={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
             } else if (item.type === 'select') {
-              return <el-select ref='select' v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}>
+              return <el-select v-model={this.tableData[row.index][item.prop]} size='small' ref='select' clearable rules={row.rules} >
                 {item.options.map((option) => {
                   return <el-option key={option.value}
                     label={option.label}
@@ -281,10 +283,33 @@ export default {
       }
     })
   },
+  mounted() {
+  },
   methods: {
-    // 滑动隐藏下拉框
-    hadden() {
-      this.$refs.select.blur()
+    handleOpen() {
+      const tableDom = this.$refs.table.$el
+      const tableBodyWrapper = tableDom.querySelector('.el-table__body-wrapper')
+      // 防抖处理
+      tableBodyWrapper.addEventListener('scroll', debounce(this.handleTableScroll))
+    },
+    handleTableScroll(e) {
+      const elPoppers = [...document.querySelectorAll('.el-select-dropdown.el-popper')]
+      elPoppers.forEach(popper => {
+        const zIndex = popper.style.zIndex
+        if (zIndex > 0) {
+          // 将zIndex临时保存起来
+          this.zIndex = zIndex
+        }
+        this.$nextTick(() => {
+          if (popper) {
+            if (e.target.scrollTop > 5) {
+              popper.style.zIndex = -1
+            } else {
+              popper.style.zIndex = this.zIndex
+            }
+          }
+        })
+      })
     },
     // 校验数据
     validate(data) {
