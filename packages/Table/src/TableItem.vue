@@ -9,11 +9,11 @@
     :sort-method="col.sortMethod || col['sort-method']"
     :sort-by="col.sortBy || col['sort-by']"
     :sort-orders="col.sortOrders || col['sort-orders']"
-    :show-overflow-tooltip="col.showOverflowTooltip || col['show-overflow-tooltip'] || false"
+    :show-overflow-tooltip="isEmpty(col.showOverflowTooltip) ? col['show-overflow-tooltip'] : col.showOverflowTooltip"
     :header-align="col.headerAlign || col['header-align']"
     :class-name="col.className || col['class-name']"
     :label-class-name="col.labelClassName || col['label-class-name']"
-    :reserve-selection="col.reserveSelection || col['reserve-selection'] || false"
+    :reserve-selection="isEmpty(col.reserveSelection) ? col['reserve-selection'] : col.reserveSelection"
     :filter-placement="col.filterPlacement || col['filter-placement']"
     :filter-multiple="col.filterMultiple || col['filter-multiple']"
     :filter-method="col.filterMethod || col['filter-method']"
@@ -31,11 +31,11 @@
         :sort-method="item.sortMethod || item['sort-method']"
         :sort-by="item.sortBy || item['sort-by']"
         :sort-orders="item.sortOrders || item['sort-orders']"
-        :show-overflow-tooltip="item.showOverflowTooltip || item['show-overflow-tooltip'] || false"
+        :show-overflow-tooltip="isEmpty(col.showOverflowTooltip) ? col['show-overflow-tooltip'] : col.showOverflowTooltip"
         :header-align="item.headerAlign || item['header-align']"
         :class-name="item.className || item['class-name']"
         :label-class-name="item.labelClassName || item['label-class-name']"
-        :reserve-selection="item.reserveSelection || item['reserve-selection'] || false"
+        :reserve-selection="isEmpty(col.reserveSelection) ? col['reserve-selection'] : col.reserveSelection"
         :filter-placement="item.filterPlacement || item['filter-placement']"
         :filter-multiple="item.filterMultiple || item['filter-multiple']"
         :filter-method="item.filterMethod || item['filter-method']"
@@ -53,11 +53,11 @@
     :sort-method="col.sortMethod || col['sort-method']"
     :sort-by="col.sortBy || col['sort-by']"
     :sort-orders="col.sortOrders || col['sort-orders']"
-    :show-overflow-tooltip="col.showOverflowTooltip || col['show-overflow-tooltip'] || false"
+    :show-overflow-tooltip="isEmpty(col.showOverflowTooltip) ? col['show-overflow-tooltip'] : col.showOverflowTooltip"
     :header-align="col.headerAlign || col['header-align']"
     :class-name="col.className || col['class-name']"
     :label-class-name="col.labelClassName || col['label-class-name']"
-    :reserve-selection="col.reserveSelection || col['reserve-selection'] || false"
+    :reserve-selection="isEmpty(col.reserveSelection) ? col['reserve-selection'] : col.reserveSelection"
     :filter-placement="col.filterPlacement || col['filter-placement']"
     :filter-multiple="col.filterMultiple || col['filter-multiple']"
     :filter-method="col.filterMethod || col['filter-method']"
@@ -121,6 +121,9 @@ export default {
     }
   },
   methods: {
+    isEmpty(value) {
+      return value === undefined || value === null
+    },
     getMinWidth(cols) {
       if (Array.isArray(cols)) {
         const len = cols.length

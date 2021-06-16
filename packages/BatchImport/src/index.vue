@@ -243,7 +243,7 @@ export default {
         render: (h, { row }) => {
           if (this.isEdit) {
             if (item.type === 'input') {
-              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
+              return <y-input v-model_trim={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
             } else if (item.type === 'select') {
               return <el-select v-model={this.tableData[row.index][item.prop]} size='small' ref='select' clearable rules={row.rules} >
                 {item.options.map((option) => {
@@ -274,7 +274,7 @@ export default {
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'input-number') {
-              return <YInputNumber v-model={this.tableData[row.index][item.prop]} min={item.min} max={item.max} size='small' clearable rules={row.rules}></YInputNumber>
+              return <YInputNumber v-model_trim={this.tableData[row.index][item.prop]} min={item.min} max={item.max} size='small' clearable rules={row.rules}></YInputNumber>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
