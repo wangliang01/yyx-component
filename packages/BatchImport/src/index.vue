@@ -449,7 +449,12 @@ export default {
             return col.label.trim().includes(key)
           })
           if (column) {
-            obj[column.prop] = item[key]
+            if (column.type === 'date-picker') {
+              const format = column.format || 'YYYY-MM-DD'
+              obj[column.prop] = moment(item[key]).format(format)
+            } else {
+              obj[column.prop] = item[key]
+            }
           } else {
             throw new TypeError('上传文件不正确，不符合模板格式，请检查后上传！')
           }

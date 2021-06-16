@@ -54,34 +54,48 @@ export default {
       ],
       columns: [
         {
-          label: '仓库ID',
+          label: '订单id（相同id默认为同一定订单）',
           prop: 'warehouseId',
           type: 'input',
           required: true
         },
         {
-          label: '商品ID',
-          prop: 'skuId',
+          label: '客户ID',
+          prop: 'customerId',
           type: 'input',
-          relationProp: 'customerId',
           required: true
         },
         {
-          label: '可用库存',
-          prop: 'stock',
+          label: 'SKUID',
+          prop: 'skuId',
           type: 'input-number',
           required: true
         },
         {
-          label: '商品价格',
+          label: '数量',
+          prop: 'count',
+          type: 'input-number',
+          required: true
+        },
+        {
+          label: '单价',
           prop: 'price',
           type: 'input-number',
           required: true
         },
         {
-          label: '生产日期',
+          label: '下单日期',
           prop: 'createTime',
           type: 'date-picker',
+          format: 'YYYY-MM-DD HH:mm:ss',
+          required: true,
+          pattern: /^[1-2][0-9][0-9][0-9][-\.\/][0-1]{0,1}[0-9][-\.\/][0-3]{0,1}[0-9]$/
+        },
+        {
+          label: '要求配送日期',
+          prop: 'deleverDate',
+          type: 'date-picker',
+          format: 'YYYY-MM-DD HH:mm:ss',
           required: true,
           pattern: /^[1-2][0-9][0-9][0-9][-\.\/][0-1]{0,1}[0-9][-\.\/][0-3]{0,1}[0-9]$/
         }
