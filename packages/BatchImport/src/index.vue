@@ -451,7 +451,7 @@ export default {
           if (column) {
             if (column.type === 'date-picker') {
               const format = column.format || 'YYYY-MM-DD'
-              obj[column.prop] = moment(item[key]).format(format)
+              obj[column.prop] = (moment(item[key]).format(format) === 'Invalid date' ? '' : moment(item[key]).format(format))
             } else {
               obj[column.prop] = item[key]
             }
