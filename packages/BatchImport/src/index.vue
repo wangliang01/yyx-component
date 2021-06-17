@@ -410,7 +410,7 @@ export default {
     mergeTable() {
       const { size, current } = this.queryParams
       const mergeData = this.tableData.map(item => {
-        delete item.index
+        // delete item.index
         return item
       })
       this.dbData.splice((current - 1) * size, size, ...mergeData)

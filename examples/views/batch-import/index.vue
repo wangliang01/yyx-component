@@ -107,6 +107,7 @@ export default {
   },
   methods: {
     upload(data) {
+      console.log('上传', data)
       this.uploadSuccess = true
       this.$nextTick(() => {
         this.uploadSuccess = false
