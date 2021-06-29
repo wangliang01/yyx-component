@@ -1,3 +1,5 @@
+import '../fonts/iconfont.css'
+
 // 导入Button组件
 import YButton from './Button'
 import YTable from './Table'

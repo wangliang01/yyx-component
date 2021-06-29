@@ -80,3 +80,22 @@ export const defaultPagination = {
   disabled: false,
   'hide-on-single-page': false
 }
+
+export const densityConfig = [
+  {
+    label: '默认',
+    value: ''
+  },
+  {
+    label: '中等',
+    value: 'medium'
+  },
+  {
+    label: '紧凑',
+    value: 'small'
+  },
+  {
+    label: '迷你',
+    value: 'mini'
+  }
+]

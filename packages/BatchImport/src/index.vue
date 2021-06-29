@@ -1,5 +1,5 @@
 <template>
-  <div class="batch-import" v-bind="$attrs" v-on="$listeners" >
+  <div class="batch-import" v-bind="$attrs" v-on="$listeners">
     <!-- 按钮 -->
     <el-button
       :type="$attrs.type"

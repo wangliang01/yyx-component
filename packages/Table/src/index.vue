@@ -1,12 +1,21 @@
 <template>
   <div class="base-table">
-    <slot name="default"></slot>
+    <div class="table-top">
+      <slot name="default" class="table-top-left"></slot>
+      <div class="table-top-right">
+        <slot name="table-top-right"></slot>
+        <Refresh v-if="utils.includes('refresh')" @refresh="handleRefresh"></Refresh>
+        <Density v-if="utils.includes('density')" :size="size" @resize="handleResize"></Density>
+        <Setting v-if="utils.includes('setting')" v-model="columns" :origin-columns="originColumns"></Setting>
+      </div>
+    </div>
     <el-table
       :key="key"
       v-bind="tableAttrs"
       :data="data"
       :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
       :style="`width: ${width || '100%'}`"
+      :size="size"
       v-on="$listeners"
     >
       <TableItem
@@ -27,11 +36,18 @@
 </template>
 <script>
 import { defaultTableAttrs, defaultColumn, defaultPagination } from './config'
+import { cloneDeep } from 'lodash'
 import TableItem from './TableItem'
+import Refresh from './Refresh.vue'
+import Density from './Density.vue'
+import Setting from './Setting.vue'
 export default {
   name: 'YTable',
   components: {
-    TableItem
+    TableItem,
+    Refresh,
+    Density,
+    Setting
   },
   props: {
     /**
@@ -72,6 +88,11 @@ export default {
       default() {
         return () => {}
       }
+    },
+    // utils
+    utils: {
+      type: Array,
+      default: () => ['refresh', 'density', 'setting']
     }
   },
   data() {
@@ -79,7 +100,9 @@ export default {
       key: Math.random().toString(32).replace('.', ''),
       tableAttrs: defaultTableAttrs, // 表格属性，同el-table上的属性
       columnAttrs: [], // 表格项属性， 同el-table-column上的属性
-      paginationAttrs: {} // 分页属性，同el-pagination上的属性
+      paginationAttrs: {}, // 分页属性，同el-pagination上的属性
+      size: 'mini',
+      originColumns: cloneDeep(this.columns)
     }
   },
   watch: {
@@ -92,6 +115,13 @@ export default {
     },
     total() {
       this.getPagination()
+    },
+    columns: {
+      handler() {
+        this.init()
+      },
+      deep: true,
+      immediate: false
     }
   },
   created() {
@@ -178,6 +208,18 @@ export default {
       if (typeof this.reload === 'function') {
         this.reload(this.paginationAttrs)
       }
+    },
+    handleResize({ size, close }) {
+      this.size = size
+      close && close()
+    },
+    handleRefresh() {
+      this.paginationAttrs = Object.assign({}, this.paginationAttrs, {
+        currentPage: 1
+      })
+      if (typeof this.reload === 'function') {
+        this.reload(this.paginationAttrs)
+      }
     }
   }
 }
@@ -185,5 +227,17 @@ export default {
 <style lang="scss" scoped>
 .base-table {
   overflow: auto;
+}
+.table-top{
+  display: flex;
+  justify-content: space-around;
+}
+.table-top-left{
+  flex: 1;
+  text-align: left;
+}
+.table-top-right{
+  flex: 1;
+  text-align: right;
 }
 </style>
