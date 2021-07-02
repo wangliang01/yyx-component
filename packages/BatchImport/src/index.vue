@@ -14,6 +14,7 @@
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
       modal-append-to-body
+      append-to-body
       lock-scroll
       destroy-on-close
       width="92%"
