@@ -1,5 +1,5 @@
 <template>
-  <div class="table-pro">
+  <div class="table-pro" :style="{background: uiStyle === 'antd' ? '#EFF3F6' : ''}">
     <!-- Element风格搜索框 -->
     <div v-if="uiStyle=== 'element'" ref="tableFilter" :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
       <y-form
@@ -49,6 +49,7 @@
         <el-button v-if="canShowExpandBtn" type="text" @click="handleToggle">{{ isExpand ? '收起' : '展开' }}<i :class="[isExpand ? 'el-icon-arrow-up' : 'el-icon-arrow-down']"></i> </el-button>
       </div>
     </div>
+    <!-- 表格 -->
     <div class="table-wrapper">
       <y-table
         v-loading="loading"
@@ -60,7 +61,12 @@
         v-bind="$attrs"
         v-on="$listeners"
       >
+        <!-- table左侧 -->
         <slot name="table"></slot>
+        <template slot="table-top-right">
+          <!-- table右侧 -->
+          <slot name="table-top-right"></slot>
+        </template>
       </y-table>
     </div>
   </div>

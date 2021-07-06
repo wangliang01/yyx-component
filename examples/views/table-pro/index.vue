@@ -5,8 +5,11 @@
       :columns="columns"
       ui-style="antd"
     >
-      <template slot="botton">
+      <template slot="table">
         <el-button type="primary">主要按钮</el-button>
+      </template>
+      <template slot="table-top-right">
+        <el-button>abc</el-button>
       </template>
     </y-table-pro>
     <h1>高级表格</h1>
