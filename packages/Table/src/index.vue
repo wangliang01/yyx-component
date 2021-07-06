@@ -4,9 +4,11 @@
       <slot name="default" class="table-top-left"></slot>
       <div class="table-top-right">
         <slot name="table-top-right"></slot>
-        <Refresh v-if="utils.includes('refresh')" @refresh="handleRefresh"></Refresh>
-        <Density v-if="utils.includes('density')" :size="size" @resize="handleResize"></Density>
-        <Setting v-if="utils.includes('setting')" v-model="columns" :origin-columns="originColumns"></Setting>
+        <div v-if="showUtilBar" class="utils-wrapper">
+          <Refresh v-if="utilConifg.includes('refresh')" @refresh="handleRefresh"></Refresh>
+          <Density v-if="utilConifg.includes('density')" :size="size" @resize="handleResize"></Density>
+          <Setting v-if="utilConifg.includes('setting')" v-model="columns" :origin-columns="originColumns"></Setting>
+        </div>
       </div>
     </div>
     <el-table
@@ -50,47 +52,44 @@ export default {
     Setting
   },
   props: {
-    /**
-     * data:  显示的数据， 等同于el-table中的data属性
-     */
+    /* data:  显示的数据， 等同于el-table中的data属性 */
     data: {
       type: Array,
       default() {
         return []
       }
     },
-    /**
-     * columns: 显示和表格项，数组里的每一项都是一个对象，对象中的属性与el-table-column中的属性一一对应
-     */
+    /* columns: 显示和表格项，数组里的每一项都是一个对象，对象中的属性与el-table-column中的属性一一对应 */
     columns: {
       type: Array,
       default() {
         return []
       }
     },
-    /**
-     * pagination: 分页属性：如果为Boolean为true,则取默认值，如果是对象，则merge默认值， 如果total有值，会覆盖pagination中的total属性
-     */
+    /* pagination: 分页属性：如果为Boolean为true,则取默认值，如果是对象，则merge默认值， 如果total有值，会覆盖pagination中的total属性 */
     pagination: {
       type: [Object, Boolean],
       default: false
     },
-    /**
-     * 分页总数，
-     */
+    /*  分页总数 */
     total: {
       type: Number,
       default: 0
     },
-    // 重新加载函数
+    /* 重新加载函数 */
     reload: {
       type: Function,
       default() {
         return () => {}
       }
     },
-    // utils
-    utils: {
+    /* 是否显示工具栏 */
+    showUtilBar: {
+      type: Boolean,
+      default: false
+    },
+    /* 工具栏配置项 */
+    utilConifg: {
       type: Array,
       default: () => ['refresh', 'density', 'setting']
     }

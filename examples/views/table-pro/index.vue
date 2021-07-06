@@ -284,8 +284,8 @@ export default {
         {
           label: 'ID',
           prop: 'id',
-          filter: true
-          // fieldType: 'Select'
+          filter: true,
+          fieldType: 'Select'
           // marginRight: '50px',
           // hidden: true
         },

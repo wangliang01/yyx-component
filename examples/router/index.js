@@ -64,6 +64,12 @@ const routes = [
         name: 'Print',
         component: () => import('../views/print'),
         meta: { title: '打印' }
+      },
+      {
+        path: '/tag',
+        name: 'Tag',
+        component: () => import('../views/tag'),
+        meta: { title: 'Tag标签' }
       }
     ]
   }
