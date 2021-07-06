@@ -3,10 +3,11 @@
     <y-table-pro
       :load-data-api="pagelist"
       :columns="columns"
+      ui-style="antd"
     >
-      <div slot="botton">
+      <template slot="botton">
         <el-button type="primary">主要按钮</el-button>
-      </div>
+      </template>
     </y-table-pro>
     <h1>高级表格</h1>
     <el-card>

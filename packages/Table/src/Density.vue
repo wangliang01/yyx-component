@@ -5,7 +5,7 @@
       <i
         slot="reference"
         ref="reference"
-        class="iconfont icon-yasuo"
+        class="iconfont icon-shoujinhang"
       >
       </i>
       <!-- 展示列表 -->
@@ -58,10 +58,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.icon-yasuo {
+.iconfont {
   margin: 0 10px;
-  font-size: 24px;
+  font-size: 16px;
   cursor: pointer;
+  color: #8C8C8C;
 }
 
 .el-popover {

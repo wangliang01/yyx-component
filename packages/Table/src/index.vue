@@ -16,7 +16,7 @@
       v-bind="tableAttrs"
       :data="data"
       :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
-      :style="`width: ${width || '100%'}`"
+      :style="`width: ${$attrs.width || '100%'}`"
       :size="size"
       v-on="$listeners"
     >

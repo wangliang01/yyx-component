@@ -1,7 +1,7 @@
 <template>
   <!-- 刷新按钮 -->
   <el-tooltip effect="dark" content="刷新" placement="top">
-    <i class="el-icon-refresh-right" @click="handleRefresh"></i>
+    <i class="iconfont icon-shuaxin" @click="handleRefresh"></i>
   </el-tooltip>
 </template>
 
@@ -32,10 +32,11 @@ export default {
 
 <style lang="scss" scoped>
 
-.el-icon-refresh-right{
+.iconfont{
   margin: 0 10px;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 16px;
+   color: #8C8C8C;
 }
 
 </style>

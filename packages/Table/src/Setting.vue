@@ -2,28 +2,46 @@
   <!-- 设置 -->
   <el-tooltip effect="dark" content="设置" placement="top">
     <el-popover placement="bottom" min-width="100" trigger="click">
-      <i slot="reference" class="el-icon-setting"></i>
+      <i slot="reference" class="iconfont icon-bianji"></i>
       <!-- 展示列表 -->
       <div class="list">
         <!-- 列表头 -->
         <div class="list-header">
-          <el-checkbox v-model="checkAll" :indeterminate="indeterminate" @change="handleCheckAllChange">列展示</el-checkbox>
+          <el-checkbox
+            v-model="checkAll"
+            :indeterminate="indeterminate"
+            @change="handleCheckAllChange"
+          >列展示</el-checkbox>
           <el-button type="text" @click="handleReset">重置</el-button>
         </div>
-        <Draggable v-model="settingConfig" draggable=".item" :group="{name: 'prop', pull: 'clone', put: false}" @start="drag=true" @end="handleDragEnd">
+        <Draggable
+          v-model="settingConfig"
+          draggable=".item"
+          :group="{ name: 'prop', pull: 'clone', put: false }"
+          @start="drag = true"
+          @end="handleDragEnd"
+        >
           <div
             v-for="(item, index) in settingConfig"
             :key="item.value"
             class="item"
             :class="{ active: activeIndex === index }"
           >
-            <el-checkbox v-model="item.checked" @change="handleCheckChange">{{ item.label }}</el-checkbox>
+            <el-checkbox v-model="item.checked" @change="handleCheckChange">{{
+              item.label
+            }}</el-checkbox>
             <div class="btn-wrapper">
               <el-tooltip effect="dark" content="固定在列首" placement="top">
-                <i class="icon el-icon-upload2" @click="handleFixedLeft(item)"></i>
+                <i
+                  class="icon el-icon-upload2"
+                  @click="handleFixedLeft(item)"
+                ></i>
               </el-tooltip>
               <el-tooltip effect="dark" content="固定在列尾" placement="top">
-                <i class="icon el-icon-download" @click="handleFixedRight(item)"></i>
+                <i
+                  class="icon el-icon-download"
+                  @click="handleFixedRight(item)"
+                ></i>
               </el-tooltip>
             </div>
           </div>
@@ -79,7 +97,7 @@ export default {
     },
     /* 重新刷新列表 */
     forceUpdate() {
-      const columns = this.settingConfig.filter(item => item.checked)
+      const columns = this.settingConfig.filter((item) => item.checked)
       this.$emit('column-change', cloneDeep(columns))
     },
     /* 拖拽结束 */
@@ -90,11 +108,11 @@ export default {
     },
     /* 是否全选 */
     isCheckAll() {
-      return this.settingConfig.every(item => item.checked)
+      return this.settingConfig.every((item) => item.checked)
     },
     /* 是否一个都不选 */
     isCheckNone() {
-      return this.settingConfig.every(item => !item.checked)
+      return this.settingConfig.every((item) => !item.checked)
     },
     /* 勾选变化时 */
     handleCheckChange() {
@@ -116,13 +134,17 @@ export default {
     },
     /* 设置初始columns */
     initConfig() {
-      this.settingConfig = this.originColumns.filter(item => item.label).map(item => {
-        const checked = this.columns.map(item => item.label).includes(item.label)
-        return {
-          ...item,
-          checked
-        }
-      })
+      this.settingConfig = this.originColumns
+        .filter((item) => item.label)
+        .map((item) => {
+          const checked = this.columns
+            .map((item) => item.label)
+            .includes(item.label)
+          return {
+            ...item,
+            checked
+          }
+        })
     },
     /* 重置 */
     handleReset() {
@@ -141,11 +163,11 @@ export default {
     setListCheckedStatus() {
       if (this.checkAll) {
         // 选中
-        this.settingConfig.forEach(item => {
+        this.settingConfig.forEach((item) => {
           this.$set(item, 'checked', true)
         })
       } else {
-        this.settingConfig.forEach(item => {
+        this.settingConfig.forEach((item) => {
           this.$set(item, 'checked', false)
         })
       }
@@ -157,12 +179,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-icon-setting{
-  margin: 0 10px;
-  font-size: 24px;
+.iconfont {
+  margin: 0 0 0 10px;
+  font-size: 16px;
   cursor: pointer;
+  color: #8c8c8c;
 }
-.list-header{
+.list-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -173,17 +196,17 @@ export default {
   justify-content: space-between;
   align-items: center;
   line-height: 24px;
-  &:hover .btn-wrapper{
+  &:hover .btn-wrapper {
     display: block;
   }
 }
-.btn-wrapper{
+.btn-wrapper {
   display: none;
   font-size: 16px;
 
-  .icon{
+  .icon {
     margin: 0 1px;
-    color: #409EFF;
+    color: #409eff;
     cursor: pointer;
   }
 }

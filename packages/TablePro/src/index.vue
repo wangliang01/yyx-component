@@ -1,6 +1,7 @@
 <template>
   <div class="table-pro">
-    <div :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
+    <!-- Element风格搜索框 -->
+    <div v-if="uiStyle=== 'element'" ref="tableFilter" :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
       <y-form
         v-model="queryParams"
         v-bind="$attrs"
@@ -26,12 +27,31 @@
         <slot name="botton"></slot>
       </div>
     </div>
-    <el-card style="width: 100%; margin-top: 20px;">
+    <!-- antd风格搜索框 -->
+    <div v-else-if="uiStyle=== 'antd'" ref="tableFilter" class="y-form-inline-wrapper antd-form-wrapper">
+      <y-form
+        v-model="queryParams"
+        v-bind="$attrs"
+        :config="config"
+        :inline="true"
+        label-position="left"
+        :label-suffix="$attrs.labelSuffix || ':'"
+        :label-width="$attrs['label-width']"
+        v-on="$listeners"
+      >
+      </y-form>
+      <div class="btn-wrapper">
+        <el-button @click="handleReset">重 置</el-button>
+        <el-button
+          type="primary"
+          @click="handleQuery"
+        >查 询</el-button>
+        <el-button v-if="canShowExpandBtn" type="text" @click="handleToggle">{{ isExpand ? '收起' : '展开' }}<i :class="[isExpand ? 'el-icon-arrow-up' : 'el-icon-arrow-down']"></i> </el-button>
+      </div>
+    </div>
+    <div class="table-wrapper">
       <y-table
         v-loading="loading"
-        element-loading-text="加载中"
-        element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.8)"
         :data="tableData"
         :columns="columns && columns.filter(column => !column.hidden)"
         pagination
@@ -42,7 +62,7 @@
       >
         <slot name="table"></slot>
       </y-table>
-    </el-card>
+    </div>
   </div>
 </template>
 
@@ -72,6 +92,11 @@ export default {
     params: {
       type: Object,
       default: () => { }
+    },
+    /* UI风格 */
+    uiStyle: {
+      type: String,
+      default: 'antd'
     }
   },
   data() {
@@ -83,7 +108,9 @@ export default {
         current: 1,
         size: 10
       },
-      config: {} // 渲染表单的数据
+      config: {}, // 渲染表单的数据
+      canShowExpandBtn: false, // 是否显示展开筛选条件按钮
+      isExpand: false
 
     }
   },
@@ -111,12 +138,54 @@ export default {
     this.queryDataByEnterKey()
     this.initConfig()
     this.loadData()
+    this.initTableFilter()
+    this.resizeTable()
   },
   activated() {
     this.initConfig()
     this.loadData()
   },
+  destroyed() {
+    window.removeEventListener('resize', this.initTableFilter)
+  },
   methods: {
+    /* 展开，收起 */
+    handleToggle() {
+      this.isExpand = !this.isExpand
+      const tableFilter = this.$refs.tableFilter
+      if (this.isExpand) {
+        // 展开
+        tableFilter.style.overflow = 'initial'
+        tableFilter.style.height = 'auto'
+      } else {
+        // 收起
+        tableFilter.style.overflow = 'hidden'
+        tableFilter.style.height = '62px'
+      }
+    },
+    initTableFilter() {
+      if (this.uiStyle === 'antd') {
+        // 如果是antd风格
+        const tableFilter = this.$refs.tableFilter
+        this.$nextTick(() => {
+          const elForm = tableFilter.querySelector('.el-form')
+          /* 记录筛选框的高度，默认一行的高度为62 */
+          const height = elForm.offsetHeight
+          if (height > 62) {
+            // 换行了
+            this.canShowExpandBtn = true
+            this.isExpand = false
+          } else {
+            this.canShowExpandBtn = false
+            this.isExpand = false
+          }
+        })
+      }
+    },
+    /* 当屏幕宽度发生变化时，重新绘制表格 */
+    resizeTable() {
+      window.addEventListener('resize', this.initTableFilter)
+    },
     // 通过点击enter键来查询数据
     queryDataByEnterKey() {
       window.addEventListener('keyup', (e) => {
@@ -159,6 +228,26 @@ export default {
 
       this.queryParams = merge(this.queryParams, this.params)
     },
+    /* 重置 */
+    handleReset() {
+      const { size } = this.queryParams
+      Object.keys(this.queryParams).forEach(param => {
+        switch (param) {
+          case 'current':
+            // 将当前页重置为1
+            this.queryParams[param] = 1
+            break
+          case 'size':
+            // 查询条数
+            this.queryParams[param] = size
+            break
+          default:
+            // 其他字段，全部清空
+            this.queryParams[param] = ''
+        }
+      })
+      this.loadData()
+    },
     /**
     * 【查询】
     */
@@ -185,4 +274,75 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.y-form-inline-wrapper{
+  position: relative;
+  height: 62px;
+  overflow: hidden;
+  border-radius: 2px;
+  &.antd-form-wrapper{
+    padding: 20px 16px 0;
+    background-color: #fff;
+  }
+  ::v-deep .el-form {
+    margin-right: 300px;
+    .el-form-item {
+      margin-right: 74px;
+    }
+    .el-form-item .el-input {
+      width: 280px !important;
+    }
+    .el-form-item .el-select {
+      width: 280px !important;
+    }
+  }
+  .btn-wrapper{
+    position: absolute;
+    bottom: 22px;
+    right: 16px;
+  }
+}
+.table-wrapper{
+  padding: 16px;
+  margin-top: 16px;
+  background-color: #fff;
+  border-radius: 2px;
+}
+// 分页
+::v-deep .el-pagination {
+  .btn-prev, .btn-next, .el-pager .number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: #FFFFFF;
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 0;
+    margin-right: 8px;
+  }
+  span:not([class*=suffix]) {
+    height: 32px;
+    line-height: 32px;
+  }
+  .el-input--mini .el-input__inner{
+    height: 32px;
+    line-height: 32px;
+  }
+  .el-pagination__editor, .el-pagination__editor.el-input .el-input__inner{
+    height: 32px;
+    line-height: 32px;
+  }
+  .el-pager {
+    .number {
+      &.active {
+
+      }
+    }
+  }
+  .btn-next {
+
+  }
+}
+
 </style>
