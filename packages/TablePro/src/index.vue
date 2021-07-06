@@ -102,7 +102,7 @@ export default {
     /* UI风格 */
     uiStyle: {
       type: String,
-      default: 'antd'
+      default: 'element'
     }
   },
   data() {
@@ -295,10 +295,10 @@ export default {
       margin-right: 74px;
     }
     .el-form-item .el-input {
-      width: 280px !important;
+      width: 280px;
     }
     .el-form-item .el-select {
-      width: 280px !important;
+      width: 280px;
     }
   }
   .btn-wrapper{

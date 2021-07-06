@@ -7,6 +7,7 @@
     >
       <template slot="table">
         <el-button type="primary">主要按钮</el-button>
+        <el-button type="primary">主要按钮2</el-button>
       </template>
       <template slot="table-top-right">
         <el-button>abc</el-button>
@@ -298,14 +299,16 @@ export default {
           prop: 'name',
           fieldType: 'Input',
           filter: true,
-          marginRight: '50px'
+          marginRight: '50px',
+          width: '280px'
         },
         {
           label: '年龄',
           prop: 'age',
           fieldType: 'Input',
           filter: true,
-          marginRight: '50px'
+          marginRight: '50px',
+          width: '280px'
         }
       ],
       treeTableData: [{
