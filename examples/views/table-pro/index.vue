@@ -4,6 +4,7 @@
       :load-data-api="pagelist"
       :columns="columns"
       ui-style="antd"
+      show-util-bar
     >
       <template slot="table">
         <el-button type="primary">主要按钮</el-button>

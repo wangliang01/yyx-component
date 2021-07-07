@@ -15,12 +15,13 @@ import YInput from './Input'
 import YTreeOrg from './TreeOrg'
 import YPrint from './Print'
 import Tag from './Tag'
+import Dialog from './Dialog'
 
 const { YCategoryCascader, YAddressCascader, YCascader } = Cascader
 const { YUpload, YAvatar } = Upload
 
 // 组件列表
-const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag]
+const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog]
 
 // 定义install方法，接收Vue作为参数，通过Vue.use()的方式注册组件
 const install = Vue => {
@@ -55,5 +56,6 @@ export default {
   YTreeOrg,
   YPrint,
   YAvatar,
-  Tag
+  Tag,
+  Dialog
 }

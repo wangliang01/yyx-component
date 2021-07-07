@@ -116,7 +116,8 @@ export default {
       },
       config: {}, // 渲染表单的数据
       canShowExpandBtn: false, // 是否显示展开筛选条件按钮
-      isExpand: false
+      isExpand: false,
+      overflowHeight: 0
 
     }
   },
@@ -166,7 +167,7 @@ export default {
       } else {
         // 收起
         tableFilter.style.overflow = 'hidden'
-        tableFilter.style.height = '62px'
+        tableFilter.style.height = `${this.overflowHeight}px`
       }
     },
     initTableFilter() {
@@ -175,12 +176,20 @@ export default {
         const tableFilter = this.$refs.tableFilter
         this.$nextTick(() => {
           const elForm = tableFilter.querySelector('.el-form')
-          /* 记录筛选框的高度，默认一行的高度为62 */
+          /* 记录筛选框的高度，默认一行的高度 */
           const height = elForm.offsetHeight
-          if (height > 62) {
+
+          const elFormItem = tableFilter.querySelector('.el-form-item')
+          let { height: formItemHeight, marginBottom } = getComputedStyle(elFormItem)
+          formItemHeight = parseFloat(formItemHeight.replace('px', ''))
+          marginBottom = parseFloat(marginBottom.replace('px', ''))
+          this.overflowHeight = formItemHeight + marginBottom
+          if (height > this.overflowHeight) {
             // 换行了
             this.canShowExpandBtn = true
             this.isExpand = false
+            tableFilter.style.overflow = 'hidden'
+            tableFilter.style.height = `${this.overflowHeight}px`
           } else {
             this.canShowExpandBtn = false
             this.isExpand = false
@@ -282,7 +291,6 @@ export default {
 <style lang="scss" scoped>
 .y-form-inline-wrapper{
   position: relative;
-  height: 62px;
   overflow: hidden;
   border-radius: 2px;
   &.antd-form-wrapper{

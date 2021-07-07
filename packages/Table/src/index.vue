@@ -237,6 +237,11 @@ export default {
 }
 .table-top-right{
   flex: 1;
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.utils-wrapper {
+  margin-left: 18px;
 }
 </style>
