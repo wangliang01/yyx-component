@@ -4,6 +4,7 @@
       :load-data-api="pagelist"
       :columns="columns"
       ui-style="antd"
+      :params="{id: '1234'}"
       show-util-bar
     >
       <template slot="table">
@@ -92,14 +93,14 @@
       <p>表头支持自定义。</p>
     </el-card>
 
-    <el-card class="mt-20">
+    <!-- <el-card class="mt-20">
       <h2>带过滤条件的表格</h2>
       <y-table-pro
         :load-data-api="pagelist"
         :columns="columns"
         label-width="60px"
       ></y-table-pro>
-    </el-card>
+    </el-card> -->
   </div>
 </template>
 
@@ -291,7 +292,8 @@ export default {
           label: 'ID',
           prop: 'id',
           filter: true,
-          fieldType: 'Select'
+          fieldType: 'Input'
+
           // marginRight: '50px',
           // hidden: true
         },

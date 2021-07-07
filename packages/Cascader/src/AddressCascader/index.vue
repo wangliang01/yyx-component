@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import { getAddressMap } from './address'
+import addressOptions from './address'
 export default {
   name: 'YAddressCascader',
   props: {
@@ -18,7 +18,7 @@ export default {
     return {
       currentValue: this.value,
       ref: `category_cascader_${Date.now()}`,
-      options: []
+      options: addressOptions
     }
   },
   watch: {
@@ -33,9 +33,6 @@ export default {
       deep: true,
       immediate: true
     }
-  },
-  mounted() {
-    this.options = getAddressMap()
   },
   methods: {
     handleValueChange(value) {

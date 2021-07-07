@@ -3,6 +3,7 @@
     <!-- Element风格搜索框 -->
     <div v-if="uiStyle=== 'element'" ref="tableFilter" :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
       <y-form
+        :key="key"
         v-model="queryParams"
         v-bind="$attrs"
         :config="config"
@@ -30,6 +31,7 @@
     <!-- antd风格搜索框 -->
     <div v-else-if="uiStyle=== 'antd'" ref="tableFilter" class="y-form-inline-wrapper antd-form-wrapper">
       <y-form
+        :key="key"
         v-model="queryParams"
         v-bind="$attrs"
         :config="config"
@@ -73,7 +75,7 @@
 </template>
 
 <script>
-import { filter, merge, cloneDeep } from 'lodash'
+import { filter, cloneDeep } from 'lodash'
 export default {
   name: 'YTablePro',
   props: {
@@ -107,6 +109,7 @@ export default {
   },
   data() {
     return {
+      key: Math.random().toString(32).replace('.', ''),
       tableData: [],
       total: 0,
       loading: false,
@@ -136,7 +139,8 @@ export default {
     },
     params: {
       handler(val) {
-        this.queryParams = merge(this.queryParams, val)
+        // this.queryParams = merge(this.queryParams, val)
+        this.queryParams = { ...this.queryParams, ...val }
       },
       deep: true
     }
@@ -179,10 +183,14 @@ export default {
           /* 记录筛选框的高度，默认一行的高度 */
           const height = elForm.offsetHeight
 
+          const formWrapper = document.querySelector('.antd-form-wrapper')
+
           const elFormItem = tableFilter.querySelector('.el-form-item')
           let { height: formItemHeight, marginBottom } = getComputedStyle(elFormItem)
           formItemHeight = parseFloat(formItemHeight.replace('px', ''))
+          /* 修复Table筛选条件不对齐的问题 */
           marginBottom = parseFloat(marginBottom.replace('px', ''))
+          formWrapper.style.paddingTop = marginBottom + 'px'
           this.overflowHeight = formItemHeight + marginBottom
           if (height > this.overflowHeight) {
             // 换行了
@@ -241,7 +249,8 @@ export default {
         this.queryParams[key] = ''
       })
 
-      this.queryParams = merge(this.queryParams, this.params)
+      // this.queryParams = merge(this.queryParams, this.params)
+      this.queryParams = { ...this.queryParams, ...this.params }
     },
     /* 重置 */
     handleReset() {
@@ -268,7 +277,8 @@ export default {
     */
     handleQuery() {
       // 查询时，重置current为1
-      this.queryParams = merge(this.queryParams, { current: 1 })
+      // this.queryParams = merge(this.queryParams, { current: 1 })
+      this.queryParams = { ...this.queryParams, current: 1 }
       this.loadData()
     },
     /**
@@ -277,10 +287,12 @@ export default {
     reloadData({ pageSize: size, currentPage, type }) {
       if (type === 'size-change') {
         // 分页条数变更，需要重置current为1
-        this.queryParams = merge(this.queryParams, { size, current: 1 })
+        // this.queryParams = merge(this.queryParams, { size, current: 1 })
+        this.queryParams = { ...this.queryParams, size, current: 1 }
       } else {
         // 页码变更时
-        this.queryParams = merge(this.queryParams, { current: currentPage })
+        // this.queryParams = merge(this.queryParams, { current: currentPage })
+        this.queryParams = { ...this.queryParams, current: currentPage }
       }
       this.loadData()
     }
@@ -294,7 +306,7 @@ export default {
   overflow: hidden;
   border-radius: 2px;
   &.antd-form-wrapper{
-    padding: 20px 16px 0;
+    padding: 0 16px 0;
     background-color: #fff;
   }
   ::v-deep .el-form {

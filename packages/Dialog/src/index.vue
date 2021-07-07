@@ -3,9 +3,11 @@
     <!-- Dialog标题区的内容 -->
     <slot name="title"></slot>
     <!-- Dialog的内容 -->
-    <slot></slot>
+    <slot class=""></slot>
     <!-- Dialog按钮操作区的内容 -->
-    <slot name="footer"></slot>
+    <div slot="footer">
+      <slot name="footer"></slot>
+    </div>
   </el-dialog>
 </template>
 
@@ -16,5 +18,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+::v-deep .el-dialog__headerbtn .el-dialog__close{
+  font-size: 24px;
+}
 </style>

@@ -30,3 +30,13 @@ html, body, ul, li {
   line-height: 24px;
 }
 
+.el-image-viewer__btn.el-image-viewer__close {
+  .el-icon-close {
+    color: #fff;
+    background: #606266;
+    border-radius: 50%;
+    font-size: 24px;
+    padding: 8px;
+  }
+}
+

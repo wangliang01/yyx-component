@@ -4,9 +4,11 @@
       <i class="el-icon-plus"></i>
     </el-upload>
 
-    <el-dialog :append-to-body="true" :visible.sync="dialogVisible">
+    <!-- <el-dialog :append-to-body="true" :visible.sync="dialogVisible">
       <img style="width:100%" :src="dialogImageUrl" alt="">
-    </el-dialog>
+    </el-dialog> -->
+    <!-- 预览大图 -->
+    <y-image-viewer :visible.sync="dialogVisible" :url-list="[dialogImageUrl]"></y-image-viewer>
 
     <el-dialog :append-to-body="true" :visible.sync="modalImg" title="操作图片">
       <div class="cropper">
@@ -41,6 +43,7 @@
   </div>
 </template>
 <script>
+
 import { VueCropper } from 'vue-cropper'
 
 const defaultAPI = function(params) {

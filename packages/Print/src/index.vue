@@ -114,8 +114,6 @@ export default {
 
         params.printableElement = cloneElement(printElement, params)
 
-        console.log('printableElement', params.printableElement)
-
         if (Browser.isFirefox()) {
           // Set the iframe to be is visible on the page (guaranteed by fixed position) but hidden using opacity 0, because
           // this works in Firefox. The height needs to be sufficient for some part of the document other than the PDF

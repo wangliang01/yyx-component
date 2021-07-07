@@ -1,6 +1,5 @@
 <template>
   <div>
-    112312
     <el-radio-group v-model="direction">
       <el-radio label="ltr">从左往右开</el-radio>
       <el-radio label="rtl">从右往左开</el-radio>

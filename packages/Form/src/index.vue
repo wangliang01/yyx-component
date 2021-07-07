@@ -72,8 +72,7 @@ export default {
   },
   data() {
     return {
-      formData: { ...this.value },
-      currentValue: ''
+      formData: { ...this.value }
     }
   },
   watch: {
