@@ -22,3 +22,11 @@ html, body, ul, li {
   text-align: right;
 }
 
+.el-dialog__wrapper .el-dialog__title, .el-drawer__wrapper #el-drawer__title {
+  font-size: 18px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #262626;
+  line-height: 24px;
+}
+

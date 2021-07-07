@@ -70,6 +70,18 @@ const routes = [
         name: 'Tag',
         component: () => import('../views/tag'),
         meta: { title: 'Tag标签' }
+      },
+      {
+        path: '/dialog',
+        name: 'Dialog',
+        component: () => import('../views/dialog'),
+        meta: { title: 'Dialog弹出框' }
+      },
+      {
+        path: '/drawer',
+        name: 'Drawer',
+        component: () => import('../views/drawer'),
+        meta: { title: 'Drawer抽屉' }
       }
     ]
   }
