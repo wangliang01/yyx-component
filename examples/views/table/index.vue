@@ -7,6 +7,7 @@
       <y-table
         :data="tableData"
         :columns="columns"
+        show-util-bar
       ></y-table>
     </el-card>
     <el-card class="mt-20">
@@ -140,6 +141,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: '',
   components: {
@@ -202,7 +204,13 @@ export default {
       columns: [
         {
           prop: 'date',
-          label: '日期'
+          label: '日期',
+          // formatter(row) {
+          //   return moment(row.date).format('YYYY/MM/DD')
+          // },
+          render(h, { row }) {
+            return <span>{moment(row.date).format('YYYY/MM/DD')}</span>
+          }
         },
         {
           prop: 'name',

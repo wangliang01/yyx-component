@@ -81,8 +81,14 @@ export default {
       indeterminate: false
     }
   },
-  mounted() {
-    this.initConfig()
+  watch: {
+    columns: {
+      handler() {
+        this.initConfig()
+      },
+      deep: true,
+      immediate: true
+    }
   },
   methods: {
     /* 固定到左侧 */
@@ -150,12 +156,15 @@ export default {
     handleReset() {
       this.checkAll = true
       this.indeterminate = false
-      this.columns = cloneDeep(this.originColumns)
-      this.initConfig()
+      const columns = cloneDeep(this.originColumns)
+      this.$emit('column-change', cloneDeep(columns))
     },
     /* 全选状态变化时 */
     handleCheckAllChange(checkAll) {
       this.checkAll = checkAll
+      if (checkAll) {
+        this.indeterminate = false
+      }
       // 设置列表的勾选状态
       this.setListCheckedStatus()
     },
