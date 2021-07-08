@@ -25,6 +25,7 @@
     ]
   },
   "dependencies": {
+    "async-validator": "1.11.5",
     "bignumber.js": "^9.0.1",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.1",

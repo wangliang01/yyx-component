@@ -14,7 +14,7 @@ module.exports = {
       },
       {
         text: '组件',
-        link: '/components/'
+        link: '/components/quickstart'
       },
       {
         text: '主题',
@@ -40,7 +40,33 @@ module.exports = {
           collapsable: false,
           sidebarDepth: 1
         }
-        
+      ],
+      // 组件
+      '/components/': [
+        {
+          title: '更新日志',
+          path: 'changelog',
+          collapsable: false,
+          sidebarDepth: 1,
+        },
+        {
+          title: '安装',
+          path: 'installation',
+          collapsable: false,
+          sidebarDepth: 1,
+        },
+        {
+          title: '快速上手',
+          path: 'quickstart',
+          collapsable: false,
+          sidebarDepth: 1,
+        },
+        {
+          title: '组件',
+          path: 'button',
+          collapsable: false,
+          sidebarDepth: 1,
+        }
       ]
     }
   }

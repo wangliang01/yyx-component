@@ -1,4 +1,5 @@
 import '../fonts/iconfont.css'
+import '../styles/index.scss'
 
 // 导入Button组件
 import YButton from './Button'
