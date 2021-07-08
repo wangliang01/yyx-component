@@ -92,7 +92,7 @@ export default {
           .toString(35)
           .replace('.', '')
         const params = {
-          row: { ...ctx.props.row },
+          row: ctx.props.row,
           colIndex: ctx.props.colIndex || randomIndex
         }
         if (ctx.props.col) {
