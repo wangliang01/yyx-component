@@ -1,5 +1,5 @@
 <template>
-  <el-drawer v-bind="$attrs" :direction="$attrs.direction === undefined ? 'rtl' : $attrs.direction" v-on="$listeners">
+  <el-drawer v-bind="$attrs" :direction="$attrs.direction === undefined ? 'rtl' : $attrs.direction" :wrapper-closable="($attrs.wrapperClosable || $attrs['wrapper-closable']) === undefined ? false : ($attrs.wrapperClosable || $attrs['wrapper-closable'])" :append-to-body="$attrs['append-to-body'] === undefined ? true : $attrs['append-to-body']" :destroy-on-close="$attrs['destroy-on-close'] === undefined ? true : $attrs['destroy-on-close']" v-on="$listeners">
     <!-- Drawer标题区的内容 -->
     <slot name="title"></slot>
     <!-- Drawer的内容 -->

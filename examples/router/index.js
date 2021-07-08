@@ -88,6 +88,12 @@ const routes = [
         name: 'ImageViewer',
         component: () => import('../views/image-viewer'),
         meta: { title: 'ImageViewer图片预览' }
+      },
+      {
+        path: '/question',
+        name: 'Question',
+        component: () => import('../views/question'),
+        meta: { title: 'Question问号' }
       }
     ]
   }
