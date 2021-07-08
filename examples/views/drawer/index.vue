@@ -16,6 +16,7 @@
       :visible.sync="drawer"
       :direction="direction"
       :before-close="handleClose"
+      @cancel="handleCancel"
     >
       <span>我来啦!</span>
     </y-drawer>
@@ -31,6 +32,9 @@ export default {
     }
   },
   methods: {
+    handleCancel(done) {
+      done()
+    },
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {

@@ -1,3 +1,4 @@
+
 # 设计原则
 
 ## 一致性 Consistency

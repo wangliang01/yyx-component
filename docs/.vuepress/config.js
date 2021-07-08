@@ -10,7 +10,7 @@ module.exports = {
       },
       {
         text: '指南',
-        link: '/guide/'
+        link: '/guide/design'
       },
       {
         text: '组件',
@@ -24,6 +24,24 @@ module.exports = {
         text: '资源',
         link: '/resource/'
       }
-    ]
+    ],
+    sidebar: {
+      // 指南
+      '/guide/': [
+        {
+          title: '设计规范',
+          path: 'design',
+          collapsable: false,
+          sidebarDepth: 1
+        },
+        {
+          title: '导航',
+          path: 'nav',
+          collapsable: false,
+          sidebarDepth: 1
+        }
+        
+      ]
+    }
   }
 }
