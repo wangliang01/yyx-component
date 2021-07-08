@@ -2,14 +2,14 @@
   <div class="table-pro">
     <y-table-pro
       :load-data-api="pagelist"
-      :columns="columns"
+      :columns="showColumns"
       ui-style="antd"
       :params="{id: '1234'}"
       show-util-bar
     >
       <template slot="table">
-        <el-button type="primary">主要按钮</el-button>
-        <el-button type="primary">主要按钮2</el-button>
+        <el-button type="primary" @click="setColumn('columns')">展示column</el-button>
+        <el-button type="primary" @click="setColumn('columns2')">展示column2</el-button>
       </template>
       <template slot="table-top-right">
         <el-button>abc</el-button>
@@ -314,6 +314,24 @@ export default {
           width: '280px'
         }
       ],
+      columns2: [
+        {
+          label: '姓名',
+          prop: 'name',
+          fieldType: 'Input',
+          filter: true,
+          marginRight: '50px',
+          width: '280px'
+        },
+        {
+          label: '年龄',
+          prop: 'age',
+          fieldType: 'Input',
+          filter: true,
+          marginRight: '50px',
+          width: '280px'
+        }
+      ],
       treeTableData: [{
         id: 1,
         date: '2016-05-02',
@@ -386,13 +404,18 @@ export default {
           label: '地址',
           prop: 'address'
         }
-      ]
+      ],
+      showColumns: []
     }
   },
   mounted() {
-
+    this.showColumns = this.columns
   },
   methods: {
+    setColumn(field) {
+      console.log('field', field, this[field])
+      this.showColumns = this[field]
+    },
     pagelist() {},
     handleEdit(row) { },
     handleDelete(row) { },

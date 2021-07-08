@@ -1,9 +1,11 @@
 {
   "name": "yyx-component",
-  "version": "1.8.18",
+  "version": "1.8.19",
   "main": "lib/yui.common.js",
   "license": "MIT",
   "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build:es": "node build/build-component.js",
@@ -28,7 +30,7 @@
     "element-ui": "^2.15.1",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
-    "vue": "^2.6.12",
+    "vue": "^2.6.14",
     "vue-cropper": "^0.5.6",
     "vuedraggable": "^2.24.3",
     "xlsx": "^0.16.9"
@@ -54,6 +56,7 @@
     "prettier": "^2.2.1",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "vuepress": "^1.8.2"
   }
 }

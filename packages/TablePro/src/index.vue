@@ -63,12 +63,14 @@
         v-bind="$attrs"
         v-on="$listeners"
       >
-        <!-- table左侧 -->
-        <slot name="table"></slot>
-        <template slot="table-top-right">
-          <!-- table右侧 -->
-          <slot name="table-top-right"></slot>
-        </template>
+        <div class="table-top">
+          <!-- table左侧 -->
+          <slot name="table"></slot>
+          <template slot="table-top-right">
+            <!-- table右侧 -->
+            <slot name="table-top-right"></slot>
+          </template>
+        </div>
       </y-table>
     </div>
   </div>
@@ -186,11 +188,15 @@ export default {
           const formWrapper = document.querySelector('.antd-form-wrapper')
 
           const elFormItem = tableFilter.querySelector('.el-form-item')
+
+          const btnWrapper = formWrapper.querySelector('.btn-wrapper')
+          console.log('btnWrapper', btnWrapper)
           let { height: formItemHeight, marginBottom } = getComputedStyle(elFormItem)
           formItemHeight = parseFloat(formItemHeight.replace('px', ''))
           /* 修复Table筛选条件不对齐的问题 */
           marginBottom = parseFloat(marginBottom.replace('px', ''))
           formWrapper.style.paddingTop = marginBottom + 'px'
+          btnWrapper.style.bottom = marginBottom + 'px'
           this.overflowHeight = formItemHeight + marginBottom
           if (height > this.overflowHeight) {
             // 换行了
@@ -238,12 +244,14 @@ export default {
       }
     },
     initConfig() {
+      // 先清空config
+      this.config = {}
       // 生成表格列数据
       const filterColumns = filter(this.columns, column => column.filter)
       filterColumns.forEach(column => {
         const key = column.prop
         // 生成表单的数据
-        this.$set(this.config, key, { ...column, clearable: true, hidden: false })
+        this.$set(this.config, key, { ...column, clearable: true, hidden: false, width: '280px' })
 
         // 生成查询参数
         this.queryParams[key] = ''
@@ -323,7 +331,6 @@ export default {
   }
   .btn-wrapper{
     position: absolute;
-    bottom: 22px;
     right: 16px;
   }
 }
@@ -332,6 +339,9 @@ export default {
   margin-top: 16px;
   background-color: #fff;
   border-radius: 2px;
+}
+.table-top{
+  margin-bottom: 15px;
 }
 // 分页
 ::v-deep .el-pagination {
