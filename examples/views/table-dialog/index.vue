@@ -1,7 +1,7 @@
 <template>
   <div>
     <y-button @click="handleOpen">打开弹窗</y-button>
-    <y-table-dialog :visible.sync="visible"></y-table-dialog>
+    <y-table-dialog :visible.sync="visible" @cancel="handleCancel"></y-table-dialog>
   </div>
 </template>
 
@@ -18,13 +18,12 @@ export default {
       visible: false
     }
   },
-  mounted() {
-    console.log('mounted')
-  },
   methods: {
     handleOpen() {
       this.visible = true
-      console.log('visible', this.visible)
+    },
+    handleCancel(close) {
+      close()
     }
   }
 }

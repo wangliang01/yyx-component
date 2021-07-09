@@ -1,6 +1,6 @@
 <template>
   <y-dialog :visible.sync="visible" v-bind="$attrs" :title="title">
-    <y-table-pro :load-data-api="loadDataApi" :columns="columns" ui-style="antd"></y-table-pro>
+    <y-table-pro :load-data-api="loadDataApi" :columns="columns" ui-style="antd" :pagination="false" @selection-change="handleSelectionChange"></y-table-pro>
     <span slot="footer" class="dialog-footer">
       <el-button @click="handleCancel">取 消</el-button>
       <el-button type="primary" @click="handleConfirm">确 定</el-button>
@@ -14,35 +14,101 @@ export default {
   components: {
   },
   props: {
+    params: {
+      type: [Number, Boolean, Object, Array, String],
+      default: () => {}
+    },
     visible: {
       type: Boolean,
       default: false
     },
     title: {
       type: String,
-      default: '标题'
+      default: '关联押金品'
     },
     loadDataApi: {
       type: Function,
-      default: () => {}
+      default: () => {
+        return {
+          code: '200',
+          message: 'OK',
+          success: true,
+          data: {
+            records: [
+              {
+                depositId: '10001',
+                url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+                depositName: '押金品名称',
+                depositMoney: 10
+              },
+              {
+                depositId: '10001',
+                url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+                depositName: '押金品名称',
+                depositMoney: 10
+              },
+              {
+                depositId: '10001',
+                url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+                depositName: '押金品名称',
+                depositMoney: 10
+              }
+            ]
+          }
+        }
+      }
+    },
+    max: {
+      type: [String, Number],
+      default: Infinity
     },
     columns: {
       type: Array,
-      default: () => []
+      default: () => [
+        {
+          prop: 'deposit',
+          label: '押金品',
+          filter: true,
+          fieldType: 'Input',
+          hidden: true
+        },
+        {
+          label: '选择',
+          type: 'selection'
+        },
+        {
+          prop: 'depositId',
+          label: '押金品ID'
+        },
+        {
+          prop: 'url',
+          label: '图片'
+        },
+        {
+          prop: 'depositName',
+          label: '押金品名称'
+        },
+        {
+          prop: 'depositMoney',
+          label: '押金'
+        }
+      ]
+    },
+    /* 点击取消时，是否直接关闭 */
+    isCloseDirectly: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
-
+      data: null
     }
   },
   watch: {
     visible(val) {
       console.log(val)
     }
-  },
-  mounted() {
-    console.log('table dialog mounte')
   },
   methods: {
     /* 关闭弹窗 */
@@ -51,11 +117,18 @@ export default {
     },
     /* 取消 */
     handleCancel() {
-      this.$emit('cancel', this.closeDialog)
+      if (this.isCloseDirectly) {
+        this.$emit('update:visible', false)
+      } else {
+        this.$emit('cancel', this.closeDialog)
+      }
     },
     /* 确认 */
     handleConfirm() {
-      this.$emit('confirm', { data: [], done: this.closeDialog })
+      this.$emit('confirm', { data: this.data, done: this.closeDialog })
+    },
+    handleSelectionChange(data) {
+      this.data = data
     }
   }
 }

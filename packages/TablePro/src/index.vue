@@ -57,7 +57,7 @@
         v-loading="loading"
         :data="tableData"
         :columns="columns && columns.filter(column => !column.hidden)"
-        pagination
+        :pagination="$attrs.pagination === undefined ? true : $attrs.pagination"
         :total="total"
         :reload="reloadData"
         v-bind="$attrs"
@@ -190,23 +190,24 @@ export default {
           const elFormItem = tableFilter.querySelector('.el-form-item')
 
           const btnWrapper = formWrapper.querySelector('.btn-wrapper')
-          console.log('btnWrapper', btnWrapper)
-          let { height: formItemHeight, marginBottom } = getComputedStyle(elFormItem)
-          formItemHeight = parseFloat(formItemHeight.replace('px', ''))
-          /* 修复Table筛选条件不对齐的问题 */
-          marginBottom = parseFloat(marginBottom.replace('px', ''))
-          formWrapper.style.paddingTop = marginBottom + 'px'
-          btnWrapper.style.bottom = marginBottom + 'px'
-          this.overflowHeight = formItemHeight + marginBottom
-          if (height > this.overflowHeight) {
-            // 换行了
-            this.canShowExpandBtn = true
-            this.isExpand = false
-            tableFilter.style.overflow = 'hidden'
-            tableFilter.style.height = `${this.overflowHeight}px`
-          } else {
-            this.canShowExpandBtn = false
-            this.isExpand = false
+          if (elFormItem) {
+            let { height: formItemHeight, marginBottom } = getComputedStyle(elFormItem)
+            formItemHeight = parseFloat(formItemHeight.replace('px', ''))
+            /* 修复Table筛选条件不对齐的问题 */
+            marginBottom = parseFloat(marginBottom.replace('px', ''))
+            formWrapper.style.paddingTop = marginBottom + 'px'
+            btnWrapper.style.bottom = marginBottom + 'px'
+            this.overflowHeight = formItemHeight + marginBottom
+            if (height > this.overflowHeight) {
+              // 换行了
+              this.canShowExpandBtn = true
+              this.isExpand = false
+              tableFilter.style.overflow = 'hidden'
+              tableFilter.style.height = `${this.overflowHeight}px`
+            } else {
+              this.canShowExpandBtn = false
+              this.isExpand = false
+            }
           }
         })
       }
