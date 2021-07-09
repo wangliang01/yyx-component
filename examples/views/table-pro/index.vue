@@ -3,6 +3,7 @@
     <y-table-pro
       :load-data-api="pagelist"
       :columns="showColumns"
+      :origin-columns="showColumns"
       ui-style="antd"
       :params="{id: '1234'}"
       show-util-bar
@@ -408,7 +409,7 @@ export default {
       showColumns: []
     }
   },
-  mounted() {
+  created() {
     this.showColumns = this.columns
   },
   methods: {

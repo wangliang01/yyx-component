@@ -84,6 +84,8 @@ export default {
   watch: {
     columns: {
       handler() {
+        // 如果在拖拽时，不走initConfig
+        if (this.drag) return
         this.initConfig()
       },
       deep: true,
@@ -108,9 +110,12 @@ export default {
     },
     /* 拖拽结束 */
     handleDragEnd() {
-      this.drag = false
       // 将checked的columns值回传给父组件
       this.forceUpdate()
+      // fixed bug: 拖拽字段，拖拽不成功的问题
+      this.$nextTick(() => {
+        this.drag = false
+      })
     },
     /* 是否全选 */
     isCheckAll() {
@@ -140,7 +145,8 @@ export default {
     },
     /* 设置初始columns */
     initConfig() {
-      this.settingConfig = this.originColumns
+      const originColumns = this.originColumns.length ? this.originColumns : this.columns
+      this.settingConfig = originColumns
         .filter((item) => item.label)
         .map((item) => {
           const checked = this.columns
@@ -156,7 +162,8 @@ export default {
     handleReset() {
       this.checkAll = true
       this.indeterminate = false
-      const columns = cloneDeep(this.originColumns)
+      const originColumns = this.originColumns.length ? this.originColumns : this.columns
+      const columns = cloneDeep(originColumns)
       this.$emit('column-change', cloneDeep(columns))
     },
     /* 全选状态变化时 */

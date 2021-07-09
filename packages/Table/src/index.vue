@@ -116,7 +116,8 @@ export default {
       this.getPagination()
     },
     columns: {
-      handler() {
+      handler(val) {
+        console.log('watch Table Column', val)
         this.init()
       },
       deep: true,
