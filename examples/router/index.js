@@ -106,6 +106,12 @@ const routes = [
         name: 'TableDialog',
         component: () => import('../views/table-dialog'),
         meta: { title: 'TableDialog表格弹窗' }
+      },
+      {
+        path: '/text',
+        name: 'Text',
+        component: () => import('../views/text'),
+        meta: { title: 'Text文本' }
       }
     ]
   }

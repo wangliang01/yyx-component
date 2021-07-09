@@ -55,3 +55,15 @@ html, body, ul, li {
   }
 }
 
+// 定义显示几行
+@for $i from 1 through 5 {
+  .y-line-#{$i} {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-line-clamp: $i;
+  }
+}
+
