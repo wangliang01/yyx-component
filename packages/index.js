@@ -20,12 +20,13 @@ import Dialog from './Dialog'
 import Drawer from './Drawer'
 import ImageViewer from './ImageViewer'
 import Question from './Question'
+import Image from './Image'
 
 const { YCategoryCascader, YAddressCascader, YCascader } = Cascader
 const { YUpload, YAvatar } = Upload
 
 // 组件列表
-const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog, Drawer, ImageViewer, Question]
+const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog, Drawer, ImageViewer, Question, Image]
 
 // 定义install方法，接收Vue作为参数，通过Vue.use()的方式注册组件
 const install = Vue => {
@@ -64,5 +65,6 @@ export default {
   Dialog,
   Drawer,
   ImageViewer,
-  Question
+  Question,
+  Image
 }

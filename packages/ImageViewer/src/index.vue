@@ -1,5 +1,5 @@
 <template>
-  <ImageViewer v-show="visible" v-bind="$attrs" :on-close="haneleHide" v-on="$listeners"></ImageViewer>
+  <ImageViewer v-show="visible" v-bind="$attrs" :on-close="haneleHide" :url-list="urlList" v-on="$listeners"></ImageViewer>
 </template>
 
 <script>
@@ -10,6 +10,10 @@ export default {
     ImageViewer
   },
   props: {
+    urlList: {
+      type: Array,
+      default: () => []
+    },
     visible: {
       type: Boolean,
       default: false

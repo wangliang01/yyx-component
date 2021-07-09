@@ -94,6 +94,12 @@ const routes = [
         name: 'Question',
         component: () => import('../views/question'),
         meta: { title: 'Question问号' }
+      },
+      {
+        path: '/image',
+        name: 'Image',
+        component: () => import('../views/image'),
+        meta: { title: 'Image图片' }
       }
     ]
   }
