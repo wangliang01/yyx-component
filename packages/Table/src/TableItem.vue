@@ -25,6 +25,7 @@
         v-for="(item, idx) in col.children"
         :key="idx"
         :col="item"
+        :data="data"
         :column-key="item.columnKey || item['column-key']"
         :min-width="item.minWidth || item['min-width'] || getMinWidth(col.children)"
         :render-header="item.renderHeader || item['render-header']"
@@ -68,6 +69,7 @@
         :row="scope.row"
         :col="col"
         :render="col.render"
+        :data="data"
         :col-index="index"
       >
       </expandDom>
@@ -85,6 +87,7 @@ export default {
         row: Object,
         col: Object,
         render: Function,
+        data: Array,
         colIndex: [Number, String]
       },
       render(h, ctx) {
@@ -98,11 +101,20 @@ export default {
         if (ctx.props.col) {
           params.col = ctx.props.col
         }
+        if (ctx.props.data) {
+          params.data = ctx.props.data
+        }
         return ctx.props.render && ctx.props.render(h, params)
       }
     }
   },
   props: {
+    data: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
     columns: {
       type: Array,
       default() {

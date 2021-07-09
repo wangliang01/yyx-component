@@ -100,6 +100,12 @@ const routes = [
         name: 'Image',
         component: () => import('../views/image'),
         meta: { title: 'Image图片' }
+      },
+      {
+        path: '/table-dialog',
+        name: 'TableDialog',
+        component: () => import('../views/table-dialog'),
+        meta: { title: 'TableDialog表格弹窗' }
       }
     ]
   }

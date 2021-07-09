@@ -25,6 +25,7 @@
         :key="index"
         :col="col"
         :columns="columns"
+        :data="data"
       ></TableItem>
     </el-table>
     <el-pagination
