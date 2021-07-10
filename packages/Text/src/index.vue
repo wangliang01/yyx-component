@@ -1,15 +1,21 @@
 <template>
-  <div class="text-wrapper" :class="[`y-line-${line}`]" :style="{width: `${width ? `${isNum ? `${width}px`: width}` : '100%'}`}">
-    <el-tooltip v-if="ellipsis" effect="dark" :content="content" placement="top-start">
+  <div
+    class="text-wrapper"
+    :class="{[`y-line-${line}`]: ellipsis}"
+    :style="{width: `${width ? `${width}px` : '100%'}`}"
+  >
+    <el-tooltip
+      :disabled="!ellipsis"
+      effect="dark"
+      :content="content"
+      placement="top"
+    >
       <div class="text-tooltip-wrapper">
         <span class="text">
           {{ content }}
         </span>
       </div>
     </el-tooltip>
-    <span v-if="!ellipsis" class="text">
-      {{ content }}
-    </span>
   </div>
 </template>
 
@@ -19,13 +25,13 @@ export default {
   components: {
   },
   props: {
-    width: {
+    maxLength: {
       type: [String, Number],
-      default: '100px'
+      default: 20
     },
     content: {
       type: String,
-      default: 'Top Left 提示文字'
+      default: 'Top Left 提示文字88888889090909'
     },
     line: {
       type: [Number, String],
@@ -34,12 +40,8 @@ export default {
   },
   data() {
     return {
-      ellipsis: false
-    }
-  },
-  computed: {
-    isNum() {
-      return typeof this.width === 'number'
+      ellipsis: false,
+      width: 0
     }
   },
   mounted() {
@@ -47,48 +49,25 @@ export default {
   },
   methods: {
     init() {
-      const box = document.querySelector('.text-wrapper')
-      const textTooltipWrapper = document.querySelector('.text-tooltip-wrapper')
-      const text = document.querySelector('.text')
-      const { width: textWidth } = text.getBoundingClientRect()
-      const toolTipWidth = textTooltipWrapper ? textTooltipWrapper.clientWidth : 0
-      const boxWidth = box.scrollWidth
+      const textDOM = document.querySelector('.text')
+      if (textDOM) {
+        const textLength = textDOM.innerText.length
+        if (this.maxLength < textLength) {
+          console.log('显示省略号')
+          const { width } = textDOM.getBoundingClientRect()
+          // 计算出每个字的宽度
+          const size = Math.round(width / textLength)
 
-      if (this.width) {
-        if (this.isNum) {
-          console.log(1)
-          console.log(this.width, textWidth)
-          if (this.width < textWidth) {
-            console.log('出现了省略号')
-            this.ellipsis = true
-          } else {
-            console.log('没有出现省略号')
-            this.ellipsis = false
-          }
-        } else {
-          console.log(3)
-          console.log(this.width)
-          const width = parseFloat(this.width)
-          console.log(width, textWidth)
-          if (width < textWidth) {
-            console.log('出现了省略号')
-            this.ellipsis = true
-          } else {
-            console.log('没有出现省略号')
-            this.ellipsis = false
-          }
-        }
-      } else {
-        console.log(2)
-        if (boxWidth > toolTipWidth) {
-          console.log('出现了省略号')
+          // 设置宽度
+          this.width = Math.round(size * this.maxLength / this.line)
           this.ellipsis = true
         } else {
-          console.log('没有出现省略号')
+          console.log('不显示省略号')
           this.ellipsis = false
         }
       }
     }
+
   }
 }
 </script>
