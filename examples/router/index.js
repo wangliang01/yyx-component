@@ -102,6 +102,12 @@ const routes = [
         meta: { title: 'Image图片' }
       },
       {
+        path: '/image-list',
+        name: 'ImageList',
+        component: () => import('../views/image-list'),
+        meta: { title: 'ImageList图片列表' }
+      },
+      {
         path: '/table-dialog',
         name: 'TableDialog',
         component: () => import('../views/table-dialog'),
