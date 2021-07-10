@@ -13,6 +13,10 @@ export default {
     urlList: {
       type: Array,
       default: () => []
+    },
+    offset: {
+      type: [String, Number],
+      default: 16
     }
   },
   data() {
@@ -21,10 +25,15 @@ export default {
     }
   },
   mounted() {
-
+    this.init()
   },
   methods: {
-
+    init() {
+      const imageItems = [...document.querySelectorAll('.image-item')]
+      imageItems.slice(0, imageItems.length - 1).forEach(item => {
+        item.style.marginRight = `${this.offset}px`
+      })
+    }
   }
 }
 </script>
@@ -34,10 +43,6 @@ export default {
   display: flex;
   .image-item {
     flex: 0 0 auto;
-    margin-right: 16px;
-    &:last-child {
-      margin-right: 0;
-    }
   }
 }
 </style>
