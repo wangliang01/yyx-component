@@ -63,7 +63,7 @@
         v-bind="$attrs"
         v-on="$listeners"
       >
-        <div class="table-top">
+        <div ref="tableTop" class="table-top">
           <!-- table左侧 -->
           <slot name="table"></slot>
           <template slot="table-top-right">
@@ -178,6 +178,15 @@ export default {
     },
     initTableFilter() {
       if (this.uiStyle === 'antd') {
+        const tableTop = this.$refs.tableTop
+        const nodeName = tableTop.children[0]?.nodeName
+        if (nodeName === 'TEMPLATE') {
+          // 插槽里没有内容，清除下边距
+          tableTop.style.marginBottom = '0'
+        } else {
+          tableTop.style.marginBottom = '15px'
+        }
+
         // 如果是antd风格
         const tableFilter = this.$refs.tableFilter
         this.$nextTick(() => {
@@ -190,6 +199,7 @@ export default {
           const elFormItem = tableFilter.querySelector('.el-form-item')
 
           const btnWrapper = formWrapper.querySelector('.btn-wrapper')
+
           if (elFormItem) {
             let { height: formItemHeight, marginBottom } = getComputedStyle(elFormItem)
             formItemHeight = parseFloat(formItemHeight.replace('px', ''))
@@ -197,7 +207,7 @@ export default {
             marginBottom = parseFloat(marginBottom.replace('px', ''))
             formWrapper.style.paddingTop = marginBottom + 'px'
             btnWrapper.style.bottom = marginBottom + 'px'
-            this.overflowHeight = formItemHeight + marginBottom
+            this.overflowHeight = Math.round(formItemHeight + marginBottom)
             if (height > this.overflowHeight) {
               // 换行了
               this.canShowExpandBtn = true
@@ -252,7 +262,7 @@ export default {
       filterColumns.forEach(column => {
         const key = column.prop
         // 生成表单的数据
-        this.$set(this.config, key, { ...column, clearable: true, hidden: false, width: '280px' })
+        this.$set(this.config, key, { ...column, clearable: true, hidden: false, width: column.filterWidth || '280px' })
 
         // 生成查询参数
         this.queryParams[key] = ''

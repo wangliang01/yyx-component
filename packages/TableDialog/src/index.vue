@@ -68,6 +68,7 @@ export default {
         {
           prop: 'deposit',
           label: '押金品',
+          filterWidth: '200px',
           filter: true,
           fieldType: 'Input',
           hidden: true
@@ -135,5 +136,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+::v-deep .el-dialog__body {
+  padding: 0;
+}
 </style>
