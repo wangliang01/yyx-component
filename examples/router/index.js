@@ -124,6 +124,12 @@ const routes = [
         name: 'Card',
         component: () => import('../views/card'),
         meta: { title: 'Card卡片' }
+      },
+      {
+        path: '/block',
+        name: 'Block',
+        component: () => import('../views/block'),
+        meta: { title: 'Block区块' }
       }
     ]
   }

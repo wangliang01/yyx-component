@@ -4,7 +4,7 @@
     <el-row class="card-row">
       <el-col v-for="(item, index) in columns" :key="index" class="card-col" :span="span">
         <span class="card-label">{{ item.label }}:</span>
-        <y-text :content="data[item.prop]" class="card-value"></y-text>
+        <y-text :content="item.formattor ? item.formattor(data[item.prop]) : data[item.prop]" class="card-value"></y-text>
       </el-col>
     </el-row>
   </div>
@@ -54,7 +54,11 @@ export default {
         {
           label: '类型',
           prop: 'type',
-          tooltip: true
+          formattor(val) {
+            if (val === 'standard') {
+              return '标品'
+            }
+          }
         },
         {
           label: '品牌',
@@ -66,7 +70,10 @@ export default {
         },
         {
           label: '销售税率',
-          prop: 'saleRate'
+          prop: 'saleRate',
+          formattor(val) {
+            return `${val}%`
+          }
         },
         {
           label: '最小销售单位',
@@ -82,7 +89,10 @@ export default {
         },
         {
           label: '采购税率',
-          prop: 'purchaseTaxRate'
+          prop: 'purchaseTaxRate',
+          formattor(val) {
+            return `${val}%`
+          }
         },
         {
           label: '最小规格',

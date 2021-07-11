@@ -1,7 +1,6 @@
 <template>
   <div
     class="image-wrapper"
-    :style="{width: `${width}px`, height: `${width}px`}"
   >
     <el-image
       :src="src"
