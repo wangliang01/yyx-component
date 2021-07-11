@@ -118,6 +118,12 @@ const routes = [
         name: 'Text',
         component: () => import('../views/text'),
         meta: { title: 'Text文本' }
+      },
+      {
+        path: '/card',
+        name: 'Card',
+        component: () => import('../views/card'),
+        meta: { title: 'Card卡片' }
       }
     ]
   }

@@ -1,8 +1,7 @@
 <template>
   <div
+    ref="text"
     class="text-wrapper"
-    :class="{[`y-line-${line}`]: ellipsis}"
-    :style="{width: `${width ? `${width}px` : '100%'}`}"
   >
     <el-tooltip
       :disabled="!ellipsis"
@@ -10,12 +9,13 @@
       :content="content"
       placement="top"
     >
-      <div class="text-tooltip-wrapper">
+      <div class="text-tooltip-wrapper" :class="{[`y-line-${line}`]: ellipsis}">
         <span class="text">
           {{ content }}
         </span>
       </div>
     </el-tooltip>
+    <span class="text-copy">{{ content }}</span>
   </div>
 </template>
 
@@ -25,10 +25,6 @@ export default {
   components: {
   },
   props: {
-    maxLength: {
-      type: [String, Number],
-      default: 20
-    },
     content: {
       type: String,
       default: 'Top Left 提示文字88888889090909'
@@ -40,38 +36,37 @@ export default {
   },
   data() {
     return {
-      ellipsis: false,
-      width: 0
+      ellipsis: false
     }
   },
   mounted() {
-    this.init()
+    this.initDom()
   },
   methods: {
-    init() {
-      const textDOM = document.querySelector('.text')
-      if (textDOM) {
-        const textLength = textDOM.innerText.length
-        if (this.maxLength < textLength) {
-          console.log('显示省略号')
-          const { width } = textDOM.getBoundingClientRect()
-          // 计算出每个字的宽度
-          const size = Math.round(width / textLength)
-
-          // 设置宽度
-          this.width = Math.round(size * this.maxLength / this.line)
-          this.ellipsis = true
-        } else {
-          console.log('不显示省略号')
-          this.ellipsis = false
-        }
-      }
+    setWidth() {
+      this.$nextTick(() => {
+        const textDom = this.$refs.text.querySelector('.text')
+        const textCopyDom = this.$refs.text.querySelector('.text-copy')
+        this.ellipsis = textDom.getBoundingClientRect().width < textCopyDom.getBoundingClientRect().width
+        this.$refs.text.style.width = textDom.getBoundingClientRect().width
+      })
+    },
+    initDom() {
+      // 获取对应的copyText
+      this.setWidth()
+      window.addEventListener('resize', this.setWidth)
     }
-
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.text-wrapper {
+  display: inline-block;
+  .text-copy{
+    position: fixed;
+    top: -10000px;
+    visibility: hidden;
+  }
+}
 </style>
