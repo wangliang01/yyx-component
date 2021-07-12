@@ -1,6 +1,5 @@
 <template>
   <div>
-    <el-button>默认按钮</el-button>
     <y-button>默认按钮</y-button>
     <y-button type="primary">主要按钮</y-button>
     <y-button type="success">成功按钮</y-button>

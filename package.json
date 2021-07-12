@@ -58,6 +58,7 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11",
-    "vuepress": "^1.8.2"
+    "vuepress": "^1.8.2",
+    "vuepress-plugin-demo-block": "^0.7.2"
   }
 }

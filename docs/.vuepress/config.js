@@ -2,6 +2,16 @@ module.exports = {
   title: 'yyx-component', // 设置网站标题
   description: '基于ElementUI二次开发的组件库', // 描述
   port: 9527, // 端口
+  displayAllHeaders: true, // 显示所有页面的标题链接
+  head: [
+    ['script', { src: 'https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js' }],
+    ['script', { src: 'https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js' }],
+    ['script', { src: 'https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js' }],
+    ['script', { src: 'https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js' }],
+  ],
+  plugins: [
+    'demo-block'
+  ],
   themeConfig: { // 主题配置
     nav: [ // 头部导航条
       {
@@ -32,13 +42,11 @@ module.exports = {
           title: '设计规范',
           path: 'design',
           collapsable: false,
-          sidebarDepth: 1
         },
         {
           title: '导航',
           path: 'nav',
           collapsable: false,
-          sidebarDepth: 1
         }
       ],
       // 组件
@@ -47,25 +55,23 @@ module.exports = {
           title: '更新日志',
           path: 'changelog',
           collapsable: false,
-          sidebarDepth: 1,
         },
         {
           title: '安装',
           path: 'installation',
           collapsable: false,
-          sidebarDepth: 1,
         },
         {
           title: '快速上手',
           path: 'quickstart',
           collapsable: false,
-          sidebarDepth: 1,
         },
         {
           title: '组件',
-          path: 'button',
-          collapsable: false,
-          sidebarDepth: 1,
+          children: [
+           'button',
+           'form'
+          ]
         }
       ]
     }
