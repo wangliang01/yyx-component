@@ -118,7 +118,6 @@ export default {
     },
     columns: {
       handler(val) {
-        console.log('watch Table Column', val)
         this.init()
       },
       deep: true,
@@ -221,6 +220,9 @@ export default {
       if (typeof this.reload === 'function') {
         this.reload(this.paginationAttrs)
       }
+    },
+    columnsReload() {
+      this.originColumns = cloneDeep(this.columns)
     }
   }
 }

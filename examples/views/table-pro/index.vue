@@ -8,11 +8,11 @@
       :params="{id: '1234'}"
       show-util-bar
     >
-      <template slot="table">
+      <template #table>
         <el-button type="primary" @click="setColumn('columns')">展示column</el-button>
         <el-button type="primary" @click="setColumn('columns2')">展示column2</el-button>
       </template>
-      <template slot="table-top-right">
+      <template #table-top-right>
         <el-button>abc</el-button>
       </template>
     </y-table-pro>

@@ -90,6 +90,15 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    originColumns: {
+      handler() {
+        // 如果在拖拽时，不走initConfig
+        if (this.drag) return
+        this.initConfig()
+      },
+      deep: true,
+      immediate: true
     }
   },
   methods: {
@@ -107,6 +116,7 @@ export default {
     forceUpdate() {
       const columns = this.settingConfig.filter((item) => item.checked)
       this.$emit('column-change', cloneDeep(columns))
+      this.$emit('source-change', 'child')
     },
     /* 拖拽结束 */
     handleDragEnd() {
@@ -165,6 +175,7 @@ export default {
       const originColumns = this.originColumns.length ? this.originColumns : this.columns
       const columns = cloneDeep(originColumns)
       this.$emit('column-change', cloneDeep(columns))
+      this.$emit('source-change', 'child')
     },
     /* 全选状态变化时 */
     handleCheckAllChange(checkAll) {

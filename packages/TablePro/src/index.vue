@@ -54,6 +54,7 @@
     <!-- 表格 -->
     <div class="table-wrapper">
       <y-table
+        ref="table"
         v-loading="loading"
         :data="tableData"
         :columns="columns && columns.filter(column => !column.hidden)"
@@ -63,14 +64,14 @@
         v-bind="$attrs"
         v-on="$listeners"
       >
-        <div ref="tableTop" class="table-top">
+        <div ref="tableTop">
           <!-- table左侧 -->
           <slot name="table"></slot>
-          <template slot="table-top-right">
-            <!-- table右侧 -->
-            <slot name="table-top-right"></slot>
-          </template>
         </div>
+        <template slot="table-top-right">
+          <!-- table右侧 -->
+          <slot name="table-top-right"></slot>
+        </template>
       </y-table>
     </div>
   </div>
@@ -136,6 +137,12 @@ export default {
     columns: {
       handler(val) {
         this.initConfig()
+        if (this.$refs.table) {
+          console.log(this.$refs.table)
+          this.$nextTick(() => {
+            this.$refs.table.columnsReload()
+          })
+        }
       },
       deep: true
     },
@@ -351,7 +358,7 @@ export default {
   background-color: #fff;
   border-radius: 2px;
 }
-.table-top{
+::v-deep .table-top{
   margin-bottom: 15px;
 }
 // 分页
