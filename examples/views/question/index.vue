@@ -1,5 +1,9 @@
 <template>
-  <y-question content="这是个什么东西"></y-question>
+  <y-question>
+    <div slot="content">包括各种表单项，比如输入框，选择器，开关，单选框，多选框等
+      <strong>123</strong>
+    </div>
+  </y-question>
 </template>
 
 <script>

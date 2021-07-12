@@ -1,5 +1,8 @@
 <template>
-  <el-tooltip :effect="effect" :content="content" :placement="placement" v-bind="$attrs" :style="{width: `${size}px`, height: `${size}px`, fontSize: `${size}px`, color: `${color}`}">
+  <el-tooltip :effect="effect" :placement="placement" v-bind="$attrs" :style="{width: `${size}px`, height: `${size}px`, fontSize: `${size}px`, color: `${color}`}">
+    <div slot="content">
+      <slot name="content">{{ content }}</slot>
+    </div>
     <i class="iconfont icon-tishi"></i>
   </el-tooltip>
 </template>

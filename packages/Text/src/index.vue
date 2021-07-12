@@ -48,13 +48,16 @@ export default {
   mounted() {
     this.initDom()
   },
+  destroyed() {
+    window.removeEventListener('resize', this.setWidth)
+  },
   methods: {
     setWidth() {
       this.$nextTick(() => {
         const textDom = this.$refs.text.querySelector('.text')
         const textCopyDom = this.$refs.text.querySelector('.text-copy')
         this.ellipsis = textDom.getBoundingClientRect().width < textCopyDom.getBoundingClientRect().width
-        this.$refs.text.style.width = textDom.getBoundingClientRect().width
+        this.$refs.text.style.width = textDom.getBoundingClientRect().width + 'px'
       })
     },
     initDom() {

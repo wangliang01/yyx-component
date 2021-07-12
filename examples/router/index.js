@@ -130,6 +130,12 @@ const routes = [
         name: 'Block',
         component: () => import('../views/block'),
         meta: { title: 'Block区块' }
+      },
+      {
+        path: '/tree',
+        name: 'Tree',
+        component: () => import('../views/tree'),
+        meta: { title: 'Tree树' }
       }
     ]
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h2 class="card-title">{{ title }}</h2>
+    <h2 class="card-title" :style="{fontSize: `${size}px`}">{{ title }}</h2>
     <el-row class="card-row">
       <el-col v-for="(item, index) in columns" :key="index" class="card-col" :span="span">
         <span class="card-label">{{ item.label }}:</span>
@@ -112,6 +112,10 @@ export default {
     cols: {
       type: [String, Number],
       default: 4
+    },
+    size: {
+      type: [String, Number],
+      default: 18
     }
   },
   data() {
