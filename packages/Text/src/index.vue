@@ -26,8 +26,8 @@ export default {
   },
   props: {
     content: {
-      type: String,
-      default: 'Top Left 提示文字88888889090909'
+      type: [String, Number, Boolean, Object, Array],
+      default: '暂无数据'
     },
     line: {
       type: [Number, String],
