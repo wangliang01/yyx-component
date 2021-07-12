@@ -39,6 +39,12 @@ export default {
       ellipsis: false
     }
   },
+  watch: {
+    content(val) {
+      // 当content内容变化时，重新设置宽度
+      this.setWidth()
+    }
+  },
   mounted() {
     this.initDom()
   },
