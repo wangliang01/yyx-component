@@ -94,8 +94,11 @@ export default {
   overflow: hidden;
   border-radius: 4px;
   ::v-deep .el-image {
-    outline: 1px solid #d9d9d9;
+    border: 1px solid #d9d9d9;
     border-radius: 4px;
+    img {
+      border: none;
+    }
   }
   &:hover .mask {
     position: absolute;
