@@ -54,6 +54,7 @@
     <!-- 表格 -->
     <div class="table-wrapper">
       <y-table
+        :key="key"
         ref="table"
         v-loading="loading"
         :data="tableData"
@@ -138,8 +139,8 @@ export default {
       handler(val) {
         this.initConfig()
         if (this.$refs.table) {
-          console.log(this.$refs.table)
           this.$nextTick(() => {
+            this.key = Math.random().toString(32).replace('.', '')
             this.$refs.table.columnsReload()
           })
         }
