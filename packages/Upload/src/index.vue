@@ -4,15 +4,18 @@
       <i class="el-icon-plus"></i>
     </el-upload>
 
-    <el-dialog :append-to-body="true" :visible.sync="dialogVisible">
+    <!-- <el-dialog :append-to-body="true" :visible.sync="dialogVisible">
       <img style="width:100%" :src="dialogImageUrl" alt="">
-    </el-dialog>
+    </el-dialog> -->
+    <!-- 预览大图 -->
+    <y-image-viewer :visible.sync="dialogVisible" :url-list="[dialogImageUrl]"></y-image-viewer>
 
     <el-dialog :append-to-body="true" :visible.sync="modalImg" title="操作图片">
       <div class="cropper">
         <vueCropper
           ref="cropper"
           style="width:100%;height:500px;"
+          :high="option.high"
           :img="option.img"
           :output-size="option.size"
           :output-type="option.outputType"
@@ -40,6 +43,7 @@
   </div>
 </template>
 <script>
+
 import { VueCropper } from 'vue-cropper'
 
 const defaultAPI = function(params) {
@@ -96,10 +100,22 @@ export default {
       type: Boolean,
       default: () => true
     },
+    isCompress: {
+      type: Boolean,
+      default: false
+    },
     // 图片的压缩宽度，根据该宽度和fixedNumber计算出高度，然后对图片进行压缩
     compressRatio: {
       type: Number,
       default: 360
+    },
+    maxSize: {
+      type: Number,
+      default: 1
+    },
+    allowPdf: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -118,6 +134,7 @@ export default {
       return {
         img: this.img, // 裁剪图片的地址
         info: true, // 裁剪框的大小信息
+        high: true, // 是否根据dpr生成适合屏幕的高清图片
         outputSize: 0.8, // 裁剪生成图片的质量
         outputType: 'png', // 裁剪生成图片的格式
         canScale: true, // 图片是否允许滚轮缩放
@@ -128,7 +145,7 @@ export default {
         full: true, // 是否输出原图比例的截图
         canMoveBox: false, // 截图框能否拖动
         original: false, // 上传图片按照原始比例渲染
-        centerBox: false, // 截图框是否被限制在图片里面
+        centerBox: true, // 截图框是否被限制在图片里面
         infoTrue: false // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
       }
     }
@@ -151,15 +168,22 @@ export default {
       })
     },
     handlePictureCardPreview(file) {
+      if (file.pdf) {
+        window.open(file.pdf)
+        return
+      }
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     },
-    async uploadSuccess() {
+    async uploadSuccess(isPdf) {
       this.loading = true
-      if (this.isCropper) {
+      if (this.isCropper && !isPdf) {
         this.$refs.cropper.getCropBlob(async(data) => {
           let base64 = await this.blobToDataURL(data) // 转base64
-          base64 = await this.compress(base64) // 压缩
+          if (this.isCompress) {
+            // 如果要压缩图片
+            base64 = await this.compress(base64) // 压缩
+          }
           const blob = this.dataURLtoBlob(base64) // 转blob
           try {
             const formData = new FormData()
@@ -189,6 +213,7 @@ export default {
         this.defaultFile = this.$refs[this.refUpload].fileList
         this.handleSuccess(res)
         this.modalImg = false
+        this.loading = false
       }
     },
     // blob转File 上传的时候用
@@ -250,11 +275,22 @@ export default {
         })
         return false
       }
+      const fileSize = file.size / 1024 / 1024
+      if (fileSize > this.maxSize) {
+        this.$message({
+          message: `上传图片大小不能超过 ${this.maxSize}MB!`,
+          type: 'warning'
+        })
+        return false
+      }
       const testmsg = file.name.substring(file.name.lastIndexOf('.') + 1)
-      const imgExt = /(jpg|JPG|bmp|BMP|gif|GIF|ico|ICO|pcx|PCX|jpeg|JPEG|tif|TIF|png|PNG|raw|RAW|tga|TGA)$/
+      let imgExt = /(jpg|JPG|bmp|BMP|gif|GIF|ico|ICO|pcx|PCX|jpeg|JPEG|tif|TIF|png|PNG|raw|RAW|tga|TGA)$/
+      if (this.allowPdf) {
+        imgExt = /(jpg|JPG|bmp|BMP|gif|GIF|ico|ICO|pcx|PCX|jpeg|JPEG|tif|TIF|png|PNG|raw|RAW|tga|TGA|pdf)$/
+      }
       if (!imgExt.test(testmsg)) {
         this.$message({
-          message: '请选择图片',
+          message: `请选择图片${this.allowPdf ? '或pdf' : ''}`,
           type: 'warning'
         })
         return false
@@ -262,17 +298,28 @@ export default {
       this.fileinfo = file
       const data = window.URL.createObjectURL(new Blob([file]))
       this.img = data
-      if (this.isCropper) {
+      if (this.isCropper && testmsg !== 'pdf') {
         this.modalImg = true
       } else {
-        this.uploadSuccess()
+        this.uploadSuccess(testmsg === 'pdf')
       }
       return false // 取消自动上传
     },
     formatDefaultFile() {
-      this.defaultFile = this.fileList.map((i) => {
-        return {
-          url: i
+      this.defaultFile = this.fileList.map(item => {
+        if (item.split('.').pop() === 'pdf') {
+          return {
+            pdf: item,
+            url: 'https://yyx-mall.oss-cn-chengdu.aliyuncs.com/common/image/png/icon-pdf.png',
+            name: '图片',
+            status: 'finished'
+          }
+        } else {
+          return {
+            url: item,
+            name: '图片',
+            status: 'finished'
+          }
         }
       })
       this.refresh = true

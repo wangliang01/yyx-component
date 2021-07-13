@@ -82,14 +82,12 @@ export default {
   methods: {
     onBlur(e, data) {
       const originLabel = data.label
-      console.log(e.target.innerText, originLabel)
       this.$nextTick(() => {
         data.label = e.target.innerText ? e.target.innerText : originLabel
       })
     },
     setLabel(label, nodeId) {
-      const node = this.findNode(nodeId)
-      console.log('node', node)
+      // const node = this.findNode(nodeId)
     },
     findNode(nodeId) {
       let node = null

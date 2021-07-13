@@ -1,6 +1,7 @@
 <template>
-  <el-input
+  <y-input
     v-model.trim="currentValue"
+    v-bind="$attrs"
     :type="$attrs.type || 'text'"
     :maxlength="$attrs.maxLength || 100"
     :minlength="$attrs.minLength"
@@ -29,7 +30,7 @@
     :form="$attrs.form"
     @input="handleInputEvent"
     v-on="$listeners"
-  ></el-input>
+  ></y-input>
 </template>
 
 <script>

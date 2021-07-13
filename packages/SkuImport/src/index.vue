@@ -63,12 +63,12 @@ export default {
         {
           label: '保质期',
           prop: 'shelfLifeDays',
-          type: 'input-number',
-          max: 9999999,
+          type: 'input',
+          integer: true,
           required: true
         },
         {
-          label: '计价单位',
+          label: '基础单位',
           prop: 'priceUnit',
           type: 'select',
           options: priceUnitOptions,
@@ -86,6 +86,7 @@ export default {
           label: '销项税(%)',
           prop: 'salesTaxRate',
           type: 'input-number',
+          integer: true,
           required: true,
           max: 100
         },
@@ -93,6 +94,7 @@ export default {
           label: '进项税(%)',
           prop: 'procurementTaxRate',
           type: 'input-number',
+          integer: true,
           required: true,
           max: 100
         },

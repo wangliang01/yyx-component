@@ -64,6 +64,78 @@ const routes = [
         name: 'Print',
         component: () => import('../views/print'),
         meta: { title: '打印' }
+      },
+      {
+        path: '/tag',
+        name: 'Tag',
+        component: () => import('../views/tag'),
+        meta: { title: 'Tag标签' }
+      },
+      {
+        path: '/dialog',
+        name: 'Dialog',
+        component: () => import('../views/dialog'),
+        meta: { title: 'Dialog弹出框' }
+      },
+      {
+        path: '/drawer',
+        name: 'Drawer',
+        component: () => import('../views/drawer'),
+        meta: { title: 'Drawer抽屉' }
+      },
+      {
+        path: '/image-viewer',
+        name: 'ImageViewer',
+        component: () => import('../views/image-viewer'),
+        meta: { title: 'ImageViewer图片预览' }
+      },
+      {
+        path: '/question',
+        name: 'Question',
+        component: () => import('../views/question'),
+        meta: { title: 'Question问号' }
+      },
+      {
+        path: '/image',
+        name: 'Image',
+        component: () => import('../views/image'),
+        meta: { title: 'Image图片' }
+      },
+      {
+        path: '/image-list',
+        name: 'ImageList',
+        component: () => import('../views/image-list'),
+        meta: { title: 'ImageList图片列表' }
+      },
+      {
+        path: '/table-dialog',
+        name: 'TableDialog',
+        component: () => import('../views/table-dialog'),
+        meta: { title: 'TableDialog表格弹窗' }
+      },
+      {
+        path: '/text',
+        name: 'Text',
+        component: () => import('../views/text'),
+        meta: { title: 'Text文本' }
+      },
+      {
+        path: '/card',
+        name: 'Card',
+        component: () => import('../views/card'),
+        meta: { title: 'Card卡片' }
+      },
+      {
+        path: '/block',
+        name: 'Block',
+        component: () => import('../views/block'),
+        meta: { title: 'Block区块' }
+      },
+      {
+        path: '/tree',
+        name: 'Tree',
+        component: () => import('../views/tree'),
+        meta: { title: 'Tree树' }
       }
     ]
   }

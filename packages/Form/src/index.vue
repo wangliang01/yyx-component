@@ -17,7 +17,6 @@
       :show-message="field.showMessage || field['show-message']"
       :inline-message="field.inlineMessage || field['inline-message']"
       :size="field.size"
-      :style="`margin-left: ${field.marginLeft || 0}; margin-right: ${field.marginRight || ($attrs.inline ? '50px' : 0)}; display: ${!$attrs.inline ? (field.display ? field.display : 'block') : 'inline-block'}`"
     >
       <component
         :is="field.fieldType"
@@ -73,20 +72,13 @@ export default {
   },
   data() {
     return {
-      formData: { ...this.value },
-      currentValue: ''
+      formData: { ...this.value }
     }
   },
   watch: {
     value: {
       handler(val) {
         this.formData = val
-      },
-      deep: true
-    },
-    config: {
-      handler(val) {
-        console.log('config watch: ', val)
       },
       deep: true
     }

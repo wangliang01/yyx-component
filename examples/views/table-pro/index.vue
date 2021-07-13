@@ -2,11 +2,19 @@
   <div class="table-pro">
     <y-table-pro
       :load-data-api="pagelist"
-      :columns="columns"
+      :columns="showColumns"
+      :origin-columns="showColumns"
+      ui-style="antd"
+      :params="{id: '1234'}"
+      show-util-bar
     >
-      <div slot="botton">
-        <el-button type="primary">主要按钮</el-button>
-      </div>
+      <template #table>
+        <el-button type="primary" @click="setColumn('columns')">展示column</el-button>
+        <el-button type="primary" @click="setColumn('columns2')">展示column2</el-button>
+      </template>
+      <template #table-top-right>
+        <el-button>abc</el-button>
+      </template>
     </y-table-pro>
     <h1>高级表格</h1>
     <el-card>
@@ -86,14 +94,14 @@
       <p>表头支持自定义。</p>
     </el-card>
 
-    <el-card class="mt-20">
+    <!-- <el-card class="mt-20">
       <h2>带过滤条件的表格</h2>
       <y-table-pro
         :load-data-api="pagelist"
         :columns="columns"
         label-width="60px"
       ></y-table-pro>
-    </el-card>
+    </el-card> -->
   </div>
 </template>
 
@@ -284,11 +292,30 @@ export default {
         {
           label: 'ID',
           prop: 'id',
-          filter: true
-          // fieldType: 'Select'
+          filter: true,
+          fieldType: 'Input'
+
           // marginRight: '50px',
           // hidden: true
         },
+        {
+          label: '姓名',
+          prop: 'name',
+          fieldType: 'Input',
+          filter: true
+        },
+        {
+          label: '年龄',
+          prop: 'age',
+          fieldType: 'Input',
+          filter: true,
+          render(h, { row }) {
+            console.log('column1 render age: ', row)
+            return <span>{row.age}岁</span>
+          }
+        }
+      ],
+      columns2: [
         {
           label: '姓名',
           prop: 'name',
@@ -301,7 +328,11 @@ export default {
           prop: 'age',
           fieldType: 'Input',
           filter: true,
-          marginRight: '50px'
+          marginRight: '50px',
+          render(h, { row }) {
+            console.log('column2 render age: ', row)
+            return <span>{row.age}岁</span>
+          }
         }
       ],
       treeTableData: [{
@@ -376,14 +407,43 @@ export default {
           label: '地址',
           prop: 'address'
         }
-      ]
+      ],
+      showColumns: []
     }
   },
-  mounted() {
-
+  created() {
+    this.showColumns = this.columns
   },
   methods: {
-    pagelist() {},
+    setColumn(field) {
+      this.showColumns = this[field]
+    },
+    pagelist() {
+      return {
+        code: 200,
+        message: 'OK',
+        success: true,
+        data: {
+          records: [
+            {
+              id: 1,
+              name: '张三',
+              age: 18
+            },
+            {
+              id: 2,
+              name: '李四',
+              age: 29
+            },
+            {
+              id: 3,
+              name: '王五',
+              age: 21
+            }
+          ]
+        }
+      }
+    },
     handleEdit(row) { },
     handleDelete(row) { },
     resetDateFilter() {

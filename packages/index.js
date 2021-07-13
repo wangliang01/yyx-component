@@ -1,3 +1,6 @@
+import '../fonts/iconfont.css'
+import '../styles/index.scss'
+
 // 导入Button组件
 import YButton from './Button'
 import YTable from './Table'
@@ -12,12 +15,24 @@ import YSkuImport from './SkuImport'
 import YInput from './Input'
 import YTreeOrg from './TreeOrg'
 import YPrint from './Print'
+import Tag from './Tag'
+import Dialog from './Dialog'
+import Drawer from './Drawer'
+import ImageViewer from './ImageViewer'
+import Question from './Question'
+import Image from './Image'
+import ImageList from './ImageList'
+import TableDialog from './TableDialog'
+import Text from './Text'
+import Card from './Card'
+import Block from './Block'
+import Tree from './Tree'
 
 const { YCategoryCascader, YAddressCascader, YCascader } = Cascader
 const { YUpload, YAvatar } = Upload
 
 // 组件列表
-const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar]
+const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog, Drawer, ImageViewer, Question, Image, ImageList, TableDialog, Text, Card, Block, Tree]
 
 // 定义install方法，接收Vue作为参数，通过Vue.use()的方式注册组件
 const install = Vue => {
@@ -51,5 +66,17 @@ export default {
   YInput,
   YTreeOrg,
   YPrint,
-  YAvatar
+  YAvatar,
+  Tag,
+  Dialog,
+  Drawer,
+  ImageViewer,
+  Question,
+  Image,
+  ImageList,
+  TableDialog,
+  Text,
+  Card,
+  Block,
+  Tree
 }

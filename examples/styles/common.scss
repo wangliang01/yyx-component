@@ -22,3 +22,48 @@ html, body, ul, li {
   text-align: right;
 }
 
+.el-dialog__wrapper .el-dialog__title, .el-drawer__wrapper #el-drawer__title {
+  font-size: 18px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: bold;
+  color: #262626;
+  line-height: 24px;
+  margin: 0;
+  padding: 19px 18px 13px 24px;
+}
+.el-drawer__wrapper .el-drawer__body {
+  position: relative;
+  padding-bottom: 60px;
+  .footer{
+    height: 60px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: table;
+    text-align: right;
+    padding: 4px 24px 16px;
+  }
+}
+
+.el-image-viewer__btn.el-image-viewer__close {
+  .el-icon-close {
+    color: #fff;
+    background: #606266;
+    border-radius: 50%;
+    font-size: 24px;
+    padding: 8px;
+  }
+}
+
+// 定义显示几行
+@for $i from 1 through 5 {
+  .y-line-#{$i} {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-line-clamp: $i;
+  }
+}
+

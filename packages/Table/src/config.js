@@ -50,7 +50,7 @@ export const defaultColumn = {
   'sort-orders': ['ascending', 'descending', null],
   resizable: true,
   formatter: null,
-  'show-overflow-tooltip': false,
+  'show-overflow-tooltip': true,
   align: 'left',
   'header-align': null,
   'class-name': null,
@@ -80,3 +80,22 @@ export const defaultPagination = {
   disabled: false,
   'hide-on-single-page': false
 }
+
+export const densityConfig = [
+  {
+    label: '默认',
+    value: ''
+  },
+  {
+    label: '中等',
+    value: 'medium'
+  },
+  {
+    label: '紧凑',
+    value: 'small'
+  },
+  {
+    label: '迷你',
+    value: 'mini'
+  }
+]

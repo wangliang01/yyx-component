@@ -4101,3 +4101,7 @@ export const getAddressMap = () => {
   return provinceList
 }
 
+const addressOptions = getAddressMap()
+
+export default addressOptions
+

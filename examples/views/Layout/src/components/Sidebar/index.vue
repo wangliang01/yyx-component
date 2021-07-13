@@ -50,10 +50,15 @@ export default {
 
 <style lang="scss" scoped>
 .sidebar {
+  position: relative;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
   .menu {
-    position: fixed;
+    position: absolute;
     width: 300px;
     top: 0;
+    bottom: 0;
     background-color: #2a3042;
     height: 100%;
     color: #fff;

@@ -1,18 +1,31 @@
 <template>
-  <div class="base-table">
-    <slot name="default"></slot>
+  <div :key="key" class="base-table">
+    <div class="table-top">
+      <slot name="default" class="table-top-left"></slot>
+      <div class="table-top-right">
+        <slot name="table-top-right"></slot>
+        <div v-if="showUtilBar" class="utils-wrapper">
+          <Refresh v-if="utilConifg.includes('refresh')" @refresh="handleRefresh"></Refresh>
+          <Density v-if="utilConifg.includes('density')" :size="size" @resize="handleResize"></Density>
+          <Setting v-if="utilConifg.includes('setting')" v-model="columns" :origin-columns="originColumns"></Setting>
+        </div>
+      </div>
+    </div>
     <el-table
       :key="key"
       v-bind="tableAttrs"
       :data="data"
       :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
-      style="`width: ${width || '100%'}`"
+      :style="`width: ${$attrs.width || '100%'}`"
+      :size="size"
       v-on="$listeners"
     >
       <TableItem
         v-for="(col, index) in columnAttrs"
         :key="index"
         :col="col"
+        :columns="columns"
+        :data="data"
       ></TableItem>
     </el-table>
     <el-pagination
@@ -26,51 +39,60 @@
 </template>
 <script>
 import { defaultTableAttrs, defaultColumn, defaultPagination } from './config'
+import { cloneDeep } from 'lodash'
 import TableItem from './TableItem'
+import Refresh from './Refresh.vue'
+import Density from './Density.vue'
+import Setting from './Setting.vue'
 export default {
   name: 'YTable',
   components: {
-    TableItem
+    TableItem,
+    Refresh,
+    Density,
+    Setting
   },
   props: {
-    /**
-     * data:  显示的数据， 等同于el-table中的data属性
-     */
+    /* data:  显示的数据， 等同于el-table中的data属性 */
     data: {
       type: Array,
       default() {
         return []
       }
     },
-    /**
-     * columns: 显示和表格项，数组里的每一项都是一个对象，对象中的属性与el-table-column中的属性一一对应
-     */
+    /* columns: 显示和表格项，数组里的每一项都是一个对象，对象中的属性与el-table-column中的属性一一对应 */
     columns: {
       type: Array,
       default() {
         return []
       }
     },
-    /**
-     * pagination: 分页属性：如果为Boolean为true,则取默认值，如果是对象，则merge默认值， 如果total有值，会覆盖pagination中的total属性
-     */
+    /* pagination: 分页属性：如果为Boolean为true,则取默认值，如果是对象，则merge默认值， 如果total有值，会覆盖pagination中的total属性 */
     pagination: {
       type: [Object, Boolean],
       default: false
     },
-    /**
-     * 分页总数，
-     */
+    /*  分页总数 */
     total: {
       type: Number,
       default: 0
     },
-    // 重新加载函数
+    /* 重新加载函数 */
     reload: {
       type: Function,
       default() {
         return () => {}
       }
+    },
+    /* 是否显示工具栏 */
+    showUtilBar: {
+      type: Boolean,
+      default: false
+    },
+    /* 工具栏配置项 */
+    utilConifg: {
+      type: Array,
+      default: () => ['refresh', 'density', 'setting']
     }
   },
   data() {
@@ -78,7 +100,9 @@ export default {
       key: Math.random().toString(32).replace('.', ''),
       tableAttrs: defaultTableAttrs, // 表格属性，同el-table上的属性
       columnAttrs: [], // 表格项属性， 同el-table-column上的属性
-      paginationAttrs: {} // 分页属性，同el-pagination上的属性
+      paginationAttrs: {}, // 分页属性，同el-pagination上的属性
+      size: 'mini',
+      originColumns: cloneDeep(this.columns)
     }
   },
   watch: {
@@ -92,11 +116,12 @@ export default {
     total() {
       this.getPagination()
     },
-    data: {
+    columns: {
       handler(val) {
-        console.log(val)
+        this.init()
       },
-      deep: true
+      deep: true,
+      immediate: false
     }
   },
   created() {
@@ -183,6 +208,21 @@ export default {
       if (typeof this.reload === 'function') {
         this.reload(this.paginationAttrs)
       }
+    },
+    handleResize({ size, close }) {
+      this.size = size
+      close && close()
+    },
+    handleRefresh() {
+      this.paginationAttrs = Object.assign({}, this.paginationAttrs, {
+        currentPage: 1
+      })
+      if (typeof this.reload === 'function') {
+        this.reload(this.paginationAttrs)
+      }
+    },
+    columnsReload() {
+      this.originColumns = cloneDeep(this.columns)
     }
   }
 }
@@ -190,5 +230,22 @@ export default {
 <style lang="scss" scoped>
 .base-table {
   overflow: auto;
+}
+.table-top{
+  display: flex;
+  justify-content: space-around;
+}
+.table-top-left{
+  flex: 1;
+  text-align: left;
+}
+.table-top-right{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.utils-wrapper {
+  margin-left: 18px;
 }
 </style>

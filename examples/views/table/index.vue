@@ -5,8 +5,14 @@
       <h2>基础表格</h2>
       <p>基础的表格展示用法。</p>
       <y-table
+        :data="tableData1"
+        :columns="columns1"
+        show-util-bar
+      ></y-table>
+      <y-table
         :data="tableData"
         :columns="columns"
+        show-util-bar
       ></y-table>
     </el-card>
     <el-card class="mt-20">
@@ -140,6 +146,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: '',
   components: {
@@ -199,14 +206,133 @@ export default {
         address: '上海市普陀区金沙江路 1518 弄',
         zip: 200333
       }],
+      tableData1: [{
+        date: '2016-05-03',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-02',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-01',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-08',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-06',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-07',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }],
       columns: [
         {
           prop: 'date',
-          label: '日期'
+          label: '日期',
+          // formatter(row) {
+          //   return moment(row.date).format('YYYY/MM/DD')
+          // },
+          render(h, { row }) {
+            return <span>{moment(row.date).format('YYYY/MM/DD')}</span>
+          }
         },
         {
           prop: 'name',
-          label: '姓名'
+          label: '姓名',
+          render: (h, { row }) => {
+            return <el-input value={row.name} onInput={(value) => { row.name = value }}></el-input>
+          }
+        },
+        {
+          prop: 'province',
+          label: '省份'
+        },
+        {
+          prop: 'city',
+          label: '市区'
+        },
+        {
+          prop: 'address',
+          label: '地址',
+          'show-overflow-tooltip': true
+        },
+        {
+          prop: 'zip',
+          label: '邮编'
+        },
+        {
+          prop: 'hobby',
+          label: '爱好'
+        },
+        {
+          prop: 'zip',
+          label: '邮编'
+        },
+        {
+          prop: 'hobby',
+          label: '爱好'
+        },
+        {
+          label: '操作',
+          fixed: 'right',
+          render() {
+            return (
+              <div>
+                <el-button type='text'>查看</el-button>
+                <el-button type='text'>编辑</el-button>
+              </div>
+            )
+          }
+        }
+      ],
+      columns1: [
+        {
+          prop: 'date',
+          label: '日期',
+          // formatter(row) {
+          //   return moment(row.date).format('YYYY/MM/DD')
+          // },
+          render(h, { row }) {
+            return <span>{moment(row.date).format('YYYY/MM/DD')}</span>
+          }
+        },
+        {
+          prop: 'name',
+          label: '姓名',
+          render: (h, { row }) => {
+            return <el-input value={row.name} onInput={(value) => { row.name = value }}></el-input>
+          }
         },
         {
           prop: 'province',

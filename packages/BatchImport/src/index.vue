@@ -1,8 +1,8 @@
 <template>
-  <div class="batch-import">
+  <div class="batch-import" v-bind="$attrs" v-on="$listeners">
     <!-- 按钮 -->
     <el-button
-      type="primary"
+      :type="$attrs.type"
       icon="el-icon-upload"
       @click="dialogVisible=true"
     >{{ btnText }}</el-button>
@@ -14,10 +14,12 @@
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
       modal-append-to-body
+      append-to-body
       lock-scroll
       destroy-on-close
       width="92%"
       :before-close="handleBeforeClose"
+      @opened="handleOpen"
     >
       <el-upload
         class="upload"
@@ -52,6 +54,8 @@
       </el-button-group>
 
       <y-table
+        ref="table"
+        class="mt-10"
         :max-height="312"
         :data="tableData"
         :columns="currentColumns"
@@ -79,7 +83,7 @@
 
 <script>
 import XLSX from 'xlsx'
-import { merge, find, isEmpty } from 'lodash'
+import { merge, find, isEmpty, cloneDeep, debounce } from 'lodash'
 import { Message } from 'element-ui'
 import moment from 'moment'
 // import Vue from 'vue'
@@ -211,7 +215,8 @@ export default {
         'next-text': '',
         disabled: false,
         'hide-on-single-page': false
-      }
+      },
+      zIndex: -1
 
     }
   },
@@ -238,11 +243,10 @@ export default {
         prop: item.prop,
         render: (h, { row }) => {
           if (this.isEdit) {
-            const type = item.fieldType || 'text'
             if (item.type === 'input') {
-              return <y-input v-model={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={type === 'number'} integer={type === 'integer'}></y-input>
+              return <y-input v-model_trim={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
             } else if (item.type === 'select') {
-              return <el-select v-model={this.tableData[row.index][item.prop]} size='small' clearable rules={row.rules}>
+              return <el-select v-model={this.tableData[row.index][item.prop]} size='small' ref='select' clearable rules={row.rules} >
                 {item.options.map((option) => {
                   return <el-option key={option.value}
                     label={option.label}
@@ -251,25 +255,27 @@ export default {
                 })}
               </el-select>
             } else if (item.type === 'date-picker') {
+              this.tableData[row.index][item.prop] = (moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD'))
               return <el-date-picker
                 style={{ width: '95%', display: 'block' }}
                 v-model={this.tableData[row.index][item.prop]}
                 type='date'
                 size='small'
-                onChange={() => { this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') }}
+                onChange={() => { this.tableData[row.index][item.prop] = (moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD')) }}
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'date-picker-time') {
+              this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss')
               return <el-date-picker
                 style={{ width: '95%', display: 'block' }}
                 v-model={this.tableData[row.index][item.prop]}
                 type='datetime'
                 size='small'
-                onChange={() => { this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss') }}
+                onChange={() => { this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss') }}
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'input-number') {
-              return <YInputNumber v-model={this.tableData[row.index][item.prop]} max={item.max} min={item.min} size='small' clearable rules={row.rules}></YInputNumber>
+              return <YInputNumber v-model_trim={this.tableData[row.index][item.prop]} min={item.min} max={item.max} size='small' clearable rules={row.rules}></YInputNumber>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
@@ -278,9 +284,38 @@ export default {
       }
     })
   },
+  mounted() {
+  },
   methods: {
+    handleOpen() {
+      const tableDom = this.$refs.table.$el
+      const tableBodyWrapper = tableDom.querySelector('.el-table__body-wrapper')
+      // 防抖处理
+      tableBodyWrapper.addEventListener('scroll', debounce(this.handleTableScroll))
+    },
+    handleTableScroll(e) {
+      const elPoppers = [...document.querySelectorAll('.el-select-dropdown.el-popper')]
+      elPoppers.forEach(popper => {
+        const zIndex = popper.style.zIndex
+        if (zIndex > 0) {
+          // 将zIndex临时保存起来
+          this.zIndex = zIndex
+        }
+        this.$nextTick(() => {
+          if (popper) {
+            if (e.target.scrollTop > 5) {
+              popper.style.zIndex = -1
+            } else {
+              popper.style.zIndex = this.zIndex
+            }
+          }
+        })
+      })
+    },
     // 校验数据
     validate(data) {
+      // 校验之前，先把index加入到tableData
+      this.loadData()
       return new Promise((resolve, reject) => {
         data.forEach((item, index) => {
           Object.keys(item).forEach(key => {
@@ -297,9 +332,14 @@ export default {
                   reject(`第${index + 1}行[${column.label}] 值不能为空`)
                 }
               }
-              if (column.pattern) {
+              if (column.pattern && item[key]) {
+                // 如果有值，须满足规则
                 if (!new RegExp(column.pattern).test(item[key])) {
-                  reject(`第${index + 1}行的[${column.label}] 值格式不正确`)
+                  if (column.message) {
+                    reject(`第${index + 1}行的[${column.label}]${column.message}`)
+                  } else {
+                    reject(`第${index + 1}行的[${column.label}] 值格式不正确`)
+                  }
                 }
               }
               // 如果有最大值限制
@@ -353,7 +393,7 @@ export default {
       this.mergeTable()
       this.validate(this.dbData).then(valid => {
         if (valid) {
-          this.$emit('upload', this.dbData)
+          this.$emit('upload', cloneDeep(this.dbData))
         }
       }).catch(err => {
         this.$message.warning(err)
@@ -371,10 +411,8 @@ export default {
     mergeTable() {
       const { size, current } = this.queryParams
       const mergeData = this.tableData.map(item => {
-        return {
-          ...item,
-          index: undefined
-        }
+        delete item.index
+        return item
       })
       this.dbData.splice((current - 1) * size, size, ...mergeData)
     },
@@ -412,7 +450,12 @@ export default {
             return col.label.trim().includes(key)
           })
           if (column) {
-            obj[column.prop] = item[key]
+            if (column.type === 'date-picker') {
+              const format = column.format || 'YYYY-MM-DD'
+              obj[column.prop] = (moment(item[key]).format(format) === 'Invalid date' ? '' : moment(item[key]).format(format))
+            } else {
+              obj[column.prop] = item[key]
+            }
           } else {
             throw new TypeError('上传文件不正确，不符合模板格式，请检查后上传！')
           }
@@ -421,14 +464,17 @@ export default {
       })
       return res
     },
-    // 选择文件
-    httpRequest(e) {
+    initData() {
       this.tableData = []
       this.total = 0
       this.queryParams = {
         current: 1,
         size: 10
       }
+    },
+    // 选择文件
+    httpRequest(e) {
+      this.initData()
       const file = e.file // 文件信息
       if (!file) {
         // 没有文件
@@ -463,7 +509,8 @@ export default {
             message: e.message,
             type: 'error'
           })
-          console.log('出错了：：')
+          console.log('出错了', e.message)
+          this.initData()
           return false
         }
       }
