@@ -8,12 +8,6 @@
       lazy
       :style="{width: `${width}px`, height: `${width}px`}"
     >
-      <div
-        slot="error"
-        class="image-slot"
-      >
-        <i class="el-icon-picture-outline"></i>
-      </div>
     </el-image>
     <!-- 预览，查看放大图按钮 -->
     <div
@@ -94,12 +88,9 @@ export default {
   overflow: hidden;
   border-radius: 4px;
   ::v-deep .el-image {
-    border: 1px solid #d9d9d9;
+    // border: 1px solid #d9d9d9;
     border-radius: 4px;
     position: relative;
-    top: -0.5px;
-    left: -0.5px;
-    overflow: hidden;
     img {
       border: none;
     }

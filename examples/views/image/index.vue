@@ -1,5 +1,5 @@
 <template>
-  <y-image src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"></y-image>
+  <y-image></y-image>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
   },
   data() {
     return {
-
+      src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
     }
   },
   mounted() {
