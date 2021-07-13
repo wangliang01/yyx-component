@@ -1,6 +1,7 @@
 <template>
   <div
     class="image-wrapper"
+    :style="{width: `${width}px`, height: `${width}px`}"
   >
     <el-image
       :src="src"
@@ -95,7 +96,11 @@ export default {
       border: none;
     }
   }
+  .mask {
+    display: none;
+  }
   &:hover .mask {
+    display: block;
     position: absolute;
     width: 100%;
     height: 100%;
