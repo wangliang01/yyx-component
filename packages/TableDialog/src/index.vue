@@ -80,7 +80,6 @@ export default {
           label: '选择',
           // type: 'selection',
           render: (h, scope) => {
-            console.log(scope.row.checked)
             return <el-checkbox v-moel={scope.row.checked}></el-checkbox>
           }
         },

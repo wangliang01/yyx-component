@@ -1,0 +1,31 @@
+// 定义内外边距
+@for $i from 1 through 100 {
+  // margin
+  .y-margin-#{$i}, .u-m-#{$i} {
+    margin: $i + px!important;
+  }
+  // padding
+  .y-padding-#{$i}, .u-p-#{$i} {
+    padding: $i + px!important;
+  }
+
+  // 缩写 left, top, right, bottom
+  @each $short, $long in l left, t top, r right, b bottom {
+    // 定义外边距
+    .y-m-#{$short}-#{$i} {
+      margin-#{$long}: $i + px!important;
+    }
+    // 定义内边距
+    .y-p-#{$short}-#{$i} {
+      padding-#{$long}: $i + px!important;
+    }
+    // 定义外边距，完整版
+    .y-margin-#{$long}-#{$i} {
+      margin-#{$long}: $i + px!important;
+    }
+    // 定义内边距，完整版
+    .y-padding-#{$long}-#{$i} {
+      padding-#{$long}: $i + px!important;
+    }
+  }
+}
