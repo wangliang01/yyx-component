@@ -1,6 +1,6 @@
 <template>
-  <y-dialog :visible.sync="visible" v-bind="$attrs" :title="title">
-    <y-table-pro :load-data-api="loadDataApi" :columns="columns" ui-style="antd" :pagination="false" @selection-change="handleSelectionChange"></y-table-pro>
+  <y-dialog :visible.sync="visible" :title="title">
+    <y-table-pro :load-data-api="loadDataApi" :columns="columns" ui-style="antd" :pagination="false" :params="params" v-bind="$attrs" @selection-change="handleSelectionChange"></y-table-pro>
     <span slot="footer" class="dialog-footer">
       <el-button @click="handleCancel">取 消</el-button>
       <el-button type="primary" @click="handleConfirm">确 定</el-button>
@@ -39,19 +39,22 @@ export default {
                 depositId: '10001',
                 url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
                 depositName: '押金品名称',
-                depositMoney: 10
+                depositMoney: 10,
+                checked: false
               },
               {
                 depositId: '10001',
                 url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
                 depositName: '押金品名称',
-                depositMoney: 10
+                depositMoney: 10,
+                checked: false
               },
               {
                 depositId: '10001',
                 url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
                 depositName: '押金品名称',
-                depositMoney: 10
+                depositMoney: 10,
+                checked: false
               }
             ]
           }
@@ -75,7 +78,11 @@ export default {
         },
         {
           label: '选择',
-          type: 'selection'
+          // type: 'selection',
+          render: (h, scope) => {
+            console.log(scope.row.checked)
+            return <el-checkbox v-moel={scope.row.checked}></el-checkbox>
+          }
         },
         {
           prop: 'depositId',
@@ -99,6 +106,10 @@ export default {
     isCloseDirectly: {
       type: Boolean,
       default: true
+    },
+    canCheckAll: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
