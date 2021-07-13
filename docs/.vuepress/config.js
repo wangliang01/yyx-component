@@ -2,6 +2,7 @@ module.exports = {
   title: 'yyx-component', // 设置网站标题
   description: '基于ElementUI二次开发的组件库', // 描述
   port: 9527, // 端口
+  base: '/yyx-component/',
   displayAllHeaders: true, // 显示所有页面的标题链接
   head: [
     ['script', { src: 'https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js' }],
