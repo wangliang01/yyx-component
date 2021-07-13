@@ -10,7 +10,10 @@ module.exports = {
     ['script', { src: 'https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js' }],
   ],
   plugins: [
-    'demo-block'
+    'demo-block', {
+      jsfiddle: false, // 是否显示 jsfiddle 链接
+      codepen: false, // 是否显示 codepen 链接
+    }
   ],
   themeConfig: { // 主题配置
     nav: [ // 头部导航条
