@@ -73,7 +73,8 @@ module.exports = {
           title: '组件',
           children: [
            'button',
-           'form'
+           'form',
+           'tablepro'
           ]
         }
       ]

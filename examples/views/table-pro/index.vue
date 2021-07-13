@@ -302,17 +302,17 @@ export default {
           label: '姓名',
           prop: 'name',
           fieldType: 'Input',
-          filter: true,
-          marginRight: '50px',
-          width: '280px'
+          filter: true
         },
         {
           label: '年龄',
           prop: 'age',
           fieldType: 'Input',
           filter: true,
-          marginRight: '50px',
-          width: '280px'
+          render(h, { row }) {
+            console.log('column1 render age: ', row)
+            return <span>{row.age}岁</span>
+          }
         }
       ],
       columns2: [
@@ -321,8 +321,7 @@ export default {
           prop: 'name',
           fieldType: 'Input',
           filter: true,
-          marginRight: '50px',
-          width: '280px'
+          marginRight: '50px'
         },
         {
           label: '年龄',
@@ -330,7 +329,10 @@ export default {
           fieldType: 'Input',
           filter: true,
           marginRight: '50px',
-          width: '280px'
+          render(h, { row }) {
+            console.log('column2 render age: ', row)
+            return <span>{row.age}岁</span>
+          }
         }
       ],
       treeTableData: [{
@@ -414,10 +416,34 @@ export default {
   },
   methods: {
     setColumn(field) {
-      console.log('field', field, this[field])
       this.showColumns = this[field]
     },
-    pagelist() {},
+    pagelist() {
+      return {
+        code: 200,
+        message: 'OK',
+        success: true,
+        data: {
+          records: [
+            {
+              id: 1,
+              name: '张三',
+              age: 18
+            },
+            {
+              id: 2,
+              name: '李四',
+              age: 29
+            },
+            {
+              id: 3,
+              name: '王五',
+              age: 21
+            }
+          ]
+        }
+      }
+    },
     handleEdit(row) { },
     handleDelete(row) { },
     resetDateFilter() {
