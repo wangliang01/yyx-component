@@ -1,5 +1,5 @@
 <template>
-  <div class="image-list">
+  <div ref="imageList" class="image-list">
     <y-image v-for="(url, index) in urlList" :key="index" :url-list="urlList" :src="url" class="image-item"></y-image>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     init() {
-      const imageItems = [...document.querySelectorAll('.image-item')]
+      const imageItems = [...this.$refs.imageList.querySelectorAll('.image-item')]
       imageItems.slice(0, imageItems.length - 1).forEach(item => {
         item.style.marginRight = `${this.offset}px`
       })

@@ -79,7 +79,8 @@ module.exports = {
            'block',
            'card',
            'text',
-           'image'
+           'image',
+           'image-list'
           ]
         }
       ]
