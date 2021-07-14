@@ -77,7 +77,8 @@ module.exports = {
            'table',
            'tablepro',
            'block',
-           'card'
+           'card',
+           'text'
           ]
         }
       ]
