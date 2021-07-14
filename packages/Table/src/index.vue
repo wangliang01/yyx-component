@@ -1,5 +1,5 @@
 <template>
-  <div :key="key" class="base-table">
+  <div :key="key" class="y-table">
     <div class="table-top">
       <slot name="default" class="table-top-left"></slot>
       <div class="table-top-right">
@@ -228,7 +228,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.base-table {
+.y-table {
   overflow: auto;
 }
 .table-top{

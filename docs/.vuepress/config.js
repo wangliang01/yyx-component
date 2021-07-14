@@ -74,7 +74,10 @@ module.exports = {
           children: [
            'button',
            'form',
-           'tablepro'
+           'table',
+           'tablepro',
+           'block',
+           'card'
           ]
         }
       ]
