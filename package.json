@@ -4,7 +4,7 @@
   "main": "lib/yui.common.js",
   "license": "MIT",
   "scripts": {
-    "docs:dev": "vuepress dev docs",
+    "docs:dev": "npm run lib && vuepress dev docs",
     "docs:build": "vuepress build docs",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

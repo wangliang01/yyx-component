@@ -33,3 +33,9 @@
 .vuepress-plugin-demo-block__wrapper .vuepress-plugin-demo-block__display {
   max-height: 1000px;
 }
+
+.theme-default-content:not(.custom){
+  max-width: 1000px !important;
+}
+
+
