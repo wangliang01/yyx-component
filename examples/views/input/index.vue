@@ -7,7 +7,7 @@
     <el-card class="mt-20">
       <h2>number类型输入框</h2>
       <strong>整数类型: integer</strong>
-      <y-input v-model="number" integer></y-input>
+      <y-input v-model="number" integer negative></y-input>
     </el-card>
     <el-card class="mt-20">
       <h2>number类型输入框</h2>

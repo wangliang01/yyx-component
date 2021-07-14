@@ -33,6 +33,10 @@ export default {
       type: [Number, String],
       default: 2
     },
+    negative: { // 支持负数
+      type: Boolean,
+      default: false
+    },
     min: {
       type: [Number, String],
       default: 0
@@ -90,9 +94,15 @@ export default {
       let reg
       if (this.integer) {
         reg = new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1})|(0{1}))$`)
+        if (this.negative) {
+          reg = new RegExp(`^(\-?([1-9]{1}\\d{0,${this.integerDigit - 1})|(0{1})|(\-))$`)
+        }
       }
       if (this.number) {
         reg = new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))([.](\\d{1,${this.precision}}))?$`)
+        if (this.negative) {
+          reg = new RegExp(`^(\-?([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1})|(\-?))([.](\\d{1,${this.precision}}))?$`)
+        }
       }
       this.handleInputValue(val, reg)
     },
@@ -117,12 +127,12 @@ export default {
         } else {
           this.$nextTick(() => {
             // 10位整数的正则表达式
-            const intReg = new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))[.]?$`)
+            const intReg = this.negative ? new RegExp(`^(\-?([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))[.]?$`) : new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))[.]?$`)
             // 10位整数，及小数的正则表达式
-            reg = new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))\\.?(\\d{1,${this.precision}})?`)
+            reg = this.negative ? new RegExp(`^(\-?([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))\\.?(\\d{1,${this.precision}})?`) : new RegExp(`^(([1-9]{1}\\d{0,${this.integerDigit - 1}})|(0{1}))\\.?(\\d{1,${this.precision}})?`)
             const matchesFloat = val.match(reg)
             const matchesInt = val.match(intReg)
-            const numberReg = /^\d*$/
+            const numberReg = this.negative ? /^\-?\d*$/ : /^\d*$/
             if (matchesFloat) {
               // 整数，小数
               if (numberReg.test(matchesFloat[0])) {
