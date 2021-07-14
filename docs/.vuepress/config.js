@@ -78,7 +78,8 @@ module.exports = {
            'tablepro',
            'block',
            'card',
-           'text'
+           'text',
+           'image'
           ]
         }
       ]

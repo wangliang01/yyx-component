@@ -6,7 +6,7 @@
     <el-image
       :src="src"
       :fit="fit"
-      lazy
+      v-bind="$attrs"
       :style="{width: `${width}px`, height: `${width}px`}"
     >
     </el-image>
