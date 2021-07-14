@@ -27,17 +27,6 @@ export default {
       type: String,
       default: '属性组1名称：外包装'
     }
-  },
-  data() {
-    return {
-
-    }
-  },
-  mounted() {
-
-  },
-  methods: {
-
   }
 }
 </script>
