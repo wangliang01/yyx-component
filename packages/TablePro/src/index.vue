@@ -153,6 +153,12 @@ export default {
         this.queryParams = { ...this.queryParams, ...val }
       },
       deep: true
+    },
+    loadDataApi: {
+      handler(val) {
+        this.loadData()
+      },
+      deep: true
     }
   },
   mounted() {
