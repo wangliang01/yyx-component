@@ -90,9 +90,9 @@ const routes = [
         meta: { title: 'ImageViewer图片预览' }
       },
       {
-        path: '/question',
-        name: 'Question',
-        component: () => import('../views/question'),
+        path: '/tips',
+        name: 'Tips',
+        component: () => import('../views/tips'),
         meta: { title: 'Question问号' }
       },
       {

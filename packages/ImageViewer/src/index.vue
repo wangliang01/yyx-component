@@ -19,14 +19,6 @@ export default {
       default: false
     }
   },
-  data() {
-    return {
-
-    }
-  },
-  mounted() {
-
-  },
   methods: {
     haneleHide() {
       this.$emit('update:visible', false)

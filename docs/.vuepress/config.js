@@ -80,7 +80,8 @@ module.exports = {
            'card',
            'text',
            'image',
-           'image-list'
+           'image-list',
+           'image-viewer'
           ]
         }
       ]
