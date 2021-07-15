@@ -3,7 +3,7 @@
     <!-- Dialog标题区的内容 -->
     <slot name="title"></slot>
     <!-- Dialog的内容 -->
-    <slot class=""></slot>
+    <slot></slot>
     <!-- Dialog按钮操作区的内容 -->
     <div slot="footer">
       <slot name="footer"></slot>

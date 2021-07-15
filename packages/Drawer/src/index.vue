@@ -4,7 +4,7 @@
     <slot name="title"></slot>
     <!-- Drawer的内容 -->
     <slot></slot>
-    <div v-if="showFooter" class="footer">
+    <div v-if="withFooter" class="footer">
       <el-button @click="handleCancel">取 消</el-button>
       <el-button type="primary" @click="handleConfirm">确 认</el-button>
     </div>
@@ -17,7 +17,7 @@ export default {
   components: {
   },
   props: {
-    showFooter: {
+    withFooter: {
       type: Boolean,
       default: true
     }
@@ -32,7 +32,6 @@ export default {
   },
   methods: {
     handleCancel() {
-      console.log(this.$attrs, this.$listeners)
       this.$emit('cancel', () => {
         this.$emit('update:visible', false)
       })
@@ -45,7 +44,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .el-drawer__body{
-//   padding-bottom: 60px;
-// }
+
 </style>
