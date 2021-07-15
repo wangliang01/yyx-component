@@ -1,6 +1,6 @@
 # Backtop 回到顶部
 
-## 基础用法
+## 基本用法
 
 ```html
 <template>

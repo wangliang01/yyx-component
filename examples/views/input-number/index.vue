@@ -3,7 +3,7 @@
     <h1>YInputNumber计数器</h1>
     <p>仅允许输入标准的数字值，可定义范围</p>
     <el-card>
-      <h2>基础用法</h2>
+      <h2>基本用法</h2>
       <y-input-number v-model="num"></y-input-number>
     </el-card>
     <el-card class="mt-20">
