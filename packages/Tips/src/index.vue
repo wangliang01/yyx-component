@@ -1,7 +1,7 @@
 <template>
   <el-tooltip :effect="effect" :placement="placement" v-bind="$attrs" :style="{width: `${size}px`, height: `${size}px`, fontSize: `${size}px`, color: `${color}`}">
     <div slot="content">
-      <slot name="content">{{ content }}</slot>
+      <slot></slot>
     </div>
     <i class="iconfont icon-tishi"></i>
   </el-tooltip>
@@ -13,10 +13,6 @@ export default {
   components: {
   },
   props: {
-    content: {
-      type: String,
-      default: '提示文字'
-    },
     size: {
       type: [String, Number],
       default: 14
@@ -33,17 +29,6 @@ export default {
       type: String,
       default: 'top'
     }
-  },
-  data() {
-    return {
-
-    }
-  },
-  mounted() {
-
-  },
-  methods: {
-
   }
 }
 </script>

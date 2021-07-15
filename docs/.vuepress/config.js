@@ -81,7 +81,8 @@ module.exports = {
            'text',
            'image',
            'image-list',
-           'image-viewer'
+           'image-viewer',
+           'tips'
           ]
         }
       ]
