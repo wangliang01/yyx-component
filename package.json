@@ -28,7 +28,7 @@
     "async-validator": "1.11.5",
     "bignumber.js": "^9.0.1",
     "core-js": "^3.6.5",
-    "element-ui": "^2.15.1",
+    "element-ui": "^2.15.3",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "vue": "^2.6.11",
@@ -59,6 +59,7 @@
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11",
     "vuepress": "^1.8.2",
-    "vuepress-plugin-demo-block": "^0.7.2"
+    "vuepress-plugin-demo-block": "^0.7.2",
+    "vuepress-plugin-demo-container": "^0.2.0"
   }
 }

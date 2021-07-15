@@ -10,10 +10,11 @@ module.exports = {
     ['script', { src: 'https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js' }],
   ],
   plugins: [
-    'demo-block', {
-      jsfiddle: false, // 是否显示 jsfiddle 链接
-      codepen: false, // 是否显示 codepen 链接
-    }
+    // 'demo-block', {
+    //   jsfiddle: false, // 是否显示 jsfiddle 链接
+    //   codepen: false, // 是否显示 codepen 链接
+    // },
+    'demo-container'
   ],
   themeConfig: { // 主题配置
     nav: [ // 头部导航条
@@ -72,17 +73,30 @@ module.exports = {
         {
           title: '组件',
           children: [
-           'button',
-           'form',
-           'table',
-           'tablepro',
+           'backtop',
+           'batch-import',
            'block',
+           'button',
            'card',
-           'text',
-           'image',
+           'cascader',
+           'dialog',
+           'drawer',
+           'form',
            'image-list',
            'image-viewer',
-           'tips'
+           'image',
+           'input-number',
+           'input',
+           'print',
+           'table',
+           'tablepro',
+           'table-dialog',
+           'text',
+           'tips',
+           'sku-import',
+           'tag',
+           'tree',
+           'upload'
           ]
         }
       ]

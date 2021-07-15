@@ -6,13 +6,11 @@
     <el-tooltip
       :disabled="!ellipsis"
       effect="dark"
-      :content="content"
+      :content="`${content}`"
       placement="top"
     >
-      <div class="text-tooltip-wrapper" :class="{[`y-line-${line}`]: ellipsis}">
-        <span class="text">
-          {{ content }}
-        </span>
+      <div class="text-tooltip-wrapper" :class="{[`y-line-${line}`]: true}">
+        <span class="text">{{ content }}</span>
       </div>
     </el-tooltip>
     <span class="text-copy">{{ content }}</span>

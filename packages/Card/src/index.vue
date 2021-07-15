@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h2 class="card-title" :style="{fontSize: `${size}px`}">{{ title }}</h2>
+    <h2 v-if="hasTitle" class="card-title" :style="{fontSize: `${size}px`}">{{ title }}</h2>
     <el-row class="card-row">
       <el-col v-for="(item, index) in columns" :key="index" class="card-col" :span="span">
         <span class="card-label">{{ item.label }}:</span>
@@ -16,6 +16,10 @@ export default {
   components: {
   },
   props: {
+    hasTitle: {
+      type: Boolean,
+      default: true
+    },
     title: {
       type: String,
       default: 'Spu 基本信息'
@@ -25,7 +29,7 @@ export default {
       default: () => {
         return {
           spuName: '胡萝卜AAA',
-          shelfLife: '15',
+          shelfLife: 15,
           type: 'standard',
           brand: '集鲜到',
           backType: '生鲜蔬菜/根茎类/萝卜/胡萝卜',

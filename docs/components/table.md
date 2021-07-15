@@ -11,25 +11,17 @@
 ```html
 <template>
   <div>
-    <y-button>按钮</y-button>
-    <y-table :data="tableData" :columns="columns" showUtilsBar ui-style="antd"></y-table>
-    <el-table
+    <!-- <y-button>按钮</y-button>
+    <y-table
       :data="tableData"
-      style="width: 100%">
-      <el-table-column
-        prop="date"
-        label="日期"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="姓名"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="address"
-        label="地址">
-      </el-table-column>
+      :columns="columns"
+      showUtilsBar
+      ui-style="antd"
+    ></y-table> -->
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="date" label="日期" width="180"> </el-table-column>
+      <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
+      <el-table-column prop="address" label="地址"> </el-table-column>
     </el-table>
   </div>
 </template>
