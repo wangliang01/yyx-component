@@ -1,6 +1,6 @@
 <template>
   <y-dialog :visible.sync="visible" :title="title">
-    <y-table-pro :load-data-api="loadDataApi" :columns="columns" ui-style="antd" :pagination="false" :params="params" v-bind="$attrs" @selection-change="handleSelectionChange"></y-table-pro>
+    <y-table-pro ref="table" :load-data-api="loadDataApi" :columns="columns" ui-style="antd" :pagination="false" :params="params" v-bind="$attrs" @selection-change="handleSelectionChange" @select-all="handleSelectAll"></y-table-pro>
     <span slot="footer" class="dialog-footer">
       <el-button @click="handleCancel">取 消</el-button>
       <el-button type="primary" @click="handleConfirm">确 定</el-button>
@@ -77,11 +77,8 @@ export default {
           hidden: true
         },
         {
-          label: '选择',
-          // type: 'selection',
-          render: (h, scope) => {
-            return <el-checkbox v-moel={scope.row.checked}></el-checkbox>
-          }
+          type: 'selection',
+          labelClassName: 'disable-selection'
         },
         {
           prop: 'depositId',
@@ -139,7 +136,11 @@ export default {
       this.$emit('confirm', { data: this.data, done: this.closeDialog })
     },
     handleSelectionChange(data) {
+      console.log(data)
       this.data = data
+    },
+    handleSelectAll(data) {
+      console.log('select all', data)
     }
   }
 }
@@ -148,5 +149,14 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .el-dialog__body {
   padding: 0;
+  .el-table .disable-selection .cell .el-checkbox__inner{
+    display:none;
+    position:relative;
+  }
+  .el-table .disable-selection .cell:before{
+    content:"选择";
+    position:absolute;
+    right: 11px;
+  }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <y-button @click="handleOpen">打开弹窗</y-button>
-    <y-table-dialog :visible.sync="visible" @cancel="handleCancel"></y-table-dialog>
+    <y-table-dialog :visible.sync="visible" @cancel="handleCancel" @confirm="handleConfirm"></y-table-dialog>
   </div>
 </template>
 
@@ -24,6 +24,9 @@ export default {
     },
     handleCancel(close) {
       close()
+    },
+    handleConfirm({ data, done }) {
+      console.log(data, done)
     }
   }
 }

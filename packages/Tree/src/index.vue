@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .el-tree-node{
+::v-deep .el-tree-node:not(.is-expanded){
   .el-tree-node__content {
     padding-left: 36px;
     margin-bottom: 2px;
@@ -41,6 +41,9 @@ export default {
     &:hover {
       background-color: #F1F8EF;
     }
+  }
+  &:focus > .el-tree-node__content {
+    background-color: #F1F8EF;
   }
   .el-tree-node__expand-icon{
     font-size: 16px;
