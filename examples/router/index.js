@@ -136,6 +136,12 @@ const routes = [
         name: 'Tree',
         component: () => import('../views/tree'),
         meta: { title: 'Tree树' }
+      },
+      {
+        path: '/card-form',
+        name: 'CardForm',
+        component: () => import('../views/card-form'),
+        meta: { title: 'CardForm 卡片表格' }
       }
     ]
   }
