@@ -1,5 +1,5 @@
 <template>
-  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" v-on="$listeners" @change="handleValueChange">
+  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" :props="$attrs.props ? $attrs.props: model" v-on="$listeners" @change="handleValueChange">
   </el-cascader>
 </template>
 
@@ -10,6 +10,25 @@ export default {
     dataApi: {
       type: Function,
       required: true
+    },
+    // element 级联组件的props属性
+    model: {
+      type: Object,
+      default: () => {
+        return {
+          expandTrigger: 'click',
+          multiple: false,
+          checkStrictly: false,
+          emitPath: true,
+          lazy: false,
+          lazyLoad: (node, resolve) => {},
+          value: 'value',
+          label: 'label',
+          children: 'children',
+          disabled: 'disabled',
+          leaf: 'leaf'
+        }
+      }
     },
     format: {
       type: Function,
@@ -33,21 +52,10 @@ export default {
     return {
       currentValue: this.value,
       ref: `category_cascader_${Date.now()}`,
-      options: []
+      options: this.$attrs.options || []
     }
   },
   watch: {
-    // value: {
-    //   handler(value) {
-    //     if (typeof this.value === 'string') {
-    //       this.currentValue = this.value.split(',')
-    //     } else {
-    //       this.currentValue = value
-    //     }
-    //   },
-    //   deep: true,
-    //   immediate: true
-    // },
     inputValue: {
       handler(val) {
         this.$nextTick(() => {
@@ -59,12 +67,14 @@ export default {
     }
   },
   async created() {
+    console.log('attrs', this.$attrs)
     if (typeof this.value === 'string') {
       this.currentValue = this.value.split(',')
     } else {
       this.currentValue = this.value
     }
     try {
+      if (typeof this.dataApi !== 'function') return
       // 从接口获取数据
       const res = await this.dataApi()
       let data = res.data
