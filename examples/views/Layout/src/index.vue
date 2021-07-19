@@ -41,6 +41,8 @@ export default {
   min-height: 100vh;
   .aside {
     width: 300px;
+    min-height: 100vh;
+    height: auto;
   }
   .main {
     padding: 0;

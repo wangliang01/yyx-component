@@ -63,6 +63,7 @@
         :total="total"
         :reload="reloadData"
         v-bind="$attrs"
+        @selection-change="handleSelectChange"
         v-on="$listeners"
       >
         <div ref="tableTop">
@@ -75,11 +76,21 @@
         </template>
       </y-table>
     </div>
+    <!-- 批量操作区域 -->
+    <div v-if="hasBatchAction" class="y-table-batch-action-area" :style="`left: ${offset}px`">
+      <div class="action-left">
+        <y-text :content="`共选择${selection.length}条数据`"></y-text>
+      </div>
+      <div class="action-right">
+        <el-button @click="handleCancelSelection">取消选择</el-button>
+        <slot name="action-right" :selection="selection"></slot>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { filter, cloneDeep } from 'lodash'
+import { filter, cloneDeep, isEmpty } from 'lodash'
 export default {
   name: 'YTablePro',
   props: {
@@ -109,6 +120,10 @@ export default {
     uiStyle: {
       type: String,
       default: 'element'
+    },
+    offset: {
+      type: [String, Number],
+      default: 200
     }
   },
   data() {
@@ -124,7 +139,8 @@ export default {
       config: {}, // 渲染表单的数据
       canShowExpandBtn: false, // 是否显示展开筛选条件按钮
       isExpand: false,
-      overflowHeight: 0
+      overflowHeight: 0,
+      selection: []
 
     }
   },
@@ -132,6 +148,13 @@ export default {
     formConfig() {
       const filterColumns = filter(this.columns, column => column.filter)
       return filterColumns
+    },
+    hasBatchAction() {
+      const hasSelection = this.columns.find(column => column.type === 'selection') && this.uiStyle === 'antd'
+      if (hasSelection && !isEmpty(this.selection)) {
+        return true
+      }
+      return false
     }
   },
   watch: {
@@ -176,6 +199,14 @@ export default {
     window.removeEventListener('resize', this.initTableFilter)
   },
   methods: {
+    /* 取消选择 */
+    handleCancelSelection() {
+      this.$refs.table.clearSelection()
+    },
+    /* 选择框 */
+    handleSelectChange(selection) {
+      this.selection = selection
+    },
     /* 展开，收起 */
     handleToggle() {
       this.isExpand = !this.isExpand
@@ -404,6 +435,35 @@ export default {
   .btn-next {
 
   }
+}
+
+.y-table-batch-action-area{
+  display: flex;
+  position: fixed;
+  height: 64px;
+  align-items: center;
+  bottom: 0;
+  right: 0;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 0 24px;
+  box-shadow: 0px -3px 6px -4px rgba(0, 0, 0, 0.12), 0px -6px 16px 0px rgba(0, 0, 0, 0.08), 0px -9px 28px 8px rgba(0, 0, 0, 0.05);
+  .action-left{
+    flex: 1;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+  }
+  .action-right{
+    flex: 1;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+.highlight{
+  background-color: #ecf5ff !important;
 }
 
 </style>
