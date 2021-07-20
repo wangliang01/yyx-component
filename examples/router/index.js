@@ -142,6 +142,12 @@ const routes = [
         name: 'CardForm',
         component: () => import('../views/card-form'),
         meta: { title: 'CardForm 卡片表格' }
+      },
+      {
+        path: '/container',
+        name: 'Container',
+        component: () => import('../views/container'),
+        meta: { title: 'Container 容器' }
       }
     ]
   }
