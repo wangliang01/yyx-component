@@ -1,6 +1,6 @@
 <template>
   <div>
-    <y-text style="width: 200px;"></y-text>
+    <y-text style="width: 200px;" content="123" type="info"></y-text>
   </div>
 </template>
 

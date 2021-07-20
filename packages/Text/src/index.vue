@@ -1,15 +1,13 @@
 <template>
-  <div
-    ref="text"
-    class="text-wrapper"
-  >
+  <div ref="text" class="text-wrapper">
     <el-tooltip
       :disabled="!ellipsis"
       effect="dark"
       :content="`${content}`"
       placement="top"
     >
-      <div class="text-tooltip-wrapper" :class="{[`y-line-${line}`]: true}">
+      <div class="text-tooltip-wrapper" :class="{ [`y-line-${line}`]: true }">
+        <i v-if="dot" class="dot" :class="`dot-${type}`"></i>
         <span class="text">{{ content }}</span>
       </div>
     </el-tooltip>
@@ -20,8 +18,7 @@
 <script>
 export default {
   name: 'YText',
-  components: {
-  },
+  components: {},
   props: {
     content: {
       type: [String, Number, Boolean, Object, Array],
@@ -30,6 +27,14 @@ export default {
     line: {
       type: [Number, String],
       default: 1
+    },
+    dot: {
+      type: Boolean,
+      default: false
+    },
+    type: {
+      type: String,
+      default: 'primary'
     }
   },
   data() {
@@ -54,7 +59,9 @@ export default {
       this.$nextTick(() => {
         const textDom = this.$refs.text.querySelector('.text')
         const textCopyDom = this.$refs.text.querySelector('.text-copy')
-        this.ellipsis = textDom.getBoundingClientRect().width < textCopyDom.getBoundingClientRect().width
+        this.ellipsis =
+          textDom.getBoundingClientRect().width <
+          textCopyDom.getBoundingClientRect().width
       })
     },
     initDom() {
@@ -69,10 +76,38 @@ export default {
 <style lang="scss" scoped>
 .text-wrapper {
   display: inline-block;
-  .text-copy{
+  .text-copy {
     position: fixed;
     top: -10000px;
     visibility: hidden;
+  }
+}
+.text-tooltip-wrapper{
+  display: inline-flex;
+  align-items: center;
+}
+.dot {
+  display: inline-block;
+  position: relative;
+  margin-right: 6px;
+  top: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  &-success {
+    background: #52c41a;
+  }
+  &-warning {
+    background: #FAAD14;
+  }
+  &-primary {
+    background: #1890FF;
+  }
+  &-error {
+    background: #FF4D4F;
+  }
+  &-info {
+    background: rgba(0, 0, 0, .25);
   }
 }
 </style>
