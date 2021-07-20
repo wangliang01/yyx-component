@@ -29,12 +29,7 @@ export default {
         {
           label: '日期',
           prop: 'date',
-          // fieldType: 'Customer',
-          // component: {
-          //   render: (h) => {
-          //     return <y-cascader v-model={this.params.value} options={this.options}></y-cascader>
-          //   }
-          // },
+          // 自定义组件写法一
           filter: {
             render: (h) => {
               return <y-cascader v-model={this.params.value} options={this.options}></y-cascader>
@@ -43,11 +38,26 @@ export default {
         },
         {
           label: '姓名',
-          prop: 'name'
+          prop: 'name',
+          // 自定义组件写法二
+          filter: true,
+          fieldType: 'Customer',
+          component: {
+            render: (h) => {
+              return <y-input v-model={this.params.value}></y-input>
+            }
+          }
         },
         {
           label: '地址',
-          prop: 'address'
+          prop: 'address',
+          // 自定义组件写法三
+          filter: true,
+          fieldType: {
+            render: (h) => {
+              return <y-cascader v-model={this.params.value} options={this.options}></y-cascader>
+            }
+          }
         }
       ],
       loadDataApi: () => {
