@@ -453,6 +453,7 @@ export default {
     height: 100%;
     display: inline-flex;
     align-items: center;
+    font-size: 14px;
   }
   .action-right{
     flex: 1;
