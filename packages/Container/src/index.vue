@@ -32,11 +32,11 @@ export default {
     },
     width: {
       type: [String, Number],
-      default: 'auto'
+      default: '100%'
     },
     height: {
       type: [String, Number],
-      default: '100'
+      default: '100px'
     },
     shadow: {
       type: Boolean,
@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     style() {
-      return `border: ${this.borderWidth}px ${this.borderType} ${this.borderColor}; background: ${this.background}; border-radius: ${this.borderRadius}px; width: ${this.width}px; height: ${this.height}px; box-shadow: ${this.shadow ? '0px 5px 12px 4px rgba(0, 0, 0, 0.09), 0px 3px 6px 0px rgba(0, 0, 0, 0.12), 0px 1px 2px -2px rgba(0, 0, 0, 0.16)' : 'none'};`
+      return `border: ${this.borderWidth}px ${this.borderType} ${this.borderColor}; background: ${this.background}; border-radius: ${this.borderRadius}px; width: ${this.width}; height: ${this.height}; box-shadow: ${this.shadow ? '0px 5px 12px 4px rgba(0, 0, 0, 0.09), 0px 3px 6px 0px rgba(0, 0, 0, 0.12), 0px 1px 2px -2px rgba(0, 0, 0, 0.16)' : 'none'};`
     }
   },
   mounted() {

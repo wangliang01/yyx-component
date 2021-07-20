@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <y-container></y-container>
+    <y-container></y-container>
+    <y-container></y-container>
+    <y-container></y-container>
   </div>
 </template>
 
@@ -27,5 +30,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.container {
+  display: flex;
+  &>div{
+    margin-right: 20px;
+    &:last-child{
+      margin-right: 0;
+    }
+  }
+}
 </style>

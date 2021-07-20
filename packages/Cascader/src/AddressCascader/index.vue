@@ -1,9 +1,10 @@
 <template>
-  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" v-on="$listeners" @change="handleValueChange">
+  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" :props="props" v-on="$listeners" @change="handleValueChange">
   </el-cascader>
 </template>
 
 <script>
+/* eslint-disable */
 import addressOptions from './address'
 export default {
   name: 'YAddressCascader',
@@ -12,13 +13,17 @@ export default {
     value: {
       type: [String, Array],
       required: true
-    }
+    },
+    // 国内： internal; 国外: overseas
+    mode: String,
+    api: Function
   },
   data() {
     return {
+      props: { value: 'value', label: 'label', children: 'children' },
       currentValue: this.value,
       ref: `category_cascader_${Date.now()}`,
-      options: addressOptions
+      options: []
     }
   },
   watch: {
@@ -32,9 +37,39 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    mode: {
+      handler(val) {
+        // 重新获取数据
+        switch (val) {
+          case 'internal':
+            // 国内数据
+            this.getOptions()
+            this.props = { value: 'adcode', label: 'name', children: 'districts' }
+            break
+          case 'overseas':
+            // 国外数据
+            this.getOptions()
+            this.props = { value: 'code', label: 'nameCn' }
+            break
+          default:
+            // 兼容老系统
+            this.options = addressOptions
+            this.props = { value: 'value', label: 'label', children: 'children' }
+        }
+      },
+      immediate: true
     }
   },
   methods: {
+    async getOptions() {
+      if (typeof this.api === 'function') {
+          const res = await this.api()
+          if (res.success) {
+            this.options = res.data
+          }
+        }
+    },
     handleValueChange(value) {
       if (Array.isArray(value)) {
         this.$emit('input', value.join(','))

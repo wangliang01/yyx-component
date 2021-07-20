@@ -208,7 +208,7 @@ export default {
     }
   },
   render(h) {
-    return <y-cascader-panel options={this.options} propsProps={{multiple: true}} onClick={this.handleClick}></y-cascader-panel>
+    return <y-address-cascader></y-address-cascader>
   },
   props: {
 
