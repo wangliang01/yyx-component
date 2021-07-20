@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="$attrs.render"
+    :is="$attrs.component || $attrs.render"
     :value="currentValue"
     @input="handleInputEvent"
   ></component>

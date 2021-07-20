@@ -216,7 +216,6 @@ export default {
       if (isLeaf) {
         // 是叶子节点
         events.on.click = this.handleClick
-        this.$emit('click', e)
       } else {
         events.on.click = this.handleExpand
       }

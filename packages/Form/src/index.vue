@@ -19,7 +19,7 @@
       :size="field.size"
     >
       <component
-        :is="field.fieldType"
+        :is="field.fieldType || field.filter"
         v-bind="field"
         :value="formData[field.prop]"
         :on-pick="field.onPick"
