@@ -208,7 +208,7 @@ export default {
     }
   },
   render(h) {
-    return <el-cascader-panel options={this.options} propsProps={{multiple: true}}></el-cascader-panel>
+    return <y-cascader-panel options={this.options} propsProps={{multiple: true}} onClick={this.handleClick}></y-cascader-panel>
   },
   props: {
 
@@ -219,6 +219,9 @@ export default {
 
   },
   methods: {
+    handleClick(node) {
+      console.log('handleClick', node);
+    },
     getDataApi(params) {
       let id = 0
       let level = 0

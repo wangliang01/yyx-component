@@ -1,4 +1,5 @@
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const path = require('path')
 module.exports = {
   pages: {
     index: {
@@ -12,7 +13,7 @@ module.exports = {
       rules: [
         {
           test: /\.m?js$/,
-          exclude: /node_modules/,
+          include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'node_modules/element-ui/packages')],
           use: {
             loader: 'babel-loader'
           }
