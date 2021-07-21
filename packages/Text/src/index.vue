@@ -59,9 +59,7 @@ export default {
       this.$nextTick(() => {
         const textDom = this.$refs.text.querySelector('.text')
         const textCopyDom = this.$refs.text.querySelector('.text-copy')
-        this.ellipsis =
-          textDom.getBoundingClientRect().width <
-          textCopyDom.getBoundingClientRect().width
+        this.ellipsis = textDom.getBoundingClientRect().width < textCopyDom.getBoundingClientRect().width
       })
     },
     initDom() {
@@ -81,10 +79,6 @@ export default {
     top: -10000px;
     visibility: hidden;
   }
-}
-.text-tooltip-wrapper{
-  display: inline-flex;
-  align-items: center;
 }
 .dot {
   display: inline-block;

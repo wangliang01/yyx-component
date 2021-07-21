@@ -1,5 +1,5 @@
 <template>
-  <y-card size="18"></y-card>
+  <y-card></y-card>
 </template>
 
 <script>
