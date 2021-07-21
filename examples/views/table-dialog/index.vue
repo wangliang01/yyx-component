@@ -1,7 +1,10 @@
 <template>
   <div>
     <y-button @click="handleOpen">打开弹窗</y-button>
-    <y-table-dialog :visible.sync="visible" @cancel="handleCancel" @confirm="handleConfirm"></y-table-dialog>
+    <y-table-dialog :visible.sync="visible" @cancel="handleCancel" @confirm="handleConfirm">
+      <div slot="table">123123</div>
+      <div slot="table-top-right">112312</div>
+    </y-table-dialog>
   </div>
 </template>
 

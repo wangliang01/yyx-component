@@ -1,6 +1,15 @@
 <template>
   <y-dialog :visible.sync="visible" :title="title">
-    <y-table-pro ref="table" :load-data-api="loadDataApi" :columns="columns" ui-style="antd" :pagination="false" :params="params" v-bind="$attrs" @selection-change="handleSelectionChange" @select-all="handleSelectAll"></y-table-pro>
+    <y-table-pro ref="table" :load-data-api="loadDataApi" :columns="columns" ui-style="antd" :pagination="false" :params="params" v-bind="$attrs" @selection-change="handleSelectionChange" @select-all="handleSelectAll">
+      <template slot="table">
+        <!-- table左侧 -->
+        <slot name="table"></slot>
+      </template>
+      <template slot="table-top-right">
+        <!-- table右侧 -->
+        <slot name="table-top-right"></slot>
+      </template>
+    </y-table-pro>
     <span slot="footer" class="dialog-footer">
       <el-button @click="handleCancel">取 消</el-button>
       <el-button type="primary" @click="handleConfirm">确 定</el-button>
