@@ -7,7 +7,7 @@
     <div class="card-form-body">
       <y-form
         ref="form"
-        v-model="form"
+        v-model="formData"
         :config="config"
         :label-suffix="labelSuffix"
         label-position="right"
@@ -110,7 +110,8 @@ export default {
           operatingPeriod: {
             label: '交货天数',
             prop: 'operatingPeriod',
-            fieldType: 'Input'
+            fieldType: 'Radio',
+            options: [{ label: '在线', value: 1 }, { label: '离线', value: 0 }]
           }
         }
       }
@@ -118,8 +119,17 @@ export default {
   },
   data() {
     return {
+      formData: {},
       key: cid,
       cols: this.span
+    }
+  },
+  watch: {
+    form: {
+      handler(val) {
+        this.formData = val
+      },
+      deep: true
     }
   },
   mounted() {

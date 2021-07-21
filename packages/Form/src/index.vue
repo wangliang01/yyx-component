@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { cloneDeep } from 'lodash'
 import Input from './components/Input'
 import InputNumber from '../../InputNumber'
 import Radio from './components/Radio'
@@ -72,7 +73,7 @@ export default {
   },
   data() {
     return {
-      formData: { ...this.value }
+      formData: cloneDeep(this.value)
     }
   },
   watch: {
