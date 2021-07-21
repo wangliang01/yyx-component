@@ -1,11 +1,19 @@
 <template>
   <div :key="key" class="y-card-form">
     <div v-if="withHeader" class="card-form-header-wrapper">
-      <h3 class="title">{{ title }}</h3>
+      <h3 class="title">{{ title }} <slot name="title"> </slot></h3>
       <slot name="header-right"></slot>
     </div>
     <div class="card-form-body">
-      <y-form ref="form" v-model="form" :config="config" :label-suffix="labelSuffix" label-position="right" :label-width="labelWidth" inline></y-form>
+      <y-form
+        ref="form"
+        v-model="form"
+        :config="config"
+        :label-suffix="labelSuffix"
+        label-position="right"
+        :label-width="labelWidth"
+        inline
+      ></y-form>
     </div>
   </div>
 </template>
@@ -126,15 +134,20 @@ export default {
       const form = this.$refs.form.$el
       const formItems = form.querySelectorAll('.el-form-item')
       const formWidth = form.clientWidth
-      // this.setCols(formWidth)
+      this.setCols(formWidth)
 
       for (const item of formItems) {
         // 获取el-form-item的width
         const itemWidth = Math.floor(formWidth / this.cols)
         // 获取el-form-item__label的paddingRight
-        const paddingRight = parseInt(getComputedStyle(item.querySelector('.el-form-item__label')).paddingRight)
+        const paddingRight = parseInt(
+          getComputedStyle(item.querySelector('.el-form-item__label'))
+            .paddingRight
+        )
         // 获取el-form-item__label的width
-        const labelWidth = item.querySelector('.el-form-item__label').getBoundingClientRect().width
+        const labelWidth = item
+          .querySelector('.el-form-item__label')
+          .getBoundingClientRect().width
         // 获取el-form-item__content的width
         const contentWidth = itemWidth - this.offset - labelWidth - paddingRight
         // 设置el-form-item__content的width
@@ -144,21 +157,19 @@ export default {
     },
     setCols(formWidth) {
       switch (true) {
-        case formWidth > 1920:
-        case formWidth > 1680:
+        case formWidth > 1240:
           // 如果传入的cols大于4，则强制改为4
-          if (this.cols > 4) {
+          if (this.cols >= 3) {
             this.cols = 4
           }
           break
-        case formWidth > 1440:
         case formWidth > 992:
-          if (this.cols > 3) {
+          if (this.cols >= 3) {
             this.cols = 3
           }
           break
         case formWidth > 768:
-          if (this.cols > 2) {
+          if (this.cols >= 2) {
             this.cols = 2
           }
           break
@@ -170,19 +181,20 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.y-card-form{
+.y-card-form {
   background-color: #fff;
   padding: 24px;
   box-sizing: border-box;
   border-radius: 4px;
   .title {
+    display: inline-flex;
+    align-items: center;
     margin: 0 0 27px 0;
     padding: 0;
     font-size: 18px;
     font-family: PingFang-SC-Heavy, PingFang-SC;
     font-weight: 800;
     color: #262626;
-    line-height: 24px;
   }
 }
 </style>
