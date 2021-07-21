@@ -371,7 +371,7 @@ export default {
   border-radius: 2px;
   &.antd-form-wrapper{
     padding: 0 16px 0;
-    background-color: #fff;
+    background-color: $--color-white;
   }
   ::v-deep .el-form {
     margin-right: 300px;
@@ -393,7 +393,7 @@ export default {
 .table-wrapper{
   padding: 16px;
   margin-top: 16px;
-  background-color: #fff;
+  background-color: $--color-white;
   border-radius: 2px;
 }
 ::v-deep .table-top{
@@ -444,7 +444,7 @@ export default {
   align-items: center;
   bottom: 0;
   right: 0;
-  background-color: #fff;
+  background-color: $--color-white;
   box-sizing: border-box;
   padding: 0 24px;
   box-shadow: 0px -3px 6px -4px rgba(0, 0, 0, 0.12), 0px -6px 16px 0px rgba(0, 0, 0, 0.08), 0px -9px 28px 8px rgba(0, 0, 0, 0.05);
@@ -463,8 +463,4 @@ export default {
     justify-content: flex-end;
   }
 }
-.highlight{
-  background-color: #ecf5ff !important;
-}
-
 </style>

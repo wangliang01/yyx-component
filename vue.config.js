@@ -1,6 +1,13 @@
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const path = require('path')
 module.exports = {
+  css: {
+    loaderOptions: {
+      scss: {
+        prependData: `@import "styles/element-variables.scss";`
+      }
+    }
+  },
   pages: {
     index: {
       entry: 'examples/main.js',
