@@ -116,7 +116,8 @@ export default {
       return 0
     },
     updateForm(fieldName, value) {
-      this.formData[fieldName] = value
+      /* this.formData[fieldName] = value */
+      this.$set(this.formData, fieldName, value)
       this.$emit('input', this.formData)
     }
   }
