@@ -126,7 +126,7 @@ export default {
       const form = this.$refs.form.$el
       const formItems = form.querySelectorAll('.el-form-item')
       const formWidth = form.clientWidth
-      this.setCols(formWidth)
+      // this.setCols(formWidth)
 
       for (const item of formItems) {
         // 获取el-form-item的width
@@ -147,14 +147,20 @@ export default {
         case formWidth > 1920:
         case formWidth > 1680:
           // 如果传入的cols大于4，则强制改为4
-          this.cols = 4
+          if (this.cols > 4) {
+            this.cols = 4
+          }
           break
         case formWidth > 1440:
         case formWidth > 992:
-          this.cols = 3
+          if (this.cols > 3) {
+            this.cols = 3
+          }
           break
         case formWidth > 768:
-          this.cols = 2
+          if (this.cols > 2) {
+            this.cols = 2
+          }
           break
         default:
           this.cols = 1

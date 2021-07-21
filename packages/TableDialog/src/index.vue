@@ -1,5 +1,5 @@
 <template>
-  <y-dialog :visible.sync="visible" :title="title">
+  <y-dialog :visible.sync="visible" :title="title" :before-close="handleBeforeClose">
     <y-table-pro ref="table" :load-data-api="loadDataApi" :columns="columns" ui-style="antd" :pagination="false" :params="params" v-bind="$attrs" @selection-change="handleSelectionChange" @select-all="handleSelectAll">
       <template slot="table">
         <!-- table左侧 -->
@@ -128,6 +128,9 @@ export default {
     }
   },
   methods: {
+    handleBeforeClose() {
+      this.closeDialog()
+    },
     /* 关闭弹窗 */
     closeDialog() {
       this.$emit('update:visible', false)
