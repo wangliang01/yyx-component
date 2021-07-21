@@ -2,6 +2,11 @@
   <y-input
     v-model.trim="currentValue"
     v-bind="$attrs"
+    :number="$attrs.number"
+    :integer="$attrs.integer"
+    :integer-digit="$attrs.integerDigit"
+    :precision="$attrs.precision"
+    :negative="$attrs.negative"
     :type="$attrs.type || 'text'"
     :maxlength="$attrs.maxLength || 100"
     :minlength="$attrs.minLength"

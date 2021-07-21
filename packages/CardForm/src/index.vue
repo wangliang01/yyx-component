@@ -105,7 +105,8 @@ export default {
           unifiedSocialCreditCode: {
             label: '统一社会信用代码',
             prop: 'unifiedSocialCreditCode',
-            fieldType: 'Input'
+            fieldType: 'Input',
+            number: false
           },
           operatingPeriod: {
             label: '交货天数',
