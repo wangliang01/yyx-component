@@ -9,7 +9,7 @@
       @blur="handleBlurEvent"
       v-on="$listeners"
     ></el-input>
-    <div v-if="unit" class="unit">{{ unit }}</div>
+    <div v-if="unit" ref="unit" class="unit">{{ unit }}</div>
   </div>
 </template>
 <script>
@@ -81,6 +81,9 @@ export default {
       const inputInner = input.querySelector('.el-input__inner')
       if (this.unit) {
         inputInner.classList.add('fix-border-radius')
+        const unit = this.$refs.unit
+        /* 修复el-input__inner与el-input差2px的问题 */
+        unit.style.height = (Math.round(unit.getBoundingClientRect().height) - 2) + 'px'
       } else {
         inputInner.classList.remove('fix-border-radius')
       }

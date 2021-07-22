@@ -1,10 +1,20 @@
 <template>
   <div class="card">
-    <h2 v-if="hasTitle" class="card-title" :style="{fontSize: `${size}px`}">{{ title }}</h2>
+    <h2 v-if="hasTitle" class="card-title" :style="{fontSize: `${size}px`}">{{ title }}<slot name="title"> </slot></h2>
     <el-row class="card-row">
       <el-col v-for="(item, index) in columns" :key="index" class="card-col" :span="span">
         <span class="card-label">{{ item.label }}:</span>
-        <y-text :content="item.formattor ? item.formattor(data[item.prop]) : data[item.prop]" class="card-value"></y-text>
+        <template v-if="item.render">
+          <div class="card-value">
+            <expandDom
+              :render="item.render"
+              :data="data"
+              :prop="item.prop"
+            >
+            </expandDom>
+          </div>
+        </template>
+        <y-text v-else :content="item.formattor ? item.formattor(data[item.prop]) : data[item.prop]" class="card-value"></y-text>
       </el-col>
     </el-row>
   </div>
@@ -14,6 +24,25 @@
 export default {
   name: 'YCard',
   components: {
+    expandDom: {
+      functional: true,
+      props: {
+        render: Function,
+        data: [Array, Object],
+        prop: String
+      },
+      render(h, ctx) {
+        const params = {}
+        if (ctx.props.data) {
+          params.data = ctx.props.data
+        }
+        if (ctx.props.prop) {
+          params.prop = ctx.props.prop
+        }
+        console.log(ctx.props.render)
+        return ctx.props.render && ctx.props.render(h, params)
+      }
+    }
   },
   props: {
     hasTitle: {
@@ -66,7 +95,11 @@ export default {
         },
         {
           label: '品牌',
-          prop: 'brand'
+          prop: 'brand',
+          render(h, { data, prop }) {
+            console.log('data', data, prop)
+            return <y-image src='11' width='60'></y-image>
+          }
         },
         {
           label: '后类类目',
@@ -169,6 +202,7 @@ export default {
     color: #262626;
     line-height: 22px;
     white-space: nowrap;
+    vertical-align: top;
   }
   &-value {
     display: inline-flex;
