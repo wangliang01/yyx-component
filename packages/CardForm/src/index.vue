@@ -201,7 +201,7 @@ export default {
 <style lang="scss" scoped>
 .y-card-form {
   background-color: #fff;
-  padding: 24px;
+  padding: 19px 24px 24px;
   box-sizing: border-box;
   border-radius: 4px;
   .title {
