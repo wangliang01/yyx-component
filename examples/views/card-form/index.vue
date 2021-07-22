@@ -1,5 +1,5 @@
 <template>
-  <y-card-form>
+  <y-card-form v-model="form">
     <span slot="title" style="color: red; font-size: 12px;">完全打开</span>
   </y-card-form>
 </template>
@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-
+      form: {}
     }
   },
   mounted() {

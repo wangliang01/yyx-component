@@ -83,3 +83,9 @@
 .y-flex {
   display: flex;
 }
+
+.fix-border-radius {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  height: 100%;
+}

@@ -6,6 +6,7 @@
     </div>
     <div class="card-form-body">
       <y-form
+        :key="key"
         ref="form"
         v-model="formData"
         :config="config"
@@ -21,6 +22,10 @@
 const cid = Math.random().toString(32).replace('.', '')
 export default {
   name: 'YCardForm',
+  model: {
+    prop: 'form',
+    event: 'input'
+  },
   props: {
     withHeader: {
       type: Boolean,
@@ -69,7 +74,8 @@ export default {
           supplierName: {
             label: '供应商名称',
             prop: 'supplierName',
-            fieldType: 'Input'
+            fieldType: 'Input',
+            rules: [{ required: true, message: '供应商名称不能为空', trigger: ['blur'] }]
           },
           supplierType: {
             label: '供应商类型',
@@ -120,15 +126,16 @@ export default {
   },
   data() {
     return {
-      formData: {},
+      formData: { ...this.form },
       key: cid,
       cols: this.span
     }
   },
   watch: {
-    form: {
+    formData: {
       handler(val) {
-        this.formData = val
+        // formData有值改变时，将传给父组件的form属性
+        this.$emit('input', val)
       },
       deep: true
     }

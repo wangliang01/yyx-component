@@ -1,12 +1,16 @@
 <template>
-  <el-input
-    v-model="currentValue"
-    :clearable="$attrs.clearable || true"
-    v-bind="$attrs"
-    @input="handleInputEvent"
-    @blur="handleBlurEvent"
-    v-on="$listeners"
-  ></el-input>
+  <div class="y-input">
+    <el-input
+      ref="input"
+      v-model="currentValue"
+      :clearable="$attrs.clearable || true"
+      v-bind="$attrs"
+      @input="handleInputEvent"
+      @blur="handleBlurEvent"
+      v-on="$listeners"
+    ></el-input>
+    <div v-if="unit" class="unit">{{ unit }}</div>
+  </div>
 </template>
 <script>
 import { isLessThan } from '../../utils/bigNumber'
@@ -44,6 +48,10 @@ export default {
     max: {
       type: [Number, String],
       default: Infinity
+    },
+    unit: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -64,7 +72,19 @@ export default {
   created() {
     this.dealPrecision()
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    init() {
+      const input = this.$refs.input.$el
+      const inputInner = input.querySelector('.el-input__inner')
+      if (this.unit) {
+        inputInner.classList.add('fix-border-radius')
+      } else {
+        inputInner.classList.remove('fix-border-radius')
+      }
+    },
     dealPrecision() {
       if (isNaN(this.precision)) {
         this.precision = 2
@@ -170,4 +190,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.y-input{
+  display: flex;
+}
+.unit{
+  min-width: 50px;
+  border: 1px solid #DCDFE6;
+  background-color: $--border-color-light;
+  text-align: center;
+  border-radius: 4px;
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-sizing: border-box;
+  height: calc(100% - 2px);
+  overflow: hidden;
+}
 </style>
