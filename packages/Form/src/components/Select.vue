@@ -32,8 +32,8 @@
     <el-option
       v-for="item in options"
       :key="item.value"
-      :label="item.label"
-      :value="item.value"
+      :label="item[model.label]"
+      :value="item[model.value]"
     ></el-option>
   </el-select>
 </template>
@@ -55,6 +55,17 @@ export default {
   data() {
     return {
       currentValue: this.value
+    }
+  },
+  computed: {
+    model() {
+      if (this.$attrs.model) {
+        return {
+          label: this.$attrs.model.label,
+          value: this.$attrs.model.value
+        }
+      }
+      return { label: 'label', value: 'value' }
     }
   },
   watch: {

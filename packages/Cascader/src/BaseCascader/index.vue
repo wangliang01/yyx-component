@@ -52,7 +52,7 @@ export default {
     return {
       currentValue: this.value,
       ref: `category_cascader_${Date.now()}`,
-      options: this.$attrs.options || []
+      options: []
     }
   },
   watch: {
@@ -64,10 +64,15 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    '$attrs.options': {
+      handler(val) {
+        this.options = val
+      },
+      deep: true
     }
   },
   async created() {
-    console.log('attrs', this.$attrs)
     if (typeof this.value === 'string') {
       this.currentValue = this.value.split(',')
     } else {

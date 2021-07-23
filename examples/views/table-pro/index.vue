@@ -27,14 +27,21 @@ export default {
           width: '55px'
         },
         {
+          prop: 'test',
+          label: '你好',
+          filter: true,
+          fieldType: 'Select',
+          model: { label: 'name', value: 'age' }
+        },
+        {
           label: '日期',
-          prop: 'date',
+          prop: 'date'
           // 自定义组件写法一
-          filter: {
-            render: (h) => {
-              return <y-cascader v-model={this.params.value} options={this.options}></y-cascader>
-            }
-          }
+          // filter: {
+          //   render: (h) => {
+          //     return <y-cascader v-model={this.params.value} options={this.options}></y-cascader>
+          //   }
+          // }
         },
         {
           label: '姓名',
@@ -50,14 +57,14 @@ export default {
         },
         {
           label: '地址',
-          prop: 'address',
+          prop: 'address'
           // 自定义组件写法三
-          filter: true,
-          fieldType: {
-            render: (h) => {
-              return <y-cascader v-model={this.params.value} options={this.options}></y-cascader>
-            }
-          }
+          // filter: true,
+          // fieldType: {
+          //   render: (h) => {
+          //     return <y-cascader v-model={this.params.value} options={this.options}></y-cascader>
+          //   }
+          // }
         }
       ],
       loadDataApi: () => {
@@ -300,12 +307,31 @@ export default {
       console.log('watch value', val)
     }
   },
-  mounted() {
-
+  async mounted() {
+    console.log('before')
+    const options = await this.getOptions()
+    for (let i = 0; i < this.columns.length; i++) {
+      const column = this.columns[i]
+      if (column.prop === 'test') {
+        column.options = options
+        this.$set(this.columns, i, column)
+      }
+    }
+    console.log('after')
   },
   methods: {
     handleSave(data) {
       console.log(data)
+    },
+    getOptions() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve([
+            { name: '张一山', age: 19 },
+            { name: '李现', age: 28 }
+          ])
+        }, 1000)
+      })
     }
   }
 }

@@ -7,13 +7,13 @@
     <el-radio
       v-for="item in options"
       :key="item.value"
-      :label="(item.value !== undefined && item.value !== null) ? item.value : item.label"
+      :label="(item[model.value] !== undefined && item[model.value] !== null) ? item[model.value] : item[model.label]"
       :disabled="item.disabled"
       :border="item.border"
       :size="item.size"
       :name="item.name"
       v-on="$listeners"
-    >{{ item.label }}</el-radio>
+    >{{ item[model.label] }}</el-radio>
   </el-radio-group>
 </template>
 
@@ -34,6 +34,17 @@ export default {
   data() {
     return {
       currentValue: this.value
+    }
+  },
+  computed: {
+    model() {
+      if (this.$attrs.model) {
+        return {
+          label: this.$attrs.model.label,
+          value: this.$attrs.model.value
+        }
+      }
+      return { label: 'label', value: 'value' }
     }
   },
   watch: {

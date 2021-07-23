@@ -135,18 +135,7 @@ export default {
         reg = new RegExp(reg)
         const matches = val.match(reg)
         if (matches) {
-          // this.$nextTick(() => {
-          //   if (this.min && val < this.min) {
-          //     // 如果传入min,且不为0时,并且val小于min时
-          //     this.$emit('input', this.min)
-          //   } else if (this.max && val > this.max) {
-          //     // 如果传入max,,并且val大于min时
-          //     this.$emit('input', this.max)
-          //   } else {
-          //     // 没有min,或者max
-          //     this.$emit('input', val)
-          //   }
-          // })
+          this.prevValue = matches[0]
         } else {
           this.$nextTick(() => {
             // 10位整数的正则表达式

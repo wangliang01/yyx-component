@@ -9,8 +9,8 @@
       :span="item.cols"
     >
       <el-checkbox
-        v-model="item.value"
-        :label="item.label"
+        v-model="item[model.value]"
+        :label="item[model.label]"
         :true-label="item.trueLabel"
         :false-label="item.falseLable"
         :disabled="item.disabled || false"
@@ -41,6 +41,17 @@ export default {
   data() {
     return {
       currentValue: this.value
+    }
+  },
+  computed: {
+    model() {
+      if (this.$attrs.model) {
+        return {
+          label: this.$attrs.model.label,
+          value: this.$attrs.model.value
+        }
+      }
+      return { label: 'label', value: 'value' }
     }
   },
   watch: {
