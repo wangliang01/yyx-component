@@ -1,18 +1,19 @@
 <template>
-  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" :props="$attrs.props ? $attrs.props: model" v-on="$listeners" @change="handleValueChange">
+  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" :props="props" v-on="$listeners" @change="handleValueChange">
   </el-cascader>
 </template>
 
 <script>
+/* eslint-disable */
+import { isEmpty } from 'lodash'
 export default {
   name: 'YCascader',
   props: {
     dataApi: {
-      type: Function,
-      required: true
+      type: Function
     },
     // element 级联组件的props属性
-    model: {
+    props: {
       type: Object,
       default: () => {
         return {
@@ -87,12 +88,24 @@ export default {
         // 对数据进行格式化处理
         data = this.format(data)
       }
+      /* 处理children为空的情况 */
+      data = this.transferData(data, [this.props.children])
       this.options = data
     } catch (error) {
       console.error(error)
     }
   },
   methods: {
+    transferData(origin, delProps = []) {
+      const newData = JSON.stringify(origin, function(key, value) {
+        if (delProps.includes(key) && isEmpty(origin[key])) {
+          delete this[key]
+        } else {
+          return value
+        }
+      }, '')
+      return JSON.parse(newData)
+    },
     handleValueChange(value) {
       if (Array.isArray(value)) {
         let currentValue
