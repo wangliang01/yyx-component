@@ -1,5 +1,14 @@
 <template>
-  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" :props="props" v-on="$listeners" @change="handleValueChange">
+  <el-cascader
+    :ref="ref"
+    v-model="currentValue"
+    v-bind="$attrs"
+    clearable
+    :options="options"
+    :props="props"
+    v-on="$listeners"
+    @change="handleValueChange"
+  >
   </el-cascader>
 </template>
 
@@ -33,7 +42,7 @@ export default {
     },
     format: {
       type: Function,
-      default: data => data
+      default: (data) => data
     },
     value: {
       type: [String, Array],
@@ -47,7 +56,6 @@ export default {
       type: Boolean,
       default: true
     }
-
   },
   data() {
     return {
@@ -65,12 +73,6 @@ export default {
       },
       deep: true,
       immediate: true
-    },
-    '$attrs.options': {
-      handler(val) {
-        this.options = val
-      },
-      deep: true
     }
   },
   async created() {
@@ -83,28 +85,29 @@ export default {
       if (typeof this.dataApi !== 'function') return
       // 从接口获取数据
       const res = await this.dataApi()
-      let data = res.data
+      let data = res.data || res
       if (typeof this.format === 'function') {
         // 对数据进行格式化处理
         data = this.format(data)
       }
       /* 处理children为空的情况 */
-      data = this.transferData(data, [this.props.children])
-      this.options = data
+      this.options = this.transferData(data)
     } catch (error) {
       console.error(error)
     }
   },
   methods: {
-    transferData(origin, delProps = []) {
-      const newData = JSON.stringify(origin, function(key, value) {
-        if (delProps.includes(key) && isEmpty(origin[key])) {
-          delete this[key]
-        } else {
-          return value
+    transferData(origin) {
+      origin.forEach((item) => {
+        if (item[this.props.children]) {
+          if (isEmpty(item[this.props.children])) {
+            delete item[this.props.children]
+          } else {
+            this.transferData(item[this.props.children])
+          }
         }
-      }, '')
-      return JSON.parse(newData)
+      })
+      return origin
     },
     handleValueChange(value) {
       if (Array.isArray(value)) {
@@ -123,6 +126,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
