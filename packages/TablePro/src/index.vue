@@ -319,6 +319,7 @@ export default {
     /* 重置 */
     handleReset() {
       const { size } = this.queryParams
+      let cloneParams
       Object.keys(this.queryParams).forEach(param => {
         switch (param) {
           case 'current':
@@ -332,6 +333,12 @@ export default {
           default:
             // 其他字段，全部清空
             this.queryParams[param] = ''
+            // 处理params
+            cloneParams = cloneDeep(this.params)
+            Object.keys(cloneParams).forEach(key => {
+              cloneParams[key] = ''
+            })
+            this.$emit('update:params', cloneParams)
         }
       })
       this.loadData()

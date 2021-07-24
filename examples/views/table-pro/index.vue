@@ -1,6 +1,6 @@
 <template>
   <div>
-    <y-table-pro :load-data-api="loadDataApi" :columns="columns" ui-style="antd" offset="300" :params="params">
+    <y-table-pro :load-data-api="loadDataApi" :columns="columns" ui-style="antd" offset="300" :params.sync="params">
       <template slot="action-right" slot-scope="scope">
         <el-button type="primary" @click="handleSave(scope)">保存</el-button>
       </template>
