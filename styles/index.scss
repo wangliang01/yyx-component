@@ -1,4 +1,7 @@
 @import './element-variables.scss';
+.el-dialog__header, .el-drawer__header{
+  padding: 24px 24px 10px 24px;
+}
 .el-dialog__wrapper .el-dialog__title, .el-drawer__wrapper #el-drawer__title {
   font-size: 18px;
   font-family: PingFangSC-Medium, PingFang SC;
@@ -6,7 +9,6 @@
   color: #262626;
   line-height: 24px;
   margin: 0;
-  padding: 19px 18px 13px 24px;
 }
 .el-drawer__wrapper .el-drawer__body {
   position: relative;
@@ -87,4 +89,8 @@
 .fix-border-radius {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.y-fr{
+  float: right;
 }

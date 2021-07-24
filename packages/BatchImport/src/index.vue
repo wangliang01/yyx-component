@@ -214,7 +214,7 @@ export default {
         'prev-text': '',
         'next-text': '',
         disabled: false,
-        'hide-on-single-page': false
+        'hide-on-single-page': true
       },
       zIndex: -1
 
