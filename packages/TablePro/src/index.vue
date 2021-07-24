@@ -282,9 +282,9 @@ export default {
     },
     async loadData() {
       const data = cloneDeep(this.queryParams)
-      for (const item in data) {
-        if (!data[item]) {
-          delete data[item]
+      for (const key in data) {
+        if (data[key] === undefined || data[key] === null) {
+          delete data[key]
         }
       }
       try {

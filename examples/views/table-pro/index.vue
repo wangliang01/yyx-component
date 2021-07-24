@@ -19,7 +19,8 @@ export default {
   data() {
     return {
       params: {
-        value: ''
+        value: '',
+        test: ''
       },
       columns: [
         {
@@ -31,7 +32,7 @@ export default {
           label: '你好',
           filter: true,
           fieldType: 'Select',
-          model: { label: 'name', value: 'age' }
+          options: [{ label: '上架', value: true }, { label: '下架', value: false }]
         },
         {
           label: '日期',
@@ -303,21 +304,19 @@ export default {
     }
   },
   watch: {
-    'params.value'(val) {
+    'params.test'(val) {
       console.log('watch value', val)
     }
   },
   async mounted() {
-    console.log('before')
-    const options = await this.getOptions()
-    for (let i = 0; i < this.columns.length; i++) {
-      const column = this.columns[i]
-      if (column.prop === 'test') {
-        column.options = options
-        this.$set(this.columns, i, column)
-      }
-    }
-    console.log('after')
+    // const options = await this.getOptions()
+    // for (let i = 0; i < this.columns.length; i++) {
+    //   const column = this.columns[i]
+    //   if (column.prop === 'test') {
+    //     column.options = options
+    //     this.$set(this.columns, i, column)
+    //   }
+    // }
   },
   methods: {
     handleSave(data) {
