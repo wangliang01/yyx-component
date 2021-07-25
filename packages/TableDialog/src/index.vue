@@ -2,7 +2,7 @@
   <y-dialog ref="dialog" :visible.sync="visible" :title="title" :before-close="handleBeforeClose" v-bind="$attrs" @open="handleOpen" v-on="$listeners">
     <!-- 前端分页 -->
     <div class="wrapper">
-      <div class="form-wrapper">
+      <div v-if="canShowTableFilter" class="form-wrapper">
         <y-form ref="tableFilter" v-model="queryParams" :config="config" inline>
           <div class="btn-wrapper">
             <el-button @click="handleReset">重 置</el-button>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { filter, cloneDeep } from 'lodash'
+import { filter, cloneDeep, intersectionWith, isEqual, xorWith, findIndex, uniqWith } from 'lodash'
 export default {
   name: 'YTableDialog',
   components: {
@@ -142,7 +142,7 @@ export default {
   },
   data() {
     return {
-      data: null,
+      data: [...this.checkedData],
       config: {},
       loading: false,
       queryParams: {
@@ -153,7 +153,9 @@ export default {
       originData: [],
       canShowExpandBtn: true, // 是否显示展开筛选条件按钮
       isExpand: true,
-      overflowHeight: 0
+      overflowHeight: 0,
+      canShowTableFilter: false,
+      isFirstInit: false
     }
   },
   watch: {
@@ -229,11 +231,13 @@ export default {
       this.loadOriginData()
     },
     loadData() {
+      this.isFirstInit = true
       const { size, current } = this.queryParams
       this.tableData = this.originData.slice((current - 1) * size, current * size).map((item, index) => {
         item.index = index
         return item
       })
+      this.cloneCheckedData = cloneDeep(this.checkedData)
       if (this.checkedData.length) {
         // 如果有勾选数据，则默认勾选上
         const prop = this.model.id
@@ -243,11 +247,16 @@ export default {
           }
           return ''
         })
+        // 获取当前页面，应该勾选的数据
+        this.currentPageCheckedData = filter(this.tableData, item => intersectionData.includes(item[prop]))
         this.$nextTick(() => {
           this.tableData.forEach(item => {
             if (intersectionData.includes(item[prop])) {
-            // 如果包含，则勾选
+              // 如果包含，则勾选
               this.$refs.table.$children[0].toggleRowSelection(item)
+              setTimeout(() => {
+                this.isFirstInit = false
+              })
             }
           })
         })
@@ -291,7 +300,6 @@ export default {
       this.loadData()
     },
     initTableFilter() {
-      // 如果是antd风格
       const tableFilter = this.$refs.tableFilter
       if (!tableFilter) return
       this.$nextTick(() => {
@@ -329,6 +337,7 @@ export default {
       this.config = {}
       // 生成表格列数据
       const filterColumns = filter(this.columns, column => column.filter)
+      this.canShowTableFilter = filterColumns.length > 0
       filterColumns.forEach(column => {
         const key = column.prop
         // 生成表单的数据
@@ -346,7 +355,11 @@ export default {
     },
     /* 关闭弹窗 */
     closeDialog() {
+      this.resetQueryParams()
       this.$emit('update:visible', false)
+    },
+    resetQueryParams() {
+      this.queryParams = { ...this.queryParams, current: 1 }
     },
     /* 取消 */
     handleCancel() {
@@ -361,7 +374,32 @@ export default {
       this.$emit('confirm', { data: this.data, done: this.closeDialog })
     },
     handleSelectionChange(data) {
-      this.data = data
+      // 如果是默认渲染，不走这个流程
+      if (this.isFirstInit) return
+      // 先取交集，拿到当前页，没有改变的值
+      const intersection = intersectionWith(data, this.currentPageCheckedData, isEqual)
+      // 拿到，当前页面，删除的值
+      const delItems = cloneDeep(xorWith(this.currentPageCheckedData, intersection, isEqual))
+      // 拿到当前页面新增的值
+      const addItems = cloneDeep(xorWith(data, intersection, isEqual))
+
+      // 删除未勾选的值
+      const len = delItems.length
+      const prop = this.model.id
+      for (let i = 0; i < len; i++) {
+        const item = delItems[i]
+        const index = findIndex(this.cloneCheckedData, checkedItem => checkedItem[prop] === item[prop])
+        if (index > -1) {
+          this.cloneCheckedData.splice(index, 1)
+        }
+      }
+      // 添加新增的值
+      this.cloneCheckedData.push(...addItems)
+      this.cloneCheckedData = uniqWith(this.cloneCheckedData, isEqual)
+
+      this.data = this.cloneCheckedData
+      // 同步更新checkedData
+      this.$emit('update:checkedData', this.cloneCheckedData)
     }
   }
 }

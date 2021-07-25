@@ -1,7 +1,7 @@
 <template>
   <div>
     <y-button @click="handleOpen">打开弹窗</y-button>
-    <y-table-dialog :visible.sync="visible" :columns="columns" :load-data-api="loadDataApi" :checked-data="disableData" :model="{id: 'depositId'}" @cancel="handleCancel" @confirm="handleConfirm">
+    <y-table-dialog :visible.sync="visible" :columns="columns" :load-data-api="loadDataApi" :checked-data.sync="disableData" :model="{id: 'depositId'}" @cancel="handleCancel" @confirm="handleConfirm">
       <div slot="table">123123</div>
       <div slot="table-top-right">112312</div>
     </y-table-dialog>
@@ -99,8 +99,8 @@ export default {
               {
                 depositId: '10011',
                 url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-                depositName: '押金品名称3',
-                depositMoney: 10,
+                depositName: '押金品名称11',
+                depositMoney: 11,
                 checked: false
               }
             ]
@@ -113,6 +113,20 @@ export default {
           url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
           depositName: '押金品名称1',
           depositMoney: 8,
+          checked: false
+        },
+        {
+          depositId: '10002',
+          url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+          depositName: '押金品名称2',
+          depositMoney: 9,
+          checked: false
+        },
+        {
+          depositId: '10011',
+          url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+          depositName: '押金品名称11',
+          depositMoney: 11,
           checked: false
         }
       ],
@@ -151,7 +165,8 @@ export default {
   },
   methods: {
     checkSelectable(row) {
-      return !this.disableData.map(item => item.depositId).includes(row.depositId)
+      // return !this.disableData.map(item => item.depositId).includes(row.depositId)
+      return true
     },
     handleOpen() {
       this.visible = true
