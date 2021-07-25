@@ -17,6 +17,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import CascaderMenu from './cascader-menu'
 import Store from './store'
 import merge from 'element-ui/src/utils/merge'

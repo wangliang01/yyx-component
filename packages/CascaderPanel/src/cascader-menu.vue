@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable */
 import ElScrollbar from 'element-ui/packages/scrollbar'
 import CascaderNode from './cascader-node.vue'
 import Locale from 'element-ui/src/mixins/locale'

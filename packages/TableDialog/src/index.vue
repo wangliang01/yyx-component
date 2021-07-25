@@ -1,36 +1,24 @@
 <template>
-  <y-dialog :visible.sync="visible" :title="title" :before-close="handleBeforeClose" @open="handleOpen">
+  <y-dialog ref="dialog" :visible.sync="visible" :title="title" :before-close="handleBeforeClose" v-bind="$attrs" @open="handleOpen" v-on="$listeners">
     <!-- 前端分页 -->
-    <template v-if="!pagination">
-      <div class="wrapper">
-        <y-form v-model="queryParams" :config="config" inline>
-          <div class="y-fr">
+    <div class="wrapper">
+      <div class="form-wrapper">
+        <y-form ref="tableFilter" v-model="queryParams" :config="config" inline>
+          <div class="btn-wrapper">
             <el-button @click="handleReset">重 置</el-button>
             <el-button type="primary" @click="handleQuery">查 询</el-button>
+            <el-button v-if="canShowExpandBtn" type="text" @click="handleToggle">{{ isExpand ? '收起' : '展开' }}<i :class="[isExpand ? 'el-icon-arrow-up' : 'el-icon-arrow-down']"></i> </el-button>
           </div>
         </y-form>
-        <div class="table-top y-flex">
-          <!-- table左侧 -->
-          <slot name="table"></slot>
-          <!-- table右侧 -->
-          <slot name="table-top-right"></slot>
-        </div>
-        <y-table ref="table" v-loading="loading" :data="tableData" :columns="columns" :pagination="{'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" @selection-change="handleSelectionChange" @select-all="handleSelectAll"></y-table>
       </div>
-    </template>
-    <template v-else>
-      <!-- 后端分页 -->
-      <y-table-pro ref="table" :load-data-api="loadDataApi" :columns="columns" ui-style="antd" :pagination="{'hide-on-single-page': true}" :params="params" v-bind="$attrs" @selection-change="handleSelectionChange" @select-all="handleSelectAll">
-        <template slot="table">
-          <!-- table左侧 -->
-          <slot name="table"></slot>
-        </template>
-        <template slot="table-top-right">
-          <!-- table右侧 -->
-          <slot name="table-top-right"></slot>
-        </template>
-      </y-table-pro>
-    </template>
+      <div class="table-top y-flex">
+        <!-- table左侧 -->
+        <slot name="table"></slot>
+        <!-- table右侧 -->
+        <slot name="table-top-right"></slot>
+      </div>
+      <y-table ref="table" v-loading="loading" :data="tableData" :columns="columns" :pagination="{'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" @selection-change="handleSelectionChange"></y-table>
+    </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="handleCancel">取 消</el-button>
       <el-button type="primary" @click="handleConfirm">确 定</el-button>
@@ -45,12 +33,9 @@ export default {
   components: {
   },
   props: {
-    pagination: {
-      type: Boolean,
-      default: false
-    },
+    /* 传递过来的查询参数 */
     params: {
-      type: [Number, Boolean, Object, Array, String],
+      type: Object,
       default: () => {}
     },
     visible: {
@@ -96,10 +81,6 @@ export default {
         }
       }
     },
-    max: {
-      type: [String, Number],
-      default: Infinity
-    },
     columns: {
       type: Array,
       default: () => [
@@ -117,7 +98,9 @@ export default {
         },
         {
           prop: 'depositId',
-          label: '押金品ID'
+          label: '押金品ID',
+          filter: true,
+          fieldType: 'Input'
         },
         {
           prop: 'url',
@@ -125,7 +108,9 @@ export default {
         },
         {
           prop: 'depositName',
-          label: '押金品名称'
+          label: '押金品名称',
+          filter: true,
+          fieldType: 'Input'
         },
         {
           prop: 'depositMoney',
@@ -142,10 +127,12 @@ export default {
       type: Boolean,
       default: false
     },
+    /* 从父组件传递过来的数据，让组件默认勾选上 */
     checkedData: {
       type: Array,
       default: () => []
     },
+    /* 数据模型，默认是通过id操作数据 */
     model: {
       type: Object,
       default() {
@@ -163,13 +150,13 @@ export default {
         current: 1
       },
       tableData: [],
-      originData: []
+      originData: [],
+      canShowExpandBtn: true, // 是否显示展开筛选条件按钮
+      isExpand: true,
+      overflowHeight: 0
     }
   },
   watch: {
-    visible(val) {
-      console.log(val)
-    },
     columns: {
       handler(val) {
         this.initConfig()
@@ -178,9 +165,38 @@ export default {
       immediate: true
     }
   },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.initTableFilter)
+  },
   methods: {
+    /* 当屏幕宽度发生变化时，重新绘制表格 */
+    resizeTable() {
+      window.addEventListener('resize', this.initTableFilter)
+    },
+    /* 展开，收起 */
+    handleToggle() {
+      this.isExpand = !this.isExpand
+      const tableFilter = this.$refs.tableFilter.$el
+      if (this.isExpand) {
+        // 展开
+        tableFilter.style.overflow = 'initial'
+        tableFilter.style.height = 'auto'
+      } else {
+        // 收起
+        tableFilter.style.overflow = 'hidden'
+        tableFilter.style.height = `${this.overflowHeight}px`
+      }
+    },
     handleOpen() {
       this.loadOriginData()
+      this.$nextTick(() => {
+        this.initDialogTitle()
+        this.initTableFilter()
+        this.resizeTable()
+      })
+    },
+    initDialogTitle() {
+      this.$refs.dialog.$el.removeAttribute('title')
     },
     handleReset() {
       const { size } = this.queryParams
@@ -274,6 +290,40 @@ export default {
       }
       this.loadData()
     },
+    initTableFilter() {
+      // 如果是antd风格
+      const tableFilter = this.$refs.tableFilter
+      if (!tableFilter) return
+      this.$nextTick(() => {
+        const elForm = tableFilter.$el
+
+        /* 记录筛选框的高度，默认一行的高度 */
+        const height = elForm.offsetHeight
+
+        const elFormItem = elForm.querySelector('.el-form-item')
+
+        const btnWrapper = elForm.querySelector('.btn-wrapper')
+
+        if (elFormItem) {
+          let { height: formItemHeight, marginBottom } = getComputedStyle(elFormItem)
+          formItemHeight = parseFloat(formItemHeight.replace('px', ''))
+          /* 修复Table筛选条件不对齐的问题 */
+          marginBottom = parseFloat(marginBottom.replace('px', ''))
+          btnWrapper.style.bottom = marginBottom + 'px'
+          this.overflowHeight = Math.round(formItemHeight + marginBottom)
+          if (height > this.overflowHeight) {
+            // 换行了
+            this.canShowExpandBtn = true
+            this.isExpand = false
+            elForm.style.overflow = 'hidden'
+            elForm.style.height = `${this.overflowHeight}px`
+          } else {
+            this.canShowExpandBtn = false
+            this.isExpand = false
+          }
+        }
+      })
+    },
     initConfig() {
       // 先清空config
       this.config = {}
@@ -311,11 +361,7 @@ export default {
       this.$emit('confirm', { data: this.data, done: this.closeDialog })
     },
     handleSelectionChange(data) {
-      console.log(data)
       this.data = data
-    },
-    handleSelectAll(data) {
-      console.log('select all', data)
     }
   }
 }
@@ -339,5 +385,16 @@ export default {
 }
 .table-top{
   justify-content: space-between;
+}
+
+.form-wrapper {
+  position: relative;
+  padding-right: 300px;
+  overflow: hidden;
+}
+
+.btn-wrapper {
+  position: absolute;
+  right: 0;
 }
 </style>

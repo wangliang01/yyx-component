@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable */
 import ElCheckbox from 'element-ui/packages/checkbox'
 import ElRadio from 'element-ui/packages/radio'
 import { isEqual } from 'element-ui/src/utils/util'

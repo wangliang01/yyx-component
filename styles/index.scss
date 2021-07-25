@@ -2,6 +2,10 @@
 .el-dialog__header, .el-drawer__header{
   padding: 24px 24px 10px 24px;
 }
+
+.el-dialog__body, .el-drawer__body {
+  padding: 20px 24px;
+}
 .el-dialog__wrapper .el-dialog__title, .el-drawer__wrapper #el-drawer__title {
   font-size: 18px;
   font-family: PingFangSC-Medium, PingFang SC;
@@ -17,6 +21,7 @@
     height: 60px;
     position: absolute;
     bottom: 0;
+    right: 0px;
     width: 100%;
     display: table;
     text-align: right;

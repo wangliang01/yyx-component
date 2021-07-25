@@ -3,7 +3,7 @@
     <div slot="content">
       <slot></slot>
     </div>
-    <i class="iconfont icon-tishi"></i>
+    <i :class="`iconfont ${icon}`"></i>
   </el-tooltip>
 </template>
 
@@ -16,6 +16,10 @@ export default {
     size: {
       type: [String, Number],
       default: 14
+    },
+    icon: {
+      type: String,
+      default: 'icon-tishi'
     },
     color: {
       type: String,
