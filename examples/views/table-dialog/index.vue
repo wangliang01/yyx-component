@@ -2,8 +2,8 @@
   <div>
     <y-button @click="handleOpen">打开弹窗</y-button>
     <y-table-dialog :visible.sync="visible" :columns="columns" :load-data-api="loadDataApi" :checked-data.sync="disableData" :model="{id: 'depositId'}" @cancel="handleCancel" @confirm="handleConfirm">
-      <div slot="table">123123</div>
-      <div slot="table-top-right">112312</div>
+      <!-- <div slot="table">123123</div>
+      <div slot="table-top-right">112312</div> -->
     </y-table-dialog>
   </div>
 </template>

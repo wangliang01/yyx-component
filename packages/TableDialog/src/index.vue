@@ -30,13 +30,13 @@
 import { filter, cloneDeep, intersectionWith, isEqual, xorWith, findIndex, uniqWith } from 'lodash'
 export default {
   name: 'YTableDialog',
-  components: {
-  },
   props: {
     /* 传递过来的查询参数 */
     params: {
       type: Object,
-      default: () => {}
+      default: () => {
+        return {}
+      }
     },
     visible: {
       type: Boolean,
@@ -123,10 +123,6 @@ export default {
       type: Boolean,
       default: true
     },
-    canCheckAll: {
-      type: Boolean,
-      default: false
-    },
     /* 从父组件传递过来的数据，让组件默认勾选上 */
     checkedData: {
       type: Array,
@@ -143,6 +139,7 @@ export default {
   data() {
     return {
       data: [...this.checkedData],
+      originCheckedData: [...this.checkedData],
       config: {},
       loading: false,
       queryParams: {
@@ -217,7 +214,7 @@ export default {
             // 其他字段，全部清空
             this.queryParams[param] = ''
             // 处理params
-            cloneParams = cloneDeep(this.params)
+            cloneParams = cloneDeep(this.params || {})
             Object.keys(cloneParams).forEach(key => {
               cloneParams[key] = ''
             })
@@ -356,6 +353,7 @@ export default {
     /* 关闭弹窗 */
     closeDialog() {
       this.resetQueryParams()
+      this.$emit('update:checkedData', this.originCheckedData)
       this.$emit('update:visible', false)
     },
     resetQueryParams() {
@@ -364,7 +362,7 @@ export default {
     /* 取消 */
     handleCancel() {
       if (this.isCloseDirectly) {
-        this.$emit('update:visible', false)
+        this.closeDialog()
       } else {
         this.$emit('cancel', this.closeDialog)
       }
