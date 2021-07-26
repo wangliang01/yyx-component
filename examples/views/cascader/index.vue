@@ -288,6 +288,11 @@ export default {
         {...{
           props: {
             props: { label: 'name', value: 'id', children: 'childDept' }
+          },
+          on: {
+            checked(params) {
+              console.log("params", params);
+            }
           }
         }}
       ></y-cascader>

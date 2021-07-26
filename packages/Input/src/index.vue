@@ -183,7 +183,7 @@ export default {
 
 <style lang="scss" scoped>
 .y-input{
-  display: flex;
+  display: inline-flex;
 }
 .unit{
   min-width: 50px;

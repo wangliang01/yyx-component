@@ -4,7 +4,6 @@
 </template>
 
 <script>
-/* eslint-disable */
 import addressOptions from './address'
 export default {
   name: 'YAddressCascader',
@@ -16,7 +15,8 @@ export default {
     },
     // 国内： internal; 国外: overseas
     mode: String,
-    api: Function
+    api: Function,
+    type: String // 类型， province, city (可选)
   },
   data() {
     return {
@@ -64,11 +64,40 @@ export default {
   methods: {
     async getOptions() {
       if (typeof this.api === 'function') {
-          const res = await this.api()
-          if (res.success) {
+        const res = await this.api()
+        if (res.success) {
+          if (this.type) {
+            // 省、市
+            this.options = this.transferData(res.data)
+          } else {
             this.options = res.data
           }
         }
+      }
+    },
+    transferData(data) {
+      const prop = this.props.children
+      switch (this.type) {
+        case 'province':
+          data = this.deleteChildren(data, prop)
+          break
+        case 'city':
+          data = data.map(item => {
+            item[prop] = this.deleteChildren(item[prop], prop)
+            return item
+          })
+          break
+      }
+      console.log('data', data)
+      return data
+    },
+    deleteChildren(data, prop) {
+      return data.map(item => {
+        if (item[prop]) {
+          item[prop] = null
+        }
+        return item
+      })
     },
     handleValueChange(value) {
       if (Array.isArray(value)) {

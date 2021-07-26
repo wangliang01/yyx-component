@@ -110,6 +110,7 @@ export default {
       return origin
     },
     handleValueChange(value) {
+      let params = []
       if (Array.isArray(value)) {
         let currentValue
         if (this.lastChild) {
@@ -118,9 +119,35 @@ export default {
           currentValue = value.join(',')
         }
         this.$emit('input', currentValue)
+        params = value.map(checkedValue => {
+          return this.getCheckedObj(this.options, checkedValue)
+        })
       } else {
         this.$emit('input', value)
+        params = value.split('.').map(checkedValue => {
+          return this.getCheckedObj(this.options, checkedValue)
+        })
       }
+
+      this.$emit('checked', params)
+    },
+    getCheckedObj(data, value) {
+      let res = {}
+      const prop = this.props.value
+      for (let i = 0; i < data.length; i++) {
+        const item = data[i]
+         if (item[prop] === value) {
+          res = item
+          return res
+        }
+        if (item[this.props.children]) {
+          res = this.getCheckedObj(item[this.props.children], value)
+          if (res) {
+            return res
+          }
+        }
+      }
+      return res
     }
   }
 }
