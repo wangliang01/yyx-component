@@ -91,6 +91,7 @@ export default {
       return data
     },
     deleteChildren(data, prop) {
+      if (!Array.isArray(data)) return null
       return data.map(item => {
         if (item[prop]) {
           item[prop] = null
