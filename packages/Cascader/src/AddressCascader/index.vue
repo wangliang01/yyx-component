@@ -82,13 +82,12 @@ export default {
           data = this.deleteChildren(data, prop)
           break
         case 'city':
-          data = data.map(item => {
+          data = Array.isArray(data) && data.map(item => {
             item[prop] = this.deleteChildren(item[prop], prop)
             return item
           })
           break
       }
-      console.log('data', data)
       return data
     },
     deleteChildren(data, prop) {
