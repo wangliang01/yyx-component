@@ -334,11 +334,13 @@ export default {
             // 其他字段，全部清空
             this.queryParams[param] = ''
             // 处理params
-            cloneParams = cloneDeep(this.params)
-            Object.keys(cloneParams).forEach(key => {
-              cloneParams[key] = ''
-            })
-            this.$emit('update:params', cloneParams)
+            if (!isEmpty(this.params)) {
+              cloneParams = cloneDeep(this.params)
+              Object.keys(cloneParams).forEach(key => {
+                cloneParams[key] = ''
+              })
+              this.$emit('update:params', cloneParams)
+            }
         }
       })
       this.loadData()

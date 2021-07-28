@@ -110,7 +110,7 @@ export default {
         const separator = this.$refs[this.ref].separator
         const reg = new RegExp(separator, 'g')
         if (inputValue) {
-          this.$emit('input-value', inputValue.replace(reg, ','))
+          this.$emit('checked', inputValue.replace(reg, ','))
         }
       })
     }
