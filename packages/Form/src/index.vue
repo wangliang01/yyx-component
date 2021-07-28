@@ -1,5 +1,6 @@
 <template>
   <el-form
+    ref="form"
     v-bind="$attrs"
     :model="formData"
     :style="`width: ${width || '100%'}; overflow: hidden;`"
@@ -80,6 +81,14 @@ export default {
     value: {
       handler(val) {
         this.formData = val
+        Object.keys(this.formData).forEach(fieldName => {
+          this.$nextTick(() => {
+            // 对值进行校验
+            if (this.formData[fieldName]) {
+              this.$refs.form.validateField(fieldName)
+            }
+          })
+        })
       },
       deep: true
     }

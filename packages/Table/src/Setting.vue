@@ -1,7 +1,7 @@
 <template>
   <!-- 设置 -->
   <el-tooltip effect="dark" content="设置" placement="top">
-    <el-popover placement="bottom" min-width="100" trigger="click">
+    <el-popover placement="bottom" width="200" trigger="click">
       <i slot="reference" class="iconfont icon-bianji"></i>
       <!-- 展示列表 -->
       <div class="list">
@@ -27,9 +27,9 @@
             class="item"
             :class="{ active: activeIndex === index }"
           >
-            <el-checkbox v-model="item.checked" @change="handleCheckChange">{{
-              item.label
-            }}</el-checkbox>
+            <el-checkbox v-model="item.checked" @change="handleCheckChange">
+              {{ item.label }}
+            </el-checkbox>
             <div class="btn-wrapper">
               <el-tooltip effect="dark" content="固定在列首" placement="top">
                 <i
@@ -78,7 +78,8 @@ export default {
       settingConfig: [],
       checkAll: true,
       drag: false,
-      indeterminate: false
+      indeterminate: false,
+      activeIndex: 0
     }
   },
   watch: {
@@ -223,18 +224,27 @@ export default {
   justify-content: space-between;
   align-items: center;
   line-height: 24px;
+  ::v-deep .el-checkbox{
+    width: calc(100% - 40px);
+    padding-right: 10px;
+    overflow: hidden;
+  }
+  .btn-wrapper{
+    width: 40px;
+  }
   &:hover .btn-wrapper {
-    display: block;
+    display: inline-block;
   }
 }
 .btn-wrapper {
   display: none;
   font-size: 16px;
-
+  min-width: 30px;
   .icon {
     margin: 0 1px;
     color: #409eff;
     cursor: pointer;
   }
 }
+
 </style>

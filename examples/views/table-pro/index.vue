@@ -1,6 +1,7 @@
 <template>
   <div>
-    <y-table-pro :load-data-api="loadDataApi" :columns="columns" ui-style="antd" offset="300" :params.sync="params">
+    <y-form v-model="form" :config="config"></y-form>
+    <y-table-pro :load-data-api="loadDataApi" :columns="columns" ui-style="antd" offset="300" :params.sync="params" show-util-bar>
       <template slot="action-right" slot-scope="scope">
         <el-button type="primary" @click="handleSave(scope)">保存</el-button>
       </template>
@@ -18,6 +19,26 @@ export default {
   },
   data() {
     return {
+      form: {
+        id: ''
+      },
+      config: {
+        id: {
+          label: 'id',
+          prop: 'id',
+          labelWidth: '100px',
+          fieldType: {
+            render: () => {
+              return <el-cascader
+                v-model={this.form.id}
+                options={this.options}
+                on-change={this.handleChange}></el-cascader>
+            }
+          },
+          rules: [{ required: true, message: '不能为空' }]
+        }
+
+      },
       params: {
         value: '',
         test: ''
@@ -29,7 +50,7 @@ export default {
         },
         {
           prop: 'test',
-          label: '你好',
+          label: '你好13131231312313',
           filter: true,
           fieldType: 'Select',
           options: [{ label: '上架', value: true }, { label: '下架', value: false }]
@@ -319,6 +340,9 @@ export default {
     // }
   },
   methods: {
+    handleChange() {
+      console.log('this.form', this.form)
+    },
     handleSave(data) {
       console.log(data)
     },
