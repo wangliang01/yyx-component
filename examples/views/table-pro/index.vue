@@ -1,6 +1,5 @@
 <template>
   <div>
-    <y-form v-model="form" :config="config"></y-form>
     <y-table-pro :load-data-api="loadDataApi" :columns="columns" ui-style="antd" offset="300" :params.sync="params" show-util-bar>
       <template slot="action-right" slot-scope="scope">
         <el-button type="primary" @click="handleSave(scope)">保存</el-button>
@@ -29,10 +28,13 @@ export default {
           labelWidth: '100px',
           fieldType: {
             render: () => {
-              return <el-cascader
+              return <el-select
                 v-model={this.form.id}
-                options={this.options}
-                on-change={this.handleChange}></el-cascader>
+                on-change={this.handleChange}>
+                {this.options.map(item => {
+                  return <el-option key={item.name} label={item.label} value={item.value}></el-option>
+                })}
+              </el-select>
             }
           },
           rules: [{ required: true, message: '不能为空' }]
@@ -330,7 +332,8 @@ export default {
     }
   },
   async mounted() {
-    // const options = await this.getOptions()
+    const options = await this.getOptions()
+    this.options = options
     // for (let i = 0; i < this.columns.length; i++) {
     //   const column = this.columns[i]
     //   if (column.prop === 'test') {
@@ -350,8 +353,8 @@ export default {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve([
-            { name: '张一山', age: 19 },
-            { name: '李现', age: 28 }
+            { label: '张一山', value: 19 },
+            { label: '李现', value: 28 }
           ])
         }, 1000)
       })

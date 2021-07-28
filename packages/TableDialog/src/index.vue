@@ -162,6 +162,12 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    params: {
+      handler(val) {
+        this.queryParams = { ...this.queryParams, ...this.params }
+      },
+      deep: true
     }
   },
   beforeDestroy() {
@@ -198,29 +204,7 @@ export default {
       this.$refs.dialog.$el.removeAttribute('title')
     },
     handleReset() {
-      const { size } = this.queryParams
-      let cloneParams
-      Object.keys(this.queryParams).forEach(param => {
-        switch (param) {
-          case 'current':
-            // 将当前页重置为1
-            this.queryParams[param] = 1
-            break
-          case 'size':
-            // 查询条数
-            this.queryParams[param] = size
-            break
-          default:
-            // 其他字段，全部清空
-            this.queryParams[param] = ''
-            // 处理params
-            cloneParams = cloneDeep(this.params || {})
-            Object.keys(cloneParams).forEach(key => {
-              cloneParams[key] = ''
-            })
-            this.$emit('update:params', cloneParams)
-        }
-      })
+      this.resetQueryParams()
       this.loadOriginData()
     },
     handleQuery() {
@@ -357,7 +341,28 @@ export default {
       this.$emit('update:visible', false)
     },
     resetQueryParams() {
-      this.queryParams = { ...this.queryParams, current: 1 }
+      let cloneParams
+      Object.keys(this.queryParams).forEach(param => {
+        switch (param) {
+          case 'current':
+            // 将当前页重置为1
+            this.queryParams[param] = 1
+            break
+          case 'size':
+            // 查询条数
+            this.queryParams[param] = this.queryParams.size
+            break
+          default:
+            // 其他字段，全部清空
+            this.queryParams[param] = ''
+            // 处理params
+            cloneParams = cloneDeep(this.params || {})
+            Object.keys(cloneParams).forEach(key => {
+              cloneParams[key] = ''
+            })
+            this.$emit('update:params', cloneParams)
+        }
+      })
     },
     /* 取消 */
     handleCancel() {

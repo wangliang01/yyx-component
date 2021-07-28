@@ -1,7 +1,7 @@
 <template>
   <div>
     <y-button @click="handleOpen">打开弹窗</y-button>
-    <y-table-dialog :visible.sync="visible" :columns="columns" :load-data-api="loadDataApi" :checked-data.sync="disableData" :model="{id: 'depositId'}" @cancel="handleCancel" @confirm="handleConfirm">
+    <y-table-dialog :visible.sync="visible" :columns="columns" :load-data-api="loadDataApi" :checked-data.sync="disableData" :model="{id: 'depositId'}" :params.sync="params" @cancel="handleCancel" @confirm="handleConfirm">
       <!-- <div slot="table">123123</div>
       <div slot="table-top-right">112312</div> -->
     </y-table-dialog>
@@ -18,6 +18,9 @@ export default {
   },
   data() {
     return {
+      params: {
+        id: ''
+      },
       visible: false,
       loadDataApi: () => {
         return {
@@ -146,7 +149,13 @@ export default {
         },
         {
           prop: 'depositId',
-          label: '押金品ID'
+          label: '押金品ID',
+          filter: true,
+          fieldType: {
+            render: (h) => {
+              return <el-cascader v-model={this.params.id} options={this.options}></el-cascader>
+            }
+          }
         },
         {
           prop: 'url',
@@ -160,7 +169,38 @@ export default {
           prop: 'depositMoney',
           label: '押金'
         }
-      ]
+      ],
+      options: [{
+        value: 'zhinan',
+        label: '指南',
+        children: [{
+          value: 'shejiyuanze',
+          label: '设计原则',
+          children: [{
+            value: 'yizhi',
+            label: '一致'
+          }, {
+            value: 'fankui',
+            label: '反馈'
+          }, {
+            value: 'xiaolv',
+            label: '效率'
+          }, {
+            value: 'kekong',
+            label: '可控'
+          }]
+        }, {
+          value: 'daohang',
+          label: '导航',
+          children: [{
+            value: 'cexiangdaohang',
+            label: '侧向导航'
+          }, {
+            value: 'dingbudaohang',
+            label: '顶部导航'
+          }]
+        }]
+      }]
     }
   },
   methods: {
