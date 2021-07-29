@@ -174,8 +174,10 @@ export default {
     params: {
       handler(val) {
         this.queryParams = { ...this.queryParams, ...this.params }
+        console.log('size', val)
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   beforeDestroy() {
@@ -220,7 +222,7 @@ export default {
       this.loadOriginData()
     },
     loadData() {
-      const { size, current } = this.queryParams
+      const { size, current } = this.pagination
       this.tableData = this.originData.slice((current - 1) * size, current * size).map((item, index) => {
         item.index = index
         return item
@@ -279,12 +281,10 @@ export default {
     reloadData({ pageSize: size, currentPage, type }) {
       if (type === 'size-change') {
         // 分页条数变更，需要重置current为1
-        // this.queryParams = merge(this.queryParams, { size, current: 1 })
-        this.queryParams = { ...this.queryParams, size, current: 1 }
+        this.pagination = { ...this.pagination, size, current: 1 }
       } else {
         // 页码变更时
-        // this.queryParams = merge(this.queryParams, { current: currentPage })
-        this.queryParams = { ...this.queryParams, current: currentPage }
+        this.pagination = { ...this.pagination, current: currentPage }
       }
       this.loadData()
     },
@@ -358,7 +358,7 @@ export default {
             break
           case 'size':
             // 查询条数
-            this.queryParams[param] = this.queryParams.size
+            this.queryParams[param] = this.pagination.size
             break
           default:
             // 其他字段，全部清空
