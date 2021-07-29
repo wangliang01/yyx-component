@@ -17,7 +17,7 @@
         <!-- table右侧 -->
         <slot name="table-top-right"></slot>
       </div>
-      <y-table ref="table" v-loading="loading" :data="tableData" :columns="columns" :pagination="{'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" @selection-change="handleSelectionChange"></y-table>
+      <y-table ref="table" v-loading="loading" :data="tableData" :columns="columns" :pagination="{'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" :row-key="rowKey" @selection-change="handleSelectionChange"></y-table>
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="handleCancel">取 消</el-button>
@@ -37,6 +37,10 @@ export default {
       default: () => {
         return {}
       }
+    },
+    rowKey: {
+      type: [Function, String],
+      default: 'id'
     },
     visible: {
       type: Boolean,
