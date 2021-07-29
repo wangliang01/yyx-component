@@ -30,6 +30,7 @@ import Block from './Block'
 import Tree from './Tree'
 import CardForm from './CardForm'
 import Container from './Container'
+// import Checkbox from './Checkbox'
 
 const { YCategoryCascader, YAddressCascader, YCascader } = Cascader
 const { YUpload, YAvatar } = Upload

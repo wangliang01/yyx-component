@@ -79,6 +79,7 @@ export default {
     init() {
       const input = this.$refs.input.$el
       const inputInner = input.querySelector('.el-input__inner')
+      if (!inputInner) return
       if (this.unit) {
         inputInner.classList.add('fix-border-radius')
         const unit = this.$refs.unit

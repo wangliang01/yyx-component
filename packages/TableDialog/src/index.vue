@@ -216,7 +216,6 @@ export default {
       this.loadOriginData()
     },
     loadData() {
-      this.isFirstInit = true
       const { size, current } = this.queryParams
       this.tableData = this.originData.slice((current - 1) * size, current * size).map((item, index) => {
         item.index = index
@@ -224,6 +223,7 @@ export default {
       })
       this.cloneCheckedData = cloneDeep(this.checkedData)
       if (this.checkedData.length) {
+        this.isFirstInit = true
         // 如果有勾选数据，则默认勾选上
         const prop = this.model.id
         const intersectionData = this.checkedData.map(item => {

@@ -59,7 +59,9 @@ export default {
       this.$emit('input', value)
       if (typeof this.onPick === 'function') {
         // 当type为daterange时，处理日期的回调
-        this.onPick(value)
+        this.$nextTick(() => {
+          this.onPick(value)
+        })
       }
     }
   }

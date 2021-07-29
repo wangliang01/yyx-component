@@ -111,27 +111,27 @@ export default {
         }
       },
       disableData: [
-        {
-          depositId: '10001',
-          url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-          depositName: '押金品名称1',
-          depositMoney: 8,
-          checked: false
-        },
-        {
-          depositId: '10002',
-          url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-          depositName: '押金品名称2',
-          depositMoney: 9,
-          checked: false
-        },
-        {
-          depositId: '10011',
-          url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-          depositName: '押金品名称11',
-          depositMoney: 11,
-          checked: false
-        }
+        // {
+        //   depositId: '10001',
+        //   url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+        //   depositName: '押金品名称1',
+        //   depositMoney: 8,
+        //   checked: false
+        // },
+        // {
+        //   depositId: '10002',
+        //   url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+        //   depositName: '押金品名称2',
+        //   depositMoney: 9,
+        //   checked: false
+        // },
+        // {
+        //   depositId: '10011',
+        //   url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+        //   depositName: '押金品名称11',
+        //   depositMoney: 11,
+        //   checked: false
+        // }
       ],
       columns: [
         {
@@ -215,7 +215,7 @@ export default {
       close()
     },
     handleConfirm({ data, done }) {
-      console.log(data, done)
+      console.log('confirm', data, done)
     }
   }
 }
