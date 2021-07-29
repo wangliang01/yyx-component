@@ -1,5 +1,5 @@
 <script>
-import data from './address'
+import data from './option'
 export default {
   name: 'Cascader',
   data() {
@@ -282,22 +282,24 @@ export default {
   },
   render(h) {
     return (
-      <y-address-cascader
+      <y-cascader
+        collapse-tags
         v-model={this.value}
-        api={this.dataApi}
-        mode="internal"
-        type="city"
+        dataApi={this.dataApi}
         {...{
           props: {
-            props: { label: 'name', value: 'id', children: 'childDept' }
+            props: { label: 'name', value: 'id', children: 'childDept', multiple: true }
           },
           on: {
             checked(params) {
               console.log("params", params);
+            },
+            change(data) {
+              console.log('change', data)
             }
           }
         }}
-      ></y-address-cascader>
+      ></y-cascader>
     )
   },
   props: {},

@@ -156,7 +156,11 @@ export default {
       isExpand: true,
       overflowHeight: 0,
       canShowTableFilter: false,
-      isFirstInit: false
+      isFirstInit: false,
+      pagination: {
+        size: 10,
+        current: 1
+      }
     }
   },
   watch: {

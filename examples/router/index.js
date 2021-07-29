@@ -148,6 +148,12 @@ const routes = [
         name: 'Container',
         component: () => import('../views/container'),
         meta: { title: 'Container 容器' }
+      },
+      {
+        path: '/checkbox',
+        name: 'Checkbox',
+        component: () => import('../views/checkbox'),
+        meta: { title: 'Checkbox 容器' }
       }
     ]
   }

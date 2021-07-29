@@ -13,8 +13,7 @@
 </template>
 
 <script>
-/* eslint-disable */
-import { isEmpty } from 'lodash'
+import { isEmpty, isEqual, uniqWith } from 'lodash'
 export default {
   name: 'YCascader',
   props: {
@@ -119,9 +118,32 @@ export default {
           currentValue = value.join(',')
         }
         this.$emit('input', currentValue)
-        params = value.map(checkedValue => {
-          return this.getCheckedObj(this.options, checkedValue)
-        })
+        if (this.props.multiple) {
+          // value.forEach(item => {
+          //   const res = item.map(checkedValue => {
+          //     const checkedObj = this.getCheckedObj(this.options, checkedValue)
+          //     if (checkedObj) {
+          //       flatParms.push(checkedObj)
+          //     }
+          //     return checkedObj
+          //   })
+          //   params.push(res)
+          // })
+          value.forEach(item => {
+            item.map(checkedValue => {
+              const checkedObj = this.getCheckedObj(this.options, checkedValue)
+              if (checkedObj) {
+                params.push(checkedObj)
+              }
+              return checkedObj
+            })
+          })
+          params = uniqWith(params, isEqual)
+        } else {
+          params = value.map(checkedValue => {
+            return this.getCheckedObj(this.options, checkedValue)
+          })
+        }
       } else {
         this.$emit('input', value)
         params = value.split('.').map(checkedValue => {
@@ -132,11 +154,11 @@ export default {
       this.$emit('checked', params)
     },
     getCheckedObj(data, value) {
-      let res = {}
+      let res = null
       const prop = this.props.value
       for (let i = 0; i < data.length; i++) {
         const item = data[i]
-         if (item[prop] === value) {
+        if (item[prop] === value) {
           res = item
           return res
         }

@@ -19,7 +19,7 @@ export default {
   data() {
     return {
       params: {
-        id: ''
+        size: 100
       },
       visible: false,
       loadDataApi: () => {
