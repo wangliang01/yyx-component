@@ -355,6 +355,7 @@ export default {
           case 'current':
             // 将当前页重置为1
             this.queryParams[param] = 1
+            this.pagination[param] = 1
             break
           case 'size':
             // 查询条数

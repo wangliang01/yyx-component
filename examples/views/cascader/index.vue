@@ -7,7 +7,9 @@ export default {
       /* eslint-disable */
       dataApi: this.getDataApi,
       inputValue: '选项1 / 选项2 / 选项4',
-      value: '',
+      value: [
+        ['3', '1418400385244069888']
+      ],
       // address: ["110000", "110100", "110101"]
       address: '110000,110100,110102',
       options: [
@@ -288,11 +290,16 @@ export default {
         dataApi={this.dataApi}
         {...{
           props: {
-            props: { label: 'name', value: 'id', children: 'childDept', multiple: true }
+            props: {
+              label: 'name',
+              value: 'id',
+              children: 'childDept',
+              multiple: true
+            }
           },
           on: {
             checked(params) {
-              console.log("params", params);
+              console.log('params', params)
             },
             change(data) {
               console.log('change', data)
