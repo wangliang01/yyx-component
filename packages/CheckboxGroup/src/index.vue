@@ -1,31 +1,49 @@
-<template>
-  <div class="y-checkbox-group">
-    <slot></slot>
-  </div>
-</template>
-
 <script>
+import Emitter from 'element-ui/src/mixins/emitter'
+
 export default {
   name: 'YCheckboxGroup',
-  components: {
-  },
-  props: {
 
-  },
-  data() {
-    return {
+  componentName: 'ElCheckboxGroup',
 
+  mixins: [Emitter],
+
+  inject: {
+    elFormItem: {
+      default: ''
     }
   },
-  mounted() {
 
+  props: {
+    value: {},
+    disabled: Boolean,
+    min: Number,
+    max: Number,
+    size: String,
+    fill: String,
+    textColor: String
   },
-  methods: {
 
+  computed: {
+    _elFormItemSize() {
+      return (this.elFormItem || {}).elFormItemSize
+    },
+    checkboxGroupSize() {
+      return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size
+    }
+  },
+
+  watch: {
+    value(value) {
+      console.log('watch value', value)
+      this.dispatch('ElFormItem', 'el.form.change', [value])
+    }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<template>
+  <div class="el-checkbox-group" role="group" aria-label="checkbox-group">
+    <slot></slot>
+  </div>
+</template>

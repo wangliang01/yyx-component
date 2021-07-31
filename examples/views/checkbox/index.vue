@@ -1,6 +1,6 @@
 <template>
-  <el-checkbox-group v-model="arr">
-    <y-checkbox v-for="(item, index) in arr" :key="index">{{ item.name }}</y-checkbox>
+  <el-checkbox-group v-model="checkList">
+    <el-checkbox v-for="(item,index) in arr" :key="index" :label="item">{{ item.name }}</el-checkbox>
   </el-checkbox-group>
 </template>
 
@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      checkList: [],
       arr: [
         {
           name: 'vue'
@@ -25,6 +26,14 @@ export default {
           name: 'jquery'
         }
       ]
+    }
+  },
+  watch: {
+    'checkList': {
+      handler(val) {
+        console.log(val)
+      },
+      deep: true
     }
   },
   mounted() {

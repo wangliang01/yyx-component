@@ -20,6 +20,10 @@ export default {
     withFooter: {
       type: Boolean,
       default: true
+    },
+    isCloseDirectly: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -32,9 +36,13 @@ export default {
   },
   methods: {
     handleCancel() {
-      this.$emit('cancel', () => {
+      if (this.isCloseDirectly) {
         this.$emit('update:visible', false)
-      })
+      } else {
+        this.$emit('cancel', () => {
+          this.$emit('update:visible', false)
+        })
+      }
     },
     handleConfirm() {
       this.$emit('confirm')

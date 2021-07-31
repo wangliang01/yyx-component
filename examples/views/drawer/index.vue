@@ -16,7 +16,6 @@
       :visible.sync="drawer"
       :direction="direction"
       :before-close="handleClose"
-      @cancel="handleCancel"
     >
       <span>我来啦!</span>
     </y-drawer>
