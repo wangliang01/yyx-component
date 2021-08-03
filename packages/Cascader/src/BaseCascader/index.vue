@@ -72,6 +72,16 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    value: {
+      handler(val) {
+        if (typeof val === 'string') {
+          this.currentValue = val.split(',')
+        } else {
+          this.currentValue = val
+        }
+      },
+      deep: true
     }
   },
   async created() {

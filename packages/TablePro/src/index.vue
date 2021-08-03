@@ -11,6 +11,8 @@
         label-position="left"
         :label-width="$attrs['label-width']"
         v-on="$listeners"
+        @submit.native.prevent
+        @keyup.enter.native="handleQuery"
       >
         <el-form-item v-if="hasSearch && formConfig.length <= 3">
           <el-button
