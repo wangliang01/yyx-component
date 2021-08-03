@@ -5,6 +5,7 @@
     :model="formData"
     :style="`width: ${width || '100%'}; overflow: hidden;`"
     v-on="$listeners"
+    @submit.native.prevent
   >
     <el-form-item
       v-for="(field, key) in config"
@@ -112,16 +113,18 @@ export default {
     validateFields() {
       Object.keys(this.formData).forEach(fieldName => {
         if (typeof this.validateProp === 'string') {
+          console.log('[需要额外校验的字段]:%c%s', 'color: green', this.validateProp)
           this.$nextTick(() => {
             // 对值进行校验
-            if (this.formData[fieldName] && fieldName === this.validateProp) {
+            if (fieldName === this.validateProp) {
               this.$refs.form.validateField(fieldName)
             }
           })
         } else if (Array.isArray(this.validateProp)) {
+          console.log('[需要额外校验的字段]:%c%s', 'color: green', this.validateProp.toString())
           this.$nextTick(() => {
             // 对值进行校验
-            if (this.formData[fieldName] && this.validateProp.includes(fieldName)) {
+            if (this.validateProp.includes(fieldName)) {
               this.$refs.form.validateField(fieldName)
             }
           })

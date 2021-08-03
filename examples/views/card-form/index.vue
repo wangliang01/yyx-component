@@ -1,6 +1,6 @@
 <template>
   <div>
-    <y-card-form ref="form" v-model="form" :config="config" field="name">
+    <y-card-form ref="form" v-model="form" :config="config" :field="['']">
       <span slot="title" style="color: red; font-size: 12px;">完全打开</span>
     </y-card-form>
     <el-button @click="handleSubmit">submit</el-button>
@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import data from '../cascader/option'
 const options = [
   {
     label: 'Vue',
@@ -31,9 +32,11 @@ export default {
   },
   data() {
     return {
+      dataApi: this.getDataApi,
       form: {
         name: '',
-        age: ''
+        age: '',
+        address: ''
       },
       value: '',
       config: {
@@ -56,6 +59,38 @@ export default {
           label: '年龄',
           fieldType: 'Input',
           rules: [{ required: true, message: 'age参数必填', trigger: 'blur' }]
+        },
+        address: {
+          prop: 'address',
+          label: '地址',
+          fieldType: {
+            render: () => {
+              return <y-cascader
+                collapse-tags
+                v-model={this.form.address}
+                dataApi={this.dataApi}
+                {...{
+                  props: {
+                    props: {
+                      label: 'name',
+                      value: 'id',
+                      children: 'childDept',
+                      multiple: false
+                    }
+                  },
+                  on: {
+                    checked(params) {
+                      console.log('params', params)
+                    },
+                    change(data) {
+                      console.log('change', data)
+                    }
+                  }
+                }}
+              ></y-cascader>
+            }
+          },
+          rules: [{ required: true, message: '地址不能为空', trigger: ['blur', 'chage'] }]
         }
       }
     }
@@ -64,6 +99,14 @@ export default {
 
   },
   methods: {
+    getDataApi() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log(data)
+          resolve(data)
+        }, 300)
+      })
+    },
     handleSubmit() {
       console.log('submit', this.$refs.form.$children[0])
       // this.$refs.form.$children[0].validateFields()

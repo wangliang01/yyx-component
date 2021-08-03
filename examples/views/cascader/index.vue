@@ -7,9 +7,7 @@ export default {
       /* eslint-disable */
       dataApi: this.getDataApi,
       inputValue: '选项1 / 选项2 / 选项4',
-      value: [
-        ['3', '1418400385244069888']
-      ],
+      value: '',
       // address: ["110000", "110100", "110101"]
       address: '110000,110100,110102',
       options: [

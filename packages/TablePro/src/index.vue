@@ -11,7 +11,6 @@
         label-position="left"
         :label-width="$attrs['label-width']"
         v-on="$listeners"
-        @submit.native.prevent
         @keyup.enter.native="handleQuery"
       >
         <el-form-item v-if="hasSearch && formConfig.length <= 3">
@@ -278,7 +277,7 @@ export default {
       window.addEventListener('keyup', (e) => {
         const keyCode = e.keyCode || e.which
         if (keyCode === 13) {
-          this.loadData()
+          this.handleQuery()
         }
       }, false)
     },

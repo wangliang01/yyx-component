@@ -26,17 +26,18 @@ export default {
           label: 'id',
           prop: 'id',
           labelWidth: '100px',
-          fieldType: {
-            render: () => {
-              return <el-select
-                v-model={this.form.id}
-                on-change={this.handleChange}>
-                {this.options.map(item => {
-                  return <el-option key={item.name} label={item.label} value={item.value}></el-option>
-                })}
-              </el-select>
-            }
-          },
+          // fieldType: {
+          //   render: () => {
+          //     return <el-select
+          //       v-model={this.form.id}
+          //       on-change={this.handleChange}>
+          //       {this.options.map(item => {
+          //         return <el-option key={item.name} label={item.label} value={item.value}></el-option>
+          //       })}
+          //     </el-select>
+          //   }
+          // },
+          fieldType: 'Input',
           rules: [{ required: true, message: '不能为空' }]
         }
 
@@ -54,7 +55,7 @@ export default {
           prop: 'test',
           label: '你好13131231312313',
           filter: true,
-          fieldType: 'Select',
+          fieldType: 'Input',
           options: [{ label: '上架', value: true }, { label: '下架', value: false }]
         },
         {
