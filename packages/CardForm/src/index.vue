@@ -9,6 +9,7 @@
         :key="key"
         ref="form"
         v-model="formData"
+        :validate-prop="field"
         :config="config"
         :label-suffix="labelSuffix"
         label-position="right"
@@ -50,6 +51,10 @@ export default {
     labelSuffix: {
       type: String,
       default: '：'
+    },
+    field: {
+      type: [String, Array],
+      default: ''
     },
     form: {
       type: Object,

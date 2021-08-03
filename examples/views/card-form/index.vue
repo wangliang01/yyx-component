@@ -1,10 +1,27 @@
 <template>
-  <y-card-form v-model="form">
-    <span slot="title" style="color: red; font-size: 12px;">完全打开</span>
-  </y-card-form>
+  <div>
+    <y-card-form ref="form" v-model="form" :config="config" field="name">
+      <span slot="title" style="color: red; font-size: 12px;">完全打开</span>
+    </y-card-form>
+    <el-button @click="handleSubmit">submit</el-button>
+  </div>
 </template>
 
 <script>
+const options = [
+  {
+    label: 'Vue',
+    value: 'vue'
+  },
+  {
+    label: 'React',
+    value: 'react'
+  },
+  {
+    label: 'Angular',
+    value: 'angular'
+  }
+]
 export default {
   name: '',
   components: {
@@ -14,14 +31,43 @@ export default {
   },
   data() {
     return {
-      form: {}
+      form: {
+        name: '',
+        age: ''
+      },
+      value: '',
+      config: {
+        name: {
+          prop: 'name',
+          label: '姓名',
+          fieldType: {
+            render: () => {
+              return <el-select v-model={this.value}>
+                {options.map(option => {
+                  return <el-option value={option.value} label={option.label}></el-option>
+                })}
+              </el-select>
+            }
+          },
+          rules: [{ required: true, message: 'name参数必填', trigger: 'blur' }]
+        },
+        age: {
+          prop: 'age',
+          label: '年龄',
+          fieldType: 'Input',
+          rules: [{ required: true, message: 'age参数必填', trigger: 'blur' }]
+        }
+      }
     }
   },
   mounted() {
 
   },
   methods: {
-
+    handleSubmit() {
+      console.log('submit', this.$refs.form.$children[0])
+      // this.$refs.form.$children[0].validateFields()
+    }
   }
 }
 </script>

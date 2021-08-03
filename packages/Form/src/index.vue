@@ -70,6 +70,11 @@ export default {
       // 表单数据
       type: Object,
       required: true
+    },
+    // 需要校验的字段
+    validateProp: {
+      type: [String, Array],
+      default: ''
     }
   },
   data() {
@@ -81,14 +86,7 @@ export default {
     value: {
       handler(val) {
         this.formData = val
-        Object.keys(this.formData).forEach(fieldName => {
-          this.$nextTick(() => {
-            // 对值进行校验
-            if (this.formData[fieldName]) {
-              this.$refs.form.validateField(fieldName)
-            }
-          })
-        })
+        this.validateFields()
       },
       deep: true
     }
@@ -106,6 +104,25 @@ export default {
           Object.keys(component).forEach(key => {
             if (['clearValidate', 'resetFields', 'validate', 'validateField'].includes(key)) {
               this[key] = component[key]
+            }
+          })
+        }
+      })
+    },
+    validateFields() {
+      Object.keys(this.formData).forEach(fieldName => {
+        if (typeof this.validateProp === 'string') {
+          this.$nextTick(() => {
+            // 对值进行校验
+            if (this.formData[fieldName] && fieldName === this.validateProp) {
+              this.$refs.form.validateField(fieldName)
+            }
+          })
+        } else if (Array.isArray(this.validateProp)) {
+          this.$nextTick(() => {
+            // 对值进行校验
+            if (this.formData[fieldName] && this.validateProp.includes(fieldName)) {
+              this.$refs.form.validateField(fieldName)
             }
           })
         }
