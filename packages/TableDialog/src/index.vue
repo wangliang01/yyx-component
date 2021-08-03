@@ -17,7 +17,7 @@
         <!-- table右侧 -->
         <slot name="table-top-right"></slot>
       </div>
-      <y-table ref="table" v-loading="loading" :data="tableData" :columns="columns" :pagination="{'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" :row-key="rowKey" @selection-change="handleSelectionChange"></y-table>
+      <y-table ref="table" v-loading="loading" :data="tableData" :columns="tableColumns" :pagination="{'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" :row-key="rowKey" @selection-change="handleSelectionChange"></y-table>
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="handleCancel">取 消</el-button>
@@ -157,6 +157,7 @@ export default {
       overflowHeight: 0,
       canShowTableFilter: false,
       isFirstInit: false,
+      tableColumns: [],
       pagination: {
         size: 10,
         current: 1
@@ -326,6 +327,7 @@ export default {
       this.config = {}
       // 生成表格列数据
       const filterColumns = filter(this.columns, column => column.filter)
+      this.tableColumns = this.columns.filter(column => !column.hidden)
       this.canShowTableFilter = filterColumns.length > 0
       filterColumns.forEach(column => {
         const key = column.prop
