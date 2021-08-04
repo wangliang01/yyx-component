@@ -18,7 +18,8 @@ export default {
   name: 'YCascader',
   props: {
     dataApi: {
-      type: Function
+      type: Function,
+      required: true
     },
     // element 级联组件的props属性
     props: {
@@ -66,6 +67,7 @@ export default {
   watch: {
     inputValue: {
       handler(val) {
+        console.log('watch inputValue', val)
         this.$nextTick(() => {
           this.$refs[this.ref].presentText = val
         })

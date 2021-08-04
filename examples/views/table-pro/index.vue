@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import data from '../cascader/option'
 export default {
   name: '',
   components: {
@@ -21,31 +22,33 @@ export default {
       form: {
         id: ''
       },
+      dataApi: this.getDataApi,
       config: {
         id: {
           label: 'id',
           prop: 'id',
           labelWidth: '100px',
+          filter: true
           // fieldType: {
           //   render: () => {
           //     return <el-select
           //       v-model={this.form.id}
           //       on-change={this.handleChange}>
           //       {this.options.map(item => {
-          //         return <el-option key={item.name} label={item.label} value={item.value}></el-option>
+          //         return <el-option key={item.name} label={item.label} value={item.value}>{item.label} </el-option>
           //       })}
           //     </el-select>
           //   }
-          // },
-          fieldType: 'Input',
-          rules: [{ required: true, message: '不能为空' }]
+          // }
         }
 
       },
       params: {
+        id: '',
         value: '',
         test: ''
       },
+      value: '',
       columns: [
         {
           type: 'selection',
@@ -55,8 +58,39 @@ export default {
           prop: 'test',
           label: '你好13131231312313',
           filter: true,
-          fieldType: 'Input',
-          options: [{ label: '上架', value: true }, { label: '下架', value: false }]
+          // fieldType: {
+          //   render: () => {
+          //     return <el-select
+          //       v-model={this.params.id}
+          //       on-change={this.handleChange}>
+          //       {this.options.map(item => {
+          //         return <el-option key={item.value} label={item.label} value={item.value}></el-option>
+          //       })}
+          //     </el-select>
+          //   }
+          // }
+          fieldType: {
+            render: () => {
+              return <YCascader v-model={this.params.id} dataApi={this.dataApi} inputValue={this.value} {...{
+                props: {
+                  props: {
+                    label: 'name',
+                    value: 'id',
+                    children: 'childDept',
+                    multiple: false
+                  }
+                },
+                on: {
+                  checked(params) {
+                    console.log('params', params)
+                  },
+                  change(data) {
+                    console.log('change', data)
+                  }
+                }
+              }}></YCascader>
+            }
+          }
         },
         {
           label: '日期',
@@ -328,8 +362,11 @@ export default {
     }
   },
   watch: {
-    'params.test'(val) {
-      console.log('watch value', val)
+    params: {
+      handler(val) {
+        console.log('watch params', val, this.value)
+      },
+      deep: true
     }
   },
   async mounted() {
@@ -344,8 +381,16 @@ export default {
     // }
   },
   methods: {
+    getDataApi() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log(data)
+          resolve(data)
+        }, 300)
+      })
+    },
     handleChange() {
-      console.log('this.form', this.form)
+      console.log('change', this.form)
     },
     handleSave(data) {
       console.log(data)

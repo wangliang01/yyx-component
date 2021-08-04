@@ -1,6 +1,6 @@
 <template>
   <div>
-    <y-card-form ref="form" v-model="form" :config="config" :field="['']">
+    <y-card-form ref="form" v-model="form" :config="config" :field="['name']">
       <span slot="title" style="color: red; font-size: 12px;">完全打开</span>
     </y-card-form>
     <el-button @click="handleSubmit">submit</el-button>
@@ -33,6 +33,9 @@ export default {
   data() {
     return {
       dataApi: this.getDataApi,
+      params: {
+        name: ''
+      },
       form: {
         name: '',
         age: '',
@@ -45,9 +48,9 @@ export default {
           label: '姓名',
           fieldType: {
             render: () => {
-              return <el-select v-model={this.value}>
+              return <el-select v-model={this.form.name} onChange={this.handleChange}>
                 {options.map(option => {
-                  return <el-option value={option.value} label={option.label}></el-option>
+                  return <el-option value={option.value} label={option.label} ></el-option>
                 })}
               </el-select>
             }
@@ -99,6 +102,9 @@ export default {
 
   },
   methods: {
+    handleChange(val) {
+      console.log(val, this.form)
+    },
     getDataApi() {
       return new Promise((resolve) => {
         setTimeout(() => {

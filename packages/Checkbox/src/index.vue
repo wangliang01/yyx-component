@@ -58,7 +58,7 @@
 </template>
 <script>
 import Emitter from 'element-ui/src/mixins/emitter'
-
+/* eslint-disable */
 export default {
   name: 'YCheckbox',
 

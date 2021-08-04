@@ -320,6 +320,7 @@ export default {
     /* 重置 */
     handleReset() {
       const { size } = this.queryParams
+      console.log('queryParams', this.queryParams)
       let cloneParams
       Object.keys(this.queryParams).forEach(param => {
         switch (param) {

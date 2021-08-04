@@ -131,7 +131,7 @@ export default {
   },
   data() {
     return {
-      formData: { ...this.form },
+      formData: this.form,
       key: cid,
       cols: this.span
     }
