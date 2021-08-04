@@ -52,7 +52,8 @@
 </template>
 
 <script>
-import { cloneDeep } from 'lodash'
+import { defaultColumn } from './config'
+import { cloneDeep, uniqWith, isEqual } from 'lodash'
 import Draggable from 'vuedraggable'
 export default {
   name: 'Setting',
@@ -115,7 +116,12 @@ export default {
     },
     /* 重新刷新列表 */
     forceUpdate() {
-      const columns = this.settingConfig.filter((item) => item.checked)
+      const firstColumn = cloneDeep(this.originColumns).find(column => ['expand', 'selection'].includes(column.type))
+
+      let columns = this.settingConfig.filter((item) => item.checked)
+      if (firstColumn) {
+        columns = uniqWith([Object.assign({}, defaultColumn, firstColumn), ...columns], isEqual)
+      }
       this.$emit('column-change', cloneDeep(columns))
       this.$emit('source-change', 'child')
     },

@@ -59,11 +59,12 @@
         ref="table"
         v-loading="loading"
         :data="tableData"
-        :columns="columns && columns.filter(column => !column.hidden)"
+        :columns.sync="currentColumns"
         :pagination="$attrs.pagination === undefined ? true : $attrs.pagination"
         :total="total"
         :reload="reloadData"
         v-bind="$attrs"
+        @update="handleUpdateColumns"
         @selection-change="handleSelectChange"
         v-on="$listeners"
       >
@@ -141,7 +142,8 @@ export default {
       canShowExpandBtn: false, // 是否显示展开筛选条件按钮
       isExpand: false,
       overflowHeight: 0,
-      selection: []
+      selection: [],
+      currentColumns: []
 
     }
   },
@@ -161,6 +163,7 @@ export default {
   watch: {
     columns: {
       handler(val) {
+        this.currentColumns = this.columns && this.columns.filter(column => !column.hidden)
         this.initConfig()
         if (this.$refs.table) {
           this.$nextTick(() => {
@@ -169,7 +172,8 @@ export default {
           })
         }
       },
-      deep: true
+      deep: true,
+      immediate: true
     },
     params: {
       handler(val) {
@@ -200,6 +204,10 @@ export default {
     window.removeEventListener('resize', this.initTableFilter)
   },
   methods: {
+    handleUpdateColumns(columns) {
+      this.currentColumns = columns
+      this.initConfig()
+    },
     /* 取消选择 */
     handleCancelSelection() {
       this.$refs.table.clearSelection()

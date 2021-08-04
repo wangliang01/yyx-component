@@ -7,7 +7,7 @@
         <div v-if="showUtilBar" class="utils-wrapper">
           <Refresh v-if="utilConifg.includes('refresh')" @refresh="handleRefresh"></Refresh>
           <Density v-if="utilConifg.includes('density')" :size="size" @resize="handleResize"></Density>
-          <Setting v-if="utilConifg.includes('setting')" v-model="columns" :origin-columns="originColumns"></Setting>
+          <Setting v-if="utilConifg.includes('setting')" v-model="currentColumns" :origin-columns="originColumns"></Setting>
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
 </template>
 <script>
 import { defaultTableAttrs, defaultColumn, defaultPagination } from './config'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, uniqWith, isEqual } from 'lodash'
 import TableItem from './TableItem'
 import Refresh from './Refresh.vue'
 import Density from './Density.vue'
@@ -105,6 +105,16 @@ export default {
       originColumns: cloneDeep(this.columns)
     }
   },
+  computed: {
+    currentColumns: {
+      get() {
+        return this.columns
+      },
+      set(columns) {
+        this.$emit('update', columns)
+      }
+    }
+  },
   watch: {
     pagination: {
       handler() {
@@ -151,10 +161,18 @@ export default {
       this.tableAttrs = Object.assign({}, defaultTableAttrs, tableAttrs)
 
       // 获取element table col上的属性
-      this.columnAttrs = this.columns.map(column => {
+      const columnAttrs = this.currentColumns.map(column => {
         const obj = Object.assign({}, defaultColumn, column)
         return obj
       })
+
+      const firstColumn = cloneDeep(this.originColumns).find(column => ['expand', 'selection'].includes(column.type))
+
+      if (firstColumn) {
+        this.columnAttrs = uniqWith([Object.assign({}, defaultColumn, firstColumn), ...columnAttrs], isEqual)
+      } else {
+        this.columnAttrs = columnAttrs
+      }
 
       this.getPagination()
     },

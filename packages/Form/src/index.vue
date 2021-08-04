@@ -34,7 +34,6 @@
 </template>
 
 <script>
-// import { cloneDeep } from 'lodash'
 import Input from './components/Input'
 import InputNumber from '../../InputNumber'
 import Radio from './components/Radio'
@@ -87,10 +86,10 @@ export default {
     value: {
       handler(val) {
         this.formData = val
-        console.log('watch formData', this.formData)
-        this.validateFields()
+        // this.validateFields()
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   mounted() {
@@ -146,7 +145,6 @@ export default {
       return 0
     },
     updateForm(fieldName, value) {
-      /* this.formData[fieldName] = value */
       this.$set(this.formData, fieldName, value)
       this.$emit('input', this.formData)
     }
