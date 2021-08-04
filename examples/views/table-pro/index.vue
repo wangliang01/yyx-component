@@ -124,6 +124,15 @@ export default {
           //     return <y-cascader v-model={this.params.value} options={this.options}></y-cascader>
           //   }
           // }
+        },
+        {
+          label: '操作',
+          render() {
+            return <div>
+              <el-button type='text'>查看</el-button>
+              <el-button type='text'>编辑</el-button>
+            </div>
+          }
         }
       ],
       loadDataApi: () => {

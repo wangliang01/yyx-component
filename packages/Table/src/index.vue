@@ -13,6 +13,7 @@
     </div>
     <el-table
       :key="key"
+      ref="table"
       v-bind="tableAttrs"
       :data="data"
       :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
@@ -229,6 +230,7 @@ export default {
     },
     handleResize({ size, close }) {
       this.size = size
+      this.$refs.table.doLayout()
       close && close()
     },
     handleRefresh() {
