@@ -154,6 +154,18 @@ const routes = [
         name: 'Checkbox',
         component: () => import('../views/checkbox'),
         meta: { title: 'Checkbox 容器' }
+      },
+      {
+        path: '/table-mate',
+        name: 'TableMate',
+        component: () => import('../views/table-mate'),
+        meta: { title: 'TableMate 前端分页表格' }
+      },
+      {
+        path: '/transfer',
+        name: 'Transfer',
+        component: () => import('../views/transfer'),
+        meta: { title: 'Transfer 选择器' }
       }
     ]
   }

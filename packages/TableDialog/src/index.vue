@@ -230,7 +230,6 @@ export default {
       })
       this.cloneCheckedData = cloneDeep(this.checkedData)
       if (this.checkedData.length) {
-        this.isFirstInit = true
         // 如果有勾选数据，则默认勾选上
         const prop = this.model.id
         const intersectionData = this.checkedData.map(item => {
@@ -246,15 +245,13 @@ export default {
             if (intersectionData.includes(item[prop])) {
               // 如果包含，则勾选
               this.$refs.table.$children[0].toggleRowSelection(item)
-              setTimeout(() => {
-                this.isFirstInit = false
-              })
             }
           })
         })
       }
     },
     async loadOriginData() {
+      this.isFirstInit = true
       const data = cloneDeep(this.queryParams)
       for (const key in data) {
         if (data[key] === undefined || data[key] === null || data[key] === '') {
@@ -268,6 +265,9 @@ export default {
         // 重新组装Table数据
         this.loadData()
         this.total = parseInt(res.data.total || res.data.length)
+        this.$nextTick(() => {
+          this.isFirstInit = false
+        })
       } catch {
         this.originData = []
         this.tableData = []
@@ -280,6 +280,7 @@ export default {
      * 分页时，重新加载数据
      */
     reloadData({ pageSize: size, currentPage, type }) {
+      this.isFirstInit = true
       if (type === 'size-change') {
         // 分页条数变更，需要重置current为1
         this.pagination = { ...this.pagination, size, current: 1 }
@@ -288,6 +289,9 @@ export default {
         this.pagination = { ...this.pagination, current: currentPage }
       }
       this.loadData()
+      this.$nextTick(() => {
+        this.isFirstInit = false
+      })
     },
     initTableFilter() {
       const tableFilter = this.$refs.tableFilter
