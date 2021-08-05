@@ -120,12 +120,14 @@ export default {
     pagination: {
       handler() {
         this.getPagination()
+        this.reLayout()
       },
       deep: true,
       immediate: false
     },
     total() {
       this.getPagination()
+      this.reLayout()
     },
     columns: {
       handler(val) {
@@ -139,6 +141,12 @@ export default {
     this.init()
   },
   methods: {
+    reLayout() {
+      // 对数据进行重新渲染
+      this.$nextTick(() => {
+        this.$refs.table.doLayout()
+      })
+    },
     init() {
       // 解决y-table组件没有相关方法的问题
       this.$children.forEach(component => {
@@ -167,7 +175,7 @@ export default {
         return obj
       })
 
-      const firstColumn = cloneDeep(this.originColumns).find(column => ['expand', 'selection'].includes(column.type))
+      const firstColumn = cloneDeep(this.originColumns).find(column => ['expand'].includes(column.type))
 
       if (firstColumn) {
         this.columnAttrs = uniqWith([Object.assign({}, defaultColumn, firstColumn), ...columnAttrs], isEqual)
@@ -176,6 +184,8 @@ export default {
       }
 
       this.getPagination()
+
+      this.reLayout()
     },
     getPagination() {
       // 获取element 分页属性
@@ -230,8 +240,8 @@ export default {
     },
     handleResize({ size, close }) {
       this.size = size
-      this.$refs.table.doLayout()
       close && close()
+      this.reLayout()
     },
     handleRefresh() {
       this.paginationAttrs = Object.assign({}, this.paginationAttrs, {
