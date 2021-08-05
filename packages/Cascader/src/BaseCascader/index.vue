@@ -67,13 +67,22 @@ export default {
   watch: {
     inputValue: {
       handler(val) {
-        console.log('watch inputValue', val)
         this.$nextTick(() => {
           this.$refs[this.ref].presentText = val
         })
       },
       deep: true,
       immediate: true
+    },
+    value: {
+      handler(val) {
+        if (val === null || val === undefined || val === '') {
+          this.$nextTick(() => {
+            this.$refs[this.ref].presentText = ''
+          })
+        }
+      },
+      deep: true
     }
   },
   async created() {

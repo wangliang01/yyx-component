@@ -370,14 +370,6 @@ export default {
       }]
     }
   },
-  watch: {
-    params: {
-      handler(val) {
-        console.log('watch params', val, this.value)
-      },
-      deep: true
-    }
-  },
   async mounted() {
     const options = await this.getOptions()
     this.options = options

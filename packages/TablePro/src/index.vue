@@ -4,6 +4,7 @@
     <div v-if="uiStyle=== 'element'" ref="tableFilter" :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
       <y-form
         :key="key"
+        ref="form"
         v-model="queryParams"
         v-bind="$attrs"
         :config="config"
@@ -11,7 +12,6 @@
         label-position="left"
         :label-width="$attrs['label-width']"
         v-on="$listeners"
-        @keyup.enter.native="handleQuery"
       >
         <el-form-item v-if="hasSearch && formConfig.length <= 3">
           <el-button
@@ -190,11 +190,11 @@ export default {
     }
   },
   mounted() {
-    this.queryDataByEnterKey()
     this.initConfig()
     this.loadData()
     this.initTableFilter()
     this.resizeTable()
+    this.queryDataByEnterKey()
   },
   activated() {
     this.initConfig()
@@ -285,12 +285,15 @@ export default {
     },
     // 通过点击enter键来查询数据
     queryDataByEnterKey() {
-      window.addEventListener('keyup', (e) => {
-        const keyCode = e.keyCode || e.which
-        if (keyCode === 13) {
-          this.handleQuery()
-        }
-      }, false)
+      this.$nextTick(() => {
+        const tablePro = this.$el
+        tablePro && tablePro.addEventListener('keyup', (e) => {
+          const keyCode = e.keyCode || e.which
+          if (keyCode === 13) {
+            this.handleQuery()
+          }
+        }, false)
+      })
     },
     async loadData() {
       const data = cloneDeep(this.queryParams)
