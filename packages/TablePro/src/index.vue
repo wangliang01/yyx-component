@@ -1,5 +1,5 @@
 <template>
-  <div class="table-pro" :style="{background: uiStyle === 'antd' ? '#EFF3F6' : ''}">
+  <div ref="tablePro" class="table-pro" :style="{background: uiStyle === 'antd' ? '#EFF3F6' : ''}">
     <!-- Element风格搜索框 -->
     <div v-if="uiStyle=== 'element'" ref="tableFilter" :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
       <y-form
@@ -64,6 +64,8 @@
         :total="total"
         :reload="reloadData"
         v-bind="$attrs"
+        :max-height="height"
+        :offset-height="offsetHeight"
         @update="handleUpdateColumns"
         @selection-change="handleSelectChange"
         v-on="$listeners"
@@ -143,7 +145,9 @@ export default {
       isExpand: false,
       overflowHeight: 0,
       selection: [],
-      currentColumns: []
+      currentColumns: [],
+      height: 'auto',
+      offsetHeight: 0
 
     }
   },
@@ -195,6 +199,7 @@ export default {
     this.initTableFilter()
     this.resizeTable()
     this.queryDataByEnterKey()
+    this.getTableProHeight()
   },
   activated() {
     this.initConfig()
@@ -204,6 +209,43 @@ export default {
     window.removeEventListener('resize', this.initTableFilter)
   },
   methods: {
+    getTableProHeight() {
+      setTimeout(() => {
+        const tablePro = this.$refs.tablePro
+        const height = tablePro.getBoundingClientRect().height
+        const tableFilter = this.$refs.tableFilter
+
+        // 筛选器调试
+        const filterHeight = tableFilter.getBoundingClientRect().height
+
+        const tableWrapper = document.querySelector('.table-wrapper')
+
+        // TableWrapper的marginTop
+        const marginTop = parseInt(getComputedStyle(tableWrapper).marginTop)
+
+        // TableWrapper的padding
+        const padding = parseInt(getComputedStyle(tableWrapper).paddingBottom) * 2
+
+        const tableTop = document.querySelector('.table-top')
+        // TableTopHeight
+        const tableTopHeight = parseInt(getComputedStyle(tableTop).height) + parseInt(getComputedStyle(tableTop).marginBottom)
+
+        // TableHeader
+        const tableHeader = document.querySelector('.el-table__header-wrapper')
+        const tableHeaderHeight = parseInt(getComputedStyle(tableHeader).height)
+
+        // pagination高度
+        const tablePagination = document.querySelector('.el-pagination')
+
+        const paginationHeight = parseInt(getComputedStyle(tablePagination).height) + parseInt(getComputedStyle(tablePagination).marginTop)
+
+        this.offsetHeight = filterHeight + marginTop + padding + tableTopHeight + tableHeaderHeight + paginationHeight
+
+        this.height = height - this.offsetHeight
+
+        console.log(this.height)
+      })
+    },
     handleUpdateColumns(columns) {
       this.currentColumns = columns
       this.initConfig()
@@ -232,6 +274,7 @@ export default {
         tableFilter.style.overflow = 'hidden'
         tableFilter.style.height = `${this.overflowHeight}px`
       }
+      this.getTableProHeight()
     },
     initTableFilter() {
       if (this.uiStyle === 'antd') {
@@ -334,7 +377,6 @@ export default {
     /* 重置 */
     handleReset() {
       const { size } = this.queryParams
-      console.log('queryParams', this.queryParams)
       let cloneParams
       Object.keys(this.queryParams).forEach(param => {
         switch (param) {
@@ -390,6 +432,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.table-pro{
+  height: 100%;
+}
 .y-form-inline-wrapper{
   position: relative;
   overflow: hidden;

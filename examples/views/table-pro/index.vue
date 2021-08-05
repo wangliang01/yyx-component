@@ -1,415 +1,329 @@
 <template>
-  <div>
-    <y-table-pro :load-data-api="loadDataApi" :columns="columns" ui-style="antd" offset="300" :params.sync="params" show-util-bar>
-      <template slot="action-right" slot-scope="scope">
-        <el-button type="primary" @click="handleSave(scope)">保存</el-button>
-      </template>
+  <div id="product-archives-container" class="product-archives-container">
+    <y-table-pro
+      ref="productArchivesTabel"
+      :columns="columns"
+      ui-style="antd"
+      :show-util-bar="true"
+      :load-data-api="pagelist"
+      :params.sync="paramsObj"
+      :span-method="tableType==='skuColumns'?arraySpanMethod:null"
+      :max-height="height"
+    >
+      <div slot="table-top-right">
+        <el-button type="primary" @click="addProduct">新建产品</el-button>
+      </div>
+      <div slot="table">
+        <el-radio-group v-model="tableType" size="small" button-style="hollow">
+          <el-radio-button label="spuColumns">SPU列表</el-radio-button>
+          <el-radio-button label="skuColumns">SKU列表</el-radio-button>
+        </el-radio-group>
+      </div>
     </y-table-pro>
   </div>
 </template>
 
 <script>
-import data from '../cascader/option'
+import api from './api'
 export default {
-  name: '',
-  components: {
-  },
-  props: {
-
-  },
+  name: 'ProductArchives',
   data() {
     return {
-      form: {
-        id: ''
-      },
-      dataApi: this.getDataApi,
-      config: {
-        id: {
-          label: 'id',
-          prop: 'id',
-          labelWidth: '100px',
-          filter: true
-          // fieldType: {
-          //   render: () => {
-          //     return <el-select
-          //       v-model={this.form.id}
-          //       on-change={this.handleChange}>
-          //       {this.options.map(item => {
-          //         return <el-option key={item.name} label={item.label} value={item.value}>{item.label} </el-option>
-          //       })}
-          //     </el-select>
-          //   }
-          // }
-        }
-
-      },
-      params: {
-        id: '',
-        value: '',
-        test: ''
-      },
-      value: '',
-      columns: [
+      show: false,
+      height: '100%',
+      api,
+      categoryIdArr: [],
+      paramsObj: { categoryCode: '' },
+      options: [],
+      tableType: 'skuColumns',
+      spuColumns: [
         {
-          type: 'selection',
-          width: '55px'
-        },
-        {
-          prop: 'test',
-          label: '你好13131231312313',
-          filter: true,
-          // fieldType: {
-          //   render: () => {
-          //     return <el-select
-          //       v-model={this.params.id}
-          //       on-change={this.handleChange}>
-          //       {this.options.map(item => {
-          //         return <el-option key={item.value} label={item.label} value={item.value}></el-option>
-          //       })}
-          //     </el-select>
-          //   }
-          // }
-          fieldType: {
-            render: () => {
-              return <YCascader v-model={this.params.id} dataApi={this.dataApi} inputValue={this.value} {...{
-                props: {
-                  props: {
-                    label: 'name',
-                    value: 'id',
-                    children: 'childDept',
-                    multiple: false
-                  }
-                },
-                on: {
-                  checked(params) {
-                    console.log('params', params)
-                  },
-                  change(data) {
-                    console.log('change', data)
-                  }
-                }
-              }}></YCascader>
-            }
+          label: '图片',
+          prop: 'carouselUrls',
+          render: (h, { row }) => {
+            return (
+              <el-image
+                style='width: 50px; height: 50px'
+                src={row.carouselUrls && row.carouselUrls[0]}
+                preview-src-list={row.carouselUrls}>
+              </el-image>
+            )
           }
         },
         {
-          label: '日期',
-          prop: 'date'
-          // 自定义组件写法一
-          // filter: {
-          //   render: (h) => {
-          //     return <y-cascader v-model={this.params.value} options={this.options}></y-cascader>
-          //   }
-          // }
-        },
-        {
-          label: '姓名',
-          prop: 'name',
-          // 自定义组件写法二
+          label: 'SPU ID',
+          prop: 'id'
+        }, {
+          label: 'SPU 名称',
+          prop: 'name'
+        }, {
+          label: 'SPU',
+          prop: 'idOrName',
           filter: true,
-          fieldType: 'Customer',
-          component: {
+          fieldType: 'Input',
+          placeholder: '请输入SPU ID/名称',
+          hidden: true
+        }, {
+          label: '后台类目',
+          prop: 'categoryName',
+          filter: {
             render: (h) => {
-              return <y-input v-model={this.params.value}></y-input>
+              return <el-cascader clearable v-model={this.categoryIdArr} options={this.options} propsProps={{ value: 'id', label: 'name' }}></el-cascader>
             }
           }
-        },
-        {
-          label: '地址',
-          prop: 'address'
-          // 自定义组件写法三
-          // filter: true,
-          // fieldType: {
-          //   render: (h) => {
-          //     return <y-cascader v-model={this.params.value} options={this.options}></y-cascader>
-          //   }
-          // }
-        },
-        {
+
+        }, {
+          label: '类型',
+          prop: 'isStandard',
+          render: (h, { row }) => {
+            return (
+              <span>{row.isStandard ? '标品' : '非标品'}</span>
+            )
+          }
+        }, {
+          label: '最小销售单位',
+          prop: 'baseUnit',
+          render: (h, { row }) => {
+            return (
+              <span>{row.baseUnit?.name}</span>
+            )
+          }
+        }, /*, {
+          label: '最小规格',
+          prop: 'baseUnitConversion',
+          render: (h, { row }) => {
+            return (
+              <span>{(row.baseUnitConversion?.value || '-') + (row.baseUnitConversion?.minUnit?.name || '-') + '1/' + row.baseUnit?.name}</span>
+            )
+          }
+        }*/ {
+          label: '保质期',
+          prop: 'period',
+          render: (h, { row }) => {
+            return (
+              <span>{row.expType === 'NEVER' ? '永不过期' : row.period + { 'DAY': '天', 'MONTH': '月', 'YEAR': '年' }[row.expType]}</span>
+            )
+          }
+        }, {
+          label: '采购税率',
+          prop: 'purchaseTaxRate',
+          render: (h, { row }) => {
+            return (
+              <span>{row.purchaseTaxRate + '%'}</span>
+            )
+          }
+        }, {
           label: '操作',
-          render() {
-            return <div>
-              <el-button type='text'>查看</el-button>
-              <el-button type='text'>编辑</el-button>
-            </div>
+          'min-width': '150px',
+          render: (h, { row }) => {
+            return (
+              <div>
+                <el-button
+                  type='text'
+                  onClick={() => this.handleEditSpu(row)}>编辑</el-button>
+                <el-button
+                  type='text'
+                  onClick={() => this.handleSeeSpu(row)}>查看</el-button>
+                <el-button
+                  type='text'
+                  onClick={() => this.handleAddSku(row)}>新建SKU</el-button>
+              </div>
+            )
           }
         }
       ],
-      loadDataApi: () => {
-        return {
-          code: '200',
-          success: true,
-          message: 'OK',
-          data: {
-            records: [{
-              date: '2016-05-03',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-              date: '2016-05-02',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-              date: '2016-05-04',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-              date: '2016-05-01',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-              date: '2016-05-08',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-              date: '2016-05-06',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-              date: '2016-05-07',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            }]
+      skuColumns: [
+        {
+          label: 'SPU ID',
+          prop: 'spuId'
+        },
+        {
+          label: 'SKU ID',
+          prop: 'skuId'
+        }, {
+          label: 'SKU 名称',
+          prop: 'skuName'
+        }, {
+          label: 'SPU',
+          prop: 'spuIdrName',
+          filter: true,
+          fieldType: 'Input',
+          placeholder: '请输入SKU ID/名称',
+          hidden: true
+        }, {
+          label: 'SKU',
+          prop: 'idrName',
+          filter: true,
+          fieldType: 'Input',
+          placeholder: '请输入SKU ID/名称',
+          hidden: true
+        }, {
+          label: '后台类目',
+          prop: 'categoryFullName',
+          filter: {
+            render: (h) => {
+              return <el-cascader clearable v-model={this.categoryIdArr} options={this.options} propsProps={{ value: 'id', label: 'name' }}></el-cascader>
+            }
+          }
+        }, {
+          label: '级别',
+          prop: 'gradeName'
+        }, {
+          label: '包规描述',
+          prop: 'skuSpec',
+          render: (h, { row }) => {
+            return (
+              <span>{this.getSpecName(row) }</span>
+            )
+          }
+        }, {
+          label: '状态',
+          prop: 'isActive',
+          filter: true,
+          'render-header': (h, { row }) => {
+            return (
+              <span>状态<y-tips style='margin-left:8px'> 生效：商品中心、供应商/POP可以关联<br/>失效：商品中心、供应商/POP不可关联</y-tips></span>
+            )
+          },
+          fieldType: 'Select',
+          options: [{ label: '生效', value: true }, { label: '失效', value: false }],
+          render: (h, { row }) => {
+            return (
+              <div>
+                <el-switch
+                  v-model={row.isActive} onChange={() => this.handleChangeActive(row)}>
+                </el-switch>
+                <span style='margin-left:7px'>{row.isActive ? '生效' : '失效'}</span>
+              </div>
+            )
+          }
+        }, {
+          label: '操作',
+          'min-width': '90px',
+          render: (h, { row }) => {
+            return (
+              <div>
+                <el-button
+                  type='text'
+                  onClick={() => this.handleEditSku(row)}>编辑</el-button>
+                <el-button
+                  type='text'
+                  onClick={() => this.handleSeeSku(row)}>查看</el-button>
+              </div>
+            )
           }
         }
-      },
-      options: [{
-        value: 'zhinan',
-        label: '指南',
-        children: [{
-          value: 'shejiyuanze',
-          label: '设计原则',
-          children: [{
-            value: 'yizhi',
-            label: '一致'
-          }, {
-            value: 'fankui',
-            label: '反馈'
-          }, {
-            value: 'xiaolv',
-            label: '效率'
-          }, {
-            value: 'kekong',
-            label: '可控'
-          }]
-        }, {
-          value: 'daohang',
-          label: '导航',
-          children: [{
-            value: 'cexiangdaohang',
-            label: '侧向导航'
-          }, {
-            value: 'dingbudaohang',
-            label: '顶部导航'
-          }]
-        }]
-      }, {
-        value: 'zujian',
-        label: '组件',
-        children: [{
-          value: 'basic',
-          label: 'Basic',
-          children: [{
-            value: 'layout',
-            label: 'Layout 布局'
-          }, {
-            value: 'color',
-            label: 'Color 色彩'
-          }, {
-            value: 'typography',
-            label: 'Typography 字体'
-          }, {
-            value: 'icon',
-            label: 'Icon 图标'
-          }, {
-            value: 'button',
-            label: 'Button 按钮'
-          }]
-        }, {
-          value: 'form',
-          label: 'Form',
-          children: [{
-            value: 'radio',
-            label: 'Radio 单选框'
-          }, {
-            value: 'checkbox',
-            label: 'Checkbox 多选框'
-          }, {
-            value: 'input',
-            label: 'Input 输入框'
-          }, {
-            value: 'input-number',
-            label: 'InputNumber 计数器'
-          }, {
-            value: 'select',
-            label: 'Select 选择器'
-          }, {
-            value: 'cascader',
-            label: 'Cascader 级联选择器'
-          }, {
-            value: 'switch',
-            label: 'Switch 开关'
-          }, {
-            value: 'slider',
-            label: 'Slider 滑块'
-          }, {
-            value: 'time-picker',
-            label: 'TimePicker 时间选择器'
-          }, {
-            value: 'date-picker',
-            label: 'DatePicker 日期选择器'
-          }, {
-            value: 'datetime-picker',
-            label: 'DateTimePicker 日期时间选择器'
-          }, {
-            value: 'upload',
-            label: 'Upload 上传'
-          }, {
-            value: 'rate',
-            label: 'Rate 评分'
-          }, {
-            value: 'form',
-            label: 'Form 表单'
-          }]
-        }, {
-          value: 'data',
-          label: 'Data',
-          children: [{
-            value: 'table',
-            label: 'Table 表格'
-          }, {
-            value: 'tag',
-            label: 'Tag 标签'
-          }, {
-            value: 'progress',
-            label: 'Progress 进度条'
-          }, {
-            value: 'tree',
-            label: 'Tree 树形控件'
-          }, {
-            value: 'pagination',
-            label: 'Pagination 分页'
-          }, {
-            value: 'badge',
-            label: 'Badge 标记'
-          }]
-        }, {
-          value: 'notice',
-          label: 'Notice',
-          children: [{
-            value: 'alert',
-            label: 'Alert 警告'
-          }, {
-            value: 'loading',
-            label: 'Loading 加载'
-          }, {
-            value: 'message',
-            label: 'Message 消息提示'
-          }, {
-            value: 'message-box',
-            label: 'MessageBox 弹框'
-          }, {
-            value: 'notification',
-            label: 'Notification 通知'
-          }]
-        }, {
-          value: 'navigation',
-          label: 'Navigation',
-          children: [{
-            value: 'menu',
-            label: 'NavMenu 导航菜单'
-          }, {
-            value: 'tabs',
-            label: 'Tabs 标签页'
-          }, {
-            value: 'breadcrumb',
-            label: 'Breadcrumb 面包屑'
-          }, {
-            value: 'dropdown',
-            label: 'Dropdown 下拉菜单'
-          }, {
-            value: 'steps',
-            label: 'Steps 步骤条'
-          }]
-        }, {
-          value: 'others',
-          label: 'Others',
-          children: [{
-            value: 'dialog',
-            label: 'Dialog 对话框'
-          }, {
-            value: 'tooltip',
-            label: 'Tooltip 文字提示'
-          }, {
-            value: 'popover',
-            label: 'Popover 弹出框'
-          }, {
-            value: 'card',
-            label: 'Card 卡片'
-          }, {
-            value: 'carousel',
-            label: 'Carousel 走马灯'
-          }, {
-            value: 'collapse',
-            label: 'Collapse 折叠面板'
-          }]
-        }]
-      }, {
-        value: 'ziyuan',
-        label: '资源',
-        children: [{
-          value: 'axure',
-          label: 'Axure Components'
-        }, {
-          value: 'sketch',
-          label: 'Sketch Templates'
-        }, {
-          value: 'jiaohu',
-          label: '组件交互文档'
-        }]
-      }]
+      ]
     }
   },
-  async mounted() {
-    const options = await this.getOptions()
-    this.options = options
-    // for (let i = 0; i < this.columns.length; i++) {
-    //   const column = this.columns[i]
-    //   if (column.prop === 'test') {
-    //     column.options = options
-    //     this.$set(this.columns, i, column)
-    //   }
-    // }
+  computed: {
+    columns() {
+      return this[this.tableType]
+    },
+    pagelist() {
+      if (this.tableType === 'skuColumns') {
+        return this.api.productApi.getSkuPackage
+      } else {
+        return this.api.productApi.getSpu
+      }
+    }
+  },
+  watch: {
+    categoryIdArr(v) {
+      if (!v.length) {
+        this.paramsObj.categoryCode = ''
+      } else {
+        this.paramsObj.categoryCode = v[v.length - 1]
+      }
+    },
+    'paramsObj.categoryCode'(v, oldv) {
+      if (v === '' && v !== oldv) {
+        this.categoryIdArr = []
+      }
+    }
+  },
+  created() {
+    this.height = document.body.offsetHeight - 340 - 16 + 'px'
+
+    this.api.productApi.getCategories().then((data) => {
+      this.options = JSON.parse(JSON.stringify(data.data))
+    })
+
+    console.log('height', this.height)
+  },
+  mounted() {
   },
   methods: {
-    getDataApi() {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          console.log(data)
-          resolve(data)
-        }, 300)
-      })
+    getSpecName(row) {
+      let str = ''
+      if (row.pageckSpec && row.pageckSpecValue) {
+        str = row.pageckSpecValue + '' + row.saleUnit + '/' + row.pageckSpec
+      } else {
+        str = '1' + row.saleUnit
+      }
+      return str
     },
-    handleChange() {
-      console.log('change', this.form)
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      if (row.packageSpecificationList) {
+        const isFirst = row.pageckSpecId === row.packageSpecificationList[0].id
+        const packageLen = row.packageSpecificationList.length
+        if (columnIndex < 5) {
+          if (isFirst) {
+            return {
+              rowspan: packageLen,
+              colspan: 1
+            }
+          } else {
+            return {
+              rowspan: 0,
+              colspan: 0
+            }
+          }
+        }
+      }
     },
-    handleSave(data) {
-      console.log(data)
+    async handleChangeActive(row) {
+      try {
+        const params = {
+          isActive: row.isActive
+        }
+        await this.api.productApi.setStatusBySku(row.pageckSpecId, params)
+        this.$message.success('修改状态成功')
+      } catch (e) {
+        row.isActive = !row.isActive
+      }
     },
-    getOptions() {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve([
-            { label: '张一山', value: 19 },
-            { label: '李现', value: 28 }
-          ])
-        }, 1000)
-      })
+    handleEditSpu(row) {
+      this.$router.push({ name: 'productArchivesAddSpu', query: { p: row.id }})
+    },
+    handleSeeSpu(row) {
+      this.$router.push({ name: 'productArchivesSpuDetails', query: { p: row.id }})
+    },
+    handleAddSku(row) {
+      this.$router.push({ name: 'productArchivesAddSku', query: { p: row.id }})
+    },
+    handleEditSku(row) {
+      this.$router.push({ name: 'productArchivesAddSku', query: { k: row.skuId }})
+    },
+    handleSeeSku(row) {
+      this.$router.push({ name: 'productArchivesSkuDetails', query: { k: row.skuId }})
+    },
+    addProduct() {
+      this.$router.push({ name: 'productArchivesAddSpu' })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+  .product-archives-container{
+    height: 100%;
+    overflow: hidden;
+    padding: 0px 16px 16px 16px;
+    box-sizing: border-box;
+    .placeholder{
+      height: 97px;
+      background-color: #fff;
+    }
+  }
 </style>

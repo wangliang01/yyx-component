@@ -19,6 +19,7 @@
       :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
       :style="`width: ${$attrs.width || '100%'}`"
       :size="size"
+      :max-height="height"
       v-on="$listeners"
     >
       <TableItem
@@ -94,6 +95,14 @@ export default {
     utilConifg: {
       type: Array,
       default: () => ['refresh', 'density', 'setting']
+    },
+    maxHeight: {
+      type: [String, Number],
+      default: 'auto'
+    },
+    offsetHeight: {
+      type: [String, Number],
+      default: 0
     }
   },
   data() {
@@ -114,6 +123,14 @@ export default {
       set(columns) {
         this.$emit('update', columns)
       }
+    },
+    height() {
+      const clientHeight = window.innerHeight
+      console.log(clientHeight - this.offsetHeight)
+      if (clientHeight - this.offsetHeight < this.maxHeight) {
+        return clientHeight - this.offsetHeight
+      }
+      return this.maxHeight
     }
   },
   watch: {
@@ -133,6 +150,12 @@ export default {
       },
       deep: true,
       immediate: false
+    },
+    maxHeight: {
+      handler(val) {
+        console.log('watch height', val)
+      },
+      deep: true
     }
   },
   mounted() {
@@ -149,7 +172,6 @@ export default {
       // 解决y-table组件没有相关方法的问题
       this.$children.forEach(component => {
         const el = component.$el
-        console.log('el', el)
         const classList = [...el.classList]
         if (classList.includes('el-table')) {
           Object.keys(component).forEach(key => {
@@ -184,7 +206,7 @@ export default {
 
       this.getPagination()
 
-      // this.reLayout()
+      this.reLayout()
     },
     getPagination() {
       // 获取element 分页属性

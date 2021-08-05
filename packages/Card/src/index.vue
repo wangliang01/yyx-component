@@ -45,10 +45,6 @@ export default {
     }
   },
   props: {
-    hasTitle: {
-      type: Boolean,
-      default: true
-    },
     title: {
       type: String,
       default: 'Spu 基本信息'
@@ -163,6 +159,13 @@ export default {
     span() {
       if (!this.cols) return 24
       return Math.round(24 / this.cols)
+    },
+    hasTitle() {
+      if (this.title === '' || this.title === undefined || this.title === null) {
+        return false
+      } else {
+        return true
+      }
     }
   },
   mounted() {
@@ -187,9 +190,7 @@ export default {
     font-family: PingFangSC-Medium, PingFang SC;
     font-weight: bold;
     color: rgba(0, 0, 0, 0.85);
-  }
-  &-row{
-    margin-top: 20px;
+    margin-bottom: 20px;
   }
   &-col {
     margin-bottom: 16px;
