@@ -120,14 +120,12 @@ export default {
     pagination: {
       handler() {
         this.getPagination()
-        this.reLayout()
       },
       deep: true,
       immediate: false
     },
     total() {
       this.getPagination()
-      this.reLayout()
     },
     columns: {
       handler(val) {
@@ -137,7 +135,7 @@ export default {
       immediate: false
     }
   },
-  created() {
+  mounted() {
     this.init()
   },
   methods: {
@@ -151,6 +149,7 @@ export default {
       // 解决y-table组件没有相关方法的问题
       this.$children.forEach(component => {
         const el = component.$el
+        console.log('el', el)
         const classList = [...el.classList]
         if (classList.includes('el-table')) {
           Object.keys(component).forEach(key => {
@@ -185,7 +184,7 @@ export default {
 
       this.getPagination()
 
-      this.reLayout()
+      // this.reLayout()
     },
     getPagination() {
       // 获取element 分页属性

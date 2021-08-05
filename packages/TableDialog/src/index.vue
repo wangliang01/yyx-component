@@ -361,6 +361,7 @@ export default {
             break
           case 'size':
             // 查询条数
+            this.pagination[param] = 10
             this.queryParams[param] = this.pagination.size
             break
           default:

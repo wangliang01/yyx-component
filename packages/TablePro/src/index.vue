@@ -210,8 +210,10 @@ export default {
     },
     /* 取消选择 */
     handleCancelSelection() {
-      this.$refs.table.clearSelection()
-      this.$emit('clear-selection')
+      if (this.$refs.table) {
+        this.$refs.table.clearSelection()
+        this.$emit('clear-selection')
+      }
     },
     /* 选择框 */
     handleSelectChange(selection) {
