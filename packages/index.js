@@ -32,6 +32,7 @@ import CardForm from './CardForm'
 import Container from './Container'
 import Checkbox from './Checkbox'
 import CheckboxGroup from './CheckboxGroup'
+import Loading from 'element-ui/packages/loading'
 
 const { YCategoryCascader, YAddressCascader, YCascader } = Cascader
 const { YUpload, YAvatar } = Upload
@@ -43,6 +44,7 @@ const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTa
 const install = Vue => {
   // 判断是否安装
   if (install.installed) return
+  Vue.use(Loading.directive)
   // 遍历注册全局组件
   components.map(component => Vue.component(component.name, component))
 }
