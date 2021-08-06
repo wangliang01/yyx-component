@@ -220,7 +220,10 @@ export default {
           this.tableData.forEach(item => {
             if (intersectionData.includes(item[prop])) {
               // 如果包含，则勾选
-              this.$refs.table.$children[0].toggleRowSelection(item)
+              console.log(11)
+              this.$refs.table.$children[0].toggleRowSelection(item, true)
+            } else {
+              this.$refs.table.$children[0].toggleRowSelection(item, false)
             }
           })
         })
@@ -347,18 +350,23 @@ export default {
       })
     },
     handleSelectionChange(data) {
-      // 如果是默认渲染，不走这个流程
-      if (this.isFirstInit) return
+      const prop = this.model.id
+      const intersectionData = this.checkedData.map(item => {
+        if (item[prop]) {
+          return item[prop]
+        }
+        return ''
+      })
+      this.currentPageCheckedData = filter(this.tableData, item => intersectionData.includes(item[prop]))
+      this.cloneCheckedData = cloneDeep(this.checkedData)
       // 先取交集，拿到当前页，没有改变的值
       const intersection = intersectionWith(data, this.currentPageCheckedData, isEqual)
       // 拿到，当前页面，删除的值
       const delItems = cloneDeep(xorWith(this.currentPageCheckedData, intersection, isEqual))
       // 拿到当前页面新增的值
       const addItems = cloneDeep(xorWith(data, intersection, isEqual))
-
       // 删除未勾选的值
       const len = delItems.length
-      const prop = this.model.id
       for (let i = 0; i < len; i++) {
         const item = delItems[i]
         const index = findIndex(this.cloneCheckedData, checkedItem => checkedItem[prop] === item[prop])
@@ -369,6 +377,8 @@ export default {
       // 添加新增的值
       this.cloneCheckedData.push(...addItems)
       this.cloneCheckedData = uniqWith(this.cloneCheckedData, isEqual)
+
+      console.log('勾选的值', this.cloneCheckedData)
 
       this.data = this.cloneCheckedData
       // 同步更新checkedData
