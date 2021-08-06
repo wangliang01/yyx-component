@@ -1,5 +1,5 @@
 <template>
-  <div ref="tablePro" class="table-pro" :style="{background: uiStyle === 'antd' ? '#EFF3F6' : ''}">
+  <div ref="tablePro" class="table-pro">
     <!-- Element风格搜索框 -->
     <div v-if="uiStyle=== 'element'" ref="tableFilter" :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
       <y-form
@@ -53,32 +53,35 @@
       </div>
     </div>
     <!-- 表格 -->
-    <div class="table-wrapper">
-      <y-table
-        :key="key"
-        ref="table"
-        v-loading="loading"
-        :data="tableData"
-        :columns.sync="currentColumns"
-        :pagination="$attrs.pagination === undefined ? true : $attrs.pagination"
-        :total="total"
-        :reload="reloadData"
-        v-bind="$attrs"
-        :max-height="height"
-        :offset-height="offsetHeight"
-        @update="handleUpdateColumns"
-        @selection-change="handleSelectChange"
-        v-on="$listeners"
-      >
-        <div ref="tableTop">
-          <!-- table左侧 -->
-          <slot name="table"></slot>
-        </div>
-        <template slot="table-top-right">
-          <!-- table右侧 -->
-          <slot name="table-top-right"></slot>
-        </template>
-      </y-table>
+    <div :style="{background: uiStyle === 'antd' ? '#EFF3F6' : '', overflow: 'auto'}">
+      <div class="table-wrapper">
+        <y-table
+          :key="key"
+          ref="table"
+          v-loading="loading"
+          :data="tableData"
+          :columns.sync="currentColumns"
+          :pagination="$attrs.pagination === undefined ? true : $attrs.pagination"
+          :total="total"
+          :reload="reloadData"
+          v-bind="$attrs"
+          :max-height="height"
+          :offset-height="offsetHeight"
+          :row-key="rowKey"
+          @update="handleUpdateColumns"
+          @selection-change="handleSelectChange"
+          v-on="$listeners"
+        >
+          <div ref="tableTop">
+            <!-- table左侧 -->
+            <slot name="table"></slot>
+          </div>
+          <template slot="table-top-right">
+            <!-- table右侧 -->
+            <slot name="table-top-right"></slot>
+          </template>
+        </y-table>
+      </div>
     </div>
     <!-- 批量操作区域 -->
     <div v-if="hasBatchAction" class="y-table-batch-action-area" :style="`left: ${offset}px`">
@@ -128,6 +131,10 @@ export default {
     offset: {
       type: [String, Number],
       default: 200
+    },
+    rowKey: {
+      type: String,
+      default: null
     }
   },
   data() {
