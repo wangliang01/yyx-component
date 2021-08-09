@@ -70,7 +70,7 @@
         :col="col"
         :render="col.render"
         :data="data"
-        :col-index="index"
+        :col-index="scope.$index"
       >
       </expandDom>
     </template>
