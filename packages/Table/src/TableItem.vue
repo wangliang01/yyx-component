@@ -89,7 +89,7 @@ export default {
         col: Object,
         render: Function,
         data: Array,
-        index:Number,
+        index: Number,
         colIndex: [Number, String]
       },
       render(h, ctx) {
