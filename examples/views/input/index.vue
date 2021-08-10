@@ -2,7 +2,7 @@
   <div class="input">
     <el-card>
       <h2>普通输入框</h2>
-      <y-input v-model="value"></y-input>
+      <y-input v-model="value" max-length="2"></y-input>
     </el-card>
     <el-card class="mt-20">
       <h2>number类型输入框</h2>
