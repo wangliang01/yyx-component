@@ -135,6 +135,10 @@ export default {
     rowKey: {
       type: String,
       default: null
+    },
+    lazyLoad: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -202,7 +206,9 @@ export default {
   },
   mounted() {
     this.initConfig()
-    this.loadData()
+    if (!this.lazyLoad) {
+      this.loadData()
+    }
     this.initTableFilter()
     this.resizeTable()
     this.queryDataByEnterKey()
