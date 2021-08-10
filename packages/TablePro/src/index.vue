@@ -357,6 +357,7 @@ export default {
         const res = await this.loadDataApi(data)
         this.tableData = res.data.records || []
         this.total = parseInt(res.data.total)
+        this.$emit('loaded', res)
       } catch {
         this.tableData = []
         this.total = 0
