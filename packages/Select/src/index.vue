@@ -55,6 +55,7 @@ export default {
 
         if (res.success) {
           this.list = res.data || []
+          this.options = this.list
         }
       } else {
         this.list = this.$attrs.options

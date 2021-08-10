@@ -53,7 +53,31 @@ export default {
         {
           label: 'SPU ID',
           prop: 'id'
-        }, {
+        },
+        {
+          prop: 'region',
+          label: '活动区域',
+          fieldType: 'Select',
+          filter: true,
+          api() {
+            return {
+              code: '200',
+              message: 'OK',
+              success: true,
+              data: [
+                {
+                  label: '上海',
+                  value: 'shanghai'
+                },
+                {
+                  label: '北京',
+                  value: 'beijing'
+                }
+              ]
+            }
+          }
+        },
+        {
           label: 'SPU 名称',
           prop: 'name'
         }, {
