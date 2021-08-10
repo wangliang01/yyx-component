@@ -134,7 +134,7 @@ export default {
     },
     rowKey: {
       type: String,
-      default: null
+      default: 'id'
     },
     lazyLoad: {
       type: Boolean,
