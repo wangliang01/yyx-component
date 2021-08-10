@@ -258,6 +258,23 @@ export default {
           label: '活动区域',
           fieldType: 'Select',
           labelSuffix: '：',
+          api() {
+            return {
+              code: '200',
+              message: 'OK',
+              success: true,
+              data: [
+                {
+                  label: '上海',
+                  value: 'shanghai'
+                },
+                {
+                  label: '北京',
+                  value: 'beijing'
+                }
+              ]
+            }
+          },
           options: [
             {
               label: '上海',
@@ -418,6 +435,23 @@ export default {
           prop: 'region',
           label: '活动区域',
           fieldType: 'Select',
+          api() {
+            return {
+              code: '200',
+              message: 'OK',
+              success: true,
+              data: [
+                {
+                  label: '上海',
+                  value: 'shanghai'
+                },
+                {
+                  label: '北京',
+                  value: 'beijing'
+                }
+              ]
+            }
+          },
           options: [
             {
               label: '区域一',

@@ -26,7 +26,7 @@ export default {
   props: {
     api: {
       type: Function,
-      required: true
+      default: () => {}
     },
     model: {
       type: Object,
@@ -56,9 +56,12 @@ export default {
         if (res.success) {
           this.list = res.data || []
         }
+      } else {
+        this.list = this.$attrs.options
       }
     },
     remoteMethod(query) {
+      query = query.trim()
       if (query !== '') {
         this.loading = true
         setTimeout(() => {
@@ -69,7 +72,7 @@ export default {
           })
         }, 200)
       } else {
-        this.options = []
+        this.options = this.list
       }
     }
   }
