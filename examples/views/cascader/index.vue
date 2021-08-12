@@ -282,8 +282,9 @@ export default {
   },
   render(h) {
     return (
-      <y-cascader
+      <y-address-cascader
         collapse-tags
+        type="city"
         v-model={this.value}
         dataApi={this.dataApi}
         {...{
@@ -304,7 +305,7 @@ export default {
             }
           }
         }}
-      ></y-cascader>
+      ></y-address-cascader>
     )
   },
   props: {},
