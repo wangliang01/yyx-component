@@ -425,6 +425,7 @@ export default {
         })
         this.$emit('update:params', cloneParams)
       }
+      this.total = 0
       this.loadData()
     },
     /**
@@ -434,6 +435,7 @@ export default {
       // 查询时，重置current为1
       // this.queryParams = merge(this.queryParams, { current: 1 })
       this.queryParams = { ...this.queryParams, current: 1 }
+      this.total = 0
       this.loadData()
     },
     /**
