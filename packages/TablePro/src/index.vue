@@ -43,9 +43,10 @@
         v-on="$listeners"
       >
       </y-form>
-      <div class="btn-wrapper">
-        <el-button @click="handleReset">重 置</el-button>
+      <div v-if="hasReset || hasSearch" class="btn-wrapper">
+        <el-button v-if="hasReset" @click="handleReset">重 置</el-button>
         <el-button
+          v-if="hasSearch"
           type="primary"
           @click="handleQuery"
         >查 询</el-button>
@@ -118,6 +119,11 @@ export default {
       type: Boolean,
       default: true
     },
+    // 是否现实重置按钮
+    hasReset: {
+      type: Boolean,
+      default: true
+    },
     // 传递过来的查询参数
     params: {
       type: Object,
@@ -158,7 +164,8 @@ export default {
       selection: [],
       currentColumns: [],
       height: 'auto',
-      offsetHeight: 0
+      offsetHeight: 0,
+      noResetList: []
 
     }
   },
@@ -255,8 +262,6 @@ export default {
         this.offsetHeight = filterHeight + marginTop + padding + tableTopHeight + tableHeaderHeight + paginationHeight
 
         this.height = height - this.offsetHeight
-
-        console.log(this.height)
       })
     },
     handleUpdateColumns(columns) {
@@ -376,6 +381,7 @@ export default {
       this.config = {}
       // 生成表格列数据
       const filterColumns = filter(this.columns, column => column.filter)
+      this.noResetList = this.columns.filter(i => i.noReset).map(i => i.prop)
       filterColumns.forEach(column => {
         const key = column.prop
         // 生成表单的数据
@@ -404,17 +410,21 @@ export default {
             break
           default:
             // 其他字段，全部清空
-            this.queryParams[param] = ''
-            // 处理params
-            if (!isEmpty(this.params)) {
-              cloneParams = cloneDeep(this.params)
-              Object.keys(cloneParams).forEach(key => {
-                cloneParams[key] = ''
-              })
-              this.$emit('update:params', cloneParams)
+            if (!this.noResetList.some(key => param === key)) {
+              this.queryParams[param] = ''
             }
         }
       })
+      // 处理params
+      if (!isEmpty(this.params)) {
+        cloneParams = cloneDeep(this.params)
+        Object.keys(cloneParams).forEach(key => {
+          if (!this.noResetList.some(i => key === i)) {
+            cloneParams[key] = ''
+          }
+        })
+        this.$emit('update:params', cloneParams)
+      }
       this.loadData()
     },
     /**

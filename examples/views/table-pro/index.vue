@@ -33,7 +33,7 @@ export default {
       height: '100%',
       api,
       categoryIdArr: [],
-      paramsObj: { categoryCode: '' },
+      paramsObj: { categoryCode: '23344' },
       options: [],
       tableType: 'skuColumns',
       spuColumns: [
@@ -158,6 +158,11 @@ export default {
       ],
       skuColumns: [
         {
+          prop: 'categoryCode',
+          noReset: true,
+          hidden: true
+        },
+        {
           label: 'SPU ID',
           prop: 'spuId'
         },
@@ -178,6 +183,7 @@ export default {
           label: 'SKU',
           prop: 'idrName',
           filter: true,
+          noReset: true,
           fieldType: 'Input',
           placeholder: '请输入SKU ID/名称',
           hidden: true
