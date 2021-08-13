@@ -194,7 +194,7 @@ export default {
       immediate: true
     },
     checkedData: {
-      handler(val) {
+      handler(val, oldVal) {
         const { size } = this.pagination
         const current = 1
         this.checkedTableData = this.checkedData.slice((current - 1) * size, current * size).map((item, index) => {
@@ -268,7 +268,6 @@ export default {
           this.tableData.forEach(item => {
             if (intersectionData.includes(item[prop])) {
               // 如果包含，则勾选
-              console.log(11)
               this.$refs.table.$children[0].toggleRowSelection(item, true)
             } else {
               this.$refs.table.$children[0].toggleRowSelection(item, false)
@@ -279,7 +278,9 @@ export default {
     },
     loadCheckedData() {
       const { size, current } = this.pagination
-      this.checkedTableData = this.checkedData.slice((current - 1) * size, current * size).map((item, index) => {
+      // 点击选中列表分页时，会改变元对象的index
+      const cloneCheckedData = cloneDeep(this.checkedData)
+      this.checkedTableData = cloneCheckedData.slice((current - 1) * size, current * size).map((item, index) => {
         item.index = index
         return item
       })
@@ -463,6 +464,20 @@ export default {
       this.data = this.cloneCheckedData
       // 同步更新checkedData
       this.$emit('update:checkedData', this.cloneCheckedData)
+    },
+    /**
+     * 增加删除同步去除选中状态
+     * @param row
+     */
+    handleRmCheck(row) {
+      const prop = this.model.id
+      const index = this.tableData.findIndex(item => item[prop] === row[prop])
+      if (index !== -1) {
+        this.$refs.table.$children[0].toggleRowSelection(this.tableData[index], false)
+        return
+      }
+      const cloneCheckedData = cloneDeep(this.checkedData).filter(item => item[prop] !== row[prop])
+      this.$emit('update:checkedData', cloneCheckedData)
     }
   }
 }

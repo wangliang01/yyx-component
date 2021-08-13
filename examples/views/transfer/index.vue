@@ -1,7 +1,7 @@
 <template>
   <div>
     <y-button @click="handleOpen">打开弹窗</y-button>
-    <y-transfer :visible.sync="visible" :columns="columns" :load-data-api="loadDataApi" :checked-data.sync="disableData" :model="{id: 'depositId'}" :params.sync="params" :checked-columns="checkedColumns" @cancel="handleCancel" @confirm="handleConfirm">
+    <y-transfer ref="transfer" :visible.sync="visible" :columns="columns" :load-data-api="loadDataApi" :checked-data.sync="disableData" :model="{id: 'depositId'}" :params.sync="params" :checked-columns="checkedColumns" @cancel="handleCancel" @confirm="handleConfirm">
     </y-transfer>
   </div>
 </template>
@@ -109,27 +109,27 @@ export default {
         }
       },
       disableData: [
-        // {
-        //   depositId: '10001',
-        //   url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-        //   depositName: '押金品名称1',
-        //   depositMoney: 8,
-        //   checked: false
-        // },
-        // {
-        //   depositId: '10002',
-        //   url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-        //   depositName: '押金品名称2',
-        //   depositMoney: 9,
-        //   checked: false
-        // },
-        // {
-        //   depositId: '10011',
-        //   url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-        //   depositName: '押金品名称11',
-        //   depositMoney: 11,
-        //   checked: false
-        // }
+        {
+          depositId: '10001',
+          url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+          depositName: '押金品名称1',
+          depositMoney: 8,
+          checked: false
+        },
+        {
+          depositId: '10002',
+          url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+          depositName: '押金品名称2',
+          depositMoney: 9,
+          checked: false
+        },
+        {
+          depositId: '10011',
+          url: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+          depositName: '押金品名称11',
+          depositMoney: 11,
+          checked: false
+        }
       ],
       checkedColumns: [
         {
@@ -138,8 +138,8 @@ export default {
         },
         {
           label: '操作',
-          render(h, { row }) {
-            return <el-link type='text'>取消</el-link>
+          render: (h, { row, index }) => {
+            return <el-link type='text' onClick={() => this.handleRm(row)}>取消</el-link>
           }
         }
       ],
@@ -226,6 +226,9 @@ export default {
     },
     handleConfirm({ data, done }) {
       console.log('confirm', data, done)
+    },
+    handleRm(row) {
+      this.$refs['transfer'].handleRmCheck(row)
     }
   }
 }
