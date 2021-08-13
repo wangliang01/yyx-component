@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.11.19",
+  "version": "1.11.20",
   "main": "lib/yui.common.js",
   "license": "MIT",
   "scripts": {
@@ -11,6 +11,7 @@
     "build:es": "node build/build-component.js",
     "lib": "vue-cli-service build --target lib --name yui --dest lib packages/index.js",
     "lint:fix": "eslint --ext .js,.vue packages examples --fix",
+    "publish": "npm run lib && npm publish",
     "precommit": "lint-staged"
   },
   "husky": {
