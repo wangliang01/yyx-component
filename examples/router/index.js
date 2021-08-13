@@ -166,6 +166,18 @@ const routes = [
         name: 'Transfer',
         component: () => import('../views/transfer'),
         meta: { title: 'Transfer 选择器' }
+      },
+      {
+        path: '/select',
+        name: 'Select',
+        component: () => import('../views/select'),
+        meta: { title: 'Select 远程搜索' }
+      },
+      {
+        path: '/audit-form',
+        name: 'AuditForm',
+        component: () => import('../views/audit-form'),
+        meta: { title: 'AuditForm 审核表单' }
       }
     ]
   }

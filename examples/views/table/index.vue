@@ -263,7 +263,7 @@ export default {
           // formatter(row) {
           //   return moment(row.date).format('YYYY/MM/DD')
           // },
-          render(h, { row }) {
+          render(h, { row, index }) {
             return <span>{moment(row.date).format('YYYY/MM/DD')}</span>
           }
         },

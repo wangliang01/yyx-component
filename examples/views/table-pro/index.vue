@@ -33,7 +33,7 @@ export default {
       height: '100%',
       api,
       categoryIdArr: [],
-      paramsObj: { categoryCode: '' },
+      paramsObj: { categoryCode: '23344' },
       options: [],
       tableType: 'skuColumns',
       spuColumns: [
@@ -53,7 +53,31 @@ export default {
         {
           label: 'SPU ID',
           prop: 'id'
-        }, {
+        },
+        {
+          prop: 'region',
+          label: '活动区域',
+          fieldType: 'Select',
+          filter: true,
+          api() {
+            return {
+              code: '200',
+              message: 'OK',
+              success: true,
+              data: [
+                {
+                  label: '上海',
+                  value: 'shanghai'
+                },
+                {
+                  label: '北京',
+                  value: 'beijing'
+                }
+              ]
+            }
+          }
+        },
+        {
           label: 'SPU 名称',
           prop: 'name'
         }, {
@@ -134,6 +158,11 @@ export default {
       ],
       skuColumns: [
         {
+          prop: 'categoryCode',
+          noReset: true,
+          hidden: true
+        },
+        {
           label: 'SPU ID',
           prop: 'spuId'
         },
@@ -154,6 +183,7 @@ export default {
           label: 'SKU',
           prop: 'idrName',
           filter: true,
+          noReset: true,
           fieldType: 'Input',
           placeholder: '请输入SKU ID/名称',
           hidden: true

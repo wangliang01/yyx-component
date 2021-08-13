@@ -5,6 +5,7 @@
       v-model="currentValue"
       :clearable="$attrs.clearable || true"
       v-bind="$attrs"
+      :maxlength="$attrs.maxlength || $attrs.maxLength || $attrs['max-length']"
       @input="handleInputEvent"
       @blur="handleBlurEvent"
       v-on="$listeners"

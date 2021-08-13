@@ -34,13 +34,15 @@ import Checkbox from './Checkbox'
 import CheckboxGroup from './CheckboxGroup'
 import TableMate from './TableMate'
 import Transfer from './Transfer'
+import AuditForm from './AuditForm'
+import Select from './Select'
 import Loading from 'element-ui/packages/loading'
 
 const { YCategoryCascader, YAddressCascader, YCascader } = Cascader
 const { YUpload, YAvatar } = Upload
 
 // 组件列表
-const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog, Drawer, ImageViewer, Tips, Image, ImageList, TableDialog, Text, Card, Block, Tree, CardForm, CascaderPanel, Container, Checkbox, CheckboxGroup, TableMate, Transfer]
+const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog, Drawer, ImageViewer, Tips, Image, ImageList, TableDialog, Text, Card, Block, Tree, CardForm, CascaderPanel, Container, Checkbox, CheckboxGroup, TableMate, Transfer, AuditForm, Select]
 
 // 定义install方法，接收Vue作为参数，通过Vue.use()的方式注册组件
 const install = Vue => {
@@ -94,5 +96,7 @@ export default {
   Checkbox,
   CheckboxGroup,
   TableMate,
-  Transfer
+  Transfer,
+  AuditForm,
+  Select
 }

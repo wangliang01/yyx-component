@@ -71,6 +71,7 @@
         :render="col.render"
         :data="data"
         :col-index="index"
+        :index="scope.$index"
       >
       </expandDom>
     </template>
@@ -88,6 +89,7 @@ export default {
         col: Object,
         render: Function,
         data: Array,
+        index: Number,
         colIndex: [Number, String]
       },
       render(h, ctx) {
@@ -96,6 +98,7 @@ export default {
           .replace('.', '')
         const params = {
           row: ctx.props.row,
+          index: ctx.props.index,
           colIndex: ctx.props.colIndex || randomIndex
         }
         if (ctx.props.col) {

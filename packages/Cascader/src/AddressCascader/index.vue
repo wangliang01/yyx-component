@@ -23,7 +23,8 @@ export default {
       props: { value: 'value', label: 'label', children: 'children' },
       currentValue: this.value,
       ref: `category_cascader_${Date.now()}`,
-      options: []
+      options: [],
+      areaCodeMap: {}
     }
   },
   watch: {
@@ -94,6 +95,7 @@ export default {
       if (!Array.isArray(data)) return null
       return data.map(item => {
         if (item[prop]) {
+          this.$set(this.areaCodeMap, item.adcode, item[prop])
           item[prop] = null
         }
         return item
@@ -101,8 +103,10 @@ export default {
     },
     handleValueChange(value) {
       if (Array.isArray(value)) {
+        this.$emit('selectedArea', this.areaCodeMap[value[value.length - 1]])
         this.$emit('input', value.join(','))
       } else {
+        this.$emit('selectedArea', this.areaCodeMap[value])
         this.$emit('input', value)
       }
       this.$nextTick(() => {

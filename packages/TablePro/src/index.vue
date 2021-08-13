@@ -1,5 +1,5 @@
 <template>
-  <div ref="tablePro" class="table-pro" :style="{background: uiStyle === 'antd' ? '#EFF3F6' : ''}">
+  <div ref="tablePro" class="table-pro">
     <!-- Element风格搜索框 -->
     <div v-if="uiStyle=== 'element'" ref="tableFilter" :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
       <y-form
@@ -43,9 +43,10 @@
         v-on="$listeners"
       >
       </y-form>
-      <div class="btn-wrapper">
-        <el-button @click="handleReset">重 置</el-button>
+      <div v-if="hasReset || hasSearch" class="btn-wrapper">
+        <el-button v-if="hasReset" @click="handleReset">重 置</el-button>
         <el-button
+          v-if="hasSearch"
           type="primary"
           @click="handleQuery"
         >查 询</el-button>
@@ -53,32 +54,35 @@
       </div>
     </div>
     <!-- 表格 -->
-    <div class="table-wrapper">
-      <y-table
-        :key="key"
-        ref="table"
-        v-loading="loading"
-        :data="tableData"
-        :columns.sync="currentColumns"
-        :pagination="$attrs.pagination === undefined ? true : $attrs.pagination"
-        :total="total"
-        :reload="reloadData"
-        v-bind="$attrs"
-        :max-height="height"
-        :offset-height="offsetHeight"
-        @update="handleUpdateColumns"
-        @selection-change="handleSelectChange"
-        v-on="$listeners"
-      >
-        <div ref="tableTop">
-          <!-- table左侧 -->
-          <slot name="table"></slot>
-        </div>
-        <template slot="table-top-right">
-          <!-- table右侧 -->
-          <slot name="table-top-right"></slot>
-        </template>
-      </y-table>
+    <div :style="{background: uiStyle === 'antd' ? '#EFF3F6' : '', overflow: 'auto'}">
+      <div class="table-wrapper">
+        <y-table
+          :key="key"
+          ref="table"
+          v-loading="loading"
+          :data="tableData"
+          :columns.sync="currentColumns"
+          :pagination="$attrs.pagination === undefined ? true : $attrs.pagination"
+          :total="total"
+          :reload="reloadData"
+          v-bind="$attrs"
+          :max-height="height"
+          :offset-height="offsetHeight"
+          :row-key="rowKey"
+          @update="handleUpdateColumns"
+          @selection-change="handleSelectChange"
+          v-on="$listeners"
+        >
+          <div ref="tableTop">
+            <!-- table左侧 -->
+            <slot name="table"></slot>
+          </div>
+          <template slot="table-top-right">
+            <!-- table右侧 -->
+            <slot name="table-top-right"></slot>
+          </template>
+        </y-table>
+      </div>
     </div>
     <!-- 批量操作区域 -->
     <div v-if="hasBatchAction" class="y-table-batch-action-area" :style="`left: ${offset}px`">
@@ -115,6 +119,11 @@ export default {
       type: Boolean,
       default: true
     },
+    // 是否现实重置按钮
+    hasReset: {
+      type: Boolean,
+      default: true
+    },
     // 传递过来的查询参数
     params: {
       type: Object,
@@ -128,6 +137,14 @@ export default {
     offset: {
       type: [String, Number],
       default: 200
+    },
+    rowKey: {
+      type: String,
+      default: 'id'
+    },
+    lazyLoad: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -147,7 +164,8 @@ export default {
       selection: [],
       currentColumns: [],
       height: 'auto',
-      offsetHeight: 0
+      offsetHeight: 0,
+      noResetList: []
 
     }
   },
@@ -195,7 +213,9 @@ export default {
   },
   mounted() {
     this.initConfig()
-    this.loadData()
+    if (!this.lazyLoad) {
+      this.loadData()
+    }
     this.initTableFilter()
     this.resizeTable()
     this.queryDataByEnterKey()
@@ -242,8 +262,6 @@ export default {
         this.offsetHeight = filterHeight + marginTop + padding + tableTopHeight + tableHeaderHeight + paginationHeight
 
         this.height = height - this.offsetHeight
-
-        console.log(this.height)
       })
     },
     handleUpdateColumns(columns) {
@@ -350,6 +368,7 @@ export default {
         const res = await this.loadDataApi(data)
         this.tableData = res.data.records || []
         this.total = parseInt(res.data.total)
+        this.$emit('loaded', res)
       } catch {
         this.tableData = []
         this.total = 0
@@ -362,6 +381,7 @@ export default {
       this.config = {}
       // 生成表格列数据
       const filterColumns = filter(this.columns, column => column.filter)
+      this.noResetList = this.columns.filter(i => i.noReset).map(i => i.prop)
       filterColumns.forEach(column => {
         const key = column.prop
         // 生成表单的数据
@@ -390,17 +410,22 @@ export default {
             break
           default:
             // 其他字段，全部清空
-            this.queryParams[param] = ''
-            // 处理params
-            if (!isEmpty(this.params)) {
-              cloneParams = cloneDeep(this.params)
-              Object.keys(cloneParams).forEach(key => {
-                cloneParams[key] = ''
-              })
-              this.$emit('update:params', cloneParams)
+            if (!this.noResetList.some(key => param === key)) {
+              this.queryParams[param] = ''
             }
         }
       })
+      // 处理params
+      if (!isEmpty(this.params)) {
+        cloneParams = cloneDeep(this.params)
+        Object.keys(cloneParams).forEach(key => {
+          if (!this.noResetList.some(i => key === i)) {
+            cloneParams[key] = ''
+          }
+        })
+        this.$emit('update:params', cloneParams)
+      }
+      this.total = 0
       this.loadData()
     },
     /**
@@ -410,6 +435,7 @@ export default {
       // 查询时，重置current为1
       // this.queryParams = merge(this.queryParams, { current: 1 })
       this.queryParams = { ...this.queryParams, current: 1 }
+      this.total = 0
       this.loadData()
     },
     /**

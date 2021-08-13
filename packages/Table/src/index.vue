@@ -192,6 +192,15 @@ export default {
 
       // 获取element table col上的属性
       const columnAttrs = this.currentColumns.map(column => {
+        if (!column.formatter) {
+          this.$set(column, 'formatter', function(row, col) {
+            const val = row[col.property]
+            if (val === undefined || val === null || val === '') {
+              return '-'
+            }
+            return val
+          })
+        }
         const obj = Object.assign({}, defaultColumn, column)
         return obj
       })
