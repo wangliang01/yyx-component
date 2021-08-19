@@ -208,7 +208,13 @@ export default {
       const firstColumn = cloneDeep(this.originColumns).find(column => ['expand'].includes(column.type))
 
       if (firstColumn) {
-        this.columnAttrs = uniqWith([Object.assign({}, defaultColumn, firstColumn), ...columnAttrs], isEqual)
+        this.columnAttrs = uniqWith([Object.assign({}, defaultColumn, firstColumn), ...columnAttrs], (arrVal, othVal) => {
+          if (arrVal.type) {
+            return arrVal.type === othVal.type
+          } else {
+            return isEqual(arrVal, othVal)
+          }
+        })
       } else {
         this.columnAttrs = columnAttrs
       }

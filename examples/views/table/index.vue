@@ -258,6 +258,12 @@ export default {
       }],
       columns: [
         {
+          type: 'expand',
+          render: (h, { row }) => {
+            return <span>123</span>
+          }
+        },
+        {
           prop: 'date',
           label: '日期',
           // formatter(row) {

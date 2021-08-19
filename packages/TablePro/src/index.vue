@@ -219,11 +219,23 @@ export default {
     this.initTableFilter()
     this.resizeTable()
     this.queryDataByEnterKey()
-    this.getTableProHeight()
+    if (this.uiStyle === 'antd') {
+      // antd风格时，才限制表格高度
+      this.getTableProHeight()
+    }
   },
   activated() {
     this.initConfig()
-    this.loadData()
+    if (!this.lazyLoad) {
+      this.loadData()
+    }
+    this.initTableFilter()
+    this.resizeTable()
+    this.queryDataByEnterKey()
+    if (this.uiStyle === 'antd') {
+      // antd风格时，才限制表格高度
+      this.getTableProHeight()
+    }
   },
   destroyed() {
     window.removeEventListener('resize', this.initTableFilter)
