@@ -3,8 +3,8 @@
     <div v-if="canShowTableFilter" class="form-wrapper">
       <y-form ref="tableFilter" v-model="queryParams" :config="config" inline>
         <div class="btn-wrapper">
-          <el-button @click="handleReset">重 置</el-button>
-          <el-button type="primary" @click="handleQuery">查 询</el-button>
+          <el-button v-if="hasReset" @click="handleReset">重 置</el-button>
+          <el-button v-if="hasSearch" type="primary" @click="handleQuery">查 询</el-button>
           <el-button v-if="canShowExpandBtn" type="text" @click="handleToggle">{{ isExpand ? '收起' : '展开' }}<i :class="[isExpand ? 'el-icon-arrow-up' : 'el-icon-arrow-down']"></i> </el-button>
         </div>
       </y-form>
@@ -34,6 +34,16 @@ export default {
     rowKey: {
       type: [Function, String],
       default: 'id'
+    },
+    // 是否显示查询按钮
+    hasSearch: {
+      type: Boolean,
+      default: true
+    },
+    // 是否现实重置按钮
+    hasReset: {
+      type: Boolean,
+      default: true
     },
     loadDataApi: {
       type: Function,
