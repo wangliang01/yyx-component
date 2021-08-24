@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.11.22",
+  "version": "1.11.26",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -10,8 +10,7 @@
     "docs:dev": "npm run lib && vuepress dev docs",
     "lib": "vue-cli-service build --target lib --name yui --dest lib packages/index.js",
     "lint:fix": "eslint --ext .js,.vue packages examples --fix",
-    "precommit": "lint-staged",
-    "publish": "npm run lib && npm publish"
+    "precommit": "lint-staged"
   },
   "main": "lib/yui.common.js",
   "dependencies": {
