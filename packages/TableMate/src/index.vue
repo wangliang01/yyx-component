@@ -40,7 +40,7 @@ export default {
       type: Boolean,
       default: true
     },
-    // 是否现实重置按钮
+    // 是否显示重置按钮
     hasReset: {
       type: Boolean,
       default: true
