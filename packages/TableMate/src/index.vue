@@ -15,7 +15,7 @@
       <!-- table右侧 -->
       <slot name="table-top-right"></slot>
     </div>
-    <y-table ref="table" v-loading="loading" :data="tableData" :columns="tableColumns" :pagination="{'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" :row-key="rowKey" @selection-change="handleSelectionChange"></y-table>
+    <y-table ref="table" v-loading="loading" :data="tableData" :columns="tableColumns" :pagination="pagination ? pagination : {'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" :row-key="rowKey" @selection-change="handleSelectionChange"></y-table>
   </div>
 </template>
 
@@ -128,6 +128,9 @@ export default {
       default() {
         return { id: 'id' }
       }
+    },
+    pagination: {
+      type: [Boolean, Object]
     }
   },
   data() {
@@ -148,7 +151,7 @@ export default {
       canShowTableFilter: false,
       isFirstInit: false,
       tableColumns: [],
-      pagination: {
+      paginationParams: {
         size: 10,
         current: 1
       }
@@ -209,7 +212,7 @@ export default {
       this.loadOriginData()
     },
     loadData() {
-      const { size, current } = this.pagination
+      const { size, current } = this.paginationParams
       this.tableData = this.originData.slice((current - 1) * size, current * size).map((item, index) => {
         item.index = index
         return item
@@ -272,10 +275,10 @@ export default {
       this.isFirstInit = true
       if (type === 'size-change') {
         // 分页条数变更，需要重置current为1
-        this.pagination = { ...this.pagination, size, current: 1 }
+        this.paginationParams = { ...this.paginationParams, size, current: 1 }
       } else {
         // 页码变更时
-        this.pagination = { ...this.pagination, current: currentPage }
+        this.paginationParams = { ...this.paginationParams, current: currentPage }
       }
       this.loadData()
       this.$nextTick(() => {
@@ -340,12 +343,12 @@ export default {
           case 'current':
             // 将当前页重置为1
             this.queryParams[param] = 1
-            this.pagination[param] = 1
+            this.paginationParams[param] = 1
             break
           case 'size':
             // 查询条数
-            this.pagination[param] = 10
-            this.queryParams[param] = this.pagination.size
+            this.paginationParams[param] = 10
+            this.queryParams[param] = this.paginationParams.size
             break
           default:
             // 其他字段，全部清空
