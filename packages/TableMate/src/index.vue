@@ -172,6 +172,13 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    pagination: {
+      handler(val) {
+        this.getPagination(val)
+      },
+      deep: true,
+      immediate: true
     }
   },
   created() {
@@ -185,6 +192,11 @@ export default {
     window.removeEventListener('resize', this.initTableFilter)
   },
   methods: {
+    getPagination(val) {
+      if (typeof val === 'object') {
+        this.paginationParams = { ...this.paginationParams, size: val['page-size'] }
+      }
+    },
     /* 当屏幕宽度发生变化时，重新绘制表格 */
     resizeTable() {
       window.addEventListener('resize', this.initTableFilter)
