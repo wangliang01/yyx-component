@@ -42,7 +42,7 @@
             v-if="isExport"
             class="template"
             type="primary"
-            @click="emit('download')"
+            @click="$emit('download')"
           >
             {{ downloadText }}
           </el-link>
