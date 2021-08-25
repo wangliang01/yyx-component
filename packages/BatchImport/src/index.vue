@@ -39,10 +39,19 @@
         >
           只能上传excel文件<span v-if="size">，且不超过{{ size }}kb</span>
           <el-link
+            v-if="isExport"
+            class="template"
+            type="primary"
+            @click="emit('download')"
+          >
+            {{ downloadText }}
+          </el-link>
+          <el-link
+            v-else
             class="template"
             type="primary"
             :href="downloadUrl"
-          >下载模板</el-link>
+          >{{ downloadText }}</el-link>
         </div>
       </el-upload>
       <el-button-group>
@@ -93,6 +102,14 @@ export default {
     btnText: {
       type: String,
       default: '批量导入'
+    },
+    downloadText: {
+      type: String,
+      default: '下载模板'
+    },
+    isExport: {
+      type: Boolean,
+      default: false
     },
     size: {
       type: [String, Number],
@@ -276,6 +293,8 @@ export default {
               </el-date-picker>
             } else if (item.type === 'input-number') {
               return <YInputNumber v-model_trim={this.tableData[row.index][item.prop]} min={item.min} max={item.max} size='small' clearable rules={row.rules}></YInputNumber>
+            } else {
+              return <span>{this.tableData[row.index][item.prop]}</span>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
