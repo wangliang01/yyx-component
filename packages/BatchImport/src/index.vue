@@ -1,26 +1,6 @@
 <template>
   <div class="batch-import" v-bind="$attrs" v-on="$listeners">
-    <!-- 按钮 -->
-    <el-button
-      :type="$attrs.type"
-      icon="el-icon-upload"
-      @click="dialogVisible=true"
-    >{{ btnText }}</el-button>
-    <!-- 按钮 end -->
-
-    <!-- 弹窗  -->
-    <el-dialog
-      :title="btnText"
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      modal-append-to-body
-      append-to-body
-      lock-scroll
-      destroy-on-close
-      width="92%"
-      :before-close="handleBeforeClose"
-      @opened="handleOpen"
-    >
+    <template v-if="isStreamline">
       <el-upload
         class="upload"
         action=""
@@ -32,7 +12,7 @@
         <el-button
           type="primary"
           icon="el-icon-upload"
-        >选择文件</el-button>
+        >{{ btnText }}</el-button>
         <div
           slot="tip"
           class="el-upload__tip mt-10"
@@ -54,39 +34,95 @@
           >{{ downloadText }}</el-link>
         </div>
       </el-upload>
-      <el-button-group>
-        <el-button
-          v-if="tableData.length"
-          class="mt-10"
-          @click="handleToggleEdit"
-        >{{ !isEdit ?'编辑数据' : '查看数据' }}</el-button>
-      </el-button-group>
-
-      <y-table
-        ref="table"
-        class="mt-10"
-        :max-height="312"
-        :data="tableData"
-        :columns="currentColumns"
-        :pagination="importPagination"
-        :total="total"
-        :reload="reloadData"
-        :col-index="1"
-      ></y-table>
-
-      <span
-        slot="footer"
-        class="dialog-footer"
+    </template>
+    <template v-else>
+      <!-- 按钮 -->
+      <el-button
+        :type="$attrs.type"
+        icon="el-icon-upload"
+        @click="dialogVisible=true"
+      >{{ btnText }}</el-button>
+      <!-- 按钮 end -->
+      <!-- 弹窗  -->
+      <el-dialog
+        :title="btnText"
+        :visible.sync="dialogVisible"
+        :close-on-click-modal="false"
+        modal-append-to-body
+        append-to-body
+        lock-scroll
+        destroy-on-close
+        width="92%"
+        :before-close="handleBeforeClose"
+        @opened="handleOpen"
       >
-        <el-button @click="handleCancel">取 消</el-button>
-        <el-button
-          type="primary"
-          :disabled="!total"
-          @click="handleConfirm"
-        >确 定</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹窗 end -->
+        <el-upload
+          class="upload"
+          action=""
+          :multiple="false"
+          :show-file-list="false"
+          accept="csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          :http-request="httpRequest"
+        >
+          <el-button
+            type="primary"
+            icon="el-icon-upload"
+          >选择文件</el-button>
+          <div
+            slot="tip"
+            class="el-upload__tip mt-10"
+          >
+            只能上传excel文件<span v-if="size">，且不超过{{ size }}kb</span>
+            <el-link
+              v-if="isExport"
+              class="template"
+              type="primary"
+              @click="$emit('download')"
+            >
+              {{ downloadText }}
+            </el-link>
+            <el-link
+              v-else
+              class="template"
+              type="primary"
+              :href="downloadUrl"
+            >{{ downloadText }}</el-link>
+          </div>
+        </el-upload>
+        <el-button-group>
+          <el-button
+            v-if="tableData.length"
+            class="mt-10"
+            @click="handleToggleEdit"
+          >{{ !isEdit ?'编辑数据' : '查看数据' }}</el-button>
+        </el-button-group>
+
+        <y-table
+          ref="table"
+          class="mt-10"
+          :max-height="312"
+          :data="tableData"
+          :columns="currentColumns"
+          :pagination="importPagination"
+          :total="total"
+          :reload="reloadData"
+          :col-index="1"
+        ></y-table>
+
+        <span
+          slot="footer"
+          class="dialog-footer"
+        >
+          <el-button @click="handleCancel">取 消</el-button>
+          <el-button
+            type="primary"
+            :disabled="!total"
+            @click="handleConfirm"
+          >确 定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 弹窗 end -->
+    </template>
   </div>
 </template>
 
@@ -99,6 +135,10 @@ import moment from 'moment'
 export default {
   name: 'YBatchImport',
   props: {
+    isStreamline: {
+      type: Boolean,
+      default: false
+    },
     btnText: {
       type: String,
       default: '批量导入'
@@ -519,8 +559,12 @@ export default {
           }
           // 将 JSON 数据挂到 data 里
           this.dbData = this.formatDbData(exl)
-          this.loadData()
-          this.total = this.dbData.length
+          if (this.isStreamline) {
+            this.$emit('upload', cloneDeep(this.dbData))
+          } else {
+            this.loadData()
+            this.total = this.dbData.length
+          }
           // document.getElementsByName('file')[0].value = '' // 根据自己需求，可重置上传value为空，允许重复上传同一文件
         } catch (e) {
           Message({
