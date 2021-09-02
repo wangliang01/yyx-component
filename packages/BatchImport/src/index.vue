@@ -91,7 +91,7 @@
         </el-upload>
         <el-button-group>
           <el-button
-            v-if="tableData.length"
+            v-if="hasEditButton && tableData.length"
             class="mt-10"
             @click="handleToggleEdit"
           >{{ !isEdit ?'编辑数据' : '查看数据' }}</el-button>
@@ -138,6 +138,10 @@ export default {
     isStreamline: {
       type: Boolean,
       default: false
+    },
+    hasEditButton: {
+      type: Boolean,
+      default: true
     },
     btnText: {
       type: String,
@@ -298,12 +302,14 @@ export default {
       return {
         label: item.label,
         prop: item.prop,
-        render: (h, { row }) => {
+        render: (h, { row, index }) => {
           if (this.isEdit) {
             if (item.type === 'input') {
-              return <y-input v-model_trim={this.tableData[row.index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
+              console.log('this.tableData', this.tableData)
+              console.log('row', row)
+              return <y-input v-model_trim={this.tableData[index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
             } else if (item.type === 'select') {
-              return <el-select v-model={this.tableData[row.index][item.prop]} size='small' ref='select' clearable rules={row.rules} >
+              return <el-select v-model={this.tableData[index][item.prop]} size='small' ref='select' clearable rules={row.rules} >
                 {item.options.map((option) => {
                   return <el-option key={option.value}
                     label={option.label}
@@ -312,29 +318,29 @@ export default {
                 })}
               </el-select>
             } else if (item.type === 'date-picker') {
-              this.tableData[row.index][item.prop] = (moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD'))
+              this.tableData[index][item.prop] = (moment(this.tableData[index][item.prop]).format('YYYY-MM-DD') === 'Invalid date' ? '' : moment(this.tableData[index][item.prop]).format('YYYY-MM-DD'))
               return <el-date-picker
                 style={{ width: '95%', display: 'block' }}
-                v-model={this.tableData[row.index][item.prop]}
+                v-model={this.tableData[index][item.prop]}
                 type='date'
                 size='small'
-                onChange={() => { this.tableData[row.index][item.prop] = (moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD')) }}
+                onChange={() => { this.tableData[index][item.prop] = (moment(this.tableData[index][item.prop]).format('YYYY-MM-DD') === 'Invalid date' ? '' : moment(this.tableData[index][item.prop]).format('YYYY-MM-DD')) }}
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'date-picker-time') {
-              this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss')
+              this.tableData[index][item.prop] = moment(this.tableData[index][item.prop]).format('YYYY-MM-DD HH:mm:ss') === 'Invalid date' ? '' : moment(this.tableData[index][item.prop]).format('YYYY-MM-DD HH:mm:ss')
               return <el-date-picker
                 style={{ width: '95%', display: 'block' }}
-                v-model={this.tableData[row.index][item.prop]}
+                v-model={this.tableData[index][item.prop]}
                 type='datetime'
                 size='small'
-                onChange={() => { this.tableData[row.index][item.prop] = moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss') === 'Invalid date' ? '' : moment(this.tableData[row.index][item.prop]).format('YYYY-MM-DD HH:mm:ss') }}
+                onChange={() => { this.tableData[index][item.prop] = moment(this.tableData[index][item.prop]).format('YYYY-MM-DD HH:mm:ss') === 'Invalid date' ? '' : moment(this.tableData[index][item.prop]).format('YYYY-MM-DD HH:mm:ss') }}
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'input-number') {
-              return <YInputNumber v-model_trim={this.tableData[row.index][item.prop]} min={item.min} max={item.max} size='small' clearable rules={row.rules}></YInputNumber>
+              return <YInputNumber v-model_trim={this.tableData[index][item.prop]} min={item.min} max={item.max} size='small' clearable rules={row.rules}></YInputNumber>
             } else {
-              return <span>{this.tableData[row.index][item.prop]}</span>
+              return <span>{this.tableData[index][item.prop]}</span>
             }
           } else {
             return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
