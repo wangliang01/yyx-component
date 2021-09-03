@@ -359,7 +359,7 @@ export default {
     // 通过点击enter键来查询数据
     queryDataByEnterKey() {
       this.$nextTick(() => {
-        const form = this.$refs.form.$el
+        const form = this.$refs?.form?.$el
         console.log('form', form)
         form && form.addEventListener('keyup', (e) => {
           const keyCode = e.keyCode || e.which
