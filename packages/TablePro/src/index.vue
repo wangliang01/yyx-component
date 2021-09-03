@@ -454,7 +454,7 @@ export default {
     /**
      * 分页时，重新加载数据
      */
-    reloadData({ pageSize: size, currentPage, type }) {
+    reloadData({ 'page-size': size, 'current-page': currentPage, type }) {
       if (type === 'size-change') {
         // 分页条数变更，需要重置current为1
         // this.queryParams = merge(this.queryParams, { size, current: 1 })
