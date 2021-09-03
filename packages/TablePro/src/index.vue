@@ -359,8 +359,9 @@ export default {
     // 通过点击enter键来查询数据
     queryDataByEnterKey() {
       this.$nextTick(() => {
-        const tablePro = this.$el
-        tablePro && tablePro.addEventListener('keyup', (e) => {
+        const form = this.$refs.form.$el
+        console.log('form', form)
+        form && form.addEventListener('keyup', (e) => {
           const keyCode = e.keyCode || e.which
           if (keyCode === 13) {
             this.handleQuery()

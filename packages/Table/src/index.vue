@@ -255,9 +255,9 @@ export default {
     handleSizeChange(pageSize) {
       this.$emit('size-change', pageSize)
       this.paginationAttrs = Object.assign({}, this.paginationAttrs, {
-        pageSize,
         type: 'size-change',
-        currentPage: 1
+        'page-size': pageSize,
+        'current-page': 1
       })
       if (typeof this.reload === 'function') {
         this.reload(this.paginationAttrs)
@@ -266,9 +266,11 @@ export default {
     handleCurrentChange(currentPage) {
       this.$emit('page-current-change', currentPage)
       this.paginationAttrs = Object.assign({}, this.paginationAttrs, {
-        currentPage,
+        'current-page': currentPage,
         type: 'current-change'
       })
+
+      console.log('current-page', this.paginationAttrs)
 
       if (typeof this.reload === 'function') {
         this.reload(this.paginationAttrs)
