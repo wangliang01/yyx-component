@@ -256,8 +256,8 @@ export default {
       this.$emit('size-change', pageSize)
       this.paginationAttrs = Object.assign({}, this.paginationAttrs, {
         type: 'size-change',
-        'page-size': pageSize,
-        'current-page': 1
+        pageSize: pageSize, // 兼容老系统
+        currentPage: 1 // 兼容老系统
       })
       if (typeof this.reload === 'function') {
         this.reload(this.paginationAttrs)
@@ -266,11 +266,9 @@ export default {
     handleCurrentChange(currentPage) {
       this.$emit('page-current-change', currentPage)
       this.paginationAttrs = Object.assign({}, this.paginationAttrs, {
-        'current-page': currentPage,
+        currentPage: currentPage,
         type: 'current-change'
       })
-
-      console.log('current-page', this.paginationAttrs)
 
       if (typeof this.reload === 'function') {
         this.reload(this.paginationAttrs)
