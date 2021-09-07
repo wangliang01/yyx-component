@@ -2,6 +2,15 @@
 
 import Vue from 'vue'
 import App from './App.vue'
+import DemoBlock from './components/DemoBlock.vue'
+import VueCodeHighlight from 'vue-code-highlight'
+
+Vue.use(VueCodeHighlight) // registers the v-highlight directive
+import VueHighlightJS from 'vue-highlightjs'
+import 'highlight.js/styles/vs2015.css' // or other highlight.js theme
+
+// Tell Vue.js to use vue-highlightjs
+Vue.use(VueHighlightJS)
 if (process.env.NODE_ENV === 'development') {
   Vue.config.devtools = true
   require('./styles/common.scss')
@@ -12,6 +21,7 @@ if (process.env.NODE_ENV === 'development') {
 
   // 注册组件库
   Vue.use(ELEMENT)
+
   Vue.use(yui)
   Vue.config.productionTip = false
   const routes = require('./router')
@@ -20,6 +30,7 @@ if (process.env.NODE_ENV === 'development') {
   const router = new VueRouter({
     routes
   })
+  Vue.component('demo-block', DemoBlock)
   new Vue({
     router,
     render: h => h(App)

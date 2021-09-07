@@ -1,6 +1,28 @@
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const path = require('path')
+
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+
 module.exports = {
+  chainWebpack: config => {
+    // 使用自定义loader
+    config.module
+      .rule('md-loader')
+      .test(/\.md$/)
+      .use('vue-loader')
+      .loader('vue-loader')
+      .options({
+        compilerOptions: {
+          preserveWhitespace: false
+        }
+      })
+      .end()
+      .use('md-loader')
+      .loader(resolve('./loaders/md-loader/index.js'))
+      .end()
+  },
   css: {
     loaderOptions: {
       scss: {
@@ -51,5 +73,6 @@ module.exports = {
         }
       )
     ]
+
   }
 }

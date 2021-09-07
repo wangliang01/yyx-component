@@ -1,5 +1,6 @@
 <template>
   <div>
+    <TestMd></TestMd>
     <el-card>
       <h2>典型表单</h2>
       <p>包括各种表单项，比如输入框，选择器，开关，单选框，多选框等</p>
@@ -134,7 +135,7 @@
               type="primary"
               @click="submitForm('dynamicValidateForm')"
             >提交</el-button>
-            <el-button @click="addDomain">新增域名</el-button>
+            <!-- <el-button @click="addDomain">新增域名</el-button> -->
             <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
           </el-form-item>
         </y-form>
@@ -175,9 +176,13 @@
 </template>
 
 <script>
-import DomainInput from '../../components/DomainInput'
+// import DomainInput from '../../components/DomainInput'
+import TestMd from '../../../docs/components/table.md'
 export default {
   name: '',
+  components: {
+    TestMd
+  },
   data() {
     var checkAge = (rule, value, callback) => {
       if (!value) {
@@ -506,17 +511,17 @@ export default {
           prop: 'email',
           label: '邮箱',
           fieldType: 'Input'
-        },
-        domains: {
-          prop: 'domains',
-          label: '域名',
-          fieldType: 'Customer',
-          filter: {
-            render: (h) => {
-              return <DomainInput value={this.dynamicValidateForm.domains} onDel={this.removeDomain}></DomainInput>
-            }
-          }
         }
+        // domains: {
+        //   prop: 'domains',
+        //   label: '域名',
+        //   fieldType: 'Customer',
+        //   filter: {
+        //     render: (h) => {
+        //       return <DomainInput value={this.dynamicValidateForm.domains} onDel={this.removeDomain}></DomainInput>
+        //     }
+        //   }
+        // }
       }
     }
   },
@@ -527,23 +532,23 @@ export default {
         this.dynamicValidateForm.domains.splice(index, 1)
       }
     },
-    addDomain() {
-      this.dynamicValidateForm.domains.push({
-        url: '',
-        key: Date.now()
-      })
-      const i = this.dynamicValidateForm.domains.length
-      this.dynamicValidateConfig[`domains${i}`] = {
-        prop: `domains${i}`,
-        label: `域名${i}`,
-        fieldType: 'Customer',
-        filter: {
-          render: (h) => {
-            return <DomainInput value={this.dynamicValidateForm.domains}></DomainInput>
-          }
-        }
-      }
-    },
+    // addDomain() {
+    //   this.dynamicValidateForm.domains.push({
+    //     url: '',
+    //     key: Date.now()
+    //   })
+    //   const i = this.dynamicValidateForm.domains.length
+    //   this.dynamicValidateConfig[`domains${i}`] = {
+    //     prop: `domains${i}`,
+    //     label: `域名${i}`,
+    //     fieldType: 'Customer',
+    //     filter: {
+    //       render: (h) => {
+    //         return <DomainInput value={this.dynamicValidateForm.domains}></DomainInput>
+    //       }
+    //     }
+    //   }
+    // },
     handleCreate() {
       this.$refs.form.validate(valid => {
         if (valid) {
