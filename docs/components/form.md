@@ -650,7 +650,7 @@
 
 当`fieldType`为`DatePicker`时，可能通过`onPick`回调函数来获取选择的日期，包含起始日期，结束日期。
 
-```js {8-14}
+```js
  dateRange: {
     prop: 'dateRange',
     label: '日期范围',

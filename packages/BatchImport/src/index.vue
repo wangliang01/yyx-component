@@ -305,8 +305,6 @@ export default {
         render: (h, { row, index }) => {
           if (this.isEdit) {
             if (item.type === 'input') {
-              console.log('this.tableData', this.tableData)
-              console.log('row', row)
               return <y-input v-model_trim={this.tableData[index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
             } else if (item.type === 'select') {
               return <el-select v-model={this.tableData[index][item.prop]} size='small' ref='select' clearable rules={row.rules} >
@@ -428,18 +426,21 @@ export default {
                   reject(`第${index + 1}行[${column.label}] 值长度不能大于${column.maxLength}位`)
                 }
               }
-              // 如果下拉框的不存在
-              if (column.options) {
-                if (!column.options.find((option) => option.value === item[key])) {
-                  // 如果没有值，则提示报错
-                  reject(`第${index + 1}行[${column.label}] 值不存在于选择项中`)
-                }
-              }
             }
           })
         })
         resolve(true)
       })
+    },
+    getValue(originvValue, options) {
+      let value = ''
+      options.find(option => {
+        if (option.label === originvValue || option.value === originvValue) {
+          value = option.value
+          return true
+        }
+      })
+      return value
     },
     // 关闭弹窗
     handleBeforeClose(done) {
@@ -458,7 +459,24 @@ export default {
       this.mergeTable()
       this.validate(this.dbData).then(valid => {
         if (valid) {
-          this.$emit('upload', cloneDeep(this.dbData))
+          const uploadData = cloneDeep(this.dbData).map(item => {
+            const obj = {}
+            Object.keys(item).forEach(key => {
+              // 查找与key相同的column
+              const column = find(this.columns, col => {
+                return col.prop.trim().includes(key)
+              })
+              if (column) {
+                if (column.type === 'select') {
+                  obj[column.prop] = this.getValue(item[key], column.options)
+                } else {
+                  obj[column.prop] = item[key]
+                }
+              }
+            })
+            return obj
+          })
+          this.$emit('upload', uploadData)
         }
       }).catch(err => {
         this.$message.warning(err)
@@ -565,6 +583,7 @@ export default {
           }
           // 将 JSON 数据挂到 data 里
           this.dbData = this.formatDbData(exl)
+          console.log('dbData', this.dbData, exl)
           if (this.isStreamline) {
             this.$emit('upload', cloneDeep(this.dbData))
           } else {

@@ -1,183 +1,12 @@
 <template>
-  <div>
+  <el-card class="form">
     <TestMd></TestMd>
-    <el-card>
-      <h2>典型表单</h2>
-      <p>包括各种表单项，比如输入框，选择器，开关，单选框，多选框等</p>
-      <el-card>
-        <y-form
-          v-model="form"
-          :config="config"
-          label-position="left"
-          width="500px"
-          label-width="100px"
-        >
-          <el-form-item>
-            <el-button
-              type="primary"
-              @click="handleCreate"
-            >立即创建</el-button>
-            <el-button @click="handleCancel">取消</el-button>
-          </el-form-item>
-        </y-form>
-      </el-card>
-    </el-card>
-    <el-card class="mt-20">
-      <h2>行内表单</h2>
-      <p>当垂直方向空间受限且表单较简单时，可以在一行内放置表单。</p>
-      <el-card>
-
-        <y-form
-          v-model="formInline"
-          :inline="true"
-          :config="configInline"
-          label-position="left"
-          label-width="100px"
-          :cols="8"
-        >
-          <el-form-item>
-            <el-button type="primary">查询</el-button>
-          </el-form-item>
-        </y-form>
-      </el-card>
-    </el-card>
-    <el-card class="mt-20">
-      <h2>对齐方式</h2>
-      <p>根据具体目标和制约因素，选择最佳的标签对齐方式。</p>
-      <el-card>
-        <el-radio-group
-          v-model="labelPosition"
-          size="small"
-        >
-          <el-radio-button label="left">左对齐</el-radio-button>
-          <el-radio-button label="right">右对齐</el-radio-button>
-          <el-radio-button label="top">顶部对齐</el-radio-button>
-        </el-radio-group>
-        <y-form
-          v-model="formInline"
-          class="mt-20"
-          :config="configInline"
-          :label-position="labelPosition"
-          label-width="100px"
-          width="500px"
-        >
-          <el-form-item>
-            <el-button type="primary">查询</el-button>
-          </el-form-item>
-        </y-form>
-      </el-card>
-    </el-card>
-
-    <el-card class="mt-20">
-      <h2>表单验证</h2>
-      <p>在防止用户犯错的前提下，尽可能让用户更早地发现并纠正错误。</p>
-      <el-card>
-        <y-form
-          ref="form"
-          v-model="form"
-          :config="config"
-          label-position="left"
-          width="500px"
-          label-width="100px"
-          :rules="rules"
-        >
-          <el-form-item>
-            <el-button
-              type="primary"
-              @click="handleCreate('form')"
-            >立即创建</el-button>
-            <el-button @click="handleCancel">重置</el-button>
-          </el-form-item>
-        </y-form>
-      </el-card>
-    </el-card>
-
-    <el-card class="mt-20">
-      <h2>自定义验证</h2>
-      <p>在防止用户犯错的前提下，尽可能让用户更早地发现并纠正错误。</p>
-      <el-card>
-        <y-form
-          ref="ruleForm"
-          v-model="ruleForm"
-          :config="config2"
-          label-position="right"
-          status-icon
-          width="500px"
-          label-width="100px"
-          :rules="rules2"
-        >
-          <el-form-item label-width="100px">
-            <el-button
-              type="primary"
-              @click="submitForm('ruleForm')"
-            >提交</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
-          </el-form-item>
-        </y-form>
-      </el-card>
-    </el-card>
-
-    <el-card class="mt-20">
-      <h2>动态增减表单项</h2>
-      <el-card>
-        <y-form
-          ref="dynamicValidateForm"
-          v-model="dynamicValidateForm"
-          :config="dynamicValidateConfig"
-          label-position="right"
-          status-icon
-          width="600px"
-          label-width="100px"
-          :rules="rules2"
-        >
-          <el-form-item label-width="100px">
-            <el-button
-              type="primary"
-              @click="submitForm('dynamicValidateForm')"
-            >提交</el-button>
-            <!-- <el-button @click="addDomain">新增域名</el-button> -->
-            <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
-          </el-form-item>
-        </y-form>
-      </el-card>
-    </el-card>
-
-    <el-card class="mt-20">
-      <h2>数字类型验证</h2>
-      <el-card>
-
-        <y-form
-          ref="numberForm"
-          v-model="numberForm"
-          label-width="100px"
-          :config="numberConfig"
-          width="600px"
-        >
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('numberForm')">提交</el-button>
-            <el-button @click="resetForm('numberForm')">重置</el-button>
-          </el-form-item>
-        </y-form>
-      </el-card>
-    </el-card>
-
-    <el-card class="mt-20">
-      <h2>表单内组件尺寸控制</h2>
-      <el-card>
-        <y-form ref="sizeForm" v-model="form" :config="config" label-width="100px" width="500px" size="mini">
-          <el-form-item size="large">
-            <el-button type="primary" @click="submitForm('sizeForm')">立即创建</el-button>
-            <el-button @click="resetForm('sizeForm')">取消</el-button>
-          </el-form-item>
-        </y-form>
-      </el-card>
-    </el-card>
-  </div>
+  </el-card>
 </template>
 
 <script>
 // import DomainInput from '../../components/DomainInput'
-import TestMd from '../../../docs/components/table.md'
+import TestMd from '../../../docs/components/form.md'
 export default {
   name: '',
   components: {
@@ -588,4 +417,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

@@ -42,64 +42,55 @@ export default {
         { prop: 'warehouseId', label: '仓库ID', type: 'input', required: true },
         { prop: 'skuId', label: '商品ID', type: 'input', required: true },
         { prop: 'availableStock', label: '可用库存', type: 'input', required: true },
-        { prop: 'price', label: '商品价格', type: 'input', required: true },
+        { prop: 'price', label: '不含税单价', type: 'input', required: true },
         {
           prop: 'produceTime',
           label: '生产日期',
           type: 'date-picker',
           required: true,
-          format: 'yyyy-MM-dd HH:mm:ss',
+          format: 'YYYY-MM-DD',
           pattern: /^[1-2][0-9][0-9][0-9][-\.\/][0-1]{0,1}[0-9][-\.\/][0-3]{0,1}[0-9]$/
         }
       ],
-      columns: [
-        {
-          label: '订单id（相同id默认为同一定订单）',
-          prop: 'warehouseId',
-          type: 'input',
-          required: true
-        },
-        {
-          label: '客户ID',
-          prop: 'customerId',
-          type: 'input',
-          required: true
-        },
-        {
-          label: 'SKUID',
-          prop: 'skuId',
-          type: 'input-number',
-          required: true
-        },
-        {
-          label: '数量',
-          prop: 'count',
-          type: 'input-number',
-          required: true
-        },
-        {
-          label: '单价',
-          prop: 'price',
-          type: 'input-number',
-          required: true
-        },
-        {
-          label: '下单日期',
-          prop: 'createTime',
-          type: 'date-picker',
-          format: 'YYYY-MM-DD HH:mm:ss',
-          required: true,
-          pattern: /^[1-2][0-9][0-9][0-9][-\.\/][0-1]{0,1}[0-9][-\.\/][0-3]{0,1}[0-9]$/
-        },
-        {
-          label: '要求配送日期',
-          prop: 'deleverDate',
-          type: 'date-picker',
-          format: 'YYYY-MM-DD HH:mm:ss',
-          required: true,
-          pattern: /^[1-2][0-9][0-9][0-9][-\.\/][0-1]{0,1}[0-9][-\.\/][0-3]{0,1}[0-9]$/
-        }
-      ]
+      columns: [{
+        label: '商品id',
+        prop: 'skuId',
+        type: 'input',
+        maxLength: '32',
+        required: true
+      },
+      {
+        label: '商品名称',
+        prop: 'skuName',
+        type: 'input',
+        maxLength: '50',
+        required: true
+      },
+      {
+        label: '销售单位',
+        prop: 'skuUnit',
+        type: 'select',
+        options: [],
+        required: true
+      },
+      {
+        label: '单价',
+        prop: 'skuPrice',
+        type: 'input',
+        integerDigit: '15',
+        precision: '4',
+        number: true,
+        required: true
+      },
+      {
+        label: '是否在商城显示价格',
+        prop: 'enable',
+        type: 'select',
+        required: true,
+        options: [
+          { label: '是', value: 'ENABLE' },
+          { label: '否', value: 'DISABLE' }]
+      }]
     }
   },
   mounted() {
