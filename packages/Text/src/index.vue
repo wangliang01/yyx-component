@@ -8,10 +8,14 @@
     >
       <div class="text-tooltip-wrapper" :class="{ [`y-line-${line}`]: true }">
         <i v-if="dot" class="dot" :class="`dot-${type}`"></i>
-        <span class="text">{{ content }}</span>
+        <span v-if="content" class="text">{{ content }}</span>
+        <span v-else class="text">
+          <slot></slot>
+        </span>
       </div>
     </el-tooltip>
     <span class="text-copy">{{ content }}</span>
+
   </div>
 </template>
 
@@ -22,7 +26,7 @@ export default {
   props: {
     content: {
       type: [String, Number, Boolean, Object, Array],
-      default: '暂无数据'
+      default: ''
     },
     line: {
       type: [Number, String],

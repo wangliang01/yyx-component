@@ -5,6 +5,7 @@
     <y-text style="width: 200px;" content="禁用" type="error" dot></y-text>
     <y-text style="width: 200px;" content="异常状态" type="warning" dot></y-text>
     <y-text style="width: 200px;" content="未开始" type="info" dot></y-text>
+    <y-text style="width: 200px;" type="info" dot>113</y-text>
   </div>
 </template>
 
