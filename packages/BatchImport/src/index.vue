@@ -96,8 +96,46 @@
             @click="handleToggleEdit"
           >{{ !isEdit ?'编辑数据' : '查看数据' }}</el-button>
         </el-button-group>
+        <!-- 多表头 -->
+        <el-table
+          v-if="multiHeader"
+          ref="table"
+          :data="tableData"
+          style="width: 100%"
+        >
+          <template v-for="col in columns">
+            <!-- 没有children -->
+            <el-table-column
+              v-if="!col.children"
+              :key="col.prop"
+              :prop="col.prop"
+              :label="col.label"
+              v-bind="col"
+            >
+            </el-table-column>
+            <!-- 有children -->
+            <el-table-column
+              v-else
+              :key="col.prop"
+              :prop="col.prop"
+              :label="col.label"
+              v-bind="col"
+            >
+              <el-table-column
+                v-for="childCol in col.children"
+                :key="childCol.prop"
+                :prop="childCol.prop"
+                :label="childCol.label"
+                v-bind="childCol"
+              >
+              </el-table-column>
+            </el-table-column>
+          </template>
 
+        </el-table>
+        <!-- 单表头 -->
         <y-table
+          v-else
           ref="table"
           class="mt-10"
           :max-height="312"
@@ -247,6 +285,10 @@ export default {
           }
         ]
       }
+    },
+    multiHeader: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -258,6 +300,7 @@ export default {
         current: 1,
         size: 10
       },
+      sheetHeader: {},
       dbData: [],
       currentColumns: [],
       isEdit: false,
@@ -351,7 +394,8 @@ export default {
   },
   methods: {
     handleOpen() {
-      const tableDom = this.$refs.table.$el
+      const tableDom = this.$refs?.table.$el
+      if (!tableDom) return
       const tableBodyWrapper = tableDom.querySelector('.el-table__body-wrapper')
       // 防抖处理
       tableBodyWrapper.addEventListener('scroll', debounce(this.handleTableScroll))
@@ -555,6 +599,60 @@ export default {
         size: 10
       }
     },
+    formatMultiDbData(exl) {
+      const cloneExl = cloneDeep(exl)
+      // 处理表头
+      const sheetHeader = cloneExl.shift()
+      for (const [key, value] of Object.entries(sheetHeader)) {
+        if (value) {
+          // 处理value有值的情况
+          sheetHeader[value] = sheetHeader[key]
+        }
+      }
+      this.sheetHeader = sheetHeader
+
+      // 处理多表头数据
+      cloneExl.forEach(item => {
+        for (const [key, value] of Object.entries(item)) {
+          const headerKey = this.sheetHeader[key]
+          if (headerKey) {
+            item[headerKey] = value
+            delete item[key]
+          } else {
+            item[key] = value
+          }
+        }
+      })
+
+      // 将label映射到prop
+      cloneExl.forEach(item => {
+        for (const [label, value] of Object.entries(item)) {
+          const getCurrentColumn = (columns, label) => {
+            let obj = null
+            columns.some(col => {
+              if (col.label === label && col.prop) {
+                obj = col
+                return obj
+              }
+              if (col.children) {
+                obj = getCurrentColumn(col.children, label)
+                return obj
+              }
+            })
+            return obj
+          }
+          const currentColumn = getCurrentColumn(this.columns, label)
+
+          if (currentColumn) {
+            const key = currentColumn.prop
+            item[key] = value
+            delete item[label]
+          }
+        }
+      })
+
+      return cloneExl
+    },
     // 选择文件
     httpRequest(e) {
       this.initData()
@@ -581,9 +679,14 @@ export default {
             this.$message.error('未找到对应表格，请重新上传！')
             return false
           }
-          // 将 JSON 数据挂到 data 里
-          this.dbData = this.formatDbData(exl)
-          console.log('dbData', this.dbData, exl)
+          if (this.multiHeader) {
+            // 多级表头
+            this.dbData = this.formatMultiDbData(exl)
+          } else {
+            // 将 JSON 数据挂到 data 里
+            this.dbData = this.formatDbData(exl)
+          }
+
           if (this.isStreamline) {
             this.$emit('upload', cloneDeep(this.dbData))
           } else {
