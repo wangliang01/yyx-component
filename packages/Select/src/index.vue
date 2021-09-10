@@ -4,7 +4,7 @@
     filterable
     remote
     placeholder="请输入关键词"
-    :remote-method="remoteMethod"
+    :remote-method="remote ? remoteMethod : null"
     :loading="loading"
     v-on="$listeners"
   >
@@ -24,6 +24,10 @@ export default {
   components: {
   },
   props: {
+    remote: {
+      type: Boolean,
+      default: true
+    },
     api: {
       type: Function,
       default: () => {}
