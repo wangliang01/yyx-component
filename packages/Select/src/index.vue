@@ -1,8 +1,8 @@
 <template>
   <el-select
     v-bind="$attrs"
-    filterable
-    remote
+    :filterable="remote"
+    :remote="remote"
     placeholder="请输入关键词"
     :remote-method="remote ? remoteMethod : null"
     :loading="loading"
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { get } from 'lodash'
 export default {
   name: 'YSelect',
   components: {
@@ -37,7 +38,9 @@ export default {
       default: () => {
         return {
           label: 'label',
-          value: 'value'
+          value: 'value',
+          data: 'data'
+
         }
       }
     }
@@ -49,6 +52,15 @@ export default {
       loading: false
     }
   },
+  watch: {
+    '$attrs.options': {
+      handler(val) {
+        this.options = val
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   mounted() {
     this.getOptions()
   },
@@ -58,7 +70,7 @@ export default {
         const res = await this.api()
 
         if (res.success) {
-          this.list = res.data || []
+          this.list = get(res, this.model.data, [])
           this.options = this.list
         }
       } else {
@@ -72,7 +84,7 @@ export default {
         setTimeout(() => {
           this.loading = false
           this.options = this.list.filter(item => {
-            return item.label.toLowerCase()
+            return item[this.model.label].toLowerCase()
               .indexOf(query.toLowerCase()) > -1
           })
         }, 200)
