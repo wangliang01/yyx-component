@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { filter, cloneDeep, isEmpty } from 'lodash'
+import { filter, cloneDeep, isEmpty, get } from 'lodash'
 export default {
   name: 'YTablePro',
   props: {
@@ -145,6 +145,10 @@ export default {
     lazyLoad: {
       type: Boolean,
       default: false
+    },
+    model: {
+      type: Object,
+      default: () => ({ data: 'data.records', total: 'data.total' })
     }
   },
   data() {
@@ -379,8 +383,10 @@ export default {
       try {
         this.loading = true
         const res = await this.loadDataApi(data)
-        this.tableData = res.data.records || []
-        this.total = parseInt(res.data.total)
+        // this.tableData = res.data.records || []
+        // this.total = parseInt(res.data.total)
+        this.tableData = get(res, this.model.data, [])
+        this.total = parseInt(get(res, this.model.total, 0))
         this.$emit('loaded', res)
       } catch {
         this.tableData = []

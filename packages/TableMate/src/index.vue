@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { filter, cloneDeep, intersectionWith, isEqual, xorWith, findIndex, uniqWith } from 'lodash'
+import { filter, cloneDeep, intersectionWith, isEqual, xorWith, findIndex, uniqWith, get } from 'lodash'
 export default {
   name: 'YTableMate',
   props: {
@@ -126,7 +126,7 @@ export default {
     model: {
       type: Object,
       default() {
-        return { id: 'id' }
+        return { id: 'id', data: 'data', total: 'total' }
       }
     },
     pagination: {
@@ -265,10 +265,12 @@ export default {
       try {
         this.loading = true
         const res = await this.loadDataApi(data)
-        this.originData = res.data.records || res.data
+        // this.originData = res.data.records || res.data
+        this.originData = get(res, this.model.data, [])
         // 重新组装Table数据
         this.loadData()
-        this.total = parseInt(res.data.total || res.data.length)
+        // this.total = parseInt(res.data.total || res.data.length)
+        this.total = parseInt(get(res, this.model.total, this.originData.length))
         this.$nextTick(() => {
           this.isFirstInit = false
         })
