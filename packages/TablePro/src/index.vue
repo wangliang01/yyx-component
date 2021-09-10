@@ -248,6 +248,7 @@ export default {
     getTableProHeight() {
       setTimeout(() => {
         const tablePro = this.$refs.tablePro
+        tablePro.style.height = '100%'
         const height = tablePro.getBoundingClientRect().height
         const tableFilter = this.$refs.tableFilter
 
@@ -477,9 +478,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-pro{
-  height: 100%;
-}
 .y-form-inline-wrapper{
   position: relative;
   overflow: hidden;

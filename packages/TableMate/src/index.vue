@@ -1,5 +1,5 @@
 <template>
-  <div class="y-table-mate wrapper">
+  <div class="y-table-mate">
     <div v-if="canShowTableFilter" class="form-wrapper">
       <y-form ref="tableFilter" v-model="queryParams" :config="config" inline>
         <div class="btn-wrapper">
@@ -9,13 +9,15 @@
         </div>
       </y-form>
     </div>
-    <div class="table-top y-flex">
-      <!-- table左侧 -->
-      <slot name="table"></slot>
-      <!-- table右侧 -->
-      <slot name="table-top-right"></slot>
+    <div class="table-wrapper">
+      <div class="table-top y-flex">
+        <!-- table左侧 -->
+        <slot name="table"></slot>
+        <!-- table右侧 -->
+        <slot name="table-top-right"></slot>
+      </div>
+      <y-table ref="table" v-loading="loading" :data="tableData" :columns="tableColumns" :pagination="pagination ? pagination : {'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" :row-key="rowKey" @selection-change="handleSelectionChange"></y-table>
     </div>
-    <y-table ref="table" v-loading="loading" :data="tableData" :columns="tableColumns" :pagination="pagination ? pagination : {'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" :row-key="rowKey" @selection-change="handleSelectionChange"></y-table>
   </div>
 </template>
 
@@ -130,7 +132,8 @@ export default {
       }
     },
     pagination: {
-      type: [Boolean, Object]
+      type: [Boolean, Object],
+      default: false
     }
   },
   data() {
@@ -428,20 +431,28 @@ export default {
     right: 11px;
   }
 }
-.wrapper{
-  padding: 24px;
-}
 .table-top{
   justify-content: space-between;
 }
 
 .form-wrapper {
+  padding: 18px 20px 0;
   position: relative;
   padding-right: 300px;
   overflow: hidden;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+.table-wrapper{
+  padding: 16px;
+  margin-top: 16px;
+  background-color: #fff;
+  border-radius: 2px;
 }
 
 .btn-wrapper {
+  padding: 0 16px;
   position: absolute;
   right: 0;
 }
