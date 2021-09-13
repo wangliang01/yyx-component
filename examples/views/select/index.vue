@@ -1,10 +1,11 @@
 <template>
   <div>
-    <y-select v-model="value" :api="getDataApi" @change="handleChange"></y-select>
+    <y-select v-model="value" :api="getDataApi" :model="model" @change="handleChange"></y-select>
   </div>
 </template>
 
 <script>
+const originData = { 'code': '200', 'data': { 'current': 0, 'hitCount': true, 'pages': 0, 'records': [{ 'semifinishedId': 1, 'semifinishedName': '土豆丝', 'semifinishedSpecificationId': 1, 'semifinishedSpecificationName': '250g' }, { 'semifinishedId': 2, 'semifinishedName': '土豆块', 'semifinishedSpecificationId': 2, 'semifinishedSpecificationName': '250g' }], 'searchCount': true, 'size': 0, 'total': 0 }, 'msg': '', 'success': true }
 export default {
   name: '',
   components: {
@@ -15,6 +16,7 @@ export default {
   data() {
     return {
       value: '',
+      model: { label: 'semifinishedName', value: 'semifinishedId', data: 'data.records' },
       states: ['Alabama', 'Alaska', 'Arizona',
         'Arkansas', 'California', 'Colorado',
         'Connecticut', 'Delaware', 'Florida',
@@ -41,14 +43,7 @@ export default {
     getDataApi() {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve({
-            code: '200',
-            success: true,
-            message: 'OK',
-            data: this.states.map(item => {
-              return { value: `value:${item}`, label: `label:${item}` }
-            })
-          })
+          resolve(originData)
         }, 300)
       })
     },

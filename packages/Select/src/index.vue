@@ -62,16 +62,18 @@ export default {
     }
   },
   mounted() {
+    console.log(this.model)
     this.getOptions()
   },
   methods: {
     async getOptions() {
       if (typeof this.api === 'function') {
         const res = await this.api()
-
+        console.log('res', res)
         if (res.success) {
           this.list = get(res, this.model.data, [])
           this.options = this.list
+          this.$emit('loaded', this.list)
         }
       } else {
         this.list = this.$attrs.options
@@ -84,6 +86,7 @@ export default {
         setTimeout(() => {
           this.loading = false
           this.options = this.list.filter(item => {
+            console.log('this.model.label', this.model.label)
             return item[this.model.label].toLowerCase()
               .indexOf(query.toLowerCase()) > -1
           })

@@ -1,6 +1,6 @@
 <template>
   <div class="select">
-    <y-select v-if="isRemote" v-model.trim="currentValue" :api="$attrs.api" :model="model" v-bind="$attrs" :clearable="$attrs.clearable || true" v-on="$listeners"></y-select>
+    <y-select v-if="isRemote" v-model.trim="currentValue" :model="model" :api="$attrs.api" v-bind="$attrs" :clearable="$attrs.clearable || true" v-on="$listeners"></y-select>
     <el-select
       v-else
       v-model.trim="currentValue"
@@ -66,10 +66,11 @@ export default {
       if (this.$attrs.model) {
         return {
           label: this.$attrs.model.label,
-          value: this.$attrs.model.value
+          value: this.$attrs.model.value,
+          data: this.$attrs.model.data
         }
       }
-      return { label: 'label', value: 'value' }
+      return { label: 'label', value: 'value', data: 'data' }
     },
     isRemote() {
       return this.$attrs.api && typeof this.$attrs.api === 'function'
