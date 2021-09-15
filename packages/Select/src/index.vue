@@ -1,21 +1,25 @@
 <template>
-  <el-select
-    v-bind="$attrs"
-    :filterable="remote"
-    :remote="remote"
-    placeholder="请输入关键词"
-    :remote-method="remote ? remoteMethod : null"
-    :loading="loading"
-    v-on="$listeners"
-  >
-    <el-option
-      v-for="item in options"
-      :key="item[model.value]"
-      :label="item[model.label]"
-      :value="item[model.value]"
+  <div class="y-select">
+    <el-select
+      ref="select"
+      v-bind="$attrs"
+      :filterable="remote"
+      :remote="remote"
+      placeholder="请输入关键词"
+      :remote-method="remote ? remoteMethod : null"
+      :loading="loading"
+      v-on="$listeners"
     >
-    </el-option>
-  </el-select>
+      <el-option
+        v-for="item in options"
+        :key="item[model.value]"
+        :label="item[model.label]"
+        :value="item[model.value]"
+      >
+      </el-option>
+    </el-select>
+    <div v-if="unit" ref="unit" class="unit">{{ unit }}</div>
+  </div>
 </template>
 
 <script>
@@ -43,6 +47,10 @@ export default {
 
         }
       }
+    },
+    unit: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -64,11 +72,25 @@ export default {
   },
   mounted() {
     this.getOptions()
+    this.init()
   },
   activated() {
     this.getOptions()
   },
   methods: {
+    init() {
+      const select = this.$refs.select.$el
+      const inputInner = select.querySelector('.el-input__inner')
+      if (!inputInner) return
+      if (this.unit) {
+        inputInner.classList.add('fix-border-radius')
+        const unit = this.$refs.unit
+        /* 修复el-input__inner与el-input差2px的问题 */
+        unit.style.height = (Math.round(select.getBoundingClientRect().height) - 2) + 'px'
+      } else {
+        inputInner.classList.remove('fix-border-radius')
+      }
+    },
     async getOptions() {
       if (typeof this.api === 'function') {
         const res = await this.api()
@@ -103,5 +125,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.y-select{
+  display: inline-flex;
+}
+.unit{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  border: 1px solid #DCDFE6;
+  background-color: $--border-color-light;
+  border-radius: 4px;
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
 </style>

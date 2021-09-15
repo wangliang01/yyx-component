@@ -1,7 +1,7 @@
 <template>
   <div>
     <y-select v-model="value" :api="getDataApi" :model="model" @change="handleChange"></y-select>
-    <y-select v-model="value" :options="options" :remote="false"></y-select>
+    <y-select v-model="value" :options="options" :remote="false" unit="%"></y-select>
   </div>
 </template>
 

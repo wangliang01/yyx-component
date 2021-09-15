@@ -68,7 +68,7 @@ export default {
     },
     value: {
       // 表单数据
-      type: Object,
+      type: [Object, Array],
       required: true
     },
     // 需要校验的字段
