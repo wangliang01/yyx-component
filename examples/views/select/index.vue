@@ -1,6 +1,7 @@
 <template>
   <div>
     <y-select v-model="value" :api="getDataApi" :model="model" @change="handleChange"></y-select>
+    <y-select v-model="value" :options="options" :remote="false"></y-select>
   </div>
 </template>
 
@@ -17,6 +18,25 @@ export default {
     return {
       value: '',
       model: { label: 'semifinishedName', value: 'semifinishedId', data: 'data.records' },
+      options: [{
+        value: 0,
+        label: '0'
+      }, {
+        value: 1,
+        label: '1'
+      }, {
+        value: 3,
+        label: '3'
+      }, {
+        value: 6,
+        label: '6'
+      }, {
+        value: 9,
+        label: '9'
+      }, {
+        value: 13,
+        label: '13'
+      }],
       states: ['Alabama', 'Alaska', 'Arizona',
         'Arkansas', 'California', 'Colorado',
         'Connecticut', 'Delaware', 'Florida',

@@ -31,7 +31,7 @@ export default {
     },
     api: {
       type: Function,
-      default: () => {}
+      default: null
     },
     model: {
       type: Object,
@@ -55,21 +55,23 @@ export default {
   watch: {
     '$attrs.options': {
       handler(val) {
-        this.options = val
+        if (Array.isArray(val)) {
+          this.options = val
+        }
       },
-      deep: true,
-      immediate: true
+      deep: true
     }
   },
   mounted() {
-    console.log(this.model)
+    this.getOptions()
+  },
+  activated() {
     this.getOptions()
   },
   methods: {
     async getOptions() {
       if (typeof this.api === 'function') {
         const res = await this.api()
-        console.log('res', res)
         if (res.success) {
           this.list = get(res, this.model.data, [])
           this.options = this.list
@@ -77,6 +79,7 @@ export default {
         }
       } else {
         this.list = this.$attrs.options
+        this.options = this.list
       }
     },
     remoteMethod(query) {
