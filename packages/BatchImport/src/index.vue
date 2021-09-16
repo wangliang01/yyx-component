@@ -501,6 +501,11 @@ export default {
     // 确认上传
     handleConfirm() {
       this.mergeTable()
+      if (this.multiHeader) {
+        // 多级表头，不做校验
+        this.$emit('upload', this.dbData)
+        return
+      }
       this.validate(this.dbData).then(valid => {
         if (valid) {
           const uploadData = cloneDeep(this.dbData).map(item => {
@@ -520,6 +525,7 @@ export default {
             })
             return obj
           })
+          console.log('uploadData', uploadData)
           this.$emit('upload', uploadData)
         }
       }).catch(err => {
@@ -682,6 +688,8 @@ export default {
           if (this.multiHeader) {
             // 多级表头
             this.dbData = this.formatMultiDbData(exl)
+
+            console.log('dbData', this.dbData)
           } else {
             // 将 JSON 数据挂到 data 里
             this.dbData = this.formatDbData(exl)
