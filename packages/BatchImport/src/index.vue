@@ -1,5 +1,5 @@
 <template>
-  <div class="batch-import" v-bind="$attrs" v-on="$listeners">
+  <div :class="{'batch-import': true, 'isStreamline': isStreamline}" v-bind="$attrs" v-on="$listeners">
     <template v-if="isStreamline">
       <el-upload
         class="upload"
@@ -720,13 +720,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .batch-import {
-  // display: inline-block;
+  display: inline-block;
   margin-left: 10px;
 }
 .upload {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.isStreamline {
   width: 100%;
 }
 .mt-10 {
