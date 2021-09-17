@@ -134,6 +134,10 @@ export default {
     pagination: {
       type: [Boolean, Object],
       default: false
+    },
+    lazyLoad: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -185,7 +189,9 @@ export default {
     }
   },
   created() {
-    this.loadOriginData()
+    if (!this.lazyLoad) {
+      this.loadOriginData()
+    }
     this.$nextTick(() => {
       this.initTableFilter()
       this.resizeTable()
