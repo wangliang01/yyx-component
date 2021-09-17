@@ -16,7 +16,7 @@
         <!-- table右侧 -->
         <slot name="table-top-right"></slot>
       </div>
-      <y-table ref="table" v-loading="loading" :data="tableData" :columns="tableColumns" :pagination="pagination ? pagination : {'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" :row-key="rowKey" @selection-change="handleSelectionChange"></y-table>
+      <y-table ref="table" v-loading="loading" :data="tableData" :columns="tableColumns" :pagination="pagination ? pagination : {'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" :row-key="rowKey" v-bind="$attrs" @selection-change="handleSelectionChange"></y-table>
     </div>
   </div>
 </template>
@@ -254,7 +254,6 @@ export default {
           this.tableData.forEach(item => {
             if (intersectionData.includes(item[prop])) {
               // 如果包含，则勾选
-              console.log(11)
               this.$refs.table.$children[0].toggleRowSelection(item, true)
             } else {
               this.$refs.table.$children[0].toggleRowSelection(item, false)
