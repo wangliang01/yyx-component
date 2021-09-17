@@ -14,6 +14,13 @@ export default {
     return {
       columns: [
         {
+          label: '商品ID',
+          prop: 'skuId',
+          type: 'input',
+          required: true,
+          maxLength: '32'
+        },
+        {
           label: '商品名称',
           prop: 'name',
           type: 'input',
