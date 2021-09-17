@@ -262,6 +262,7 @@ export default {
           })
         })
       }
+      this.$emit('loaded', this.tableData)
     },
     async loadOriginData() {
       this.isFirstInit = true

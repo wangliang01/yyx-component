@@ -720,8 +720,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .batch-import {
-  display: inline-block;
+  // display: inline-block;
   margin-left: 10px;
+}
+.upload {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 .mt-10 {
   margin-top: 10px;

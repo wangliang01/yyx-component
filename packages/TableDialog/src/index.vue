@@ -251,6 +251,7 @@ export default {
           })
         })
       }
+      this.$emit('loaded', this.tableData)
     },
     async loadOriginData() {
       const data = cloneDeep(this.queryParams)

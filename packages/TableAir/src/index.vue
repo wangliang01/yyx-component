@@ -381,6 +381,7 @@ export default {
         this.loading = true
         this.tableData = this.data || []
         this.total = this.data.length
+        this.$emit('loaded', this.tableData)
       } catch {
         this.tableData = []
         this.total = 0
