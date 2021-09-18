@@ -17,7 +17,7 @@ export default {
           label: '商品ID',
           prop: 'skuId',
           type: 'input',
-          required: true,
+          required: false,
           maxLength: '32'
         },
         {
