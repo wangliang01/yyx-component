@@ -149,6 +149,10 @@ export default {
     model: {
       type: Object,
       default: () => ({ data: 'data.records', total: 'data.total' })
+    },
+    format: {
+      type: Function,
+      default: null
     }
   },
   data() {
@@ -384,9 +388,14 @@ export default {
       try {
         this.loading = true
         const res = await this.loadDataApi(data)
-        // this.tableData = res.data.records || []
-        // this.total = parseInt(res.data.total)
-        this.tableData = get(res, this.model.data, [])
+        let tableData = get(res, this.model.data, [])
+        if (typeof this.format === 'function') {
+          tableData = this.format(tableData)
+          if (!Array.isArray(tableData)) {
+            throw Error('format函数必须返回一个数组')
+          }
+        }
+        this.tableData = tableData
         this.total = parseInt(get(res, this.model.total, 0))
         this.$emit('loaded', res)
       } catch {
