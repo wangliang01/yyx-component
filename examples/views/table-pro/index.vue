@@ -9,6 +9,7 @@
       :params.sync="paramsObj"
       :span-method="tableType==='skuColumns'?arraySpanMethod:null"
       :max-height="height"
+      :format="format"
     >
       <div slot="table-top-right">
         <el-button type="primary" @click="addProduct">新建产品</el-button>
@@ -167,6 +168,10 @@ export default {
           prop: 'spuId'
         },
         {
+          label: 'TestA',
+          prop: 'testA'
+        },
+        {
           label: 'SKU ID',
           prop: 'skuId'
         }, {
@@ -284,6 +289,15 @@ export default {
   mounted() {
   },
   methods: {
+    format(tableData) {
+      return tableData.map(item => {
+        return {
+          ...item,
+          testA: 'A',
+          testB: 'B'
+        }
+      })
+    },
     getSpecName(row) {
       let str = ''
       if (row.pageckSpec && row.pageckSpecValue) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="y-select">
+  <div :key="key" class="y-select">
     <el-select
       ref="select"
       v-bind="$attrs"
@@ -55,6 +55,7 @@ export default {
   },
   data() {
     return {
+      key: Math.random().toString(36).replace('.', ''),
       list: [],
       options: [],
       loading: false
