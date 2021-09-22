@@ -13,7 +13,18 @@ if (!fs.existsSync(resolve(cacheDir))) {
 
 module.exports = function(source) {
   // 获取 md 文件转化后的内容
-  const content = md.render(source)
+  let content = md.render(source)
+
+  // 对js片段高亮
+  content = content.replace(/\<pre\>\<code class=\"(language-js)\"\>/g, (match, $1) => {
+    return match.replace(/(\<pre)/, '$1 v-highlightjs="sourcecode"')
+  })
+
+  // 对table添加el-table样式
+  content = content.replace(/(\<table)/g, (match) => {
+    console.log('match', match)
+    return `${match} class="el-table" `
+  })
 
   const startTag = '<!--demo-begin:' // 匹配开启标签
   const startTagLen = startTag.length
@@ -56,6 +67,7 @@ module.exports = function(source) {
 
   // 后续内容添加
   outputSource.push(content.slice(start))
+
   return `
     <template>
       <section class="demo-container">

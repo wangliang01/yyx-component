@@ -51,6 +51,10 @@ export default {
     unit: {
       type: String,
       default: ''
+    },
+    format: {
+      type: Function,
+      default: null
     }
   },
   data() {
@@ -97,6 +101,10 @@ export default {
         const res = await this.api()
         if (res.success) {
           this.list = get(res, this.model.data, [])
+          if (typeof this.format === 'function') {
+            // 如果有format， 则先对数据进行格式化
+            this.list = this.format(this.list)
+          }
           this.options = this.list
           this.$emit('loaded', this.list)
         }

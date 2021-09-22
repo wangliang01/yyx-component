@@ -6,11 +6,11 @@
 
 <script>
 // import DomainInput from '../../components/DomainInput'
-import TestMd from '../../../docs/components/form.md'
+// import TestMd from '../../../docs/components/form.md'
 export default {
   name: '',
   components: {
-    TestMd
+    TestMd: () => import('../../../docs/components/form.md')
   },
   data() {
     var checkAge = (rule, value, callback) => {
@@ -57,15 +57,15 @@ export default {
           prop: 'age',
           label: '年龄',
           fieldType: 'Input',
-          rules: [
-            { required: true, message: '年龄不能为空' }
-          ]
+          rules: [{ required: true, message: '年龄不能为空' }]
         }
       },
       dynamicValidateForm: {
-        domains: [{
-          url: ''
-        }],
+        domains: [
+          {
+            url: ''
+          }
+        ],
         email: ''
       },
       form: {
@@ -159,7 +159,6 @@ export default {
           label: '即时配送',
           fieldType: 'YSwitch',
           labelSuffix: '：'
-
         },
         type: {
           prop: 'type',
@@ -325,15 +324,9 @@ export default {
         }
       },
       rules2: {
-        pass: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
-        checkPass: [
-          { validator: validatePass2, trigger: 'blur' }
-        ],
-        age: [
-          { validator: checkAge, trigger: 'blur' }
-        ]
+        pass: [{ validator: validatePass, trigger: 'blur' }],
+        checkPass: [{ validator: validatePass2, trigger: 'blur' }],
+        age: [{ validator: checkAge, trigger: 'blur' }]
       },
       dynamicValidateConfig: {
         email: {
@@ -379,7 +372,7 @@ export default {
     //   }
     // },
     handleCreate() {
-      this.$refs.form.validate(valid => {
+      this.$refs.form.validate((valid) => {
         if (valid) {
           console.log('立即创建', this.form)
         }
@@ -417,6 +410,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

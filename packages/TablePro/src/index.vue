@@ -232,21 +232,8 @@ export default {
       this.getTableProHeight()
     }
   },
-  activated() {
-    this.initConfig()
-    if (!this.lazyLoad) {
-      this.loadData()
-    }
-    this.initTableFilter()
-    this.resizeTable()
-    this.queryDataByEnterKey()
-    if (this.uiStyle === 'antd') {
-      // antd风格时，才限制表格高度
-      this.getTableProHeight()
-    }
-  },
   destroyed() {
-    window.removeEventListener('resize', this.initTableFilter)
+    this.removeResizeTable()
   },
   methods: {
     getTableProHeight() {
@@ -364,6 +351,15 @@ export default {
     /* 当屏幕宽度发生变化时，重新绘制表格 */
     resizeTable() {
       window.addEventListener('resize', this.initTableFilter)
+      if (this.uiStyle === 'antd') {
+        window.addEventListener('resize', this.getTableProHeight)
+      }
+    },
+    removeResizeTable() {
+      window.removeEventListener('resize', this.initTableFilter)
+      if (this.uiStyle === 'antd') {
+        window.removeEventListener('resize', this.getTableProHeight)
+      }
     },
     // 通过点击enter键来查询数据
     queryDataByEnterKey() {
