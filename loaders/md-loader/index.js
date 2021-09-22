@@ -17,7 +17,7 @@ module.exports = function(source) {
 
   // 对js片段高亮
   content = content.replace(/\<pre\>\<code class=\"(language-js)\"\>/g, (match, $1) => {
-    return match.replace(/(\<pre)/, '$1 v-highlightjs="sourcecode"')
+    return match.replace(/(\<pre)/, '$1 v-highlightjs')
   })
 
   // 对table添加el-table样式
