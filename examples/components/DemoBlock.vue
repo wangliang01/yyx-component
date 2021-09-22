@@ -6,8 +6,10 @@
     <div class="button-wrapper" @click="isExpanded=!isExpanded">
       <i :class="iconClass"></i>
     </div>
-    <transition name="slide-fade">
-      <div v-if="isExpanded" v-highlightjs class="highlight">
+    <transition
+      name="slide-fade"
+    >
+      <div v-show="isExpanded" ref="highlight" v-highlightjs class="highlight">
         <slot></slot>
       </div>
     </transition>
@@ -30,10 +32,28 @@ export default {
       return this.isExpanded ? 'el-icon-caret-top' : 'el-icon-caret-bottom'
     }
   },
+  watch: {
+    isExpanded() {
+      this.init()
+    }
+  },
+  mounted() {
+    this.init()
+  },
   updated() {
     this.clearMargin()
   },
   methods: {
+    init() {
+      const el = this.$refs.highlight
+      this.$nextTick(() => {
+        if (this.isExpanded) {
+          el.style.height = el.firstChild.getBoundingClientRect().height + 'px'
+        } else {
+          el.style.height = 0
+        }
+      })
+    },
     clearMargin() {
       const pre = document.querySelector('.demo-block .highlight pre')
       if (pre) {
@@ -72,13 +92,19 @@ export default {
     }
 
    .slide-fade-enter-active {
+      height: 100%;
       transition: all .3s ease;
     }
     .slide-fade-leave-active {
-      transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+      height: 100%;
+      transition: all .3s ease
     }
-    .slide-fade-enter, .slide-fade-leave-to {
-      transform: translateX(10%);
+    .slide-fade-enter {
+      height: 0;
+    }
+
+    .slide-fade-leave-to {
+      height: 0;
     }
 
     :deep .highlight {

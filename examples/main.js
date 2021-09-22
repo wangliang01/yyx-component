@@ -8,7 +8,7 @@ import VueCodeHighlight from 'vue-code-highlight'
 Vue.use(VueCodeHighlight) // registers the v-highlight directive
 import VueHighlightJS from 'vue-highlightjs'
 import 'highlight.js/styles/vs2015.css' // or other highlight.js theme
-
+import 'animate.css'
 // Tell Vue.js to use vue-highlightjs
 Vue.use(VueHighlightJS)
 if (process.env.NODE_ENV === 'development') {

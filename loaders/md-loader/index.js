@@ -22,7 +22,6 @@ module.exports = function(source) {
 
   // 对table添加el-table样式
   content = content.replace(/(\<table)/g, (match) => {
-    console.log('match', match)
     return `${match} class="el-table" `
   })
 

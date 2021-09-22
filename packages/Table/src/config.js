@@ -17,7 +17,7 @@ export const defaultTableAttrs = {
   'header-row-style': null,
   'header-cell-class-name': null,
   'header-cell-style': null,
-  'row-key': null,
+  'row-key': 'id',
   'empty-text': '暂无数据',
   'default-expand-all': false,
   'expand-row-keys': null,
