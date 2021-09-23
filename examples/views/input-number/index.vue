@@ -1,22 +1,7 @@
 <template>
   <div class="input-number">
-    <h1>YInputNumber计数器</h1>
-    <p>仅允许输入标准的数字值，可定义范围</p>
     <el-card>
-      <h2>基本用法</h2>
-      <y-input-number v-model="num"></y-input-number>
-    </el-card>
-    <el-card class="mt-20">
-      <h2>禁用状态</h2>
-      <y-input-number v-model="num" disabled></y-input-number>
-    </el-card>
-    <el-card class="mt-20">
-      <h2>显示控制按钮</h2>
-      <y-input-number v-model="num" controls></y-input-number>
-    </el-card>
-    <el-card class="mt-20">
-      <h2>按钮位置</h2>
-      <y-input-number v-model="num" controls controls-position="right"></y-input-number>
+      <InputNumberMd></InputNumberMd>
     </el-card>
   </div>
 </template>
@@ -25,20 +10,7 @@
 export default {
   name: '',
   components: {
-  },
-  props: {
-
-  },
-  data() {
-    return {
-      num: 1
-    }
-  },
-  mounted() {
-
-  },
-  methods: {
-
+    InputNumberMd: () => import('../../../docs/components/input-number.md')
   }
 }
 </script>
