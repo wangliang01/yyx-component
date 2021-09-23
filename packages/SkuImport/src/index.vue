@@ -92,7 +92,7 @@ export default {
         {
           label: '销项税(%)',
           prop: 'salesTaxRate',
-          type: 'input-number',
+          type: 'input',
           required: true,
           number: true,
           precision: 1,
@@ -101,7 +101,7 @@ export default {
         {
           label: '进项税(%)',
           prop: 'procurementTaxRate',
-          type: 'input-number',
+          type: 'input',
           required: true,
           number: true,
           precision: 1,
