@@ -2,36 +2,39 @@
   <div :class="{'batch-import': true, 'isStreamline': isStreamline}" v-bind="$attrs" v-on="$listeners">
     <template v-if="isStreamline">
       <el-upload
-        class="upload"
         action=""
         :multiple="false"
         :show-file-list="false"
         accept="csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         :http-request="httpRequest"
       >
-        <el-button
-          type="primary"
-          icon="el-icon-upload"
-        >{{ btnText }}</el-button>
-        <div
-          slot="tip"
-          class="el-upload__tip mt-10"
-        >
-          只能上传excel文件<span v-if="size">，且不超过{{ size }}kb</span>
-          <el-link
-            v-if="isExport"
-            class="template"
+        <!-- 预留一个插槽 -->
+        <slot></slot>
+        <div class="upload">
+          <el-button
             type="primary"
-            @click="$emit('download')"
+            icon="el-icon-upload"
+          >{{ btnText }}</el-button>
+          <div
+            slot="tip"
+            class="el-upload__tip mt-10"
           >
-            {{ downloadText }}
-          </el-link>
-          <el-link
-            v-else
-            class="template"
-            type="primary"
-            :href="downloadUrl"
-          >{{ downloadText }}</el-link>
+            只能上传excel文件<span v-if="size">，且不超过{{ size }}kb</span>
+            <el-link
+              v-if="isExport"
+              class="template"
+              type="primary"
+              @click="$emit('download')"
+            >
+              {{ downloadText }}
+            </el-link>
+            <el-link
+              v-else
+              class="template"
+              type="primary"
+              :href="downloadUrl"
+            >{{ downloadText }}</el-link>
+          </div>
         </div>
       </el-upload>
     </template>
@@ -57,36 +60,39 @@
         @opened="handleOpen"
       >
         <el-upload
-          class="upload"
           action=""
           :multiple="false"
           :show-file-list="false"
           accept="csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           :http-request="httpRequest"
         >
-          <el-button
-            type="primary"
-            icon="el-icon-upload"
-          >选择文件</el-button>
-          <div
-            slot="tip"
-            class="el-upload__tip mt-10"
-          >
-            只能上传excel文件<span v-if="size">，且不超过{{ size }}kb</span>
-            <el-link
-              v-if="isExport"
-              class="template"
+          <!-- 预留一个插槽 -->
+          <slot></slot>
+          <div class="upload">
+            <el-button
               type="primary"
-              @click="$emit('download')"
+              icon="el-icon-upload"
+            >选择文件</el-button>
+            <div
+              slot="tip"
+              class="el-upload__tip mt-10"
             >
-              {{ downloadText }}
-            </el-link>
-            <el-link
-              v-else
-              class="template"
-              type="primary"
-              :href="downloadUrl"
-            >{{ downloadText }}</el-link>
+              只能上传excel文件<span v-if="size">，且不超过{{ size }}kb</span>
+              <el-link
+                v-if="isExport"
+                class="template"
+                type="primary"
+                @click="$emit('download')"
+              >
+                {{ downloadText }}
+              </el-link>
+              <el-link
+                v-else
+                class="template"
+                type="primary"
+                :href="downloadUrl"
+              >{{ downloadText }}</el-link>
+            </div>
           </div>
         </el-upload>
         <el-button-group>
@@ -725,8 +731,15 @@ export default {
   display: inline-block;
   margin-left: 10px;
 }
+
+::v-deep .el-upload {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+}
 .upload {
   display: flex;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
 }

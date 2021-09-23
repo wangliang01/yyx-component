@@ -5,7 +5,7 @@
       v-bind="$attrs"
       :filterable="remote"
       :remote="remote"
-      placeholder="请输入关键词"
+      :placeholder="$attrs.placeholder === undefined ? '请输入关键词' : $attrs.placeholder"
       :remote-method="remote ? remoteMethod : null"
       :loading="loading"
       v-on="$listeners"

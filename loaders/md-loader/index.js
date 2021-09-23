@@ -47,7 +47,14 @@ module.exports = function(source) {
       commentEnd
     )
 
-    const componentNameId = `demoContainer${uid}`
+    const match = commentContent.match(/\<y-(.*?) /)
+
+    let suffix = 'default'
+
+    if (match) {
+      suffix = match[1] ? match[1].replace('-', '_') : 'default'
+    }
+    const componentNameId = `demoContainer_${suffix}_${uid}`
     // 将文件写入本地
     fs.writeFileSync(resolve(`${cacheDir}/${componentNameId}.vue`), commentContent, 'utf-8')
     // 声明内容插槽传入

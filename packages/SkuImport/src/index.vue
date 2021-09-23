@@ -3,7 +3,9 @@
     v-bind="$attrs"
     :columns="columns"
     v-on="$listeners"
-  ></y-batch-import>
+  >
+    <slot></slot>
+  </y-batch-import>
 </template>
 
 <script>
