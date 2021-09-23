@@ -5,10 +5,11 @@
 </template>
 
 <script>
+import FormMd from '../../../docs/components/form.md'
 export default {
   name: '',
   components: {
-    FormMd: () => import('../../../docs/components/form.md')
+    FormMd
   }
 }
 </script>

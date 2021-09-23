@@ -7,10 +7,11 @@
 </template>
 
 <script>
+import InputNumberMd from '../../../docs/components/input-number.md'
 export default {
   name: '',
   components: {
-    InputNumberMd: () => import('../../../docs/components/input-number.md')
+    InputNumberMd
   }
 }
 </script>

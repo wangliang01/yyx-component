@@ -5,10 +5,11 @@
 </template>
 
 <script>
+import TableMd from '../../../docs/components/table.md'
 export default {
   name: '',
   components: {
-    TableMd: () => import('../../../docs/components/table.md')
+    TableMd
   }
 }
 </script>

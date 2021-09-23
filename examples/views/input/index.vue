@@ -7,10 +7,11 @@
 </template>
 
 <script>
+import InputMd from '../../../docs/components/input.md'
 export default {
   name: 'Input',
   components: {
-    InputMd: () => import('../../../docs/components/input.md')
+    InputMd
   }
 }
 </script>

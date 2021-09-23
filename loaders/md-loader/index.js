@@ -47,12 +47,12 @@ module.exports = function(source) {
       commentEnd
     )
 
-    const match = commentContent.match(/\<y-(.*?) /)
-
+    const match = commentContent.match(/\<y-(.*?)(?:\s|\>)/)
     let suffix = 'default'
 
     if (match) {
       suffix = match[1] ? match[1].replace('-', '_') : 'default'
+      console.log(suffix)
     }
     const componentNameId = `demoContainer_${suffix}_${uid}`
     // 将文件写入本地

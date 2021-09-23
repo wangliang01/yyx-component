@@ -7,10 +7,11 @@
 </template>
 
 <script>
+import UploadMd from '../../../docs/components/upload.md'
 export default {
   name: '',
   components: {
-    UploadMd: () => import('../../../docs/components/upload.md')
+    UploadMd
   },
   props: {
 
