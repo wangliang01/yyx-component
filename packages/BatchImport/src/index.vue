@@ -370,7 +370,6 @@ export default {
                 style={{ width: '95%', display: 'block' }}
                 v-model={this.tableData[index][item.prop]}
                 type='date'
-                {...{ props: item }}
                 size='small'
                 onChange={() => { this.tableData[index][item.prop] = (moment(this.tableData[index][item.prop]).format('YYYY-MM-DD') === 'Invalid date' ? '' : moment(this.tableData[index][item.prop]).format('YYYY-MM-DD')) }}
                 placeholder='选择日期'>
@@ -382,7 +381,6 @@ export default {
                 v-model={this.tableData[index][item.prop]}
                 type='datetime'
                 size='small'
-                {...{ props: item }}
                 onChange={() => { this.tableData[index][item.prop] = moment(this.tableData[index][item.prop]).format('YYYY-MM-DD HH:mm:ss') === 'Invalid date' ? '' : moment(this.tableData[index][item.prop]).format('YYYY-MM-DD HH:mm:ss') }}
                 placeholder='选择日期'>
               </el-date-picker>

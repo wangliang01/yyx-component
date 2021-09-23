@@ -1,13 +1,7 @@
 <template>
   <div class="upload">
-
     <el-card>
-      <h2>文件上传</h2>
-      <y-upload></y-upload>
-    </el-card>
-    <el-card>
-      <h2>头像上传</h2>
-      <y-avatar></y-avatar>
+      <UploadMd class="md"></UploadMd>
     </el-card>
   </div>
 </template>
@@ -16,6 +10,7 @@
 export default {
   name: '',
   components: {
+    UploadMd: () => import('../../../docs/components/upload.md')
   },
   props: {
 
