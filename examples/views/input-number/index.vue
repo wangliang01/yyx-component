@@ -1,7 +1,7 @@
 <template>
   <div class="input-number">
     <el-card>
-      <InputNumberMd></InputNumberMd>
+      <InputNumberMd class="md"></InputNumberMd>
     </el-card>
   </div>
 </template>
