@@ -348,7 +348,7 @@ export default {
         render: (h, { row, index }) => {
           if (this.isEdit) {
             if (item.type === 'input') {
-              return <y-input v-model_trim={this.tableData[index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision}></y-input>
+              return <y-input v-model_trim={this.tableData[index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision} {...{ props: item }}></y-input>
             } else if (item.type === 'select') {
               return <el-select v-model={this.tableData[index][item.prop]} size='small' ref='select' clearable rules={row.rules} >
                 {item.options.map((option) => {
@@ -364,6 +364,7 @@ export default {
                 style={{ width: '95%', display: 'block' }}
                 v-model={this.tableData[index][item.prop]}
                 type='date'
+                {...{ props: item }}
                 size='small'
                 onChange={() => { this.tableData[index][item.prop] = (moment(this.tableData[index][item.prop]).format('YYYY-MM-DD') === 'Invalid date' ? '' : moment(this.tableData[index][item.prop]).format('YYYY-MM-DD')) }}
                 placeholder='选择日期'>
@@ -375,11 +376,12 @@ export default {
                 v-model={this.tableData[index][item.prop]}
                 type='datetime'
                 size='small'
+                {...{ props: item }}
                 onChange={() => { this.tableData[index][item.prop] = moment(this.tableData[index][item.prop]).format('YYYY-MM-DD HH:mm:ss') === 'Invalid date' ? '' : moment(this.tableData[index][item.prop]).format('YYYY-MM-DD HH:mm:ss') }}
                 placeholder='选择日期'>
               </el-date-picker>
             } else if (item.type === 'input-number') {
-              return <YInputNumber v-model_trim={this.tableData[index][item.prop]} min={item.min} max={item.max} size='small' clearable rules={row.rules}></YInputNumber>
+              return <YInputNumber v-model_trim={this.tableData[index][item.prop]} min={item.min} max={item.max} size='small' clearable rules={row.rules} {...{ props: item }}></YInputNumber>
             } else {
               return <span>{this.tableData[index][item.prop]}</span>
             }
