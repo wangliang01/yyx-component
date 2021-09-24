@@ -27,7 +27,7 @@ export default {
       default: '#FFFFFF'
     },
     borderRadius: {
-      type: String,
+      type: [String, Number],
       default: '4'
     },
     width: {

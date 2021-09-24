@@ -1,33 +1,17 @@
 <template>
-  <div id="product-archives-container" class="product-archives-container">
-    <y-table-pro
-      ref="productArchivesTabel"
-      :columns="columns"
-      ui-style="antd"
-      :show-util-bar="true"
-      :load-data-api="pagelist"
-      :params.sync="paramsObj"
-      :span-method="tableType==='skuColumns'?arraySpanMethod:null"
-      :max-height="height"
-      :format="format"
-    >
-      <div slot="table-top-right">
-        <el-button type="primary" @click="addProduct">新建产品</el-button>
-      </div>
-      <div slot="table">
-        <el-radio-group v-model="tableType" size="small" button-style="hollow">
-          <el-radio-button label="spuColumns">SPU列表</el-radio-button>
-          <el-radio-button label="skuColumns">SKU列表</el-radio-button>
-        </el-radio-group>
-      </div>
-    </y-table-pro>
-  </div>
+  <el-card>
+    <TableProMd class="md"></TableProMd>
+  </el-card>
 </template>
 
 <script>
 import api from './api'
+import TableProMd from '../../../docs/components/tablepro.md'
 export default {
   name: 'ProductArchives',
+  components: {
+    TableProMd
+  },
   data() {
     return {
       show: false,
