@@ -2,6 +2,7 @@
   <div :class="{'batch-import': true, 'isStreamline': isStreamline}" v-bind="$attrs" v-on="$listeners">
     <template v-if="isStreamline">
       <el-upload
+        ref="upload"
         action=""
         :multiple="false"
         :show-file-list="false"
@@ -9,11 +10,15 @@
         :http-request="httpRequest"
       >
         <!-- 预留一个插槽 -->
-        <slot></slot>
-        <div class="upload">
+        <div slot="tip" class="tips">
+          <slot></slot>
+        </div>
+        <div slot="tip" class="upload">
           <el-button
+            slot="trigger"
             type="primary"
             icon="el-icon-upload"
+            @click="handleClick"
           >{{ btnText }}</el-button>
           <div
             slot="tip"
@@ -60,6 +65,7 @@
         @opened="handleOpen"
       >
         <el-upload
+          ref="upload"
           action=""
           :multiple="false"
           :show-file-list="false"
@@ -67,11 +73,15 @@
           :http-request="httpRequest"
         >
           <!-- 预留一个插槽 -->
-          <slot></slot>
-          <div class="upload">
+          <div slot="tip" class="tips">
+            <slot></slot>
+          </div>
+          <div slot="tip" class="upload">
             <el-button
+              slot="trigger"
               type="primary"
               icon="el-icon-upload"
+              @click="handleClick"
             >选择文件</el-button>
             <div
               slot="tip"
@@ -720,6 +730,11 @@ export default {
         }
       }
       fileReader.readAsBinaryString(file)
+    },
+    handleClick(e) {
+      e.stopPropagation()
+      // 手动触发，选择文件
+      this.$refs.upload.$refs['upload-inner'].$refs.input.click()
     }
   }
 }
