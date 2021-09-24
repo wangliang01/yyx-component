@@ -139,7 +139,7 @@ export default {
       default: 200
     },
     rowKey: {
-      type: String,
+      type: [String, Function],
       default: 'id'
     },
     lazyLoad: {

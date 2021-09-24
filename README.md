@@ -16,8 +16,9 @@ yarn方式
 yarn add yyx-component
 ```
 ## 组件文档使用链接：
-【腾讯文档】YYX-COMPONENT
-https://docs.qq.com/doc/DWGpVVGxndnlGcmd4
+可通过 `yarn serve`运行，看效果如下图：
+![微信截图]('https://yyx-temp.oss-cn-chengdu.aliyuncs.com/yyx-component-image/yyx-component-1.png')
+![微信截图]('https://yyx-temp.oss-cn-chengdu.aliyuncs.com/yyx-component-image/yyx-component-2.png')
 ## 快速上手
 ### 引入yui
 在main.js中写入以下内容
@@ -45,12 +46,32 @@ new Vue({
   |--表格(YTable)
   |--高级表格(YTablePro)
   |--文件上传(YUpload)
-  |--输入框(YInput)  支持只能输入数字
+  |--Input输入框(YInput)  支持只能输入整数，浮点数，精度
   |--数字输入框(YInputNumber)
   |--级联选择器(Cascader)
     |--品类级联选择器(YCategoryCascader)
     |--地址级联选择器(YAddressCascader)
   |--批量导入(YBatchImport)
+  |--打印(YPrint) 可处理针式打印机
+  |--Tag标签(YTag)
+  |--Dialog弹出框(YDialog)
+  |--Drawer抽屉(YDrawer)
+  |--ImageViewer图片预览(YImageViewer)
+  |--Tips提示(YTips)
+  |--Image图片(YImage)
+  |--ImageList图片列表(YImageList)
+  |--TableDialog表格弹窗(YTableDialog)
+  |--Text文本(YText)
+  |--Card卡片(YCard)
+  |--Block区块(YBlock)
+  |--Tree树(YTree)
+  |--CardForm(卡片表格)
+  |--Container容器(YContainer)
+  |--TableMate 前端分页表格(YTableMate)
+  |--Transfer 选择器(YTransfer)
+  |--Select 选择器(YSelect) 带远程搜索
+  |--AuditForm 审核表单(YAuditForm) 带远程搜索
+  
 
 ```
 
