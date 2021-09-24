@@ -162,11 +162,23 @@
           :reload="reloadData"
           :col-index="1"
         ></y-table>
-
         <span
           slot="footer"
           class="dialog-footer"
         >
+          <el-pagination
+            v-if="multiHeader"
+            :page-size="multipage.size"
+            :pager-count="7"
+            :current-page="multipage.current"
+            layout="total, sizes, prev, pager, next, jumper"
+            :page-sizes="[10, 20]"
+            hide-on-single-page
+            :total="total"
+            @size-change="sizeChange"
+            @current-change="currentChange"
+          >
+          </el-pagination>
           <el-button @click="handleCancel">取 消</el-button>
           <el-button
             type="primary"
@@ -309,6 +321,10 @@ export default {
   },
   data() {
     return {
+      multipage: {
+        size: 10,
+        current: 1
+      },
       dialogVisible: false,
       tableData: [],
       total: 0,
@@ -572,6 +588,13 @@ export default {
         item.index = index
         return item
       })
+      console.log(this.tableData)
+    },
+    sizeChange(size) {
+      this.reloadData({ type: 'size-change', pageSize: size })
+    },
+    currentChange(current) {
+      this.reloadData({ type: 'current-change', currentPage: current })
     },
     // 重新加载
     reloadData({ type, pageSize: size, currentPage }) {
@@ -766,6 +789,10 @@ export default {
   position: relative;
   margin-left: 10px;
   top: -1px;
+}
+.dialog-footer{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
 
