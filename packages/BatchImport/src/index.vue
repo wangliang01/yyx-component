@@ -592,6 +592,7 @@ export default {
     },
     sizeChange(size) {
       this.reloadData({ type: 'size-change', pageSize: size })
+      this.multipage.current = 1
     },
     currentChange(current) {
       this.reloadData({ type: 'current-change', currentPage: current })
