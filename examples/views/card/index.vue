@@ -1,25 +1,15 @@
 <template>
-  <y-card></y-card>
+  <el-card class="form">
+    <CardMd class="md"></CardMd>
+  </el-card>
 </template>
 
 <script>
+import CardMd from '../../../docs/components/card.md'
 export default {
   name: '',
   components: {
-  },
-  props: {
-
-  },
-  data() {
-    return {
-
-    }
-  },
-  mounted() {
-    console.log('mounted')
-  },
-  methods: {
-
+    CardMd
   }
 }
 </script>
