@@ -93,7 +93,7 @@ const routes = [
         path: '/tips',
         name: 'Tips',
         component: () => import('../views/tips'),
-        meta: { title: 'Question问号' }
+        meta: { title: 'Tips提示' }
       },
       {
         path: '/image',

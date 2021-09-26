@@ -1,52 +1,17 @@
 <template>
-  <div class="audit-form">
-    <y-audit-form v-model="form" :config="config" label-width="120px" label-suffix="："></y-audit-form>
+  <div class="form">
+    <el-card>
+      <AuditForm class="md"></AuditForm>
+    </el-card>
   </div>
 </template>
 
 <script>
+import AuditForm from '../../../docs/components/audit-form.md'
 export default {
   name: '',
   components: {
-  },
-  props: {
-
-  },
-  data() {
-    return {
-      form: {},
-      config: {
-        auditResult: {
-          label: '审核结果',
-          prop: 'auditResult',
-          fieldType: 'Radio',
-          options: [
-            {
-              label: '通过',
-              value: '1',
-              cols: 12
-            },
-            {
-              label: '未通过',
-              value: '0',
-              cols: 12
-            }
-          ]
-        },
-        auditComponent: {
-          label: '审核结果',
-          prop: 'auditComponent',
-          fieldType: 'Input',
-          type: 'textarea'
-        }
-      }
-    }
-  },
-  mounted() {
-
-  },
-  methods: {
-
+    AuditForm
   }
 }
 </script>

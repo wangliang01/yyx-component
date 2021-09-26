@@ -27,7 +27,7 @@ export default {
           prop: 'name',
           type: 'input',
           required: true,
-          maxLength: '32'
+          maxLength: '64'
         },
         {
           label: '品牌',

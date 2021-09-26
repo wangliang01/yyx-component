@@ -2,6 +2,7 @@
   <div :class="{'batch-import': true, 'isStreamline': isStreamline}" v-bind="$attrs" v-on="$listeners">
     <template v-if="isStreamline">
       <el-upload
+        ref="upload"
         action=""
         :multiple="false"
         :show-file-list="false"
@@ -9,11 +10,15 @@
         :http-request="httpRequest"
       >
         <!-- 预留一个插槽 -->
-        <slot></slot>
-        <div class="upload">
+        <div slot="tip" class="tips">
+          <slot></slot>
+        </div>
+        <div slot="tip" class="upload">
           <el-button
+            slot="trigger"
             type="primary"
             icon="el-icon-upload"
+            @click="handleClick"
           >{{ btnText }}</el-button>
           <div
             slot="tip"
@@ -60,6 +65,7 @@
         @opened="handleOpen"
       >
         <el-upload
+          ref="upload"
           action=""
           :multiple="false"
           :show-file-list="false"
@@ -67,11 +73,15 @@
           :http-request="httpRequest"
         >
           <!-- 预留一个插槽 -->
-          <slot></slot>
-          <div class="upload">
+          <div slot="tip" class="tips">
+            <slot></slot>
+          </div>
+          <div slot="tip" class="upload">
             <el-button
+              slot="trigger"
               type="primary"
               icon="el-icon-upload"
+              @click="handleClick"
             >选择文件</el-button>
             <div
               slot="tip"
@@ -152,11 +162,23 @@
           :reload="reloadData"
           :col-index="1"
         ></y-table>
-
         <span
           slot="footer"
           class="dialog-footer"
         >
+          <el-pagination
+            v-if="multiHeader"
+            :page-size.sync="multipage.size"
+            :pager-count="7"
+            :current-page.sync="multipage.current"
+            layout="total, sizes, prev, pager, next, jumper"
+            :page-sizes="[10, 20]"
+            hide-on-single-page
+            :total="total"
+            @size-change="sizeChange"
+            @current-change="currentChange"
+          >
+          </el-pagination>
           <el-button @click="handleCancel">取 消</el-button>
           <el-button
             type="primary"
@@ -299,6 +321,10 @@ export default {
   },
   data() {
     return {
+      multipage: {
+        size: 10,
+        current: 1
+      },
       dialogVisible: false,
       tableData: [],
       total: 0,
@@ -562,6 +588,14 @@ export default {
         item.index = index
         return item
       })
+      console.log(this.tableData)
+    },
+    sizeChange(size) {
+      this.reloadData({ type: 'size-change', pageSize: size })
+      this.multipage.current = 1
+    },
+    currentChange(current) {
+      this.reloadData({ type: 'current-change', currentPage: current })
     },
     // 重新加载
     reloadData({ type, pageSize: size, currentPage }) {
@@ -720,6 +754,11 @@ export default {
         }
       }
       fileReader.readAsBinaryString(file)
+    },
+    handleClick(e) {
+      e.stopPropagation()
+      // 手动触发，选择文件
+      this.$refs.upload.$refs['upload-inner'].$refs.input.click()
     }
   }
 }
@@ -751,6 +790,10 @@ export default {
   position: relative;
   margin-left: 10px;
   top: -1px;
+}
+.dialog-footer{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
 
