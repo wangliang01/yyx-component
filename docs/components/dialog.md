@@ -1,12 +1,12 @@
-# Dialog 弹出框
+## Dialog 弹出框
 
 在保留当前页面状态的情况下，告知用户并承载相关操作。
 
-## 基本用法
+### 基本用法
 
 Dialog 弹出一个对话框，适合需要定制性更大的场景。
 
-::: demo 需要设置`visible`属性，它接收`Boolean`，当为`true`时显示 Dialog。Dialog 分为两个部分：`body`和`footer`，`footer`需要具名为`footer`的`slot`。`title`属性用于定义标题，它是可选的，默认值为空。最后，本例还展示了`before-close`的用法。
+::: demo 
 
 ```html
 <template>
@@ -56,7 +56,7 @@ Dialog 弹出一个对话框，适合需要定制性更大的场景。
 `before-close` 仅当用户通过点击关闭图标或遮罩关闭 Dialog 时起效。如果你在 `footer` 具名 `slot` 里添加了用于关闭 Dialog 的按钮，那么可以在按钮的点击回调函数里加入 `before-close` 的相关逻辑。
 :::
 
-## 自定义内容
+### 自定义内容
 
 Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下面是应用了 Element Table 和 Form 组件的两个样例。
 
@@ -160,7 +160,7 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
 
 :::
 
-## 嵌套的 Dialog
+### 嵌套的 Dialog
 
 如果需要在一个 Dialog 内部嵌套另一个 Dialog，需要使用 append-to-body 属性。
 
@@ -168,6 +168,7 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
 
 ```html
 <template>
+  <div>
   <el-button type="text" @click="outerVisible = true"
     >点击打开外层 Dialog</el-button
   >
@@ -187,6 +188,7 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
       >
     </div>
   </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -204,7 +206,7 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
 
 :::
 
-## 居中布局
+### 居中布局
 
 标题和底部可水平居中
 
@@ -256,7 +258,7 @@ Dialog 的内容是懒渲染的，即在第一次被打开之前，传入的默�
 如果 `visible`属性绑定的变量位于 Vuex 的 store 内，那么 `.sync` 不会正常工作。此时需要去除 `.sync` 修饰符，同时监听 Dialog 的 `open` 和 `close` 事件，在事件回调中执行 Vuex 中对应的 mutation 更新 `visible` 属性绑定的变量的值。
 :::
 
-## Dialog Attributes
+### Dialog Attributes
 
 | 参数                  | 说明                                                                         | 类型                                 | 可选值 | 默认值 |
 | --------------------- | ---------------------------------------------------------------------------- | ------------------------------------ | ------ | ------ |
@@ -277,7 +279,7 @@ Dialog 的内容是懒渲染的，即在第一次被打开之前，传入的默�
 | center                | 是否对头部和底部采用居中布局                                                 | boolean                              | -      | false  |
 | destroy-on-close      | 关闭时销毁 Dialog 中的元素                                                   | boolean                              | -      | false  |
 
-## Slot
+### Slot
 
 | 名称   | 说明                    |
 | ------ | ----------------------- |
@@ -285,7 +287,7 @@ Dialog 的内容是懒渲染的，即在第一次被打开之前，传入的默�
 | title  | Dialog 标题区的内容     |
 | footer | Dialog 按钮操作区的内容 |
 
-## Events
+### Events
 
 | 事件名称 | 说明                        | 回调参数 |
 | -------- | --------------------------- | -------- |

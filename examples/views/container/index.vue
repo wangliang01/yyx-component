@@ -1,42 +1,15 @@
 <template>
-  <div class="container">
-    <y-container></y-container>
-    <y-container></y-container>
-    <y-container></y-container>
-    <y-container></y-container>
-  </div>
+  <el-card>
+    <ContainerMd class="md"></ContainerMd>
+  </el-card>
 </template>
 
 <script>
+import ContainerMd from '../../../docs/components/container.md'
 export default {
-  name: '',
   components: {
-  },
-  props: {
-
-  },
-  data() {
-    return {
-
-    }
-  },
-  mounted() {
-
-  },
-  methods: {
-
+    ContainerMd
   }
 }
 </script>
 
-<style lang="scss" scoped>
-.container {
-  display: flex;
-  &>div{
-    margin-right: 20px;
-    &:last-child{
-      margin-right: 0;
-    }
-  }
-}
-</style>

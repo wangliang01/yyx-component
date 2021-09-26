@@ -24,6 +24,7 @@
       <!-- sku导入 -->
       <h2>sku导入</h2>
       <y-sku-import download-url="https://yyx-mall.oss-cn-chengdu.aliyuncs.com/template/商品导入.xlsx">
+        1231313
       </y-sku-import>
     </el-card>
   </div>
