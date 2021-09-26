@@ -1,5 +1,5 @@
 <template>
-  <div ref="tablePro" class="table-pro">
+  <div ref="tablePro" v-loading="loading" class="table-pro">
     <!-- Element风格搜索框 -->
     <div v-if="uiStyle=== 'element'" ref="tableFilter" :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
       <y-form
@@ -59,7 +59,6 @@
         <y-table
           :key="key"
           ref="table"
-          v-loading="loading"
           :data="tableData"
           :columns.sync="currentColumns"
           :pagination="$attrs.pagination === undefined ? true : $attrs.pagination"
