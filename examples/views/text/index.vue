@@ -1,18 +1,17 @@
 <template>
-  <div>
-    <y-text style="width: 200px;" content="启用" type="success" dot></y-text>
-    <y-text style="width: 200px;" content="运行状态" type="primary" dot></y-text>
-    <y-text style="width: 200px;" content="禁用" type="error" dot></y-text>
-    <y-text style="width: 200px;" content="异常状态" type="warning" dot></y-text>
-    <y-text style="width: 200px;" content="未开始" type="info" dot></y-text>
-    <y-text style="width: 200px;" type="info" dot>113</y-text>
+  <div class="text">
+    <el-card>
+      <TextMd class="md"></TextMd>
+    </el-card>
   </div>
 </template>
 
 <script>
+import TextMd from '../../../docs/components/text.md'
 export default {
-  name: '',
+  name: 'Text',
   components: {
+    TextMd
   },
   props: {
 
