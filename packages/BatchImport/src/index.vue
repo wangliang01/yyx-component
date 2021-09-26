@@ -168,9 +168,9 @@
         >
           <el-pagination
             v-if="multiHeader"
-            :page-size="multipage.size"
+            :page-size.sync="multipage.size"
             :pager-count="7"
-            :current-page="multipage.current"
+            :current-page.sync="multipage.current"
             layout="total, sizes, prev, pager, next, jumper"
             :page-sizes="[10, 20]"
             hide-on-single-page
