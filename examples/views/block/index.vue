@@ -1,31 +1,15 @@
 <template>
-  <y-block>
-    <template slot="block-header-right">
-      <y-button>删除</y-button>
-      <y-button>新增</y-button>
-    </template>
-    属性值名称
-  </y-block>
+  <el-card class="form">
+    <BlockMd class="md"></BlockMd>
+  </el-card>
 </template>
 
 <script>
+import BlockMd from '../../../docs/components/block.md'
 export default {
   name: '',
   components: {
-  },
-  props: {
-
-  },
-  data() {
-    return {
-
-    }
-  },
-  mounted() {
-
-  },
-  methods: {
-
+    BlockMd
   }
 }
 </script>

@@ -1,11 +1,17 @@
 <template>
-  <y-image></y-image>
+  <div>
+    <el-card>
+      <ImageMd></ImageMd>
+    </el-card>
+  </div>
 </template>
 
 <script>
+import ImageMd from '../../../docs/components/image.md'
 export default {
   name: '',
   components: {
+    ImageMd
   },
   props: {
 

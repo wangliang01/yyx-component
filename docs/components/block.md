@@ -2,7 +2,7 @@
 
 ## 基本用法
 
-:tada: :100: 用来布局一些常见的样式。
+用来布局一些常见的样式。
 
 ::: demo
 
@@ -13,15 +13,16 @@
   </div>
 </template>
 <script>
-  export default {}
+  export default {
+    name:''
+  }
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+</style>
 ```
 
 :::
-
-<style lang="">
-</style>
 
 ## Block Attributes
 
@@ -32,7 +33,7 @@
 ## Block Slot
 
 | 名称               | 说明                   |
-| ------------------ | ---------------------- |
-| ——                 | 自定义区块内容         |
-| block-header-right | 自定义区块顶部右侧内容 |
-| block-footer       | 自定义区块底部内容     |
+| ------------------ | ----------------------|
+| ——                  | 自定义区块内容         |
+| block-header-right | 自定义区块顶部右侧内容  |
+| block-footer       | 自定义区块底部内容      |
