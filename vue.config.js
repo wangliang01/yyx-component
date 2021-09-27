@@ -6,6 +6,7 @@ function resolve(dir) {
 }
 
 module.exports = {
+  publicPath: './',
   chainWebpack: config => {
     // 使用自定义loader
     config.module
@@ -52,11 +53,11 @@ module.exports = {
     output: {
       libraryExport: 'default'
     },
-    externals: process.env.NODE_ENV === 'development' ? {
+    externals: {
       'vue': 'Vue',
       'vue-router': 'VueRouter',
       'element-ui': 'ELEMENT'
-    } : {},
+    },
     plugins: [
       // 开启gzip压缩
       new CompressionWebpackPlugin(

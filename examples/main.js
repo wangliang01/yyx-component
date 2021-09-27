@@ -9,30 +9,28 @@ import DemoBlock from './components/DemoBlock.vue'
 import VueHighlightJS from 'vue-highlightjs'
 import 'highlight.js/styles/vs2015.css' // or other highlight.js theme
 // Tell Vue.js to use vue-highlightjs
+import ElementUI from 'element-ui'
 Vue.use(VueHighlightJS)
-if (process.env.NODE_ENV === 'development') {
-  Vue.config.devtools = true
-  require('./styles/common.scss')
-  const ELEMENT = require('element-ui')
+Vue.config.devtools = true
+require('./styles/common.scss')
 
-  // 导入组件库
-  const yui = require('../packages')
+// 导入组件库
+const yui = require('../packages')
 
-  // 注册组件库
-  Vue.use(ELEMENT)
+// 注册组件库
+Vue.use(ElementUI)
 
-  Vue.use(yui)
-  Vue.config.productionTip = false
-  const routes = require('./router')
-  const VueRouter = require('vue-router')
-  Vue.use(VueRouter)
-  const router = new VueRouter({
-    routes
-  })
-  Vue.component('demo-block', DemoBlock)
-  new Vue({
-    router,
-    render: h => h(App)
-  }).$mount('#app')
-}
+Vue.use(yui)
+Vue.config.productionTip = false
+const routes = require('./router')
+const VueRouter = require('vue-router')
+Vue.use(VueRouter)
+const router = new VueRouter({
+  routes
+})
+Vue.component('demo-block', DemoBlock)
+new Vue({
+  router,
+  render: h => h(App)
+}).$mount('#app')
 
