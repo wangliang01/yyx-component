@@ -11,9 +11,9 @@ Dialog 弹出一个对话框，适合需要定制性更大的场景。
 ```html
 <template>
   <div>
-    <y-button type="text" @click="dialogVisible = true"
-      >点击打开 Dialog</y-button
-    >
+    <y-button type="text" @click="dialogVisible = true">
+      点击打开 Dialog
+    </y-button>
 
     <y-dialog
       title="提示"
@@ -66,48 +66,32 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
 <template>
   <div>
     <!-- Table -->
-    <y-button type="text" @click="dialogTableVisible = true"
-      >打开嵌套表格的 Dialog</y-button
-    >
+    <y-button type="text" @click="dialogTableVisible = true">
+      打开嵌套表格的 Dialog
+    </y-button>
 
     <y-dialog title="收货地址" :visible.sync="dialogTableVisible">
-      <el-table :data="gridData">
-        <el-table-column
-          property="date"
-          label="日期"
-          width="150"
-        ></el-table-column>
-        <el-table-column
-          property="name"
-          label="姓名"
-          width="200"
-        ></el-table-column>
-        <el-table-column property="address" label="地址"></el-table-column>
-      </el-table>
+      <y-table
+        :data="gridData"
+        :columns="gridColumns"
+      ></y-table>
     </y-dialog>
 
     <!-- Form -->
-    <y-button type="text" @click="dialogFormVisible = true"
-      >打开嵌套表单的 Dialog</y-button
-    >
-
+    <y-button type="text" @click="dialogFormVisible = true">
+      打开嵌套表单的 Dialog
+    </y-button>
     <y-dialog title="收货地址" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="活动名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="活动区域" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
+      <y-form
+        v-model="gridForm"
+        :config="gridConfig"
+        label-position="left"
+        width="500px"
+        label-width="100px"
+      ></y-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
       </div>
     </y-dialog>
   </div>
@@ -138,17 +122,46 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
             address: '上海市普陀区金沙江路 1518 弄'
           }
         ],
+        gridColumns: [
+          {
+            label: '日期',
+            prop: 'date'
+          },
+          {
+            label: '姓名',
+            prop: 'name'
+          },
+          {
+            label: '地址',
+            prop: 'address'
+          }
+        ],
         dialogTableVisible: false,
         dialogFormVisible: false,
-        form: {
+        gridForm: {
           name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+          region: ''
+        },
+        gridConfig: {
+          name: {
+            label: '活动名称',
+            prop: 'name',
+            fieldType: 'Input'
+          },
+          region: {
+            label: '活动区域',
+            prop: 'region',
+            fieldType: 'Select',
+            options: [
+              {
+                label: '区域一',
+                value: 'shanghai'
+              }, {
+                label: '区域二',
+                value: 'beijing'
+              }
+            ]
+          }
         },
         formLabelWidth: '120px'
       }
@@ -169,25 +182,26 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
 ```html
 <template>
   <div>
-  <el-button type="text" @click="outerVisible = true"
-    >点击打开外层 Dialog</el-button
-  >
+  <y-button type="text" @click="outerVisible = true">
+    点击打开外层 Dialog
+  </y-button>
 
-  <el-dialog title="外层 Dialog" :visible.sync="outerVisible">
-    <el-dialog
-      width="30%"
+  <y-dialog
+    title="外层 Dialog"
+    :visible.sync="outerVisible"
+  >
+    <y-dialog
       title="内层 Dialog"
       :visible.sync="innerVisible"
+      width="30%"
       append-to-body
     >
-    </el-dialog>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="outerVisible = false">取 消</el-button>
-      <el-button type="primary" @click="innerVisible = true"
-        >打开内层 Dialog</el-button
-      >
-    </div>
-  </el-dialog>
+    </y-dialog>
+    <span slot="footer" class="dialog-footer">
+      <y-button @click="outerVisible = false">取 消</y-button>
+      <y-button type="primary" @click="innerVisible = true">打开内层 Dialog</y-button>
+    </span>
+  </y-dialog>
   </div>
 </template>
 
@@ -215,11 +229,11 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
 ```html
 <template>
   <div>
-    <el-button type="text" @click="centerDialogVisible = true"
-      >点击打开 Dialog</el-button
-    >
+    <y-button type="text" @click="centerDialogVisible = true">
+      点击打开 Dialog
+    </y-button>
 
-    <el-dialog
+    <y-dialog
       title="提示"
       :visible.sync="centerDialogVisible"
       width="30%"
@@ -227,12 +241,12 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
     >
       <span>需要注意的是内容是默认不居中的</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false"
-          >确 定</el-button
+        <y-button @click="centerDialogVisible = false">取 消</y-button>
+        <y-button type="primary" @click="centerDialogVisible = false"
+          >确 定</y-button
         >
       </span>
-    </el-dialog>
+    </y-dialog>
   </div>
 </template>
 
@@ -292,6 +306,6 @@ Dialog 的内容是懒渲染的，即在第一次被打开之前，传入的默�
 | 事件名称 | 说明                        | 回调参数 |
 | -------- | --------------------------- | -------- |
 | open     | Dialog 打开的回调           | -        |
-| opened   | Diglog 打开动画结束时的回调 |
-| close    | Diglog 关闭的回调           |
-| closed   | Dialog 关闭动画结束时的回调 |
+| opened   | Dialog 打开动画结束时的回调 | -
+| close    | Dialog 关闭的回调           | -
+| closed   | Dialog 关闭动画结束时的回调 | -

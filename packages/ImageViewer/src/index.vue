@@ -1,5 +1,5 @@
 <template>
-  <ImageViewer v-show="visible" v-bind="$attrs" :on-close="haneleHide" :url-list="urlList" v-on="$listeners"></ImageViewer>
+  <ImageViewer v-show="visible" v-bind="$attrs" :on-close="handleHide" :url-list="urlList" v-on="$listeners"></ImageViewer>
 </template>
 
 <script>
@@ -20,7 +20,7 @@ export default {
     }
   },
   methods: {
-    haneleHide() {
+    handleHide() {
       this.$emit('update:visible', false)
     }
   }

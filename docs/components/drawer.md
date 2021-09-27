@@ -1,8 +1,8 @@
-# Drawer 抽屉
+## Drawer 抽屉
 
 有些时候, `Dialog` 组件并不满足我们的需求, 比如你的表单很长, 亦或是你需要临时展示一些文档, `Drawer` 拥有和 `Dialog` 几乎相同的 API, 在 UI 上带来不一样的体验.
 
-## 基本用法
+### 基本用法
 
 呼出一个临时的侧边栏, 可以从多个方向呼出
 
@@ -18,9 +18,9 @@
       <el-radio label="btt">从下往上开</el-radio>
     </el-radio-group>
 
-    <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
+    <y-button @click="drawer = true" type="primary" style="margin-left: 16px;">
       点我打开
-    </el-button>
+    </y-button>
 
     <y-drawer
       title="我是标题"
@@ -31,33 +31,32 @@
       <span>我来啦!</span>
     </y-drawer>
   </div>
-  <template>
-    <script>
-      export default {
-        data() {
-          return {
-            drawer: false,
-            direction: 'rtl'
-          }
-        },
-        methods: {
-          handleClose(done) {
-            this.$confirm('确认关闭？')
-              .then((_) => {
-                done()
-              })
-              .catch((_) => {})
-          }
-        }
+</template>
+<script>
+  export default {
+    data() {
+      return {
+        drawer: false,
+        direction: 'rtl'
       }
-    </script>
-    <style></style></template
-></template>
+    },
+    methods: {
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then((_) => {
+            done()
+          })
+          .catch((_) => {})
+      }
+    }
+  }
+</script>
+<style></style>
 ```
 
 :::
 
-## 不添加 Title
+### 不添加 Title
 
 当你不需要标题到时候, 你还可以去掉标题
 
@@ -66,9 +65,9 @@
 ```html
 <template>
   <div>
-    <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
+    <y-button @click="drawer = true" type="primary" style="margin-left: 16px;">
       点我打开
-    </el-button>
+    </y-button>
 
     <y-drawer title="我是标题" :visible.sync="drawer" :with-header="false">
       <span>我来啦!</span>
@@ -89,7 +88,7 @@
 
 :::
 
-## 自定义内容
+### 自定义内容
 
 和 Dialog 组件一样, Drawer 同样可以在其内部嵌套各种丰富的操作
 ::: demo
@@ -97,31 +96,22 @@
 ```html
 <template>
   <div>
-    <el-button type="text" @click="table = true"
-      >打开嵌套表格的 Drawer</el-button
-    >
-    <el-button type="text" @click="dialog = true"
-      >打开嵌套 Form 的 Drawer</el-button
-    >
+    <y-button type="text" @click="table = true"
+    >打开嵌套表格的 Drawer
+    </y-button>
+    <el-button type="text" @click="dialog = true">
+      打开嵌套 Form 的 Drawer
+    </el-button>
     <y-drawer
       title="我嵌套了表格!"
       :visible.sync="table"
       direction="rtl"
       size="50%"
     >
-      <el-table :data="gridData">
-        <el-table-column
-          property="date"
-          label="日期"
-          width="150"
-        ></el-table-column>
-        <el-table-column
-          property="name"
-          label="姓名"
-          width="200"
-        ></el-table-column>
-        <el-table-column property="address" label="地址"></el-table-column>
-      </el-table>
+      <y-table
+        :data="gridData"
+        :columns="gridColumns"
+      ></y-table>
     </y-drawer>
 
     <y-drawer
@@ -186,6 +176,20 @@
             address: '上海市普陀区金沙江路 1518 弄'
           }
         ],
+        gridColumns: [
+          {
+            label: '日期',
+            prop: 'date'
+          },
+          {
+            label: '姓名',
+            prop: 'name'
+          },
+          {
+            label: '地址',
+            prop: 'address'
+          }
+        ],
         form: {
           name: '',
           region: '',
@@ -231,7 +235,7 @@
 
 :::
 
-## 多层嵌套
+### 多层嵌套
 
 Drawer 组件也拥有多层嵌套的方法
 
@@ -240,23 +244,29 @@ Drawer 组件也拥有多层嵌套的方法
 ```html
 <template>
   <div>
-    <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
+    <y-button @click="drawer = true" type="primary" style="margin-left: 16px;">
       点我打开
-    </el-button>
+    </y-button>
 
-    <el-drawer title="我是外面的 Drawer" :visible.sync="drawer" size="50%">
+    <y-drawer
+      title="我是外面的 Drawer"
+      :visible.sync="drawer"
+      direction="rtl"
+      size="50%"
+    >
       <div>
-        <el-button @click="innerDrawer = true">打开里面的!</el-button>
-        <el-drawer
-          title="我是里面的"
-          :append-to-body="true"
-          :before-close="handleClose"
+        <y-button @click="innerDrawer = true">打开里面的</y-button>
+        <y-drawer
+          title="我是里面的 Drawer"
           :visible.sync="innerDrawer"
+          direction="rtl"
+          size="50%"
         >
           <p>_(:зゝ∠)_</p>
-        </el-drawer>
+        </y-drawer>
       </div>
-    </el-drawer>
+      
+    </y-drawer>
   </div>
 </template>
 <script>
@@ -295,7 +305,7 @@ Drawer 提供一个 destroyOnClose API, 用来在关闭 Drawer 时销毁子组�
 如果 visible 属性绑定的变量位于 Vuex 的 store 内，那么 .sync 不会正常工作。此时需要去除 .sync 修饰符，同时监听 Drawer 的 open 和 close 事件，在事件回调中执行 Vuex 中对应的 mutation 更新 visible 属性绑定的变量的值。
 :::
 
-## Drawer Attributes
+### Drawer Attributes
 
 | 参数                  | 说明                                                                                                                 | 类型                                 | 可选值                | 默认值 |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | --------------------- | ------ |
@@ -314,3 +324,25 @@ Drawer 提供一个 destroyOnClose API, 用来在关闭 Drawer 时销毁子组�
 | wrapperClosable       | 点击遮罩层是否可以关闭 Drawer                                                                                        | boolean                              | -                     | true   |
 | withHeader            | 控制是否显示 header 栏, 默认为 true, 当此项为 false 时, title attribute 和 title slot 均不生效                       | boolean                              | -                     | true   |
 | withFooter            | 控制是否显示 footer 栏, 默认为 true, 当此项为 false 时, title attribute 和 title slot 均不生效                       | boolean                              | -                     | true   |
+
+### Drawer Slots
+
+| name                  | 说明                                                                                                                 
+| --------------------- | --------------------------------------------------------------------------------------------------------------------
+| —                     | Drawer 的内容                                        
+| title                 | Drawer 标题区的内容                                                                                 
+
+### Drawer Methods
+
+| name                  | 说明                                                                                                                 
+| --------------------- | --------------------------------------------------------------------------------------------------------------------
+| closeDrawer           | 用于关闭 Drawer, 该方法会调用传入的 before-close 方法                                                                       
+
+### Drawer Events
+
+| name                  | 说明                                                                           | 回调参数                                   
+| --------------------- | ------------------------------------------------------------------------------ | -----------------------------------
+| open                  | Drawer 打开的回调                                                               | —                
+| opened                | Drawer 打开动画结束时的回调                                                      | —                         
+| close                 | Drawer 关闭的回调                                                               | —                
+| closed                | Drawer 关闭动画结束时的回调                                                      | —                         

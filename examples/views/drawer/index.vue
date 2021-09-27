@@ -1,29 +1,16 @@
 <template>
   <div>
-    <el-radio-group v-model="direction">
-      <el-radio label="ltr">从左往右开</el-radio>
-      <el-radio label="rtl">从右往左开</el-radio>
-      <el-radio label="ttb">从上往下开</el-radio>
-      <el-radio label="btt">从下往上开</el-radio>
-    </el-radio-group>
-
-    <el-button type="primary" style="margin-left: 16px;" @click="drawer = true">
-      点我打开
-    </el-button>
-
-    <y-drawer
-      title="我是标题"
-      :visible.sync="drawer"
-      :direction="direction"
-      :before-close="handleClose"
-    >
-      <span>我来啦!</span>
-    </y-drawer>
-
+    <el-card>
+      <DrawerMd></DrawerMd>
+    </el-card>
   </div>
 </template>
 <script>
+import DrawerMd from '../../../docs/components/drawer.md'
 export default {
+  components: {
+    DrawerMd
+  },
   data() {
     return {
       drawer: false,

@@ -1,13 +1,15 @@
 <template>
-  <div>
-    <y-image-viewer :url-list="urlList" :visible.sync="visible"></y-image-viewer>
-  </div>
+  <el-card>
+    <ImageViewer></ImageViewer>
+  </el-card>
 </template>
 
 <script>
+import ImageViewer from '../../../docs/components/image-viewer.md'
 export default {
   name: '',
   components: {
+    ImageViewer
   },
   data() {
     return {

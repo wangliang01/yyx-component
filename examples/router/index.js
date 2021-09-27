@@ -178,6 +178,12 @@ const routes = [
         name: 'AuditForm',
         component: () => import('../views/audit-form'),
         meta: { title: 'AuditForm 审核表单' }
+      },
+      {
+        path: '/icon',
+        name: 'Icon',
+        component: () => import('../views/icon'),
+        meta: { title: 'Icon 图标' }
       }
     ]
   }
