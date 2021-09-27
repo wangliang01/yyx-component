@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <DrawerMd></DrawerMd>
+      <DrawerMd class="md"></DrawerMd>
     </el-card>
   </div>
 </template>

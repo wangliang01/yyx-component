@@ -1,15 +1,15 @@
 <template>
   <el-card>
-    <ImageViewer></ImageViewer>
+    <ImageViewerMd class="md"></ImageViewerMd>
   </el-card>
 </template>
 
 <script>
-import ImageViewer from '../../../docs/components/image-viewer.md'
+import ImageViewerMd from '../../../docs/components/image-viewer.md'
 export default {
   name: '',
   components: {
-    ImageViewer
+    ImageViewerMd
   },
   data() {
     return {

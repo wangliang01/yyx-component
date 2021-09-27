@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <ImageMd></ImageMd>
+      <ImageMd class="md"></ImageMd>
     </el-card>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <DialogMd></DialogMd>
+      <DialogMd class="md"></DialogMd>
     </el-card>
   </div>
 </template>

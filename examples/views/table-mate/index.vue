@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <TableMate></TableMate>
+      <TableMate class="md"></TableMate>
     </el-card>
   </div>
 </template>

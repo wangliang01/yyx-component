@@ -1,6 +1,6 @@
 <template>
   <el-card>
-    <Icon></Icon>
+    <Icon class="md"></Icon>
   </el-card>
 </template>
 

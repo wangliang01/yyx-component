@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <ImageListMd></ImageListMd>
+      <ImageListMd class="md"></ImageListMd>
     </el-card>
   </div>
 </template>

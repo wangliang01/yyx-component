@@ -1,7 +1,7 @@
 <template>
   <div class="batch-import">
     <el-card>
-      <BatchImportMd></BatchImportMd>
+      <BatchImportMd class="md"></BatchImportMd>
     </el-card>
   </div>
 </template>

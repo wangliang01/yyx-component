@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <Select></Select>
+      <Select class="md"></Select>
     </el-card>
   </div>
 </template>

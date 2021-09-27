@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <Transfer></Transfer>
+      <Transfer class="md"></Transfer>
     </el-card>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <el-card>
-    <Tips></Tips>
+    <Tips class="md"></Tips>
   </el-card>
 </template>
 
