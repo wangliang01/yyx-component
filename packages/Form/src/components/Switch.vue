@@ -23,7 +23,7 @@ export default {
   name: 'YSwitch',
   props: {
     value: {
-      type: [String, Boolean],
+      type: [String, Boolean, Number],
       default: ''
     }
   },
