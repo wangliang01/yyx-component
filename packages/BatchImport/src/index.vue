@@ -735,6 +735,7 @@ export default {
             this.dbData = this.formatDbData(exl)
           }
 
+          this.$emit('loadData', this.dbData)
           if (this.isStreamline) {
             this.$emit('upload', cloneDeep(this.dbData))
           } else {
