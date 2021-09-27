@@ -47,7 +47,7 @@ module.exports = function(source) {
       commentEnd
     )
 
-    const match = commentContent.match(/\<y-(.*?)(?:\s|\>)/)
+    const match = commentContent.match(/\<y-(.*?)(?:[\s\t\n\r]+|>)/)
     let suffix = 'default'
 
     if (match) {

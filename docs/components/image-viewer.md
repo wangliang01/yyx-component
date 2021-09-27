@@ -12,11 +12,8 @@
 ```html
 <template>
   <div>
+    <y-image-viewer :visible.sync="visible" :url-list="urlList"></y-image-viewer>
     <y-button type="text" @click="visible=true">查看</y-button>
-    <y-image-viewer
-      :visible.sync="visible"
-      :url-list="urlList"
-    ></y-image-viewer>
   </div>
 </template>
 <script>
