@@ -16,9 +16,7 @@ yarn方式
 yarn add yyx-component
 ```
 ## 组件文档使用链接：
-可通过 `yarn serve`运行，看效果如下图：
-![微信截图]('blob:https://newhope1982.feishu.cn/fc926403-b087-4147-802a-a12fc68cd647')
-![微信截图]('blob:https://newhope1982.feishu.cn/6657ee1f-0979-40e4-910e-05c0ee502afb')
+[组件库文档](https://dev-k8s.newhopescm.com/yyx-component/#/form)
 ## 快速上手
 ### 引入yui
 在main.js中写入以下内容
