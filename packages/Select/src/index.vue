@@ -9,6 +9,7 @@
       :remote-method="remote ? remoteMethod : null"
       :loading="loading"
       v-on="$listeners"
+      @visible-change="handleVisibleChange"
     >
       <el-option
         v-for="item in options"
@@ -128,6 +129,11 @@ export default {
       } else {
         this.options = this.list
       }
+    },
+    // 拦截visible-change 事件处理 下拉值
+    handleVisibleChange(visible) {
+      this.$emit('visible-change', visible)
+      if (visible) this.options = this.list
     }
   }
 }
