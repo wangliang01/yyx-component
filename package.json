@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -8,7 +8,7 @@
     "build:es": "node build/build-component.js",
     "docs:build": "vuepress build docs",
     "docs:dev": "npm run lib && vuepress dev docs",
-    "lib": "vue-cli-service build --target lib --name yui --dest lib packages/index.js",
+    "lib": "cross-env VUE_APP_ENV=lib vue-cli-service build --target lib --name yui --dest lib packages/index.js",
     "lint:fix": "eslint --ext .js,.vue packages examples --fix",
     "precommit": "lint-staged"
   },
@@ -42,6 +42,7 @@
     "babel-plugin-component": "^1.1.1",
     "cachedir": "^2.3.0",
     "compression-webpack-plugin": "5.0.1",
+    "cross-env": "^7.0.3",
     "element-theme-chalk": "^2.15.3",
     "element-themex": "^1.0.3",
     "eslint": "^6.7.2",

@@ -5,6 +5,10 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
+const isLib = process.env.VUE_APP_ENV === 'lib'
+
+console.log('库模式', isLib)
+
 module.exports = {
   publicPath: './',
   chainWebpack: config => {
@@ -53,7 +57,10 @@ module.exports = {
     output: {
       libraryExport: 'default'
     },
-    externals: {
+    externals: isLib ? {
+      'vue-router': 'VueRouter',
+      'element-ui': 'ELEMENT'
+    } : {
       'vue': 'Vue',
       'vue-router': 'VueRouter',
       'element-ui': 'ELEMENT'
