@@ -77,7 +77,7 @@ const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Frida
 const oneDay = 86400000
 
 export default {
-  name: 'YlCalendar',
+  name: 'YCalendar',
 
   components: {
     DateTable,
