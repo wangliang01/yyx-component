@@ -38,12 +38,13 @@ import AuditForm from './AuditForm'
 import Select from './Select'
 import Loading from 'element-ui/packages/loading'
 import TableAir from './TableAir'
+import Calendar from './Calendar'
 
 const { YCategoryCascader, YAddressCascader, YCascader } = Cascader
 const { YUpload, YAvatar } = Upload
 
 // 组件列表
-const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog, Drawer, ImageViewer, Tips, Image, ImageList, TableDialog, Text, Card, Block, Tree, CardForm, CascaderPanel, Container, Checkbox, CheckboxGroup, TableMate, Transfer, AuditForm, Select, TableAir]
+const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog, Drawer, ImageViewer, Tips, Image, ImageList, TableDialog, Text, Card, Block, Tree, CardForm, CascaderPanel, Container, Checkbox, CheckboxGroup, TableMate, Transfer, AuditForm, Select, TableAir, Calendar]
 
 // 定义install方法，接收Vue作为参数，通过Vue.use()的方式注册组件
 const install = Vue => {
@@ -100,5 +101,6 @@ export default {
   Transfer,
   AuditForm,
   Select,
-  TableAir
+  TableAir,
+  Calendar
 }
