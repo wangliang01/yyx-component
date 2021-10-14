@@ -54,6 +54,12 @@ const routes = [
         meta: { title: '批量导入' }
       },
       {
+        path: '/batch-export',
+        name: 'BatchImport',
+        component: () => import('../views/batch-export'),
+        meta: { title: '批量导出' }
+      },
+      {
         path: '/tree-org',
         name: 'TreeOrg',
         component: () => import('../views/tree-org'),
