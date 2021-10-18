@@ -57,8 +57,6 @@ export default {
       const headerRows = excelHeader.length
       // 生成worksheet
       const worksheet = XLSX.utils.aoa_to_sheet(excelHeader, headerRows)
-      console.log(worksheet)
-      debugger
       // 冻结表头
       worksheet['!freeze'] = {
         xSplit: '1',

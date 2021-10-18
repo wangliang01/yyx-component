@@ -14,7 +14,7 @@
             </expandDom>
           </div>
         </template>
-        <y-text v-else :content="item.formattor ? item.formattor(data[item.prop]) : data[item.prop]" class="card-value"></y-text>
+        <y-text v-else :content="item.formatter ? item.formatter(data[item.prop]) : data[item.prop]" class="card-value"></y-text>
       </el-col>
     </el-row>
   </div>
@@ -83,7 +83,7 @@ export default {
         {
           label: '类型',
           prop: 'type',
-          formattor(val) {
+          formatter(val) {
             if (val === 'standard') {
               return '标品'
             }
@@ -104,7 +104,7 @@ export default {
         {
           label: '销售税率',
           prop: 'saleRate',
-          formattor(val) {
+          formatter(val) {
             return `${val}%`
           }
         },
@@ -123,7 +123,7 @@ export default {
         {
           label: '采购税率',
           prop: 'purchaseTaxRate',
-          formattor(val) {
+          formatter(val) {
             return `${val}%`
           }
         },
