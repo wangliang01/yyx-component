@@ -1,11 +1,13 @@
 <template>
   <!-- 批量导出 -->
   <div class="batch-export">
-    <y-batch-export :data="tableData" :columns="tableColumns"></y-batch-export>
+    <y-batch-export :data="tableData" :columns="tableColumns" sheet-name="采购单详情" :format="format"></y-batch-export>
   </div>
 </template>
 
 <script>
+import { round } from 'lodash'
+import { minus } from '../../../packages/utils/bigNumber'
 export default {
   name: '',
   components: {
@@ -172,7 +174,16 @@ export default {
 
   },
   methods: {
-
+    format() {
+      return this.tableData.map(item => {
+        const taxRate = item.taxRate
+        item.taxRate = taxRate ? `${(taxRate * 100)}%` : '0'
+        const estimatedTotalExcludeTax = (item.totalAppointPrice / (1 + taxRate))
+        this.$set(item, 'estimatedTotalExcludeTax', round(estimatedTotalExcludeTax, 2))
+        this.$set(item, 'estimatedTotalTax', minus(item.totalAppointPrice, round(estimatedTotalExcludeTax, 2)))
+        return item
+      })
+    }
   }
 }
 </script>
