@@ -10,6 +10,7 @@
       :loading="loading"
       v-on="$listeners"
       @visible-change="handleVisibleChange"
+      @focus="handleFocus"
     >
       <el-option
         v-for="item in options"
@@ -55,6 +56,10 @@ export default {
     format: {
       type: Function,
       default: null
+    },
+    lazy: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -76,13 +81,24 @@ export default {
     }
   },
   mounted() {
-    this.getOptions()
+    if (!this.lazy) {
+      // 如果不采用懒加载，则直接请求options
+      this.getOptions()
+    }
     this.init()
   },
   activated() {
-    this.getOptions()
+    if (!this.lazy) {
+      // 如果不采用懒加载，则直接请求options
+      this.getOptions()
+    }
   },
   methods: {
+    handleFocus() {
+      if (this.lazy) {
+        this.getOptions()
+      }
+    },
     init() {
       const select = this.$refs.select.$el
       const inputInner = select.querySelector('.el-input__inner')

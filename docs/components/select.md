@@ -65,7 +65,7 @@ v-model的值为当前被选中的el-option的 value 属性值
 ```html
 <template>
     <div>
-        <y-select v-model="value" :api="getDataApi" :model="model" @change="handleChange"></y-select>
+        <y-select v-model="value" :api="getDataApi" :model="model" @change="handleChange" lazy></y-select>
     </div>
 </template>
 <script>

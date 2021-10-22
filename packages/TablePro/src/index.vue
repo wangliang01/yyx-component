@@ -414,7 +414,10 @@ export default {
         this.$set(this.config, key, { ...column, clearable: true, hidden: false, width: column.filterWidth || '280px' })
 
         // 生成查询参数
-        this.queryParams[key] = ''
+        if (!column.hidden) {
+          // 如果这个字段，不需要显示，则默认不作为查询参数
+          this.queryParams[key] = ''
+        }
       })
 
       // this.queryParams = merge(this.queryParams, this.params)
