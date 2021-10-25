@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.14.9",
+  "version": "1.14.10",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -17,6 +17,7 @@
     "async-validator": "1.11.5",
     "bignumber.js": "^9.0.1",
     "core-js": "^3.6.5",
+    "crypto-js": "^4.1.1",
     "element-ui": "^2.15.6",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",

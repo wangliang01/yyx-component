@@ -40,12 +40,14 @@ import Loading from 'element-ui/packages/loading'
 import TableAir from './TableAir'
 import Calendar from './Calendar'
 import BatchExport from './BatchExport'
+import VirtualList from './VirtualList'
+import DataBoard from './DataBoard'
 
 const { YCategoryCascader, YAddressCascader, YCascader } = Cascader
 const { YUpload, YAvatar } = Upload
 
 // 组件列表
-const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog, Drawer, ImageViewer, Tips, Image, ImageList, TableDialog, Text, Card, Block, Tree, CardForm, CascaderPanel, Container, Checkbox, CheckboxGroup, TableMate, Transfer, AuditForm, Select, TableAir, Calendar, BatchExport]
+const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog, Drawer, ImageViewer, Tips, Image, ImageList, TableDialog, Text, Card, Block, Tree, CardForm, CascaderPanel, Container, Checkbox, CheckboxGroup, TableMate, Transfer, AuditForm, Select, TableAir, Calendar, BatchExport, VirtualList, DataBoard]
 
 // 定义install方法，接收Vue作为参数，通过Vue.use()的方式注册组件
 const install = Vue => {
@@ -104,5 +106,7 @@ export default {
   Select,
   TableAir,
   Calendar,
-  BatchExport
+  BatchExport,
+  VirtualList,
+  DataBoard
 }

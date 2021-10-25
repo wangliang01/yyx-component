@@ -190,6 +190,18 @@ const routes = [
         name: 'Icon',
         component: () => import('../views/icon'),
         meta: { title: 'Icon 图标' }
+      },
+      {
+        path: '/virtual-list',
+        name: 'VirtualList',
+        component: () => import('../views/virtual-list'),
+        meta: { title: '虚拟表格' }
+      },
+      {
+        path: '/data-board',
+        name: 'DataBoard',
+        component: () => import('../views/data-board'),
+        meta: { title: '数据报表' }
       }
     ]
   }
