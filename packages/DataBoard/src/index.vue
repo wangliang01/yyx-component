@@ -8,7 +8,7 @@
 <script>
 // import CryptoJS from 'crypto-js'
 export default {
-  name: 'DataBoard',
+  name: 'YDataBoard',
   props: {
     params: {
       type: Object,
