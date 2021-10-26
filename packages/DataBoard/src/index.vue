@@ -1,43 +1,75 @@
 <template>
-  <iframe ref="iframeRef" :src="url" width="100%" frameborder="0" :height="height"></iframe>
+  <div ref="container" class="container">
+    <slot></slot>
+    <!-- <iframe ref="iframeRef" :src="url" width="100%" height="100%" frameborder="0"></iframe> -->
+  </div>
 </template>
 
 <script>
-import CryptoJS from 'crypto-js'
+// import CryptoJS from 'crypto-js'
 export default {
-  name: 'YDataBoard',
-  components: {
-  },
+  name: 'DataBoard',
   props: {
-    api: {
-      type: Function,
-      required: true
+    params: {
+      type: Object,
+      default() {
+        return {}
+      }
     },
     url: {
       type: String,
-      default: 'https://data-cube.yunlizhi.cn/#/workbooks/board/preview/dashboard/web/211?appId=shangliu&mapping=50175660bcf1cf86f6664ea214edce39687210a3e73761e47323cb3c185d13e0'
+      default: 'https://data-cube.yunlizhi.cn/#/workbooks/board/preview/dashboard/web/299?appId=shangliu&mapping=161ed2fee293f3b92e7aec01007cd4e5872ee2bd7943ccfc51a7f875f93f354c9c5ef6ee6287a77cbb9cc722b0e041c9'
     },
-    frameHeight: {
-      type: [String, Number],
-      default: null
+    api: {
+      type: Function,
+      required: true
     }
   },
   data() {
     return {
-      appId: 'shangliu',
-      privateKey: 'FyJMeLn2Sg3mo5q3QSsB3H3SPc7yslrZ'
+      dashboardData: {},
+      iframeRef: null,
+      queryParams: {
+        tenantId: null,
+        orgId: null
+      }
     }
   },
-  computed: {
-    height() {
-      return (this.frameHeight ? this.frameHeight : window.document.documentElement.scrollHeight) + 'px'
+  watch: {
+    url(val) {
+      this.init()
     }
   },
   mounted() {
-    window.addEventListener('message', this.handleMessage, false)
-    this.fixedHeight()
+    this.init()
   },
   methods: {
+    async init() {
+      this.removeIframe()
+      this.createIframe()
+      const res = await this.api(this.params)
+      if (res.success) {
+        this.dashboardData = res.data
+        window.addEventListener('message', this.handleMessage, false)
+      }
+    },
+    createIframe() {
+      const el = this.$refs.container
+      const iframe = document.createElement('iframe')
+      iframe.width = '100%'
+      iframe.height = '100%'
+      iframe.src = this.url
+      console.log('url', this.url)
+      this.iframeRef = iframe
+      el.appendChild(iframe)
+    },
+    removeIframe() {
+      const el = this.$refs.container
+      if (this.iframeRef) {
+        el.removeChild(this.iframeRef)
+        this.iframeRef = null
+      }
+    },
     handleMessage(event) {
       var data = event.data
       if (data.params) {
@@ -51,44 +83,47 @@ export default {
       }
     },
     sendMessage(key, token, timestamp, dashboardId, callbackId) {
-      if (this.$refs.iframeRef) {
-        const iframeWin = this.$refs.iframeRef.contentWindow
+      if (this.iframeRef) {
+        const iframeWin = this.iframeRef.contentWindow
+
+        console.log(token)
         iframeWin.postMessage(
           {
             cmd: 'sendTransferNewKey',
-            params: { key, token, timestamp, dashboardId, callbackId }
+            params: { key, token, timestamp, dashboardId, callbackId: callbackId }
           },
           '*'
         )
       }
     },
-    async getEncryptionParamsData(key, base64Params, dashboardId, callbackId) {
-      let token = CryptoJS.MD5(this.appId + timestamp + this.privateKey + base64Params).toString()
-      let timestamp = Date.parse(new Date())
-      if (typeof this.api === 'function') {
-        const res = await this.api()
-        if (res.success) {
-          token = res.token
-          timestamp = res.timestamp
+    getEncryptionParamsData(key, base64Param, dashboardId, callbackId) {
+      if (this.dashboardData) {
+        // const timestamp = Date.parse(new Date())
+        // const appId = this.dashboardData.appId
+        // const privateKey = this.dashboardData.privateKey
+        // base64Param = this.dashboardData.base64Param || ''
+        const timestamp = this.dashboardData.timestamp
+        const token = this.dashboardData.token
+        // console.log("后端返回token", token);
+        // console.log("前端生成token", CryptoJS.MD5(appId + timestamp + privateKey + base64Param).toString())
+        // const token = CryptoJS.MD5(appId + timestamp + privateKey + base64Param).toString()
+
+        if (callbackId) {
+          this.sendMessage(key, token, timestamp, dashboardId, callbackId)
+        } else {
+          this.sendMessage(key, token, timestamp, dashboardId)
         }
-      }
-      if (callbackId) {
-        this.sendMessage(key, token, timestamp, dashboardId, callbackId)
-      } else {
-        this.sendMessage(key, token, timestamp, dashboardId)
-      }
-    },
-    fixedHeight() {
-      const iframe = this.$refs.iframeRef
-      var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow
-      if (iframeWin.document.body) {
-        iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight
       }
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
 
+.container {
+  width: 100%;
+  height: 800px;
+}
 </style>
