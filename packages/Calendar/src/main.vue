@@ -203,6 +203,7 @@ export default {
           return []
         }
         // start time and end time in one month
+
         if (validateRangeInOneMonth(start, end)) {
           return [
             [start, end]
@@ -210,11 +211,11 @@ export default {
         }
         const data = []
         let startDay = new Date(start.getFullYear(), start.getMonth() + 1, 1)
-        const lastDay = this.toDate(startDay.getTime() - oneDay)
-        if (!validateRangeInOneMonth(startDay, end)) {
-          console.warn('[ElementCalendar]start time and end time interval must not exceed two months')
-          return []
-        }
+        let lastDay = this.toDate(startDay.getTime() - oneDay)
+        // if (!validateRangeInOneMonth(startDay, end)) {
+        //   console.warn('[ElementCalendar]start time and end time interval must not exceed two months')
+        //   return []
+        // }
         // 第一个月的时间范围
         data.push([
           start,
@@ -233,11 +234,34 @@ export default {
           }
         }
         startDay = this.toDate(startDay.getTime() + interval * oneDay)
-        if (startDay.getDate() < end.getDate()) {
-          data.push([
-            startDay,
-            end
-          ])
+        lastDay = this.toDate(startDay.getTime() - oneDay)
+        if (startDay.getTime() <= start.getTime()) {
+          if (lastDay.getTime() < end.getTime()) {
+            data.push([
+              startDay,
+              lastDay
+            ])
+          } else {
+            if (startDay.getDate() < end.getDate()) {
+              data.push([
+                startDay,
+                end
+              ])
+            }
+          }
+        } else {
+          if (validateRangeInOneMonth(startDay, end)) {
+            data.push([
+              startDay,
+              end
+            ])
+          } else {
+            const endDay = new Date(startDay.getFullYear(), startDay.getMonth() + 1, 1)
+            data.push([
+              startDay,
+              this.toDate(endDay.getTime() - oneDay)
+            ])
+          }
         }
         return data
       }
