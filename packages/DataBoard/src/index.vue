@@ -1,6 +1,8 @@
 <template>
   <div ref="container" class="container">
-    <slot></slot>
+    <div ref="slotContent" class="slot-content">
+      <slot></slot>
+    </div>
     <!-- <iframe ref="iframeRef" :src="url" width="100%" height="100%" frameborder="0"></iframe> -->
   </div>
 </template>
@@ -59,7 +61,6 @@ export default {
       iframe.width = '100%'
       iframe.height = '100%'
       iframe.src = this.url
-      console.log('url', this.url)
       this.iframeRef = iframe
       el.appendChild(iframe)
     },
@@ -124,6 +125,7 @@ export default {
 
 .container {
   width: 100%;
-  height: 800px;
+  height: 1250px;
+  overflow: hidden;
 }
 </style>
