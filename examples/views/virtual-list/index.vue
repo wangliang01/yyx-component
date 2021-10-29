@@ -10,7 +10,7 @@
 const tableData = []
 for (let i = 0; i < 1000; i++) {
   const item = {
-    index: i + 1,
+    id: i + 1,
     name: `小张${i + 1}`,
     age: i * Math.random() * 10
   }
@@ -26,7 +26,7 @@ export default {
       tableData: tableData,
       columns: [
         {
-          prop: 'index',
+          prop: 'id',
           label: '编号'
         },
         {

@@ -194,7 +194,7 @@
 
 <script>
 import XLSX from 'xlsx'
-import { merge, find, isEmpty, cloneDeep, debounce } from 'lodash'
+import { merge, find, isEmpty, cloneDeep, debounce, round } from 'lodash'
 import { Message } from 'element-ui'
 import moment from 'moment'
 // import Vue from 'vue'
@@ -622,6 +622,10 @@ export default {
           const column = find(this.columns, col => {
             return col.label.trim().includes(key)
           })
+          if (typeof item[key] === 'number') {
+            // 如果是数字类型，保留8位小数
+            item[key] = round(item[key], 8)
+          }
           if (column) {
             if (column.type === 'date-picker') {
               const format = column.format || 'YYYY-MM-DD'

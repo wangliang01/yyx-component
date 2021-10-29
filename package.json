@@ -22,6 +22,7 @@
     "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-cropper": "^0.5.6",
+    "vue-virtual-scroller": "^1.0.10",
     "vuedraggable": "^2.24.3",
     "xlsx": "^0.16.9"
   },
