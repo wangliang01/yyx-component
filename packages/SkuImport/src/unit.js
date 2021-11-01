@@ -4,7 +4,6 @@ export const units = [
   '盒',
   '箱',
   '袋',
-  '米',
   '组',
   '罐',
   '杯',
@@ -17,7 +16,6 @@ export const units = [
   '加仑',
   '千米',
   '升（l）',
-  '厘米',
   '只',
   '台',
   '吨（t）',
@@ -37,7 +35,16 @@ export const units = [
   '片',
   '瓶',
   '盎司',
-  '磅'
+  '磅',
+  '条',
+  '栏',
+  '本',
+  '张',
+  '卷',
+  '打',
+  '扎',
+  '厘米（cm）',
+  '米（m）'
 ]
 
 export const priceUnitOptions = units.map(item => {
