@@ -76,5 +76,8 @@
       "eslint --ext .js,.vue packages examples --fix",
       "git add ."
     ]
+  },
+  "publishConfig": {
+    "registry": "https://npm.ops.yunlizhi.cn"
   }
 }

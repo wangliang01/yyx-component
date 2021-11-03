@@ -8,7 +8,7 @@
 <script>
 // import VirtualList from '../../../docs/components/virtual-list.md'
 const tableData = []
-for (let i = 0; i < 1000; i++) {
+for (let i = 0; i < 100000; i++) {
   const item = {
     id: i + 1,
     name: `小张${i + 1}`,
@@ -28,6 +28,7 @@ export default {
         {
           prop: 'id',
           label: '编号'
+
         },
         {
           prop: 'name',

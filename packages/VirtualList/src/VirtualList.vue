@@ -9,14 +9,16 @@
     <el-table
       :key="key"
       ref="table"
+      border
       v-bind="tableAttrs"
       :data="renderData"
       :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
-      :style="`width: ${$attrs.width || '100%'};height: ${getBodyHeight}px; overflow-y: auto;`"
+      :style="`width: ${
+        $attrs.width || '100%'
+      };height: ${getBodyHeight}px; overflow-y: auto;`"
+      :height="getBodyHeight"
       :size="size"
-      :max-height="height"
       v-on="$listeners"
-      @scroll.passive="onVirtualScroll"
     >
       <TableItem
         v-for="(col, index) in columnAttrs"
@@ -41,7 +43,12 @@ import { defaultTableAttrs, defaultColumn, defaultPagination } from './config'
 import { cloneDeep, uniqWith, isEqual } from 'lodash'
 import TableItem from './TableItem'
 import { calDomItemsHeight } from './tableHelper/tableUtil'
-import { VIRTUAL_REMAIN_COUNT, DEFAULT_TABLE_RECORD_HEIGHT, DEFAULT_TABLE_HEIGHT, DEFAULT_TABLE_HEADER_HEIGHT } from './tableHelper/constant'
+import {
+  VIRTUAL_REMAIN_COUNT,
+  DEFAULT_TABLE_RECORD_HEIGHT,
+  DEFAULT_TABLE_HEIGHT,
+  DEFAULT_TABLE_HEADER_HEIGHT
+} from './tableHelper/constant'
 export default {
   name: 'YVirtualList',
   components: {
@@ -93,14 +100,6 @@ export default {
       type: Array,
       default: () => ['refresh', 'density', 'setting']
     },
-    maxHeight: {
-      type: [String, Number],
-      default: 'auto'
-    },
-    offsetHeight: {
-      type: [String, Number],
-      default: 0
-    },
     itemHeight: {
       type: Number,
       default() {
@@ -113,7 +112,6 @@ export default {
       Math.ceil(this.viewportHeight / this.itemHeight) +
       2 * VIRTUAL_REMAIN_COUNT
 
-      console.log("itemHeight", this.itemHeight);
     return {
       key: Math.random().toString(32).replace('.', ''),
       tableAttrs: defaultTableAttrs, // 表格属性，同el-table上的属性
@@ -139,22 +137,13 @@ export default {
         this.$emit('update', columns)
       }
     },
-    height() {
-      const clientHeight = window.innerHeight
-      console.log(clientHeight - this.offsetHeight)
-      if (clientHeight - this.offsetHeight < this.maxHeight) {
-        return clientHeight - this.offsetHeight
-      }
-      return this.maxHeight
-    },
     getRecordHeight() {
       return `${this.itemHeight}px`
     },
     getBodyHeight() {
       return `${this.viewportHeight}px`
     },
-    getBodyWrapperStyle() {
-      console.log(this.data.length * this.itemHeight);
+    getBodyWrapperStyle: function () {
       return {
         height: `${this.data.length * this.itemHeight}px`,
         position: 'relative'
@@ -186,12 +175,6 @@ export default {
       },
       deep: true,
       immediate: false
-    },
-    maxHeight: {
-      handler(val) {
-        console.log('watch height', val)
-      },
-      deep: true
     }
   },
   mounted() {
@@ -210,14 +193,17 @@ export default {
       const startIndex = minItemKey > 0 ? minItemKey : -1
       const endIndex =
         maxItemKey > this.virtualData.length ? this.data.length : maxItemKey
+
       const renderData = []
       for (let index = startIndex + 1; index < endIndex; index++) {
         const item = this.virtualData[index]
-        const recordIndexHight = `${index * this.itemHeight}`
+        const recordIndexHeight = `${index * this.itemHeight}`
         item.__vkey = index
-        item.translateY = `${recordIndexHight}px`
+        item.translateY = `${recordIndexHeight}px`
         renderData.push(item)
+
       }
+
       return renderData
     },
     refreshVirtualItems(newItems, replaceItemsIndex) {
@@ -232,6 +218,13 @@ export default {
         }
         this.renderData.push(newItems[index])
       }
+    },
+    setBodyContainerStyle(record) {
+      const tbody = this.$refs.table.bodyWrapper?.querySelector('tbody')
+      if (!tbody) return
+
+      tbody.style.transform = `translateY(${record.translateY})`
+      tbody.style.height = `${this.itemHeight}px`
     },
     getBodyContainerStyle: function (record) {
       return {
@@ -268,13 +261,10 @@ export default {
       this.refreshVirtualItems(newItems, replaceItemsIndex)
     },
     refreshRenderData() {
-      console.log('refreshRenderData')
       this.$nextTick(() => {
-        const virtualScrollBody = this.$refs.table.$el.querySelector(
-          '.el-table__body-wrapper'
-        )
-        console.log(virtualScrollBody.scrollTop)
-        const scrollTop = virtualScrollBody ? virtualScrollBody.scrollTop : 0
+        const bodyWrapper = this.$refs.table.bodyWrapper
+
+        const scrollTop = bodyWrapper ? bodyWrapper.scrollTop : 0
         const [minItemHeight, maxItemHeight] = calDomItemsHeight(
           this.itemHeight,
           this.remainHeight,
@@ -282,10 +272,22 @@ export default {
           this.renderItemsHeight,
           scrollTop
         )
-        console.log(minItemHeight, maxItemHeight)
+
         this.updateRenderData(
           this.buildRenderData(minItemHeight, maxItemHeight)
         )
+
+        this.$nextTick( () => {
+          const tableRows = [...bodyWrapper.querySelectorAll('table tbody .el-table__row')]
+          for (let i = 0; i< tableRows.length; i++) {
+            const tableRow = tableRows[i]
+            const {transform, height} = this.getBodyContainerStyle(this.renderData[i])
+            console.log("transform", transform, height);
+            tableRow.style.transform = transform
+            tableRow.style.height = height
+          }
+        })
+
       })
     },
     onVirtualScroll(e) {
@@ -368,6 +370,13 @@ export default {
       this.getPagination()
 
       this.reLayout()
+
+      this.getScrollData()
+    },
+    getScrollData() {
+      this.$nextTick(() => {
+        this.$refs.table.bodyWrapper.onscroll = this.onVirtualScroll
+      })
     },
     getPagination() {
       // 获取element 分页属性
@@ -461,15 +470,21 @@ export default {
   margin-left: 18px;
 }
 
-.c-table-body-wrapper__virtual {
+::v-deep .el-table__body-wrapper {
   display: inherit;
+  overflow-y: auto;
 }
 
-.c-table-body-container__virtual {
+::v-deep .el-table__body-wrapper table tbody {
   width: 100%;
   position: absolute;
   top: 0;
   left: 0;
   will-change: transform;
+}
+
+::v-deep .el-table__row {
+  position: absolute;
+  top: 0;
 }
 </style>
