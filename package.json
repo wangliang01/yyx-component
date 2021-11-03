@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.14.19",
+  "version": "1.14.21",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

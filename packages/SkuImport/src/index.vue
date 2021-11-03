@@ -23,6 +23,20 @@ export default {
           maxLength: '32'
         },
         {
+          label: '上游关联id',
+          prop: 'externalCustomerId',
+          type: 'input',
+          required: false,
+          maxLength: '64'
+        },
+        {
+          label: '下游关联id',
+          prop: 'oldScmId',
+          type: 'input',
+          required: false,
+          maxLength: '64'
+        },
+        {
           label: '商品名称',
           prop: 'name',
           type: 'input',
