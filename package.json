@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.14.21",
+  "version": "1.14.22",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -76,8 +76,5 @@
       "eslint --ext .js,.vue packages examples --fix",
       "git add ."
     ]
-  },
-  "publishConfig": {
-    "registry": "https://npm.ops.yunlizhi.cn"
   }
 }
