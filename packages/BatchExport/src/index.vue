@@ -76,17 +76,18 @@ export default {
 
       // excel样式
       const writingOptions = {
-        bookType: 'xlsx',
+        bookType: 'xls',
         bookSST: false,
         type: 'binary',
         cellStyles: true
       }
+      const excelSuffix = `.${writingOptions.bookType}`
 
       const wbout = XLSX.write(workbook, writingOptions)
 
       const blobParts = this.stringToBuffer(wbout)
       const blob = new Blob([blobParts], { type: 'application/octet-stream' })
-      this.downloadExcel(blob, this.sheetName + '.xlsx')
+      this.downloadExcel(blob, this.sheetName + excelSuffix)
     },
     // 从github复制过来
     aoa_to_sheet(data, headerRows) {

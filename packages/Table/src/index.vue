@@ -11,7 +11,7 @@
         </div>
       </div>
     </div>
-    <y-virtual-list v-if="virtual" :columns="currentColumns" :data="data"></y-virtual-list>
+    <y-virtual-list v-if="virtual" :columns="currentColumns" :data="data" v-bind="$attrs" v-on="$listeners"></y-virtual-list>
     <template v-else>
       <el-table
         :key="key"
@@ -173,7 +173,7 @@ export default {
     reLayout() {
       // 对数据进行重新渲染
       this.$nextTick(() => {
-        this.$refs.table.doLayout()
+        !this.virtual && this.$refs.table.doLayout()
       })
     },
     init() {

@@ -2,7 +2,7 @@
   <el-card class="form">
     <!-- <y-virtual-list :data="tableData" :columns="columns">
     </y-virtual-list> -->
-    <y-table :data="tableData" :columns="columns" virtual></y-table>
+    <y-table :data="tableData" :columns="columns" virtual item-height="70" @change="handleChanged"></y-table>
   </el-card>
 </template>
 
@@ -33,13 +33,22 @@ export default {
         },
         {
           prop: 'name',
-          label: '姓名'
+          label: '姓名',
+          isEdit: true,
+          render: (h, { row }) => {
+            return <el-input v-model={row.name}></el-input>
+          }
         },
         {
           prop: 'age',
           label: '年龄'
         }
       ]
+    }
+  },
+  methods: {
+    handleChanged(e) {
+      console.log('input', e)
     }
   }
 }

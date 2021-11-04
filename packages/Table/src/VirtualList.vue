@@ -23,9 +23,8 @@
   </el-table>
 </template>
 <script>
-/* eslint-disable */
 import { defaultTableAttrs, defaultColumn } from './config'
-import { cloneDeep, uniqWith, isEqual } from 'lodash'
+import { cloneDeep, uniqWith, isEqual, findIndex, differenceWith } from 'lodash'
 import TableItem from './TableItem'
 import { calDomItemsHeight } from './tableHelper/tableUtil'
 import {
@@ -41,7 +40,7 @@ export default {
   },
   props: {
     viewportHeight: {
-      type: Number,
+      type: [Number, String],
       default: DEFAULT_TABLE_HEIGHT - DEFAULT_TABLE_HEADER_HEIGHT
     },
     /* data:  显示的数据， 等同于el-table中的data属性 */
@@ -58,15 +57,8 @@ export default {
         return []
       }
     },
-    /* 重新加载函数 */
-    reload: {
-      type: Function,
-      default() {
-        return () => {}
-      }
-    },
     itemHeight: {
-      type: Number,
+      type: [Number, String],
       default() {
         return DEFAULT_TABLE_RECORD_HEIGHT
       }
@@ -90,7 +82,8 @@ export default {
       maxItemKeyHeight: -1,
       remainHeight: VIRTUAL_REMAIN_COUNT * this.itemHeight,
       renderItems: renderItems,
-      renderItemsHeight: renderItems * this.itemHeight
+      renderItemsHeight: renderItems * this.itemHeight,
+      originData: cloneDeep(this.data)
     }
   },
   computed: {
@@ -108,7 +101,7 @@ export default {
     getBodyHeight() {
       return `${this.viewportHeight}px`
     },
-    getBodyWrapperStyle: function () {
+    getBodyWrapperStyle: function() {
       return {
         height: `${this.data.length * this.itemHeight}px`,
         position: 'relative'
@@ -130,19 +123,46 @@ export default {
       },
       deep: true,
       immediate: false
+    },
+    renderData: {
+      handler(val) {
+        const startIndex = val[0]?.__vkey
+        const lastIndex = val[val.length - 1]?.__vkey
+        const copyData = cloneDeep(val).map(item => {
+          delete item.translateY
+          delete item.__vkey
+          return item
+        })
+
+        const compareData = this.originData.slice(startIndex, lastIndex + 1)
+
+        const differenceData = differenceWith(copyData, compareData, isEqual)
+
+        // 遍歷，找到相應的遠遠，并替换
+        for (let i = 0; i < differenceData.length; i++) {
+          const replaceData = differenceData[i]
+          const props = Object.keys(replaceData)
+          const prop = props[0]
+          const index = findIndex(this.data, (obj) => obj[prop] === replaceData[prop])
+          this.originData.splice(index, 1, replaceData)
+        }
+
+        this.$emit('change', this.originData)
+      },
+      deep: true
     }
   },
   mounted() {
     this.init()
   },
   methods: {
-    getColumnStyle: function (column) {
+    getColumnStyle: function(column) {
       return {
         width: column.cWidth,
         height: `${this.itemHeight}px`
       }
     },
-    buildRenderData: function (minHeight, maxHeight) {
+    buildRenderData: function(minHeight, maxHeight) {
       const minItemKey = minHeight / this.itemHeight
       const maxItemKey = maxHeight / this.itemHeight
       const startIndex = minItemKey > 0 ? minItemKey : -1
@@ -180,26 +200,26 @@ export default {
       tbody.style.transform = `translateY(${record.translateY})`
       tbody.style.height = `${this.itemHeight}px`
     },
-    getBodyContainerStyle: function (record) {
+    getBodyContainerStyle: function(record) {
       return {
         transform: `translateY(${record.translateY})`,
         height: `${this.itemHeight}px`
       }
     },
-    buildNewItems: function (newData) {
+    buildNewItems: function(newData) {
       const newItems = []
       for (const newRecord of newData) {
-        if (_.findIndex(this.renderData, { __vkey: newRecord.__vkey }) < 0) {
+        if (findIndex(this.renderData, { __vkey: newRecord.__vkey }) < 0) {
           newItems.push(newRecord)
         }
       }
       return newItems
     },
-    buildOutDateItems: function (newData) {
+    buildOutDateItems: function(newData) {
       const replaceItemsIndex = []
       for (let index = 0; index < this.renderData.length; index++) {
         const record = this.renderData[index]
-        if (_.findIndex(newData, { __vkey: record.__vkey }) < 0) {
+        if (findIndex(newData, { __vkey: record.__vkey }) < 0) {
           replaceItemsIndex.push(index)
         }
       }
@@ -232,28 +252,11 @@ export default {
         )
 
         this.$nextTick(() => {
-          const len = this.columns.length
-          const clientWidth = bodyWrapper.clientWidth
-          const cWidth = Math.ceil(clientWidth / len)
-
           // 处理表格样式
           const { height, position } = this.getBodyWrapperStyle
           const table = bodyWrapper.querySelector('table')
           table.style.height = height
           bodyWrapper.position = position
-
-          // 处理表头样式
-          const headerWrapper = this.$refs.table.$el.querySelector(
-            '.el-table__header-wrapper'
-          )
-          const headerCells = [
-            ...headerWrapper.querySelectorAll('.is-left.el-table__cell')
-          ]
-
-          for (let i = 0; i < headerCells.length; i++) {
-            const headerCell = headerCells[i]
-            // headerCell.style.width = cWidth
-          }
 
           // 处理表格行样式
           const tableRows = [
@@ -273,7 +276,6 @@ export default {
               // 处理单元格样式
               const tableCell = tableCells[i]
               tableCell.style.height = `${this.itemHeight}px`
-              console.log(tableCell.getBoundingClientRect());
               tableCell.style.position = 'relative'
               tableCell.className = 'cell-border'
             }
@@ -321,7 +323,7 @@ export default {
       // 获取element table col上的属性
       const columnAttrs = this.currentColumns.map((column) => {
         if (!column.formatter) {
-          this.$set(column, 'formatter', function (row, col) {
+          this.$set(column, 'formatter', function(row, col) {
             const val = row[col.property]
             if (val === undefined || val === null || val === '') {
               return '-'
