@@ -24,14 +24,14 @@ export default {
         },
         {
           label: '上游关联id',
-          prop: 'externalCustomerId',
+          prop: 'externalSkuId',
           type: 'input',
           required: false,
           maxLength: '64'
         },
         {
           label: '下游关联id',
-          prop: 'externalSkuId',
+          prop: 'ylzSkuId',
           type: 'input',
           required: false,
           maxLength: '64'
