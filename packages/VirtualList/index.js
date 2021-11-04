@@ -1,4 +1,4 @@
-import VirtualList from './src/VirtualList'
+import VirtualList from '../Table/src/VirtualList'
 
 VirtualList.install = Vue => {
   Vue.component(VirtualList.name, VirtualList)

@@ -1,7 +1,8 @@
 <template>
   <el-card class="form">
-    <y-virtual-list :data="tableData" :columns="columns">
-    </y-virtual-list>
+    <!-- <y-virtual-list :data="tableData" :columns="columns">
+    </y-virtual-list> -->
+    <y-table :data="tableData" :columns="columns" virtual></y-table>
   </el-card>
 </template>
 
