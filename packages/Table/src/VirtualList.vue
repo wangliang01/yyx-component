@@ -1,45 +1,30 @@
 <template>
-  <div :key="key" class="y-table">
-    <div class="table-top">
-      <slot name="default" class="table-top-left"></slot>
-      <div class="table-top-right">
-        <slot name="table-top-right"></slot>
-      </div>
-    </div>
-    <el-table
-      :key="key"
-      ref="table"
-      border
-      v-bind="tableAttrs"
-      :data="renderData"
-      :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
-      :style="`width: ${
-        $attrs.width || '100%'
-      };height: ${getBodyHeight}px; overflow-y: auto;`"
-      :height="getBodyHeight"
-      :size="size"
-      v-on="$listeners"
-    >
-      <TableItem
-        v-for="(col, index) in columnAttrs"
-        :key="col.rowKey || index"
-        :col="col"
-        :columns="columns"
-        :data="data"
-      ></TableItem>
-    </el-table>
-    <el-pagination
-      v-if="paginationAttrs.isPagination"
-      v-bind="paginationAttrs"
-      style="margin-top: 20px; text-align: right"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-    ></el-pagination>
-  </div>
+  <el-table
+    :key="key"
+    ref="table"
+    border
+    v-bind="tableAttrs"
+    :data="renderData"
+    :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
+    :style="`width: ${
+      $attrs.width || '100%'
+    };height: ${getBodyHeight}px; overflow-y: auto;`"
+    :height="getBodyHeight"
+    :size="size"
+    v-on="$listeners"
+  >
+    <TableItem
+      v-for="(col, index) in columnAttrs"
+      :key="col.rowKey || index"
+      :col="col"
+      :columns="columns"
+      :data="data"
+    ></TableItem>
+  </el-table>
 </template>
 <script>
 /* eslint-disable */
-import { defaultTableAttrs, defaultColumn, defaultPagination } from './config'
+import { defaultTableAttrs, defaultColumn } from './config'
 import { cloneDeep, uniqWith, isEqual } from 'lodash'
 import TableItem from './TableItem'
 import { calDomItemsHeight } from './tableHelper/tableUtil'
@@ -73,32 +58,12 @@ export default {
         return []
       }
     },
-    /* pagination: 分页属性：如果为Boolean为true,则取默认值，如果是对象，则merge默认值， 如果total有值，会覆盖pagination中的total属性 */
-    pagination: {
-      type: [Object, Boolean],
-      default: false
-    },
-    /*  分页总数 */
-    total: {
-      type: Number,
-      default: 0
-    },
     /* 重新加载函数 */
     reload: {
       type: Function,
       default() {
         return () => {}
       }
-    },
-    /* 是否显示工具栏 */
-    showUtilBar: {
-      type: Boolean,
-      default: false
-    },
-    /* 工具栏配置项 */
-    utilConifg: {
-      type: Array,
-      default: () => ['refresh', 'density', 'setting']
     },
     itemHeight: {
       type: Number,
@@ -159,16 +124,6 @@ export default {
       immediate: true,
       deep: true
     },
-    pagination: {
-      handler() {
-        this.getPagination()
-      },
-      deep: true,
-      immediate: false
-    },
-    total() {
-      this.getPagination()
-    },
     columns: {
       handler(val) {
         this.init()
@@ -201,7 +156,6 @@ export default {
         item.__vkey = index
         item.translateY = `${recordIndexHeight}px`
         renderData.push(item)
-
       }
 
       return renderData
@@ -277,27 +231,58 @@ export default {
           this.buildRenderData(minItemHeight, maxItemHeight)
         )
 
-        this.$nextTick( () => {
-          const tableRows = [...bodyWrapper.querySelectorAll('table tbody .el-table__row')]
-          for (let i = 0; i< tableRows.length; i++) {
+        this.$nextTick(() => {
+          const len = this.columns.length
+          const clientWidth = bodyWrapper.clientWidth
+          const cWidth = Math.ceil(clientWidth / len)
+
+          // 处理表格样式
+          const { height, position } = this.getBodyWrapperStyle
+          const table = bodyWrapper.querySelector('table')
+          table.style.height = height
+          bodyWrapper.position = position
+
+          // 处理表头样式
+          const headerWrapper = this.$refs.table.$el.querySelector(
+            '.el-table__header-wrapper'
+          )
+          const headerCells = [
+            ...headerWrapper.querySelectorAll('.is-left.el-table__cell')
+          ]
+
+          for (let i = 0; i < headerCells.length; i++) {
+            const headerCell = headerCells[i]
+            // headerCell.style.width = cWidth
+          }
+
+          // 处理表格行样式
+          const tableRows = [
+            ...bodyWrapper.querySelectorAll('table tbody .el-table__row')
+          ]
+
+          for (let i = 0; i < tableRows.length; i++) {
             const tableRow = tableRows[i]
-            const {transform, height} = this.getBodyContainerStyle(this.renderData[i])
-            console.log("transform", transform, height);
+            const { transform, height } = this.getBodyContainerStyle(
+              this.renderData[i]
+            )
             tableRow.style.transform = transform
             tableRow.style.height = height
+            const tableCells = [...tableRow.querySelectorAll('.el-table__cell')]
+
+            for (let i = 0; i < tableCells.length; i++) {
+              // 处理单元格样式
+              const tableCell = tableCells[i]
+              tableCell.style.height = `${this.itemHeight}px`
+              console.log(tableCell.getBoundingClientRect());
+              tableCell.style.position = 'relative'
+              tableCell.className = 'cell-border'
+            }
           }
         })
-
       })
     },
     onVirtualScroll(e) {
       window.requestAnimationFrame(this.refreshRenderData)
-    },
-    reLayout() {
-      // 对数据进行重新渲染
-      this.$nextTick(() => {
-        this.$refs.table.doLayout()
-      })
     },
     init() {
       // 解决y-table组件没有相关方法的问题
@@ -367,83 +352,12 @@ export default {
         this.columnAttrs = columnAttrs
       }
 
-      this.getPagination()
-
-      this.reLayout()
-
       this.getScrollData()
     },
     getScrollData() {
       this.$nextTick(() => {
         this.$refs.table.bodyWrapper.onscroll = this.onVirtualScroll
       })
-    },
-    getPagination() {
-      // 获取element 分页属性
-      const pagination = this.pagination
-      let paginationAttrs = {}
-      if (pagination) {
-        if (typeof pagination === 'object') {
-          paginationAttrs = {
-            ...defaultPagination,
-            ...pagination,
-            isPagination: true
-          }
-        } else {
-          paginationAttrs = {
-            ...defaultPagination,
-            isPagination: true
-          }
-        }
-      }
-      Object.keys(paginationAttrs).forEach((key) => {
-        if (this.$attrs[key] !== undefined && key !== 'pagination') {
-          paginationAttrs[key] = this.$attrs[key]
-        }
-      })
-
-      if (this.total) {
-        paginationAttrs.total = this.total
-      }
-      this.paginationAttrs = paginationAttrs
-    },
-    handleSizeChange(pageSize) {
-      this.$emit('size-change', pageSize)
-      this.paginationAttrs = Object.assign({}, this.paginationAttrs, {
-        type: 'size-change',
-        pageSize: pageSize, // 兼容老系统
-        currentPage: 1 // 兼容老系统
-      })
-      if (typeof this.reload === 'function') {
-        this.reload(this.paginationAttrs)
-      }
-    },
-    handleCurrentChange(currentPage) {
-      this.$emit('page-current-change', currentPage)
-      this.paginationAttrs = Object.assign({}, this.paginationAttrs, {
-        currentPage: currentPage,
-        type: 'current-change'
-      })
-
-      if (typeof this.reload === 'function') {
-        this.reload(this.paginationAttrs)
-      }
-    },
-    handleResize({ size, close }) {
-      this.size = size
-      close && close()
-      this.reLayout()
-    },
-    handleRefresh() {
-      this.paginationAttrs = Object.assign({}, this.paginationAttrs, {
-        currentPage: 1
-      })
-      if (typeof this.reload === 'function') {
-        this.reload(this.paginationAttrs)
-      }
-    },
-    columnsReload() {
-      this.originColumns = cloneDeep(this.columns)
     }
   }
 }
@@ -468,6 +382,15 @@ export default {
 }
 .utils-wrapper {
   margin-left: 18px;
+}
+::v-deep .el-table td, .el-table th.is-leaf {
+  border: none;
+}
+
+::v-deep .el-table__row  .cell-border {
+  position: absolute;
+  border-bottom: 1px solid #EBEEF5;
+  border-right: 1px solid #EBEEF5;
 }
 
 ::v-deep .el-table__body-wrapper {

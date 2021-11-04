@@ -11,32 +11,35 @@
         </div>
       </div>
     </div>
-    <el-table
-      :key="key"
-      ref="table"
-      v-bind="tableAttrs"
-      :data="data"
-      :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
-      :style="`width: ${$attrs.width || '100%'}`"
-      :size="size"
-      :max-height="height"
-      v-on="$listeners"
-    >
-      <TableItem
-        v-for="(col, index) in columnAttrs"
-        :key="index"
-        :col="col"
-        :columns="columns"
+    <y-virtual-list v-if="virtual" :columns="currentColumns" :data="data"></y-virtual-list>
+    <template v-else>
+      <el-table
+        :key="key"
+        ref="table"
+        v-bind="tableAttrs"
         :data="data"
-      ></TableItem>
-    </el-table>
-    <el-pagination
-      v-if="paginationAttrs.isPagination"
-      v-bind="paginationAttrs"
-      style="margin-top: 20px;text-align: right;"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-    ></el-pagination>
+        :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
+        :style="`width: ${$attrs.width || '100%'}`"
+        :size="size"
+        :max-height="height"
+        v-on="$listeners"
+      >
+        <TableItem
+          v-for="(col, index) in columnAttrs"
+          :key="index"
+          :col="col"
+          :columns="columns"
+          :data="data"
+        ></TableItem>
+      </el-table>
+      <el-pagination
+        v-if="paginationAttrs.isPagination"
+        v-bind="paginationAttrs"
+        style="margin-top: 20px;text-align: right;"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      ></el-pagination>
+    </template>
   </div>
 </template>
 <script>
@@ -55,6 +58,11 @@ export default {
     Setting
   },
   props: {
+    /* 是否用虚拟列表显示 */
+    virtual: {
+      type: Boolean,
+      default: false
+    },
     /* data:  显示的数据， 等同于el-table中的data属性 */
     data: {
       type: Array,
