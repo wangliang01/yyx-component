@@ -31,7 +31,7 @@ export default {
         },
         {
           label: '下游关联id',
-          prop: 'oldScmId',
+          prop: 'externalSkuId',
           type: 'input',
           required: false,
           maxLength: '64'

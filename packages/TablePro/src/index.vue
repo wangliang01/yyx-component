@@ -264,7 +264,7 @@ export default {
         // pagination高度
         const tablePagination = document.querySelector('.el-pagination')
 
-        const paginationHeight = parseInt(getComputedStyle(tablePagination).height) + parseInt(getComputedStyle(tablePagination).marginTop)
+        const paginationHeight = tablePagination ? parseInt(getComputedStyle(tablePagination).height) + parseInt(getComputedStyle(tablePagination).marginTop) : 0
 
         this.offsetHeight = filterHeight + marginTop + padding + tableTopHeight + tableHeaderHeight + paginationHeight
 
