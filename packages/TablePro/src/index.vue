@@ -394,6 +394,7 @@ export default {
         this.total = parseInt(get(res, this.model.total, 0))
         this.$emit('loaded', res)
       } catch (error) {
+        this.loading = false
         this.tableData = []
         this.total = 0
         this.$emit('error', error)
