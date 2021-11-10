@@ -4,10 +4,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "report": "vue-cli-service build --report",
     "test:unit": "vue-cli-service test:unit",
     "build:es": "node build/build-component.js",
-    "docs:build": "vuepress build docs",
-    "docs:dev": "npm run lib && vuepress dev docs",
     "lib": "cross-env VUE_APP_ENV=lib vue-cli-service build --target lib --name yui --dest lib packages/index.js",
     "lint:fix": "eslint --ext .js,.vue packages examples --fix",
     "precommit": "lint-staged"

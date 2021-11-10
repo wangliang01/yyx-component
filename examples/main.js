@@ -14,6 +14,9 @@ Vue.use(VueHighlightJS)
 Vue.config.devtools = true
 require('./styles/common.scss')
 
+const moment = require('moment')
+moment.locale('zh-cn')
+
 // 导入组件库
 const yui = require('../packages')
 

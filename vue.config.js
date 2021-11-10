@@ -1,5 +1,6 @@
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const path = require('path')
+const webpack = require('webpack')
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -66,6 +67,10 @@ module.exports = {
       'element-ui': 'ELEMENT'
     },
     plugins: [
+      // 忽略moment.js中所有的locale文件
+      // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      // 只加载locale zh-cn文件
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
       // 开启gzip压缩
       new CompressionWebpackPlugin(
         {
