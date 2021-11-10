@@ -1,20 +1,16 @@
 <template>
   <el-table
-    :key="key"
-    ref="table"
-    border
-    v-bind="tableAttrs"
-    :data="renderData"
-    :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
-    :style="`width: ${
-      $attrs.width || '100%'
-    };height: ${getBodyHeight}px; overflow-y: auto;`"
-    :height="getBodyHeight"
+    ref="ElTable"
+    v-bind="$attrs"
+    :data="virtualData"
+    :row-style="rowStyle"
+    :height="height"
     :size="size"
+    row-key="id"
     v-on="$listeners"
   >
     <TableItem
-      v-for="(col, index) in columnAttrs"
+      v-for="(col, index) in computedColumns"
       :key="col.rowKey || index"
       :col="col"
       :columns="columns"
@@ -23,393 +19,85 @@
   </el-table>
 </template>
 <script>
-import { defaultTableAttrs, defaultColumn } from './config'
-import { cloneDeep, uniqWith, isEqual, findIndex, differenceWith } from 'lodash'
 import TableItem from './TableItem'
-import { calDomItemsHeight } from './tableHelper/tableUtil'
-import {
-  VIRTUAL_REMAIN_COUNT,
-  DEFAULT_TABLE_RECORD_HEIGHT,
-  DEFAULT_TABLE_HEIGHT,
-  DEFAULT_TABLE_HEADER_HEIGHT
-} from './tableHelper/constant'
 export default {
-  name: 'YVirtualList',
+  name: 'VirtualTable',
   components: {
     TableItem
   },
   props: {
-    viewportHeight: {
-      type: [Number, String],
-      default: DEFAULT_TABLE_HEIGHT - DEFAULT_TABLE_HEADER_HEIGHT
-    },
-    /* data:  显示的数据， 等同于el-table中的data属性 */
     data: {
       type: Array,
-      default() {
-        return []
-      }
+      default: () => []
     },
-    /* columns: 显示和表格项，数组里的每一项都是一个对象，对象中的属性与el-table-column中的属性一一对应 */
     columns: {
       type: Array,
-      default() {
-        return []
-      }
+      default: () => []
     },
-    itemHeight: {
-      type: [Number, String],
-      default() {
-        return DEFAULT_TABLE_RECORD_HEIGHT
-      }
+    height: {
+      type: Number,
+      default: 980
+    },
+    size: {
+      type: String,
+      default: 'size'
+    },
+    trHeight: { // 表格行高
+      type: Number,
+      default: 57
     }
   },
   data() {
-    const renderItems =
-      Math.ceil(this.viewportHeight / this.itemHeight) +
-      2 * VIRTUAL_REMAIN_COUNT
-
     return {
-      key: Math.random().toString(32).replace('.', ''),
-      tableAttrs: defaultTableAttrs, // 表格属性，同el-table上的属性
-      columnAttrs: [], // 表格项属性， 同el-table-column上的属性
-      paginationAttrs: {}, // 分页属性，同el-pagination上的属性
-      size: 'mini',
-      originColumns: cloneDeep(this.columns),
-      virtualData: {},
-      renderData: [],
-      minItemKeyHeight: -1,
-      maxItemKeyHeight: -1,
-      remainHeight: VIRTUAL_REMAIN_COUNT * this.itemHeight,
-      renderItems: renderItems,
-      renderItemsHeight: renderItems * this.itemHeight,
-      originData: cloneDeep(this.data)
+      tableScrollTop: 0,
+      maxRows: Math.ceil((this.height - 40) / this.trHeight) + 5,
+      tableVirtalHeight: this.data.length * this.trHeight,
+      start: 0
     }
   },
   computed: {
-    currentColumns: {
-      get() {
-        return this.columns
-      },
-      set(columns) {
-        this.$emit('update', columns)
-      }
+    computedColumns() {
+      return this.columns.map(im => {
+        im.showOverflowTooltip = true
+        return im
+      })
     },
-    getRecordHeight() {
-      return `${this.itemHeight}px`
+    virtualData() {
+      return this.data.slice(this.start, this.start + this.maxRows)
     },
-    getBodyHeight() {
-      return `${this.viewportHeight}px`
+    firstTrHeight() { // 第一行高度
+      const fh = this.tableScrollTop - this.trHeight - (this.tableScrollTop % this.trHeight)
+      return fh < 0 ? 0 : fh
     },
-    getBodyWrapperStyle: function() {
-      return {
-        height: `${this.data.length * this.itemHeight}px`,
-        position: 'relative'
-      }
-    }
-  },
-  watch: {
-    data: {
-      handler(val) {
-        this.virtualData = cloneDeep(val)
-        this.refreshRenderData()
-      },
-      immediate: true,
-      deep: true
-    },
-    columns: {
-      handler(val) {
-        this.init()
-      },
-      deep: true,
-      immediate: false
-    },
-    renderData: {
-      handler(val) {
-        const startIndex = val[0]?.__vkey
-        const lastIndex = val[val.length - 1]?.__vkey
-        const copyData = cloneDeep(val).map(item => {
-          delete item.translateY
-          delete item.__vkey
-          return item
-        })
-
-        const compareData = this.originData.slice(startIndex, lastIndex + 1)
-
-        const differenceData = differenceWith(copyData, compareData, isEqual)
-
-        // 遍歷，找到相應的遠遠，并替换
-        for (let i = 0; i < differenceData.length; i++) {
-          const replaceData = differenceData[i]
-          const props = Object.keys(replaceData)
-          const prop = props[0]
-          const index = findIndex(this.data, (obj) => obj[prop] === replaceData[prop])
-          this.originData.splice(index, 1, replaceData)
-        }
-
-        this.$emit('change', this.originData)
-      },
-      deep: true
+    lastTrHeight() { // 最后一行高度
+      return this.tableVirtalHeight - this.firstTrHeight - (this.maxRows * this.trHeight)
     }
   },
   mounted() {
-    this.init()
+    const ElTable = this.$refs.ElTable
+    this.bodyWrapper = ElTable.bodyWrapper
+    this.bodyWrapper.onscroll = this.onVirtualScroll
+    // this.bodyWrapper.onscroll = requestAnimationFrame(this.onVirtualScroll)
   },
   methods: {
-    getColumnStyle: function(column) {
-      return {
-        width: column.cWidth,
-        height: `${this.itemHeight}px`
+    // 表格行样式
+    rowStyle({ row, rowIndex }) {
+      if (rowIndex === 0) {
+        return { 'height': this.firstTrHeight + 'px' }
+      }
+      if (rowIndex === this.maxRows - 1) {
+        return { 'height': this.lastTrHeight + 'px' }
       }
     },
-    buildRenderData: function(minHeight, maxHeight) {
-      const minItemKey = minHeight / this.itemHeight
-      const maxItemKey = maxHeight / this.itemHeight
-      const startIndex = minItemKey > 0 ? minItemKey : -1
-      const endIndex =
-        maxItemKey > this.virtualData.length ? this.data.length : maxItemKey
-
-      const renderData = []
-      for (let index = startIndex + 1; index < endIndex; index++) {
-        const item = this.virtualData[index]
-        const recordIndexHeight = `${index * this.itemHeight}`
-        item.__vkey = index
-        item.translateY = `${recordIndexHeight}px`
-        renderData.push(item)
-      }
-
-      return renderData
-    },
-    refreshVirtualItems(newItems, replaceItemsIndex) {
-      if (newItems.length === this.renderData.length) {
-        this.renderData = newItems
-        return
-      }
-      for (let index = 0; index < newItems.length; index++) {
-        if (index < replaceItemsIndex.length) {
-          this.$set(this.renderData, replaceItemsIndex[index], newItems[index])
-          continue
-        }
-        this.renderData.push(newItems[index])
-      }
-    },
-    setBodyContainerStyle(record) {
-      const tbody = this.$refs.table.bodyWrapper?.querySelector('tbody')
-      if (!tbody) return
-
-      tbody.style.transform = `translateY(${record.translateY})`
-      tbody.style.height = `${this.itemHeight}px`
-    },
-    getBodyContainerStyle: function(record) {
-      return {
-        transform: `translateY(${record.translateY})`,
-        height: `${this.itemHeight}px`
-      }
-    },
-    buildNewItems: function(newData) {
-      const newItems = []
-      for (const newRecord of newData) {
-        if (findIndex(this.renderData, { __vkey: newRecord.__vkey }) < 0) {
-          newItems.push(newRecord)
-        }
-      }
-      return newItems
-    },
-    buildOutDateItems: function(newData) {
-      const replaceItemsIndex = []
-      for (let index = 0; index < this.renderData.length; index++) {
-        const record = this.renderData[index]
-        if (findIndex(newData, { __vkey: record.__vkey }) < 0) {
-          replaceItemsIndex.push(index)
-        }
-      }
-      return replaceItemsIndex
-    },
-    updateRenderData(newData) {
-      if (this.renderData.length === 0) {
-        this.renderData = newData
-        return
-      }
-      const newItems = this.buildNewItems(newData)
-      const replaceItemsIndex = this.buildOutDateItems(newData)
-      this.refreshVirtualItems(newItems, replaceItemsIndex)
-    },
-    refreshRenderData() {
-      this.$nextTick(() => {
-        const bodyWrapper = this.$refs.table.bodyWrapper
-
-        const scrollTop = bodyWrapper ? bodyWrapper.scrollTop : 0
-        const [minItemHeight, maxItemHeight] = calDomItemsHeight(
-          this.itemHeight,
-          this.remainHeight,
-          this.viewportHeight,
-          this.renderItemsHeight,
-          scrollTop
-        )
-
-        this.updateRenderData(
-          this.buildRenderData(minItemHeight, maxItemHeight)
-        )
-
-        this.$nextTick(() => {
-          // 处理表格样式
-          const { height, position } = this.getBodyWrapperStyle
-          const table = bodyWrapper.querySelector('table')
-          table.style.height = height
-          bodyWrapper.position = position
-
-          // 处理表格行样式
-          const tableRows = [
-            ...bodyWrapper.querySelectorAll('table tbody .el-table__row')
-          ]
-
-          for (let i = 0; i < tableRows.length; i++) {
-            const tableRow = tableRows[i]
-            const { transform, height } = this.getBodyContainerStyle(
-              this.renderData[i]
-            )
-            tableRow.style.transform = transform
-            tableRow.style.height = height
-            const tableCells = [...tableRow.querySelectorAll('.el-table__cell')]
-
-            for (let i = 0; i < tableCells.length; i++) {
-              // 处理单元格样式
-              const tableCell = tableCells[i]
-              tableCell.style.height = `${this.itemHeight}px`
-              tableCell.style.position = 'relative'
-              tableCell.className = 'cell-border'
-            }
-          }
-        })
-      })
-    },
-    onVirtualScroll(e) {
-      window.requestAnimationFrame(this.refreshRenderData)
-    },
-    init() {
-      // 解决y-table组件没有相关方法的问题
-      this.$children.forEach((component) => {
-        const el = component.$el
-        const classList = [...el.classList]
-        if (classList.includes('el-table')) {
-          Object.keys(component).forEach((key) => {
-            if (
-              [
-                'clearSelection',
-                'toggleRowSelection',
-                'toggleAllSelection',
-                'toggleRowExpansion',
-                'setCurrentRow',
-                'clearSort',
-                'clearFilter',
-                'doLayout',
-                'sort'
-              ].includes(key)
-            ) {
-              this[key] = component[key]
-            }
-          })
-        }
-      })
-      // 获取element table上的属性
-      const tableAttrs = {}
-      Object.keys(defaultTableAttrs).forEach((key) => {
-        if (this.$attrs[key] !== undefined) {
-          tableAttrs[key] = this.$attrs[key]
-        }
-      })
-      this.tableAttrs = Object.assign({}, defaultTableAttrs, tableAttrs)
-
-      // 获取element table col上的属性
-      const columnAttrs = this.currentColumns.map((column) => {
-        if (!column.formatter) {
-          this.$set(column, 'formatter', function(row, col) {
-            const val = row[col.property]
-            if (val === undefined || val === null || val === '') {
-              return '-'
-            }
-            return val
-          })
-        }
-        const obj = Object.assign({}, defaultColumn, column)
-        return obj
-      })
-
-      const firstColumn = cloneDeep(this.originColumns).find((column) =>
-        ['expand'].includes(column.type)
-      )
-
-      if (firstColumn) {
-        this.columnAttrs = uniqWith(
-          [Object.assign({}, defaultColumn, firstColumn), ...columnAttrs],
-          (arrVal, othVal) => {
-            if (arrVal.type) {
-              return arrVal.type === othVal.type
-            } else {
-              return isEqual(arrVal, othVal)
-            }
-          }
-        )
-      } else {
-        this.columnAttrs = columnAttrs
-      }
-
-      this.getScrollData()
-    },
-    getScrollData() {
-      this.$nextTick(() => {
-        this.$refs.table.bodyWrapper.onscroll = this.onVirtualScroll
-      })
+    // 表格滚动时
+    onVirtualScroll() {
+      const scrollTop = this.bodyWrapper.scrollTop
+      this.tableScrollTop = scrollTop
+      let start = Math.floor(this.tableScrollTop / this.trHeight) - 2
+      start = start < 0 ? 0 : start
+      if (start === this.start) return
+      this.start = start
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-.y-table {
-  overflow: auto;
-}
-.table-top {
-  display: flex;
-  justify-content: space-around;
-}
-.table-top-left {
-  flex: 1;
-  text-align: left;
-}
-.table-top-right {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-.utils-wrapper {
-  margin-left: 18px;
-}
-::v-deep .el-table td, .el-table th.is-leaf {
-  border: none;
-}
-
-::v-deep .el-table__row  .cell-border {
-  position: absolute;
-  border-bottom: 1px solid #EBEEF5;
-  border-right: 1px solid #EBEEF5;
-}
-
-::v-deep .el-table__body-wrapper {
-  display: inherit;
-  overflow-y: auto;
-}
-
-::v-deep .el-table__body-wrapper table tbody {
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  will-change: transform;
-}
-
-::v-deep .el-table__row {
-  position: absolute;
-  top: 0;
-}
-</style>

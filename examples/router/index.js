@@ -202,6 +202,12 @@ const routes = [
         name: 'DataBoard',
         component: () => import('../views/data-board'),
         meta: { title: '数据报表' }
+      },
+      {
+        path: '/VirtualTable',
+        name: 'VirtualTable',
+        component: () => import('../views/virtual-table'),
+        meta: { title: '虚拟表格2' }
       }
     ]
   }
