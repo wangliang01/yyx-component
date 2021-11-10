@@ -2,7 +2,7 @@
   <el-card class="form">
     <!-- <y-virtual-list :data="tableData" :columns="columns">
     </y-virtual-list> -->
-    <y-table :data="tableData" :columns="columns" virtual item-height="70" @change="handleChanged"></y-table>
+    <y-table :data="tableData" :columns="columns" virtual @change="handleChanged"></y-table>
   </el-card>
 </template>
 
@@ -23,8 +23,8 @@ export default {
     // VirtualList
   },
   data() {
+    this.tableData = tableData
     return {
-      tableData: tableData,
       columns: [
         {
           prop: 'id',
