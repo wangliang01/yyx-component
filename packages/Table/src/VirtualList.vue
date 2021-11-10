@@ -21,7 +21,7 @@
 <script>
 import TableItem from './TableItem'
 export default {
-  name: 'VirtualTable',
+  name: 'YVirtualList',
   components: {
     TableItem
   },
