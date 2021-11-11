@@ -10,18 +10,18 @@ const isLib = process.env.VUE_APP_ENV === 'lib'
 
 console.log('库模式', isLib)
 
-const asyncDllPlugins = isLib ? [
-  // 引入动态链接
-  new webpack.DllReferencePlugin({
-    manifest: path.resolve('dll', 'lodash.manifest.json')
-  }),
-  new webpack.DllReferencePlugin({
-    manifest: path.resolve('dll', 'moment.manifest.json')
-  }),
-  new webpack.DllReferencePlugin({
-    manifest: path.resolve('dll', 'element.manifest.json')
-  })
-] : []
+// const asyncDllPlugins = isLib ? [
+//   // 引入动态链接
+//   new webpack.DllReferencePlugin({
+//     manifest: path.resolve('dll', 'lodash.manifest.json')
+//   }),
+//   new webpack.DllReferencePlugin({
+//     manifest: path.resolve('dll', 'moment.manifest.json')
+//   }),
+//   new webpack.DllReferencePlugin({
+//     manifest: path.resolve('dll', 'element.manifest.json')
+//   })
+// ] : []
 
 module.exports = {
   publicPath: './',
@@ -54,6 +54,9 @@ module.exports = {
       entry: 'examples/main.js',
       template: 'public/index.html',
       filename: 'index.html'
+    },
+    lib: {
+      entry: './packages/index.js'
     }
   },
   configureWebpack: {
@@ -73,11 +76,17 @@ module.exports = {
     },
     externals: isLib ? {
       'vue-router': 'VueRouter',
-      'element-ui': 'ELEMENT'
+      'element-ui': 'ELEMENT',
+      'lodash': 'lodash',
+      'moment': 'moment',
+      'highlight.js': 'highlight.js'
     } : {
       'vue': 'Vue',
       'vue-router': 'VueRouter',
-      'element-ui': 'ELEMENT'
+      'element-ui': 'ELEMENT',
+      'lodash': 'lodash',
+      'moment': 'moment',
+      'highlight.js': 'highlight.js'
     },
     plugins: [
       // 忽略moment.js中所有的locale文件
@@ -97,9 +106,9 @@ module.exports = {
           minRatio: 0.8, // 只有压缩率小于这个值的资源才会被处理
           deleteOriginalAssets: false // 删除原文件
         }
-      ),
+      )
       // 引入动态链接
-      ...asyncDllPlugins
+      // ...asyncDllPlugins
     ]
 
   }
