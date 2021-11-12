@@ -21,6 +21,7 @@
 <script>
 import TableItem from './TableItem'
 import { clone } from 'lodash'
+let oldNow = 0
 export default {
   name: 'YVirtualList',
   components: {
@@ -73,7 +74,7 @@ export default {
   },
   computed: {
     maxRows() {
-      return Math.ceil((this.height - this.headerHeight) / this.rowHeight) + 5
+      return Math.ceil((this.height - this.headerHeight) / this.rowHeight) + 4
     },
     computedColumns() {
       return this.columns.map(col => {
@@ -124,14 +125,18 @@ export default {
       if (rowIndex === this.maxRows - 1) {
         return { 'height': this.lastRowHeight + 'px' }
       }
+      return null
     },
     // 表格滚动时
     onVirtualScroll() {
+      const now = Date.now()
+      const disTime = now - oldNow
+      if (disTime < 80) return
+      oldNow = now
       const scrollTop = this.bodyWrapper.scrollTop
       this.tableScrollTop = scrollTop
       let start = Math.floor(this.tableScrollTop / this.rowHeight) - 2
       start = start < 0 ? 0 : start
-      if (start === this.start) return
       this.start = start
     }
   }
