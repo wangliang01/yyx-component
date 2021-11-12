@@ -27,26 +27,37 @@ export default {
     TableItem
   },
   props: {
+    // 表格数据
     data: {
       type: Array,
       default: () => []
     },
+    // 表格列
     columns: {
       type: Array,
       default: () => []
     },
+    // 表格调试
     height: {
-      type: Number,
+      type: [String, Number],
       default: 980
     },
+    // 表格尺寸
     size: {
       type: String,
       default: 'size'
     },
-    trHeight: { // 表格行高
-      type: Number,
+    // 表头高度
+    headerHeight: {
+      type: [String, Number],
+      default: 40
+    },
+    // 表格行高
+    rowHeight: {
+      type: [Number, String],
       default: 57
     },
+    // 原数据改变后的回调
     change: {
       type: Function,
       default: null
@@ -54,18 +65,20 @@ export default {
   },
   data() {
     return {
-      originData: clone(this.data),
+      originData: Object.isFrozen(this.data) ? clone(this.data) : this.data,
       tableScrollTop: 0,
-      maxRows: Math.ceil((this.height - 40) / this.trHeight) + 5,
-      tableVirtualHeight: this.data.length * this.trHeight,
+      tableVirtualHeight: this.data.length * this.rowHeight,
       start: 0
     }
   },
   computed: {
+    maxRows() {
+      return Math.ceil((this.height - this.headerHeight) / this.rowHeight) + 5
+    },
     computedColumns() {
-      return this.columns.map(im => {
-        im.showOverflowTooltip = true
-        return im
+      return this.columns.map(col => {
+        col.showOverflowTooltip = true
+        return col
       })
     },
     virtualData: {
@@ -73,23 +86,24 @@ export default {
         return this.originData.slice(this.start, this.start + this.maxRows)
       }
     },
-    firstTrHeight() { // 第一行高度
-      const fh = this.tableScrollTop - this.trHeight - (this.tableScrollTop % this.trHeight)
-      return fh < 0 ? 0 : fh
+    firstRowHeight() { // 第一行高度
+      const firstRowHeight = this.tableScrollTop - this.rowHeight - (this.tableScrollTop % this.rowHeight)
+      return firstRowHeight < 0 ? 0 : firstRowHeight
     },
-    lastTrHeight() { // 最后一行高度
-      return this.tableVirtualHeight - this.firstTrHeight - (this.maxRows * this.trHeight)
+    lastRowHeight() { // 最后一行高度
+      return this.tableVirtualHeight - this.firstRowHeight - (this.maxRows * this.rowHeight)
     }
   },
   watch: {
     data: {
       handler(val) {
-        this.originData = clone(val)
-        this.tableVirtualHeight = this.data.length * this.trHeight
+        this.originData = Object.isFrozen(val) ? clone(val) : val
+        this.tableVirtualHeight = val.length * this.rowHeight
         this.$once('hook:updated', () => {
           if (typeof this.change === 'function') {
             this.change(this.originData)
           }
+          this.$emit('update:changedData', this.originData)
         })
       },
       deep: true
@@ -100,26 +114,22 @@ export default {
     const ElTable = this.$refs.ElTable
     this.bodyWrapper = ElTable.bodyWrapper
     this.bodyWrapper.onscroll = this.onVirtualScroll
-    // this.bodyWrapper.onscroll = requestAnimationFrame(this.onVirtualScroll)
   },
   methods: {
-    callback(val) {
-      this.$emit('change', val)
-    },
     // 表格行样式
     rowStyle({ row, rowIndex }) {
       if (rowIndex === 0) {
-        return { 'height': this.firstTrHeight + 'px' }
+        return { 'height': this.firstRowHeight + 'px' }
       }
       if (rowIndex === this.maxRows - 1) {
-        return { 'height': this.lastTrHeight + 'px' }
+        return { 'height': this.lastRowHeight + 'px' }
       }
     },
     // 表格滚动时
     onVirtualScroll() {
       const scrollTop = this.bodyWrapper.scrollTop
       this.tableScrollTop = scrollTop
-      let start = Math.floor(this.tableScrollTop / this.trHeight) - 2
+      let start = Math.floor(this.tableScrollTop / this.rowHeight) - 2
       start = start < 0 ? 0 : start
       if (start === this.start) return
       this.start = start

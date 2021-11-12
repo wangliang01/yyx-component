@@ -2,7 +2,7 @@
   <el-card class="form">
     <!-- <y-virtual-list :data="tableData" :columns="columns">
     </y-virtual-list> -->
-    <y-table :data="tableData" :columns="columns" virtual :change="handleChanged"></y-table>
+    <y-table :data="tableData" :columns="columns" virtual :changed-data.sync="submitData"></y-table>
     <el-button @click="handleSubmit">提交</el-button>
   </el-card>
 </template>
