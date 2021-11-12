@@ -2,7 +2,8 @@
   <el-card class="form">
     <!-- <y-virtual-list :data="tableData" :columns="columns">
     </y-virtual-list> -->
-    <y-table :data="tableData" :columns="columns" virtual @change="handleChanged"></y-table>
+    <y-table :data="tableData" :columns="columns" virtual :change="handleChanged"></y-table>
+    <el-button @click="handleSubmit">提交</el-button>
   </el-card>
 </template>
 
@@ -23,8 +24,10 @@ export default {
     // VirtualList
   },
   data() {
-    this.tableData = tableData
+    // this.tableData = tableData
     return {
+      tableData: [],
+      submitData: [],
       columns: [
         {
           prop: 'id',
@@ -46,9 +49,18 @@ export default {
       ]
     }
   },
+  mounted() {
+    setTimeout(() => {
+      this.tableData = Object.freeze(tableData)
+    }, 1000)
+  },
   methods: {
     handleChanged(e) {
       console.log('input', e)
+      this.submitData = e
+    },
+    handleSubmit() {
+      console.log(this.submitData)
     }
   }
 }

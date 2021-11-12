@@ -65,9 +65,14 @@ module.exports = {
         {
           test: /\.m?js$/,
           include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'node_modules/element-ui/packages')],
-          use: {
-            loader: 'babel-loader'
-          }
+          use: [
+            {
+              loader: 'thread-loader'
+            },
+            {
+              loader: 'babel-loader'
+            }
+          ]
         }
       ]
     },
@@ -83,10 +88,7 @@ module.exports = {
     } : {
       'vue': 'Vue',
       'vue-router': 'VueRouter',
-      'element-ui': 'ELEMENT',
-      'lodash': 'lodash',
-      'moment': 'moment',
-      'highlight.js': 'highlight.js'
+      'element-ui': 'ELEMENT'
     },
     plugins: [
       // 忽略moment.js中所有的locale文件
