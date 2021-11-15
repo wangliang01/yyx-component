@@ -110,11 +110,19 @@ export default {
       deep: true
     }
   },
-
   mounted() {
     const ElTable = this.$refs.ElTable
     this.bodyWrapper = ElTable.bodyWrapper
     this.bodyWrapper.onscroll = this.onVirtualScroll
+  },
+  activated() {
+    // 在 keep-alive缓存组件里，第二次进来时，滚动条默认会到顶部，此时缓存的数据 有问题
+    /* this.$nextTick(() => {
+      this.bodyWrapper.scrollTop = this.tableScrollTop
+    }) */
+    setTimeout(() => {
+      this.bodyWrapper.scrollTop = this.tableScrollTop
+    }, 100)
   },
   methods: {
     // 表格行样式
@@ -127,12 +135,21 @@ export default {
       }
       return null
     },
-    // 表格滚动时
+    // 表格滚动时 节流 并且在需要执行 最后一次 滚动事件
     onVirtualScroll() {
       const now = Date.now()
       const disTime = now - oldNow
-      if (disTime < 80) return
+      if (disTime < 80) {
+        if (this.timer) clearTimeout(this.timer)
+        this.timer = setTimeout(this.setSatrt(), 80)
+        return
+      }
       oldNow = now
+      if (this.timer) clearTimeout(this.timer)
+      this.setSatrt()
+    },
+    // 设置开始位置
+    setSatrt() {
       const scrollTop = this.bodyWrapper.scrollTop
       this.tableScrollTop = scrollTop
       let start = Math.floor(this.tableScrollTop / this.rowHeight) - 2

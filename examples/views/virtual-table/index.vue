@@ -22,9 +22,9 @@ export default {
     VirtualList
   },
   data() {
-    this.tableData = tableData
+    // this.tableData = tableData
     return {
-      // tableData: tableData,
+      tableData: Object.freeze(tableData),
       columns: [
         {
           prop: 'id',
