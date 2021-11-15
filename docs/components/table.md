@@ -337,7 +337,9 @@ border 属性可以使用表格显示边框
 | lazy                    | 是否懒加载子节点数据                                                                                                                                                                                  | Boolean                                               | ——                           | ——                                                        |
 | load                    | 加载子节点数据的函数，lazy 为 true 时生效，函数第二个参数包含了节点的层级信息                                                                                                                         | Function(row, treeNode, resolve)                      | ——                           | ——                                                        |
 | tree-props              | 渲染嵌套数据的配置选项                                                                                                                                                                                | Object                                                | ——                           | { hasChildren: 'hasChildren', children: 'children' }      |
-
+| virtual              | 是否启动虚拟列表(如为true，需要传入表格高度，表格行高以便计算，表格数据，data 最好冻结，提供性能) | Boolean|——|false|
+| change              | （虚拟列表专有属性）回调函数返回冻结后，克隆之后可操作数据 | Function|——|——|
+| changedData         | (虚拟列表专有属性）通过.sync可返回冻结后，克隆之后可操作数据， | Object|——|——|
 ### Table Events
 
 | 事件名             | 说明                                                                                                                     | 参数                              |
