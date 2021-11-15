@@ -121,6 +121,10 @@ export default {
       this.bodyWrapper.scrollTop = this.tableScrollTop
     })
   },
+  beforeDestroy() {
+    this.bodyWrapper.onscroll = null
+    this.bodyWrapper = null
+  },
   methods: {
     // 表格行样式
     rowStyle({ row, rowIndex }) {
