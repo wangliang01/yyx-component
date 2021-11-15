@@ -117,12 +117,9 @@ export default {
   },
   activated() {
     // 在 keep-alive缓存组件里，第二次进来时，滚动条默认会到顶部，此时缓存的数据 有问题
-    /* this.$nextTick(() => {
-      this.bodyWrapper.scrollTop = this.tableScrollTop
-    }) */
     setTimeout(() => {
       this.bodyWrapper.scrollTop = this.tableScrollTop
-    }, 100)
+    })
   },
   methods: {
     // 表格行样式
