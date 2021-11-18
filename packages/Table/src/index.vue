@@ -16,6 +16,7 @@
       <el-table
         :key="key"
         ref="table"
+        v-adaptive="{bottomOffset: bottomOffset}"
         v-bind="tableAttrs"
         :data="data"
         :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
@@ -59,6 +60,11 @@ export default {
   },
   props: {
     /* 是否用虚拟列表显示 */
+    // 用于计算表格自适应，如果表格下面有内容需要设置
+    bottomOffset: {
+      type: Number,
+      default: 90// 默认下面没其他东西，有分页
+    },
     virtual: {
       type: Boolean,
       default: false
