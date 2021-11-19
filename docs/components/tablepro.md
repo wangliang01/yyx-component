@@ -10,6 +10,7 @@
 <template>
   <div id="product-archives-container" class="product-archives-container">
     <y-table-pro
+      v-adaptive
       :columns="columns"
       ui-style="antd"
       :show-util-bar="true"

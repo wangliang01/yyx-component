@@ -43,6 +43,8 @@ import BatchExport from './BatchExport'
 import VirtualList from './VirtualList'
 import DataBoard from './DataBoard'
 
+import directives from '../directives'
+
 const { YCategoryCascader, YAddressCascader, YCascader } = Cascader
 const { YUpload, YAvatar } = Upload
 
@@ -53,7 +55,9 @@ const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YTa
 const install = Vue => {
   // 判断是否安装
   if (install.installed) return
+  // 注册指令
   Vue.use(Loading.directive)
+  Vue.use(directives)
   // 遍历注册全局组件
   components.map(component => Vue.component(component.name, component))
 }
