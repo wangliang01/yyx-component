@@ -26,6 +26,7 @@ const doResize = async(el, binding, vnode) => {
     window.innerHeight - el.getBoundingClientRect().top - bottomOffset
   // 父组件更新完成再设置表格高度，要不重新渲染会失效
   const self = vnode.componentInstance
+  console.log('height', height)
   self.$nextTick(() => {
     Vue.set($table, 'maxHeight', height)
     $table.doLayout()
@@ -43,8 +44,8 @@ export default {
     // 绑定监听方法到addResizeListener
     window.addEventListener('resize', el.resizeListener)
   },
-  update(el, binding, vnode) {
-    doResize(el, binding, vnode)
+  async update(el, binding, vnode) {
+    await doResize(el, binding, vnode)
   },
   // 绑定默认高度
   async inserted(el, binding, vnode) {
