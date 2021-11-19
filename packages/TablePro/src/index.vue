@@ -58,7 +58,7 @@
       <div class="table-wrapper">
         <y-table
           :key="key"
-          ref="table"
+          ref="yTable"
           :data="tableData"
           :columns.sync="currentColumns"
           :pagination="$attrs.pagination === undefined ? true : $attrs.pagination"
@@ -194,10 +194,10 @@ export default {
       handler(val) {
         this.currentColumns = this.columns && this.columns.filter(column => !column.hidden)
         this.initConfig()
-        if (this.$refs.table) {
+        if (this.$refs.yTable) {
           this.$nextTick(() => {
             this.key = Math.random().toString(32).replace('.', '')
-            this.$refs.table.columnsReload()
+            this.$refs.yTable.columnsReload()
           })
         }
       },
@@ -277,8 +277,8 @@ export default {
     },
     /* 取消选择 */
     handleCancelSelection() {
-      if (this.$refs.table) {
-        this.$refs.table.clearSelection()
+      if (this.$refs.yTable) {
+        this.$refs.yTable.clearSelection()
         this.$emit('clear-selection')
       }
     },
