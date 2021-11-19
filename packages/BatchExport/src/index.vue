@@ -76,7 +76,7 @@ export default {
 
       // excel样式
       const writingOptions = {
-        bookType: 'xls',
+        bookType: 'xlsx',
         bookSST: false,
         type: 'binary',
         cellStyles: true
