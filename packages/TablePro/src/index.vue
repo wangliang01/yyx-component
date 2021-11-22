@@ -1,5 +1,5 @@
 <template>
-  <div ref="tablePro" v-loading="loading" class="table-pro">
+  <div ref="tablePro" v-loading="hasLoading && loading" class="table-pro">
     <!-- Element风格搜索框 -->
     <div v-if="uiStyle=== 'element'" ref="tableFilter" :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
       <y-form
@@ -152,6 +152,11 @@ export default {
     format: {
       type: Function,
       default: null
+    },
+    // 是否显示loading
+    hasLoading: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
