@@ -14,10 +14,9 @@ const doResize = async(el, binding, vnode) => {
   const componentName = 'ElTable'
   // target即是ElTable组件
   const target = findComponentForward(context, componentName)
-  console.log('target', target)
   const { value } = binding
   // 获取距底部距离 90默认有分页
-  const bottomOffset = (value && value.bottomOffset) || 30
+  const bottomOffset = (value && value.bottomOffset) || 90
   if (!target) return
   const $el = target.$el
   // 计算列表高度并设置
@@ -45,7 +44,6 @@ export default {
     const $el = getEl(el, vnode)
     doResize($el, binding, vnode)
 
-    console.log('bind', $el)
     $el.resizeListener = async() => {
       await doResize($el, binding, vnode)
     }
@@ -54,24 +52,20 @@ export default {
   },
   update(el, binding, vnode) {
     const $el = getEl(el, vnode)
-    console.log('update', $el)
     doResize($el, binding, vnode)
   },
   componentUpdated(el, binding, vnode) {
     const $el = getEl(el, vnode)
-    console.log('componentUpdated', $el)
     doResize($el, binding, vnode)
   },
   // 绑定默认高度
   async inserted(el, binding, vnode) {
     const $el = getEl(el, vnode)
-    console.log('inserted', $el)
     await doResize($el, binding, vnode)
   },
   // 销毁时设置
   unbind(el, binding, vnode) {
     const $el = getEl(el, vnode)
-    console.log('unbind', $el)
     // 设置resize监听方法
     doResize($el, binding, vnode)
     // 移除resize监听
