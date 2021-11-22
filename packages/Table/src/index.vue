@@ -16,6 +16,7 @@
       <el-table
         :key="key"
         ref="table"
+        v-adaptive="{bottomOffset}"
         v-bind="tableAttrs"
         :data="data"
         :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
@@ -76,6 +77,10 @@ export default {
       default() {
         return []
       }
+    },
+    bottomOffset: {
+      type: [Number],
+      default: 90
     },
     /* pagination: 分页属性：如果为Boolean为true,则取默认值，如果是对象，则merge默认值， 如果total有值，会覆盖pagination中的total属性 */
     pagination: {

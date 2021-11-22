@@ -15,6 +15,7 @@
       ui-style="antd"
       :show-util-bar="true"
       :load-data-api="pagelist"
+      loaded="handleLoadData"
     >
     </y-table-pro>
   </div>
@@ -566,6 +567,11 @@
             }
           }
         ]
+      }
+    },
+    methods: {
+      handleLoadData(data) {
+        console.log('loaded', data)
       }
     }
   }
