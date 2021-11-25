@@ -13,10 +13,33 @@
     </div>
     <y-virtual-list v-if="virtual" :columns="currentColumns" :data="data" v-bind="$attrs" v-on="$listeners"></y-virtual-list>
     <template v-else>
+      <!-- 自适应表格 -->
       <el-table
+        v-if="autoAdaptiveHeight"
         :key="key"
         ref="table"
         v-adaptive="{bottomOffset}"
+        v-bind="tableAttrs"
+        :data="data"
+        :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
+        :style="`width: ${$attrs.width || '100%'}`"
+        :size="size"
+        :max-height="height"
+        v-on="$listeners"
+      >
+        <TableItem
+          v-for="(col, index) in columnAttrs"
+          :key="index"
+          :col="col"
+          :columns="columns"
+          :data="data"
+        ></TableItem>
+      </el-table>
+      <!-- 普通表格 -->
+      <el-table
+        v-else
+        :key="key"
+        ref="table"
         v-bind="tableAttrs"
         :data="data"
         :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
@@ -116,6 +139,11 @@ export default {
     offsetHeight: {
       type: [String, Number],
       default: 0
+    },
+    // 自适应高度
+    autoAdaptiveHeight: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
