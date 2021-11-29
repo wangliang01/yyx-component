@@ -142,7 +142,7 @@ export default {
       const disTime = now - oldNow
       if (disTime < 80) {
         if (this.timer) clearTimeout(this.timer)
-        this.timer = setTimeout(this.setSatrt(), 80)
+        this.timer = setTimeout(this.setSatrt, 80)
         return
       }
       oldNow = now
