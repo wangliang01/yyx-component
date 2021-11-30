@@ -1,6 +1,7 @@
 <template>
   <div :key="key" class="y-select">
     <el-select
+      :key="key"
       ref="select"
       v-bind="$attrs"
       :filterable="remote"
