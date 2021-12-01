@@ -2,6 +2,9 @@
   <div v-if="!refresh">
     <el-upload :ref="refUpload" :disabled="disabled" :class="{'off-add': limit<=defaultFile.length}" list-type="picture-card" action="" :on-preview="handlePictureCardPreview" :before-upload="handleBeforeUpload" :on-remove="handleRemove" :file-list="defaultFile">
       <i class="el-icon-plus"></i>
+      <template slot="file" slot-scope="{file}">
+        <slot name="file" :file="file"></slot>
+      </template>
     </el-upload>
 
     <!-- <el-dialog :append-to-body="true" :visible.sync="dialogVisible">
