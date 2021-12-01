@@ -75,6 +75,7 @@ export default {
     '$attrs.options': {
       handler(val) {
         if (Array.isArray(val)) {
+          this.list = val
           this.options = val
         }
       },
