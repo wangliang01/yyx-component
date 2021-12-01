@@ -15,15 +15,16 @@ const doResize = async(el, binding, vnode) => {
   // target即是ElTable组件
   const target = findComponentForward(context, componentName)
   const { value } = binding
-  // 获取距底部距离 90默认有分页
-  const bottomOffset = (value && value.bottomOffset) || 90
+  // 获取距底部距离 100默认有分页
+  const bottomOffset = (value && value.bottomOffset) || 100
   if (!target) return
   const $el = target.$el
   // 计算列表高度并设置
-  const height =
+  let height =
     window.innerHeight - $el.getBoundingClientRect().top - bottomOffset
   // 父组件更新完成再设置表格高度，要不重新渲染会失效
   context.$nextTick(() => {
+    height = height < 400 ? 400 : height
     Vue.set(target, 'maxHeight', height)
     target.doLayout()
   })
