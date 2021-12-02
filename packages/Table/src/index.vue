@@ -152,7 +152,7 @@ export default {
       tableAttrs: defaultTableAttrs, // 表格属性，同el-table上的属性
       columnAttrs: [], // 表格项属性， 同el-table-column上的属性
       paginationAttrs: {}, // 分页属性，同el-pagination上的属性
-      size: '',
+      size: 'mini',
       originColumns: cloneDeep(this.columns)
     }
   },
@@ -355,4 +355,9 @@ export default {
 .utils-wrapper {
   margin-left: 18px;
 }
+
+.el-table th, .el-table__mini th {
+  padding: 12px 0;
+}
+
 </style>
