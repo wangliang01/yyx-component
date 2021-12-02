@@ -150,9 +150,9 @@ export default {
     onVirtualScroll() {
       const now = Date.now()
       const disTime = now - oldNow
-      if (disTime < 80) {
+      if (disTime < 30) {
         if (this.timer) clearTimeout(this.timer)
-        this.timer = setTimeout(this.setSatrt, 80)
+        this.timer = setTimeout(this.setSatrt, 30)
         return
       }
       oldNow = now
