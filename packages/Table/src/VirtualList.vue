@@ -91,6 +91,7 @@ export default {
     },
     firstRowHeight() { // 第一行高度
       const firstRowHeight = this.tableScrollTop - this.rowHeight - (this.tableScrollTop % this.rowHeight)
+      if (firstRowHeight < 0) return 0
       return firstRowHeight >= this.firstMaxHeight ? this.firstMaxHeight : firstRowHeight
     },
     lastRowHeight() { // 最后一行高度
