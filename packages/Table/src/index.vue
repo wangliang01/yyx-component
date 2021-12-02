@@ -356,8 +356,4 @@ export default {
   margin-left: 18px;
 }
 
-.el-table th, .el-table__mini th {
-  padding: 12px 0;
-}
-
 </style>

@@ -43,6 +43,12 @@
   background: #F8F9FB;
 }
 
+.el-table--mini th {
+  padding: 12px 0;
+}
+
+
+
 // 定义显示几行
 @for $i from 1 through 5 {
   .y-line-#{$i} {
