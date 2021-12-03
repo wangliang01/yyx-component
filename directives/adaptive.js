@@ -20,13 +20,17 @@ const doResize = async(el, binding, vnode) => {
   if (!target) return
   const $el = target.$el
   // 计算列表高度并设置
-  let height =
+  const height =
     window.innerHeight - $el.getBoundingClientRect().top - bottomOffset
   // 父组件更新完成再设置表格高度，要不重新渲染会失效
   context.$nextTick(() => {
-    height = height < 400 ? 400 : height
-    Vue.set(target, 'maxHeight', height)
-    target.doLayout()
+    if (window.innerHeight > 900) {
+      Vue.set(target, 'maxHeight', height)
+      target.doLayout()
+    } else {
+      Vue.set(target, 'maxHeight', undefined)
+      target.doLayout()
+    }
   })
 }
 
