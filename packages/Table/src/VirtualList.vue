@@ -109,6 +109,9 @@ export default {
           }
           this.$emit('update:changedData', this.originData)
         })
+        // 数据更新之后，滚动条滚到 0 从新截取数据内容
+        this.bodyWrapper.scrollTop = 0
+        this.setSatrt()
       },
       deep: true
     }
