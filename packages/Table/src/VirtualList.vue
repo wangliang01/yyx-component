@@ -167,9 +167,9 @@ export default {
       const scrollTop = this.bodyWrapper.scrollTop
       this.tableScrollTop = scrollTop
       let start = Math.floor(this.tableScrollTop / this.rowHeight) - 2
-      start = start < 0 ? 0 : start
       const maxStart = this.originData.length - this.maxRows
       if (start >= maxStart) start = maxStart
+      start = start < 0 ? 0 : start
       this.start = start
       this.input.focus()
     }
