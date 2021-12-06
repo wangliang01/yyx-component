@@ -12,6 +12,7 @@
         label-position="left"
         :label-width="$attrs['label-width']"
         v-on="$listeners"
+        @keyup.enter.native="handleQuery"
       >
         <el-form-item v-if="hasSearch && formConfig.length <= 3">
           <el-button
@@ -41,6 +42,7 @@
         :label-suffix="$attrs.labelSuffix || ':'"
         :label-width="$attrs['label-width']"
         v-on="$listeners"
+        @keyup.enter.native="handleQuery"
       >
       </y-form>
       <div v-if="hasReset || hasSearch" class="btn-wrapper">
