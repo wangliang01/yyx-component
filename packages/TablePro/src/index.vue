@@ -232,12 +232,13 @@ export default {
           this.$nextTick(() => {
             const tablePro = this.$refs.tablePro
             if (tablePro) {
-              const tableWrapper = tablePro.$el.querySelector('.table-wrapper')
+              const tableWrapper = tablePro.querySelector('.table-wrapper')
               tableWrapper.style.marginTop = 0
             }
           })
         }
       },
+      immediate: true,
       deep: true
     }
   },
