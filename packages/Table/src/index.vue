@@ -130,7 +130,7 @@ export default {
     /* 工具栏配置项 */
     utilConifg: {
       type: Array,
-      default: () => ['refresh', 'density', 'setting']
+      default: () => ['refresh', 'density']
     },
     maxHeight: {
       type: [String, Number],

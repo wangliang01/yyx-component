@@ -39,7 +39,7 @@
         :config="config"
         :inline="true"
         label-position="left"
-        :label-suffix="$attrs.labelSuffix || ':'"
+        :label-suffix="$attrs['label-suffix'] || $attrs['labelSuffix'] || '：'"
         :label-width="$attrs['label-width']"
         v-on="$listeners"
         @keyup.enter.native="handleQuery"

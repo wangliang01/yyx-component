@@ -161,8 +161,11 @@ export default {
           return this.getCheckedObj(this.options, checkedValue)
         })
       }
-
       this.$emit('checked', params)
+      this.$nextTick(() => {
+        console.log('presentText', this.$refs[this.ref].presentText)
+        this.$emit('presentText', this.$refs[this.ref].presentText)
+      })
     },
     getCheckedObj(data, value) {
       let res = null
