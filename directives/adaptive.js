@@ -28,7 +28,7 @@ const doResize = async(el, binding, vnode) => {
       Vue.set(target, 'maxHeight', height)
       target.doLayout()
     } else {
-      Vue.set(target, 'maxHeight', undefined)
+      Vue.set(target, 'maxHeight', target.maxHeight)
       target.doLayout()
     }
   })
