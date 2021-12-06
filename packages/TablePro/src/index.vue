@@ -223,6 +223,22 @@ export default {
         this.loadData()
       },
       deep: true
+    },
+    uiStyle: {
+      handler(val) {
+        if (!['element', 'antd'].includes(val)) {
+          // 如果不是这两套风格，
+          // 去掉tableWrapper的marginTop
+          this.$nextTick(() => {
+            const tablePro = this.$refs.tablePro
+            if (tablePro) {
+              const tableWrapper = tablePro.$el.querySelector('.table-wrapper')
+              tableWrapper.style.marginTop = 0
+            }
+          })
+        }
+      },
+      deep: true
     }
   },
   mounted() {
