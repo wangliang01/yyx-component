@@ -12,7 +12,7 @@
     <y-table-pro
       v-adaptive="{bottomOffset: 90}"
       :columns="columns"
-      ui-style="antd"
+      ui-style="null"
       :show-util-bar="true"
       :load-data-api="pagelist"
       loaded="handleLoadData"
