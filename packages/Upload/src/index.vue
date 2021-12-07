@@ -1,12 +1,28 @@
 <template>
   <div v-if="!refresh">
-    <el-upload :ref="refUpload" :disabled="disabled" :class="{'off-add': limit<=defaultFile.length}" list-type="picture-card" action="" :on-preview="handlePictureCardPreview" :before-upload="handleBeforeUpload" :on-remove="handleRemove" :file-list="defaultFile">
+    <y-upload-list
+      :ref="refUpload"
+      :disabled="disabled"
+      :class="{'off-add': limit<=defaultFile.length, 'y-upload': true}"
+      list-type="picture-card"
+      action=""
+      :on-preview="handlePictureCardPreview"
+      :before-upload="handleBeforeUpload"
+      :on-remove="handleRemove"
+      :file-list="defaultFile"
+      :is-dragging="isDragging"
+      @dragend="dragend"
+    >
       <i class="el-icon-plus"></i>
       <template slot="file" slot-scope="{file}">
         <slot name="file" :file="file"></slot>
       </template>
-    </el-upload>
-
+    </y-upload-list>
+    <!-- <y-upload-list
+      class="y-upload-list"
+      list-type="picture-card"
+      :files="fileList"
+    ></y-upload-list> -->
     <!-- <el-dialog :append-to-body="true" :visible.sync="dialogVisible">
       <img style="width:100%" :src="dialogImageUrl" alt="">
     </el-dialog> -->
@@ -119,6 +135,10 @@ export default {
     allowPdf: {
       type: Boolean,
       default: false
+    },
+    isDragging: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -162,6 +182,9 @@ export default {
     this.formatDefaultFile()
   },
   methods: {
+    dragend(e) {
+      this.$emit('dragend', e.map(i => i.url))
+    },
     handleRemove(file, fileList) {
       this.default = fileList
       this.defaultFile = fileList
