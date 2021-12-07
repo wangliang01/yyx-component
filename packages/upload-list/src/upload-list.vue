@@ -97,10 +97,12 @@ export default {
     }
   },
   mounted() {
-    this.$dragging.$on('dragend', (value) => {
-      this.$forceUpdate()
-      this.$emit('dragend', this.files)
-    })
+    if (this.isDragging) {
+      this.$dragging.$on('dragend', (value) => {
+        this.$forceUpdate()
+        this.$emit('dragend', this.files)
+      })
+    }
   },
   methods: {
     parsePercentage(val) {
