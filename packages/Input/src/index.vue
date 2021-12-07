@@ -3,7 +3,7 @@
     <el-input
       ref="input"
       v-model="currentValue"
-      :clearable="$attrs.clearable || true"
+      :clearable="$attrs.clearable===undefined?true:$attrs.clearable"
       v-bind="$attrs"
       :maxlength="$attrs.maxlength || $attrs.maxLength || $attrs['max-length']"
       @input="handleInputEvent"
