@@ -98,7 +98,7 @@ export default {
   },
   mounted() {
     if (this.isDragging) {
-      this.$dragging.$on('dragend', (value) => {
+      this.$dragging().$on('dragend', (value) => {
         this.$forceUpdate()
         this.$emit('dragend', this.files)
       })

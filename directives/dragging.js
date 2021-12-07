@@ -266,7 +266,9 @@ export default function(Vue, options) {
     _.off(el, 'touchend', handleDragEnd)
   }
 
-  Vue.prototype.$dragging = $dragging
+  Vue.prototype.$dragging = () => {
+    return $dragging
+  }
   if (!isPreVue) {
     Vue.directive('dragging', {
       bind: addDragItem,
