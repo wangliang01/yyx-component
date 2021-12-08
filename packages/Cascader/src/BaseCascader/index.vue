@@ -163,8 +163,8 @@ export default {
       }
       this.$emit('checked', params)
       this.$nextTick(() => {
-        console.log('presentText', this.$refs[this.ref].presentText)
-        this.$emit('presentText', this.$refs[this.ref].presentText)
+        const ref = this.$refs[this.ref]
+        this.$emit('presentText', ref.presentText.split(ref.separator).join('/'))
       })
     },
     getCheckedObj(data, value) {
