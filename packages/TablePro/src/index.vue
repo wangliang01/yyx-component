@@ -526,10 +526,10 @@ export default {
       margin-right: 74px;
     }
     .el-form-item .el-input {
-      width: 280px;
+      width: 292px;
     }
     .el-form-item .el-select {
-      width: 280px;
+      width: 292px;
     }
   }
   .btn-wrapper{
