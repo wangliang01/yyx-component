@@ -19,6 +19,7 @@
         :key="key"
         ref="table"
         v-adaptive="{bottomOffset}"
+        :border="$attrs.border === undefined ? true : $attrs.border"
         v-bind="tableAttrs"
         :data="data"
         :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
