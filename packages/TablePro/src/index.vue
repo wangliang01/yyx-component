@@ -436,7 +436,7 @@ export default {
       filterColumns.forEach(column => {
         const key = column.prop
         // 生成表单的数据
-        this.$set(this.config, key, { ...column, clearable: true, hidden: false, width: column.filterWidth || '280px' })
+        this.$set(this.config, key, { ...column, clearable: true, hidden: false, width: column.filterWidth || '292px' })
 
         // 生成查询参数
         if (!column.hidden) {

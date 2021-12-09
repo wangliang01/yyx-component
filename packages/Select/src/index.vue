@@ -138,7 +138,6 @@ export default {
         setTimeout(() => {
           this.loading = false
           this.options = this.list.filter(item => {
-            console.log('this.model.label', this.model.label)
             item[this.model.label] = item[this.model.label] ? item[this.model.label] : ''
             return item[this.model.label].toLowerCase()
               .indexOf(query.toLowerCase()) > -1
