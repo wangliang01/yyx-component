@@ -168,11 +168,10 @@ export default {
     },
     height() {
       const clientHeight = window.innerHeight
-      console.log(clientHeight - this.offsetHeight)
       if (clientHeight - this.offsetHeight < this.maxHeight) {
         return clientHeight - this.offsetHeight
       }
-      return this.maxHeight
+      return this.maxHeight < 400 ? 'auto' : this.maxHeight
     }
   },
   watch: {
