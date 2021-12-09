@@ -19,9 +19,9 @@ const doResize = async(el, binding, vnode) => {
   const bottomOffset = (value && value.bottomOffset) || 100
   if (!target) return
   const $el = target.$el
+  target.top = $el.getBoundingClientRect()?.top || target.top // 此处解决页面缓存的时候，获取到的top数据为 0 需要缓存 上一次正常渲染的top 高度数据
   // 计算列表高度并设置
-  const height =
-    window.innerHeight - $el.getBoundingClientRect().top - bottomOffset
+  const height = window.innerHeight - target.top - bottomOffset
   // 父组件更新完成再设置表格高度，要不重新渲染会失效
   context.$nextTick(() => {
     if (window.innerHeight > 900) {
