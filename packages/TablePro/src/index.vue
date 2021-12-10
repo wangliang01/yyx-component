@@ -159,6 +159,11 @@ export default {
     hasLoading: {
       type: Boolean,
       default: false
+    },
+    // 默认值
+    defaultParams: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -469,6 +474,8 @@ export default {
             }
         }
       })
+      // 处理默认参数
+      this.queryParams = { ...this.queryParams, ...this.defaultParams }
       // 处理params
       if (!isEmpty(this.params)) {
         cloneParams = cloneDeep(this.params)
@@ -477,6 +484,8 @@ export default {
             cloneParams[key] = ''
           }
         })
+        // 处理默认参数
+        cloneParams = { ...cloneParams, ...this.defaultParams }
         this.$emit('update:params', cloneParams)
       }
       this.total = 0
