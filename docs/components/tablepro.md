@@ -12,11 +12,17 @@
     <y-table-pro
       v-adaptive="{bottomOffset: 90}"
       :columns="columns"
-      ui-style="null"
-      :show-util-bar="true"
+      ui-style="antd"
+      :show-util-bar="false"
       :load-data-api="pagelist"
       loaded="handleLoadData"
     >
+      <!-- <div slot="table">
+        <el-button>变动</el-button>
+      </div>
+      <div slot="table-top-right">
+        <el-button>xx光线</el-button>
+      </div> -->
     </y-table-pro>
   </div>
 </template>
@@ -473,7 +479,7 @@
           {
             prop: 'region',
             label: '活动区域',
-            fieldType: 'Select',
+            fieldType: 'y-select',
             filter: true,
             api() {
               return {
