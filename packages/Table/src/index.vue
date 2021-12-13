@@ -1,6 +1,6 @@
 <template>
   <div :key="key" class="y-table">
-    <div v-if="$slots.table || $slots['table-top-right']" class="table-top">
+    <div class="table-top">
       <slot name="default" class="table-top-left"></slot>
       <div class="table-top-right">
         <slot name="table-top-right"></slot>
