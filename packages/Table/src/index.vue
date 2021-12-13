@@ -133,10 +133,6 @@ export default {
       type: Array,
       default: () => ['refresh', 'density']
     },
-    maxHeight: {
-      type: [String, Number],
-      default: 'auto'
-    },
     offsetHeight: {
       type: [String, Number],
       default: 0
@@ -154,7 +150,8 @@ export default {
       columnAttrs: [], // 表格项属性， 同el-table-column上的属性
       paginationAttrs: {}, // 分页属性，同el-pagination上的属性
       size: 'mini',
-      originColumns: cloneDeep(this.columns)
+      originColumns: cloneDeep(this.columns),
+      maxHeight: 'auto'
     }
   },
   computed: {
