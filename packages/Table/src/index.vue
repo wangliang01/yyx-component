@@ -1,13 +1,13 @@
 <template>
   <div :key="key" class="y-table">
-    <div v-if="$slots.table || $slots['table-top-right']" class="table-top">
+    <div class="table-top">
       <slot name="default" class="table-top-left"></slot>
       <div class="table-top-right">
         <slot name="table-top-right"></slot>
         <div v-if="showUtilBar" class="utils-wrapper">
-          <Refresh v-if="utilConifg.includes('refresh')" @refresh="handleRefresh"></Refresh>
-          <Density v-if="utilConifg.includes('density')" :size="size" @resize="handleResize"></Density>
-          <Setting v-if="utilConifg.includes('setting')" v-model="currentColumns" :origin-columns="originColumns"></Setting>
+          <Refresh v-if="utilConfig.includes('refresh')" @refresh="handleRefresh"></Refresh>
+          <Density v-if="utilConfig.includes('density')" :size="size" @resize="handleResize"></Density>
+          <Setting v-if="utilConfig.includes('setting')" v-model="currentColumns" :origin-columns="originColumns"></Setting>
         </div>
       </div>
     </div>
@@ -26,6 +26,7 @@
         :style="`width: ${$attrs.width || '100%'}`"
         :size="size"
         :max-height="height"
+        :class="borderClass"
         v-on="$listeners"
       >
         <TableItem
@@ -47,6 +48,7 @@
         :style="`width: ${$attrs.width || '100%'}`"
         :size="size"
         :max-height="height"
+        :class="borderClass"
         v-on="$listeners"
       >
         <TableItem
@@ -129,7 +131,7 @@ export default {
       default: false
     },
     /* 工具栏配置项 */
-    utilConifg: {
+    utilConfig: {
       type: Array,
       default: () => ['refresh', 'density']
     },
@@ -172,7 +174,11 @@ export default {
         return clientHeight - this.offsetHeight
       }
       return this.maxHeight < 400 ? 'auto' : this.maxHeight
+    },
+    borderClass() {
+      return this.data.length === 0 ? 'el-table--border__bottom' : ''
     }
+
   },
   watch: {
     pagination: {
@@ -354,6 +360,11 @@ export default {
 }
 .utils-wrapper {
   margin-left: 18px;
+}
+
+.el-table--border.el-table--border__bottom{
+  border-right: 1px solid #EBEEF5;
+  border-bottom: 1px solid #EBEEF5;
 }
 
 </style>

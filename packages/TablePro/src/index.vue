@@ -332,14 +332,14 @@ export default {
     },
     initTableFilter() {
       if (this.uiStyle === 'antd') {
-        /* const tableTop = this.$refs.tableTop
+        const tableTop = this.$refs.tableTop
         const nodeName = tableTop.children[0]?.nodeName
         if (nodeName === 'TEMPLATE') {
           // 插槽里没有内容，清除下边距
           tableTop.style.marginBottom = '0'
         } else {
           tableTop.style.marginBottom = '15px'
-        } */
+        }
 
         // 如果是antd风格
         const tableFilter = this.$refs.tableFilter

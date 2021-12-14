@@ -17,12 +17,12 @@
       :load-data-api="pagelist"
       loaded="handleLoadData"
     >
-      <!-- <div slot="table">
-        <el-button>变动</el-button>
+      <div slot="table">
+        <el-button>xx33333333333333333333</el-button>
       </div>
       <div slot="table-top-right">
         <el-button>xx光线</el-button>
-      </div> -->
+      </div>
     </y-table-pro>
   </div>
 </template>
