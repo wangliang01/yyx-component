@@ -141,6 +141,10 @@ export default {
     autoAdaptiveHeight: {
       type: Boolean,
       default: false
+    },
+    maxHeight: {
+      type: [String, Number],
+      default: 'auto'
     }
   },
   data() {
@@ -150,8 +154,7 @@ export default {
       columnAttrs: [], // 表格项属性， 同el-table-column上的属性
       paginationAttrs: {}, // 分页属性，同el-pagination上的属性
       size: 'mini',
-      originColumns: cloneDeep(this.columns),
-      maxHeight: 'auto'
+      originColumns: cloneDeep(this.columns)
     }
   },
   computed: {
