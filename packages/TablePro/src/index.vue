@@ -278,7 +278,7 @@ export default {
         // 筛选器调试
         const filterHeight = tableFilter.getBoundingClientRect().height
 
-        const tableWrapper = document.querySelector('.table-wrapper')
+        const tableWrapper = tablePro.querySelector('.table-wrapper')
 
         // TableWrapper的marginTop
         const marginTop = parseInt(getComputedStyle(tableWrapper).marginTop)
@@ -286,7 +286,7 @@ export default {
         // TableWrapper的padding
         const padding = parseInt(getComputedStyle(tableWrapper).paddingBottom) * 2
 
-        const tableTop = document.querySelector('.table-top')
+        const tableTop = tablePro.querySelector('.table-top')
         // TableTopHeight
         const tableTopHeight = !tableTop ? 0 : parseInt(getComputedStyle(tableTop).height) + parseInt(getComputedStyle(tableTop).marginBottom)
 
