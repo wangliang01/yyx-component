@@ -1,5 +1,5 @@
 <template>
-  <div ref="tablePro" v-loading="hasLoading && loading" class="table-pro">
+  <div ref="tablePro" :key="key" v-loading="hasLoading && loading" class="table-pro">
     <!-- Element风格搜索框 -->
     <div v-if="uiStyle=== 'element'" ref="tableFilter" :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
       <y-form
