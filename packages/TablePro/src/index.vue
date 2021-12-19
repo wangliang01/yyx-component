@@ -56,7 +56,7 @@
       </div>
     </div>
     <!-- 分割线 -->
-    <div class="divider" :style="{background: uiStyle === 'antd' ? bgColor : '', overflow: 'auto', height: '16px', margin: '0 16px'}"></div>
+    <div v-if="uiStyle === 'antd'" class="divider" :style="{background: uiStyle === 'antd' ? bgColor : '', overflow: 'auto', height: '16px', margin: '0 16px'}"></div>
     <!-- 表格 -->
     <div class="table-wrapper">
       <y-table
