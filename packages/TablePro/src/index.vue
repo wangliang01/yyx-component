@@ -55,35 +55,35 @@
         <el-button v-if="canShowExpandBtn" type="text" @click="handleToggle">{{ isExpand ? '收起' : '展开' }}<i :class="[isExpand ? 'el-icon-arrow-up' : 'el-icon-arrow-down']"></i> </el-button>
       </div>
     </div>
+    <!-- 分割线 -->
+    <div class="divider" :style="{background: uiStyle === 'antd' ? bgColor : '', overflow: 'auto', height: '16px', margin: '0 16px'}"></div>
     <!-- 表格 -->
-    <div :style="{background: uiStyle === 'antd' ? bgColor : '', overflow: 'auto'}">
-      <div class="table-wrapper">
-        <y-table
-          :key="key"
-          ref="yTable"
-          :data="tableData"
-          :columns.sync="currentColumns"
-          :pagination="$attrs.pagination === undefined ? true : $attrs.pagination"
-          :total="total"
-          :reload="reloadData"
-          v-bind="$attrs"
-          :max-height="height"
-          :offset-height="offsetHeight"
-          :row-key="rowKey"
-          @update="handleUpdateColumns"
-          @selection-change="handleSelectChange"
-          v-on="$listeners"
-        >
-          <div ref="tableTop">
-            <!-- table左侧 -->
-            <slot name="table"></slot>
-          </div>
-          <template slot="table-top-right">
-            <!-- table右侧 -->
-            <slot name="table-top-right"></slot>
-          </template>
-        </y-table>
-      </div>
+    <div class="table-wrapper">
+      <y-table
+        :key="key"
+        ref="yTable"
+        :data="tableData"
+        :columns.sync="currentColumns"
+        :pagination="$attrs.pagination === undefined ? true : $attrs.pagination"
+        :total="total"
+        :reload="reloadData"
+        v-bind="$attrs"
+        :max-height="height"
+        :offset-height="offsetHeight"
+        :row-key="rowKey"
+        @update="handleUpdateColumns"
+        @selection-change="handleSelectChange"
+        v-on="$listeners"
+      >
+        <div ref="tableTop">
+          <!-- table左侧 -->
+          <slot name="table"></slot>
+        </div>
+        <template slot="table-top-right">
+          <!-- table右侧 -->
+          <slot name="table-top-right"></slot>
+        </template>
+      </y-table>
     </div>
     <!-- 批量操作区域 -->
     <div v-if="hasBatchAction" class="y-table-batch-action-area" :style="`left: ${offset}px`">
@@ -532,18 +532,18 @@ export default {
   &.antd-form-wrapper{
     padding: 0 16px 0;
     background-color: $--color-white;
-    ::v-deep .el-form {
-      margin-right: 300px;
-      .el-form-item {
-        margin-right: 74px;
-      }
-      .el-form-item .el-input {
-        width: 292px;
-      }
-      .el-form-item .el-select {
-        width: 292px;
-      }
+  ::v-deep .el-form {
+    margin-right: 300px;
+    .el-form-item {
+      margin-right: 74px;
     }
+    .el-form-item .el-input {
+      width: 292px;
+    }
+    .el-form-item .el-select {
+      width: 292px;
+    }
+  }
   }
   .btn-wrapper{
     position: absolute;
@@ -552,7 +552,7 @@ export default {
 }
 .table-wrapper{
   padding: 16px;
-  margin-top: 16px;
+  // margin-top: 16px;
   background-color: $--color-white;
   border-radius: 2px;
 }
