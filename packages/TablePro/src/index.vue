@@ -56,7 +56,7 @@
       </div>
     </div>
     <!-- 表格 -->
-    <div :style="{background: uiStyle === 'antd' ? '#EFF3F6' : '', overflow: 'auto'}">
+    <div :style="{background: uiStyle === 'antd' ? bgColor : '', overflow: 'auto'}">
       <div class="table-wrapper">
         <y-table
           :key="key"
@@ -164,6 +164,10 @@ export default {
     defaultParams: {
       type: Object,
       default: () => {}
+    },
+    bgColor: {
+      type: String,
+      default: '#EFF3F6'
     }
   },
   data() {
@@ -528,17 +532,17 @@ export default {
   &.antd-form-wrapper{
     padding: 0 16px 0;
     background-color: $--color-white;
-  }
-  ::v-deep .el-form {
-    margin-right: 300px;
-    .el-form-item {
-      margin-right: 74px;
-    }
-    .el-form-item .el-input {
-      width: 292px;
-    }
-    .el-form-item .el-select {
-      width: 292px;
+    ::v-deep .el-form {
+      margin-right: 300px;
+      .el-form-item {
+        margin-right: 74px;
+      }
+      .el-form-item .el-input {
+        width: 292px;
+      }
+      .el-form-item .el-select {
+        width: 292px;
+      }
     }
   }
   .btn-wrapper{
