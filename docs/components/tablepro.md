@@ -10,7 +10,7 @@
 <template>
   <div id="product-archives-container" class="product-archives-container">
       <el-tabs v-model="activeName">
-        <el-tab-pane label="用户管理" name="first">
+        <el-tab-pane label="用户管理" name="first" lazy>
             <y-table-pro
               v-adaptive="{bottomOffset: 90}"
               :columns="columns"
@@ -27,7 +27,7 @@
               </div>
           </y-table-pro>
         </el-tab-pane>
-        <el-tab-pane label="配置管理" name="second" lazy>
+        <el-tab-pane label="配置管理" name="second">
             <y-table-pro
               v-adaptive="{bottomOffset: 90}"
               :columns="columns"

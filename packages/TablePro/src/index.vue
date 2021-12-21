@@ -370,7 +370,6 @@ export default {
             formWrapper.style.paddingTop = marginBottom + 'px'
             btnWrapper.style.bottom = marginBottom + 'px'
             this.overflowHeight = Math.round(formItemHeight + marginBottom)
-            console.log('overflowHeight', this.overflowHeight)
             if (height > this.overflowHeight) {
               // 换行了
               this.canShowExpandBtn = true
