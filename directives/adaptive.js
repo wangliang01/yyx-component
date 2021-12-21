@@ -40,7 +40,7 @@ function getEl(el, vnode) {
   const componentName = 'ElTable'
   // target即是ElTable组件
   const target = findComponentForward(context, componentName)
-  return target.$el
+  return target?.$el
 }
 
 export default {

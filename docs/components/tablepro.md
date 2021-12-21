@@ -9,36 +9,44 @@
 ```html
 <template>
   <div id="product-archives-container" class="product-archives-container">
-    <y-table-pro
-      v-adaptive="{bottomOffset: 90}"
-      :columns="columns"
-      ui-style="antd"
-      :show-util-bar="false"
-      :load-data-api="pagelist"
-      loaded="handleLoadData"
-    >
-      <div slot="table">
-        <el-button>xx33333333333333333333</el-button>
-      </div>
-      <div slot="table-top-right">
-        <el-button>xx光线</el-button>
-      </div>
-    </y-table-pro>
-    <y-table-pro
-      v-adaptive="{bottomOffset: 90}"
-      :columns="columns"
-      ui-style="antd"
-      :show-util-bar="false"
-      :load-data-api="pagelist"
-      loaded="handleLoadData"
-    >
-      <div slot="table">
-        <el-button>xx33333333333333333333</el-button>
-      </div>
-      <div slot="table-top-right">
-        <el-button>xx光线</el-button>
-      </div>
-    </y-table-pro>
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="用户管理" name="first">
+            <y-table-pro
+              v-adaptive="{bottomOffset: 90}"
+              :columns="columns"
+              ui-style="antd"
+              :show-util-bar="false"
+              :load-data-api="pagelist"
+              loaded="handleLoadData"
+            >
+              <div slot="table">
+                <el-button>xx33333333333333333333</el-button>
+              </div>
+              <div slot="table-top-right">
+                <el-button>xx光线</el-button>
+              </div>
+          </y-table-pro>
+        </el-tab-pane>
+        <el-tab-pane label="配置管理" name="second" lazy>
+            <y-table-pro
+              v-adaptive="{bottomOffset: 90}"
+              :columns="columns"
+              ui-style="antd"
+              :show-util-bar="false"
+              :load-data-api="pagelist"
+              loaded="handleLoadData"
+            >
+              <div slot="table">
+                <el-button>xx33333333333333333333</el-button>
+              </div>
+              <div slot="table-top-right">
+                <el-button>xx光线</el-button>
+              </div>
+          </y-table-pro>
+        </el-tab-pane>
+      </el-tabs>
+ 
+
   </div>
 </template>
 <script>
@@ -472,6 +480,7 @@
     name: 'ProductArchives',
     data() {
       return {
+        activeName: 'first',
         pagelist: api.productApi.getSpu,
         columns: [
           {

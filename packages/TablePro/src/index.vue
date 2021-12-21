@@ -256,12 +256,14 @@ export default {
     if (!this.lazyLoad) {
       this.loadData()
     }
-    this.initTableFilter()
     this.resizeTable()
     this.queryDataByEnterKey()
     if (this.uiStyle === 'antd') {
-      // antd风格时，才限制表格高度
-      this.getTableProHeight()
+      this.$nextTick(() => {
+        this.initTableFilter()
+        // antd风格时，才限制表格高度
+        this.getTableProHeight()
+      })
     }
   },
   destroyed() {
@@ -336,19 +338,20 @@ export default {
     },
     initTableFilter() {
       if (this.uiStyle === 'antd') {
-        const tableTop = this.$refs.tableTop
-        const nodeName = tableTop.children[0]?.nodeName
-        if (nodeName === 'TEMPLATE') {
-          // 插槽里没有内容，清除下边距
-          tableTop.style.marginBottom = '0'
-        } else {
-          tableTop.style.marginBottom = '15px'
-        }
-
-        // 如果是antd风格
-        const tableFilter = this.$refs.tableFilter
-        const tablePro = this.$refs.tablePro
         this.$nextTick(() => {
+          const tableTop = this.$refs.tableTop
+          const nodeName = tableTop.children[0]?.nodeName
+          if (nodeName === 'TEMPLATE') {
+            // 插槽里没有内容，清除下边距
+            tableTop.style.marginBottom = '0'
+          } else {
+            tableTop.style.marginBottom = '15px'
+          }
+
+          // 如果是antd风格
+          const tableFilter = this.$refs.tableFilter
+
+          const tablePro = this.$refs.tablePro
           const elForm = tableFilter.querySelector('.el-form')
           /* 记录筛选框的高度，默认一行的高度 */
           const height = elForm.offsetHeight
@@ -367,6 +370,7 @@ export default {
             formWrapper.style.paddingTop = marginBottom + 'px'
             btnWrapper.style.bottom = marginBottom + 'px'
             this.overflowHeight = Math.round(formItemHeight + marginBottom)
+            console.log('overflowHeight', this.overflowHeight)
             if (height > this.overflowHeight) {
               // 换行了
               this.canShowExpandBtn = true
