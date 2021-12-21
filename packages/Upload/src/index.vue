@@ -4,7 +4,7 @@
       :ref="refUpload"
       :disabled="disabled"
       :class="{'off-add': limit<=defaultFile.length, 'y-upload': true}"
-      list-type="picture-card"
+      :list-type="listType"
       action=""
       :on-preview="handlePictureCardPreview"
       :before-upload="handleBeforeUpload"
@@ -139,6 +139,10 @@ export default {
     isDragging: {
       type: Boolean,
       default: false
+    },
+    listType: {
+      type: String,
+      default: 'picture-card'
     }
   },
   data() {
