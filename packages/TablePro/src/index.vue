@@ -291,11 +291,11 @@ export default {
         const tableTopHeight = !tableTop ? 0 : parseInt(getComputedStyle(tableTop).height) + parseInt(getComputedStyle(tableTop).marginBottom)
 
         // TableHeader
-        const tableHeader = document.querySelector('.el-table__header-wrapper')
+        const tableHeader = tablePro.querySelector('.el-table__header-wrapper')
         const tableHeaderHeight = parseInt(getComputedStyle(tableHeader).height)
 
         // pagination高度
-        const tablePagination = document.querySelector('.el-pagination')
+        const tablePagination = tablePro.querySelector('.el-pagination')
 
         const paginationHeight = tablePagination ? parseInt(getComputedStyle(tablePagination).height) + parseInt(getComputedStyle(tablePagination).marginTop) : 0
 
@@ -347,12 +347,13 @@ export default {
 
         // 如果是antd风格
         const tableFilter = this.$refs.tableFilter
+        const tablePro = this.$refs.tablePro
         this.$nextTick(() => {
           const elForm = tableFilter.querySelector('.el-form')
           /* 记录筛选框的高度，默认一行的高度 */
           const height = elForm.offsetHeight
 
-          const formWrapper = document.querySelector('.antd-form-wrapper')
+          const formWrapper = tablePro.querySelector('.antd-form-wrapper')
 
           const elFormItem = tableFilter.querySelector('.el-form-item')
 

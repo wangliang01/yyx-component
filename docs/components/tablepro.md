@@ -24,6 +24,21 @@
         <el-button>xx光线</el-button>
       </div>
     </y-table-pro>
+    <y-table-pro
+      v-adaptive="{bottomOffset: 90}"
+      :columns="columns"
+      ui-style="antd"
+      :show-util-bar="false"
+      :load-data-api="pagelist"
+      loaded="handleLoadData"
+    >
+      <div slot="table">
+        <el-button>xx33333333333333333333</el-button>
+      </div>
+      <div slot="table-top-right">
+        <el-button>xx光线</el-button>
+      </div>
+    </y-table-pro>
   </div>
 </template>
 <script>
@@ -546,6 +561,8 @@
           {
             label: '采购税率',
             prop: 'purchaseTaxRate',
+            filter: true,
+            fieldType: 'Input',
             render: (h, { row }) => {
               return <span>{row.purchaseTaxRate + '%'}</span>
             }
