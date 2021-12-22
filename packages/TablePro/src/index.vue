@@ -38,7 +38,7 @@
         v-bind="$attrs"
         :config="config"
         :inline="true"
-        label-position="left"
+        label-position="right"
         :label-suffix="$attrs['label-suffix'] || $attrs['labelSuffix'] || '：'"
         :label-width="$attrs['label-width']"
         v-on="$listeners"
@@ -338,15 +338,16 @@ export default {
     },
     initTableFilter() {
       if (this.uiStyle === 'antd') {
+        // 如果是antd风格
         this.$nextTick(() => {
-          const tableTop = this.$refs.tableTop
+          /* const tableTop = this.$refs.tableTop
           const nodeName = tableTop.children[0]?.nodeName
           if (nodeName === 'TEMPLATE') {
             // 插槽里没有内容，清除下边距
             tableTop.style.marginBottom = '0'
           } else {
             tableTop.style.marginBottom = '15px'
-          }
+          } */
 
           // 如果是antd风格
           const tableFilter = this.$refs.tableFilter
@@ -449,7 +450,7 @@ export default {
       filterColumns.forEach(column => {
         const key = column.prop
         // 生成表单的数据
-        this.$set(this.config, key, { ...column, clearable: true, hidden: false, width: column.filterWidth || '292px' })
+        this.$set(this.config, key, { ...column, clearable: true, hidden: false, width: column.filterWidth || '100%' })
 
         // 生成查询参数
         if (!column.hidden) {
@@ -537,15 +538,19 @@ export default {
     padding: 0 16px 0;
     background-color: $--color-white;
   ::v-deep .el-form {
-    margin-right: 300px;
+    margin-right: 220px;
     .el-form-item {
-      margin-right: 74px;
+      padding-right: 20px;
+      margin-right: 0px !important;
+      box-sizing: border-box;
     }
     .el-form-item .el-input {
-      width: 292px;
+      width: 100%;
+      // width: 292px;
     }
     .el-form-item .el-select {
-      width: 292px;
+      width: 100%;
+      // width: 292px;
     }
   }
   }
@@ -560,9 +565,9 @@ export default {
   background-color: $--color-white;
   border-radius: 2px;
 }
-::v-deep .table-top{
+/* ::v-deep .table-top{
   margin-bottom: 15px;
-}
+} */
 // 分页
 ::v-deep .el-pagination {
   .btn-prev, .btn-next, .el-pager .number {

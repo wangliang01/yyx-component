@@ -1,6 +1,6 @@
 <template>
   <div :key="key" class="y-table">
-    <div class="table-top">
+    <div v-if="$slots.default || $slots['table-top-right'] || showUtilBar" class="table-top">
       <slot name="default" class="table-top-left"></slot>
       <div class="table-top-right">
         <slot name="table-top-right"></slot>
@@ -347,6 +347,7 @@ export default {
 .table-top{
   display: flex;
   justify-content: space-around;
+  margin-bottom: 15px;
 }
 .table-top-left{
   flex: 1;
