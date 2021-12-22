@@ -61,7 +61,7 @@
     <div class="table-wrapper">
       <y-table
         :key="key"
-        ref="yTable"
+        ref="table"
         :data="tableData"
         :columns.sync="currentColumns"
         :pagination="$attrs.pagination === undefined ? true : $attrs.pagination"
@@ -210,10 +210,10 @@ export default {
       handler(val) {
         this.currentColumns = this.columns && this.columns.filter(column => !column.hidden)
         this.initConfig()
-        if (this.$refs.yTable) {
+        if (this.$refs.table) {
           this.$nextTick(() => {
             this.key = Math.random().toString(32).replace('.', '')
-            this.$refs.yTable.columnsReload()
+            this.$refs.table.columnsReload()
           })
         }
       },
@@ -312,8 +312,8 @@ export default {
     },
     /* 取消选择 */
     handleCancelSelection() {
-      if (this.$refs.yTable) {
-        this.$refs.yTable.clearSelection()
+      if (this.$refs.table) {
+        this.$refs.table.clearSelection()
         this.$emit('clear-selection')
       }
     },
@@ -335,6 +335,25 @@ export default {
         tableFilter.style.height = `${this.overflowHeight}px`
       }
       this.getTableProHeight()
+
+      // 重新渲染表格高度
+      this.$nextTick(() => {
+        const target = this.$refs.table.$refs.table
+        const $el = target.$el
+        target.top = $el.getBoundingClientRect()?.top || target.top // 此处解决页面缓存的时候，获取到的top数据为 0 需要缓存 上一次正常渲染的top 高度数据
+        // 计算列表高度并设置
+        // 获取距底部距离 100默认有分页
+        const bottomOffset = this.$refs.table.bottomOffset
+
+        const scrollHeight = document.body.scrollHeight
+        const screenHeight = window.innerHeight
+        const maxHeight = Math.max(scrollHeight, screenHeight)
+        const height = maxHeight - target.top - bottomOffset
+        const confirmHeight = Math.max(height, 400)
+        this.$set(target, 'maxHeight', confirmHeight)
+        this.$set(target, 'height', confirmHeight)
+        target.doLayout()
+      })
     },
     initTableFilter() {
       if (this.uiStyle === 'antd') {

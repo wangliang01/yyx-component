@@ -1,6 +1,6 @@
 <template>
   <div :key="key" class="y-table">
-    <div v-if="$slots.default || $slots['table-top-right'] || showUtilBar" class="table-top">
+    <div class="table-top">
       <slot name="default" class="table-top-left"></slot>
       <div class="table-top-right">
         <slot name="table-top-right"></slot>
@@ -171,9 +171,9 @@ export default {
       }
     },
     height() {
-      const clientHeight = window.innerHeight
-      if (clientHeight - this.offsetHeight < this.maxHeight) {
-        return clientHeight - this.offsetHeight
+      const scrollHeight = document.body.scrollHeight
+      if (scrollHeight - this.offsetHeight < this.maxHeight) {
+        return scrollHeight - this.offsetHeight
       }
       return this.maxHeight < 400 ? 'auto' : this.maxHeight
     },
@@ -199,12 +199,6 @@ export default {
       },
       deep: true,
       immediate: false
-    },
-    maxHeight: {
-      handler(val) {
-        console.log('watch height', val)
-      },
-      deep: true
     }
   },
   mounted() {
@@ -349,7 +343,6 @@ export default {
 .table-top{
   display: flex;
   justify-content: space-around;
-  margin-bottom: 15px;
 }
 .table-top-left{
   flex: 1;
