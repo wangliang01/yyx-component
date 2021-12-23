@@ -25,6 +25,7 @@ const doResize = async(el, binding, vnode) => {
   const screenHeight = window.innerHeight
   const maxHeight = Math.max(scrollHeight, screenHeight)
   const height = maxHeight - target.top - bottomOffset
+
   // 父组件更新完成再设置表格高度，要不重新渲染会失效
   context.$nextTick(() => {
     if (scrollHeight >= screenHeight) {

@@ -345,11 +345,12 @@ export default {
         // 获取距底部距离 100默认有分页
         const bottomOffset = this.$refs.table.bottomOffset
 
-        const scrollHeight = document.body.scrollHeight
+        const offsetHeight = this.$refs.tablePro.offsetHeight
         const screenHeight = window.innerHeight
-        const maxHeight = Math.max(scrollHeight, screenHeight)
+        const maxHeight = Math.max(offsetHeight, screenHeight)
         const height = maxHeight - target.top - bottomOffset
-        const confirmHeight = Math.max(height, 400)
+        const filterHeight = tableFilter.offsetHeight
+        const confirmHeight = Math.max(height, offsetHeight - filterHeight)
         this.$set(target, 'maxHeight', confirmHeight)
         this.$set(target, 'height', confirmHeight)
         target.doLayout()
@@ -477,6 +478,8 @@ export default {
           this.queryParams[key] = ''
         }
       })
+
+      console.log('config', this.config)
 
       // this.queryParams = merge(this.queryParams, this.params)
       this.queryParams = { ...this.queryParams, ...this.params }

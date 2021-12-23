@@ -501,6 +501,23 @@
             prop: 'id'
           },
           {
+            prop: 'createTime',
+            label: '下单日期',
+            fieldType: 'DatePicker',
+            type: 'daterange',
+            filter: true,
+            startPlaceholder: '开始日期',
+            endPlaceholder: '结束日期',
+            onPick: (value) => {
+              value = value ?? []
+              const [startTime = null, endTime = null] = value
+              // this.queryParams.startTime = startTime ? formatDate(startTime, 'YYYY-MM-DDT00:00:00') : null
+              // this.queryParams.endTime = endTime ? formatDate(endTime, 'YYYY-MM-DDT23:59:59') : null
+            },
+            defaultValue: [new Date('2021-12-22'), new Date('2021-12-23')],
+            minWidth: '90px',
+          },
+          {
             prop: 'region',
             label: '活动区域',
             fieldType: 'y-select',
