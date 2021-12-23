@@ -343,6 +343,7 @@ export default {
 .table-top{
   display: flex;
   justify-content: space-around;
+  margin-bottom: 15px;
 }
 .table-top-left{
   flex: 1;

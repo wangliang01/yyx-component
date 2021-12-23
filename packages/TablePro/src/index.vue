@@ -38,7 +38,7 @@
         v-bind="$attrs"
         :config="config"
         :inline="true"
-        label-position="right"
+        label-position="left"
         :label-suffix="$attrs['label-suffix'] || $attrs['labelSuffix'] || '：'"
         :label-width="$attrs['label-width']"
         v-on="$listeners"
@@ -470,7 +470,7 @@ export default {
       filterColumns.forEach(column => {
         const key = column.prop
         // 生成表单的数据
-        this.$set(this.config, key, { ...column, clearable: true, hidden: false, width: column.filterWidth || '100%' })
+        this.$set(this.config, key, { ...column, clearable: true, hidden: false, width: column.filterWidth || '292px' })
 
         // 生成查询参数
         if (!column.hidden) {
@@ -560,19 +560,17 @@ export default {
     padding: 0 16px 0;
     background-color: $--color-white;
   ::v-deep .el-form {
-    margin-right: 220px;
+    margin-right: 300px;
     .el-form-item {
-      padding-right: 20px;
-      margin-right: 0px !important;
-      box-sizing: border-box;
+      margin-right: 74px;
     }
     .el-form-item .el-input {
-      width: 100%;
-      // width: 292px;
+      // width: 100%;
+      width: 292px;
     }
     .el-form-item .el-select {
-      width: 100%;
-      // width: 292px;
+      // width: 100%;
+      width: 292px;
     }
   }
   }
