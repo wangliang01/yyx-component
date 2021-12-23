@@ -341,19 +341,21 @@ export default {
         const target = this.$refs.table.$refs.table
         const $el = target.$el
         target.top = $el.getBoundingClientRect()?.top || target.top // 此处解决页面缓存的时候，获取到的top数据为 0 需要缓存 上一次正常渲染的top 高度数据
+
         // 计算列表高度并设置
         // 获取距底部距离 100默认有分页
         const bottomOffset = this.$refs.table.bottomOffset
+        console.log('top', target.top, bottomOffset)
 
         const offsetHeight = this.$refs.tablePro.offsetHeight
         const screenHeight = window.innerHeight
         const maxHeight = Math.max(offsetHeight, screenHeight)
         const height = maxHeight - target.top - bottomOffset
-        const filterHeight = tableFilter.offsetHeight
-        const confirmHeight = Math.max(height, offsetHeight - filterHeight)
-        this.$set(target, 'maxHeight', confirmHeight)
-        this.$set(target, 'height', confirmHeight)
-        target.doLayout()
+        if (height > 400) {
+          this.$set(target, 'maxHeight', height)
+          this.$set(target, 'height', height)
+          target.doLayout()
+        }
       })
     },
     initTableFilter() {
@@ -504,6 +506,8 @@ export default {
               this.queryParams[param] = ''
             }
         }
+
+        this.$emit('reset')
       })
       // 处理默认参数
       this.queryParams = { ...this.queryParams, ...this.defaultParams }

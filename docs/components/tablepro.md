@@ -18,6 +18,7 @@
               :show-util-bar="false"
               :load-data-api="pagelist"
               loaded="handleLoadData"
+              :params.sync="queryParams"
             >
               <div slot="table">
                 <el-button>xx33333333333333333333</el-button>
@@ -482,6 +483,9 @@
       return {
         activeName: 'first',
         pagelist: api.productApi.getSpu,
+        queryParams: {
+          createTime: ['2021-12-21', '2021-12-23']
+        },
         columns: [
           {
             label: '图片',
@@ -514,7 +518,6 @@
               // this.queryParams.startTime = startTime ? formatDate(startTime, 'YYYY-MM-DDT00:00:00') : null
               // this.queryParams.endTime = endTime ? formatDate(endTime, 'YYYY-MM-DDT23:59:59') : null
             },
-            defaultValue: [new Date('2021-12-22'), new Date('2021-12-23')],
             minWidth: '90px',
           },
           {
@@ -542,7 +545,9 @@
           },
           {
             label: 'SPU 名称',
-            prop: 'name'
+            prop: 'name',
+            filter: true,
+            fieldType: 'Input'
           },
           {
             label: 'SPU',
@@ -554,7 +559,9 @@
           },
           {
             label: '后台类目',
-            prop: 'categoryName'
+            prop: 'categoryName',
+            filter: true,
+            fieldType: 'Input'
           },
           {
             label: '类型',

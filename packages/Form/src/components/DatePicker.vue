@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      currentValue: this.value || this.$attrs.defaultValue
+      currentValue: this.value
     }
   },
   watch: {
