@@ -21,10 +21,15 @@ const doResize = async(el, binding, vnode) => {
   const $el = target.$el
   target.top = $el.getBoundingClientRect()?.top || target.top // 此处解决页面缓存的时候，获取到的top数据为 0 需要缓存 上一次正常渲染的top 高度数据
   // 计算列表高度并设置
-  const height = window.innerHeight - target.top - bottomOffset
+  // const height = window.innerHeight - target.top - bottomOffset
+
+  const offsetHeight = el.offsetHeight
+  const screenHeight = window.innerHeight
+  const maxHeight = Math.max(offsetHeight, screenHeight)
+  const height = maxHeight - target.top - bottomOffset
   // 父组件更新完成再设置表格高度，要不重新渲染会失效
   context.$nextTick(() => {
-    if (window.innerHeight > 900) {
+    if (height > 650) {
       Vue.set(target, 'maxHeight', height)
       target.doLayout()
     } else {
@@ -32,6 +37,14 @@ const doResize = async(el, binding, vnode) => {
       Vue.set(target, 'height', 'auto')
       target.doLayout()
     }
+    // if (window.innerHeight > 900) {
+    //   Vue.set(target, 'maxHeight', height)
+    //   target.doLayout()
+    // } else {
+    //   Vue.set(target, 'maxHeight', 'auto')
+    //   Vue.set(target, 'height', 'auto')
+    //   target.doLayout()
+    // }
   })
 }
 

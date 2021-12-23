@@ -603,6 +603,7 @@
           {
             label: '操作',
             'min-width': '150px',
+            fixed: 'right',
             render: (h, { row }) => {
               return (
                 <div>

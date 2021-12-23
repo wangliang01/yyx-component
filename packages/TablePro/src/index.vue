@@ -345,15 +345,18 @@ export default {
         // 计算列表高度并设置
         // 获取距底部距离 100默认有分页
         const bottomOffset = this.$refs.table.bottomOffset
-        console.log('top', target.top, bottomOffset)
 
         const offsetHeight = this.$refs.tablePro.offsetHeight
         const screenHeight = window.innerHeight
         const maxHeight = Math.max(offsetHeight, screenHeight)
         const height = maxHeight - target.top - bottomOffset
+        const tableHeight = $el.offsetHeight
+        console.log(`offsetHeight: ${offsetHeight}, height: ${height}, tableHeight: ${tableHeight}`)
         if (height > 400) {
           this.$set(target, 'maxHeight', height)
-          this.$set(target, 'height', height)
+          target.doLayout()
+        } else {
+          this.$set(target, 'maxHeight', 400)
           target.doLayout()
         }
       })
