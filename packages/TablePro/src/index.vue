@@ -168,6 +168,10 @@ export default {
     bgColor: {
       type: String,
       default: '#EFF3F6'
+    },
+    hasBatchButton: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -199,7 +203,7 @@ export default {
     },
     hasBatchAction() {
       const hasSelection = this.columns.find(column => column.type === 'selection') && this.uiStyle === 'antd'
-      if (hasSelection && !isEmpty(this.selection)) {
+      if (this.hasBatchButton && hasSelection && !isEmpty(this.selection)) {
         return true
       }
       return false
