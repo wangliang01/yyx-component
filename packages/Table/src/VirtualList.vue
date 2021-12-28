@@ -10,13 +10,15 @@
     row-key="id"
     v-on="$listeners"
   >
-    <TableItem
-      v-for="(col, index) in computedColumns"
-      :key="col.rowKey || index"
-      :col="col"
-      :columns="columns"
-      :data="data"
-    ></TableItem>
+    <template v-for="(col, index) in computedColumns">
+      <TableItem
+        v-if="col.showCol"
+        :key="col.rowKey || index"
+        :col="col"
+        :columns="columns"
+        :data="data"
+      ></TableItem>
+    </template>
   </el-table>
 </template>
 <script>

@@ -1,8 +1,6 @@
 <template>
   <!-- 刷新按钮 -->
-  <el-tooltip effect="dark" content="刷新" placement="top">
-    <i class="iconfont icon-shuaxin" @click="handleRefresh"></i>
-  </el-tooltip>
+  <i class="iconfont icon-shuaxin" @click="handleRefresh"> 刷新</i>
 </template>
 
 <script>

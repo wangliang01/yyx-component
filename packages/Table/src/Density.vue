@@ -1,27 +1,26 @@
 <template>
   <!-- 密度按钮 -->
-  <el-tooltip effect="dark" content="密度" placement="top">
-    <el-popover placement="bottom" width="100" trigger="click">
-      <i
-        slot="reference"
-        ref="reference"
-        class="iconfont icon-shoujinhang"
+  <el-popover placement="bottom" width="100" trigger="click">
+    <i
+      slot="reference"
+      ref="reference"
+      class="iconfont icon-shoujinhang"
+    >
+      密度
+    </i>
+    <!-- 展示列表 -->
+    <div class="list">
+      <div
+        v-for="(item, index) in densityConfig"
+        :key="item.value"
+        class="item"
+        :class="{ active: activeIndex === index }"
+        @click="handleSetTableSize(item.value, index)"
       >
-      </i>
-      <!-- 展示列表 -->
-      <div class="list">
-        <div
-          v-for="(item, index) in densityConfig"
-          :key="item.value"
-          class="item"
-          :class="{ active: activeIndex === index }"
-          @click="handleSetTableSize(item.value, index)"
-        >
-          {{ item.label }}
-        </div>
+        {{ item.label }}
       </div>
-    </el-popover>
-  </el-tooltip>
+    </div>
+  </el-popover>
 </template>
 
 <script>

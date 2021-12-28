@@ -15,6 +15,7 @@
               v-adaptive="{bottomOffset: 90}"
               :columns="columns"
               ui-style="antd"
+              showUtilBar
               :show-util-bar="false"
               :load-data-api="pagelist"
               loaded="handleLoadData"
@@ -604,6 +605,7 @@
             label: '操作',
             'min-width': '150px',
             fixed: 'right',
+            prop:'action',
             render: (h, { row }) => {
               return (
                 <div>

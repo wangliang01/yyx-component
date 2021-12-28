@@ -5,9 +5,11 @@
       <div class="table-top-right">
         <slot name="table-top-right"></slot>
         <div v-if="showUtilBar" class="utils-wrapper">
+          <i class="iconfont el-icon-coin" @click="handleSave"> 保存</i>
           <Refresh v-if="utilConfig.includes('refresh')" @refresh="handleRefresh"></Refresh>
           <Density v-if="utilConfig.includes('density')" :size="size" @resize="handleResize"></Density>
-          <Setting v-if="utilConfig.includes('setting')" v-model="currentColumns" :origin-columns="originColumns"></Setting>
+          <!-- <Setting v-if="utilConfig.includes('setting')" v-model="currentColumns" :origin-columns="originColumns"></Setting> -->
+          <SetColumns v-if="utilConfig.includes('setting')" v-model="currentColumns" :user-set-columns="userSetColumns" :origin-columns="originColumns"></SetColumns>
         </div>
       </div>
     </div>
@@ -30,13 +32,16 @@
         :class="borderClass"
         v-on="$listeners"
       >
-        <TableItem
-          v-for="(col, index) in columnAttrs"
-          :key="index"
-          :col="col"
-          :columns="columns"
-          :data="data"
-        ></TableItem>
+        <template v-for="(col, index) in columnAttrs">
+          <TableItem
+            v-if="col.showCol"
+            :key="index"
+            :col="col"
+            :columns="columns"
+            :data="data"
+          ></TableItem>
+        </template>
+
       </el-table>
       <!-- 普通表格 -->
       <el-table
@@ -53,13 +58,15 @@
         :class="borderClass"
         v-on="$listeners"
       >
-        <TableItem
-          v-for="(col, index) in columnAttrs"
-          :key="index"
-          :col="col"
-          :columns="columns"
-          :data="data"
-        ></TableItem>
+        <template v-for="(col, index) in columnAttrs">
+          <TableItem
+            v-if="col.showCol"
+            :key="index"
+            :col="col"
+            :columns="columns"
+            :data="data"
+          ></TableItem>
+        </template>
       </el-table>
       <el-pagination
         v-if="paginationAttrs.isPagination"
@@ -77,14 +84,16 @@ import { cloneDeep, uniqWith, isEqual } from 'lodash'
 import TableItem from './TableItem'
 import Refresh from './Refresh.vue'
 import Density from './Density.vue'
-import Setting from './Setting.vue'
+import SetColumns from './SetColumns.vue'
+// import Setting from './Setting.vue'
 export default {
   name: 'YTable',
   components: {
     TableItem,
     Refresh,
     Density,
-    Setting
+    // Setting,
+    SetColumns
   },
   props: {
     /* 是否用虚拟列表显示 */
@@ -135,7 +144,7 @@ export default {
     /* 工具栏配置项 */
     utilConfig: {
       type: Array,
-      default: () => ['refresh', 'density']
+      default: () => ['refresh', 'density', 'setting']
     },
     offsetHeight: {
       type: [String, Number],
@@ -158,7 +167,8 @@ export default {
       columnAttrs: [], // 表格项属性， 同el-table-column上的属性
       paginationAttrs: {}, // 分页属性，同el-pagination上的属性
       size: 'mini',
-      originColumns: cloneDeep(this.columns)
+      originColumns: cloneDeep(this.columns),
+      userSetColumns: [] // 用户设置的 缓存 列定义
     }
   },
   computed: {
@@ -195,7 +205,7 @@ export default {
     },
     columns: {
       handler(val) {
-        this.init()
+        this.initColumns()
       },
       deep: true,
       immediate: false
@@ -232,9 +242,16 @@ export default {
         }
       })
       this.tableAttrs = Object.assign({}, defaultTableAttrs, tableAttrs)
+      this.initColumns()
+      this.getPagination()
 
+      this.reLayout()
+    },
+    // 列定义数据变化时，需要初始化列定义
+    initColumns() {
       // 获取element table col上的属性
       const columnAttrs = this.currentColumns.map(column => {
+        column.showCol = Object.prototype.hasOwnProperty.call(column, 'showCol') ? column.showCol : true
         if (!column.formatter) {
           this.$set(column, 'formatter', function(row, col) {
             const val = row[col.property]
@@ -261,10 +278,6 @@ export default {
       } else {
         this.columnAttrs = columnAttrs
       }
-
-      this.getPagination()
-
-      this.reLayout()
     },
     getPagination() {
       // 获取element 分页属性
@@ -332,11 +345,23 @@ export default {
     },
     columnsReload() {
       this.originColumns = cloneDeep(this.columns)
+    },
+    // 保存列定义配置
+    handleSave() {
+      console.log('save...')
+      const staffId = this.$store?.state?.userInfo?.staffId
+      if (!staffId) return
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.iconfont {
+  margin: 0 0 0 10px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #8c8c8c;
+}
 .y-table {
   overflow: auto;
 }
@@ -356,7 +381,9 @@ export default {
   justify-content: flex-end;
 }
 .utils-wrapper {
-  margin-left: 18px;
+  display: flex;
+  align-items: center;
+  margin:0 18px;
 }
 
 .el-table--border.el-table--border__bottom{

@@ -20,7 +20,6 @@
     :filtered-value="col.filteredValue || col['filtered-value']"
   >
     <template v-if="col.children && col.children.length">
-
       <TableItem
         v-for="(item, idx) in col.children"
         :key="idx"
