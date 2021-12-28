@@ -189,12 +189,14 @@ export default {
     dragend(e) {
       this.$emit('dragend', e.map(i => i.url))
     },
-    handleRemove(file, fileList) {
+    handleRemove(file, fileList, index) {
       this.default = fileList
       this.defaultFile = fileList
+      console.log(index)
       this.$emit('on-remove', {
         file,
-        fileList
+        fileList,
+        index
       })
     },
     handlePictureCardPreview(file) {

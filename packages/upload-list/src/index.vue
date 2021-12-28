@@ -202,8 +202,9 @@ export default {
       const doRemove = () => {
         this.abort(file)
         const fileList = this.uploadFiles
-        fileList.splice(fileList.indexOf(file), 1)
-        this.onRemove(file, fileList)
+        const index = fileList.indexOf(file)
+        fileList.splice(index, 1)
+        this.onRemove(file, fileList, index)
       }
       if (!this.beforeRemove) {
         doRemove()
