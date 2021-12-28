@@ -63,7 +63,7 @@ export default {
     },
     config: {
       // 表单配置项
-      type: Object,
+      type: [Object, Array],
       required: true
     },
     value: {
