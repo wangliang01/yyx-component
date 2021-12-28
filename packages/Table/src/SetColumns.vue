@@ -14,10 +14,10 @@
           </el-checkbox>
           <div class="left-right">
             <el-tooltip effect="dark" :open-delay="300" content="左侧固定" placement="top">
-              <i class="icon el-icon-back" @click="handleFixed(col, 'left')"></i>
+              <i class="icon el-icon-back" :class="{'light': col.fixed === 'left'}" @click="handleFixed(col, 'left')"></i>
             </el-tooltip>
             <el-tooltip effect="dark" :open-delay="300" content="右侧固定" placement="top">
-              <i class="icon el-icon-right" @click="handleFixed(col, 'right')"></i>
+              <i class="icon el-icon-right" :class="{'light': col.fixed === 'right'}" @click="handleFixed(col, 'right')"></i>
             </el-tooltip>
           </div>
         </div>
@@ -32,15 +32,11 @@ export default {
   name: 'SetColumns',
   components: { Draggable },
   props: {
-    value: { // 双向绑定值
+    value: { // 双向绑定值 当前列定义
       type: Array,
       default: () => []
     },
     originColumns: { // 源列定义
-      type: Array,
-      default: () => []
-    },
-    userSetColumns: { // 用户定义的 列定义
       type: Array,
       default: () => []
     }
@@ -48,12 +44,17 @@ export default {
   data() {
     return {
       checkAll: false,
-      columnList: this.getColumnList(true) // 已经选中的列定义
+      columnList: this.getColumnList() // 已经选中的列定义
     }
   },
   computed: {
     selectedNum() {
       return this.columnList.filter(im => im.showCol).length
+    }
+  },
+  watch: {
+    value(val) { // 父组件 双向绑定数据变化，需要重新计算取值数据
+      this.columnList = this.getColumnList()
     }
   },
   created() {
@@ -62,37 +63,42 @@ export default {
   methods: {
     // 获取源列定义数据
     getColumnList(isOrigin = false) {
-      // isOrigin 标志是否源 数据
-      const columnList = isOrigin && this.userSetColumns.length === 0
-        ? cloneDeep(this.originColumns).map((im, i) => {
-          im.fixed = null
-          im.showCol = true
-          return im
-        })
-        : this.userSetColumns
+      // isOrigin 标志是否 取源数据
+      const columns = isOrigin ? this.originColumns : this.value
+      const columnList = cloneDeep(columns).map((im, i) => {
+        im.fixed = im.fixed || null
+        im.showCol = Object.prototype.hasOwnProperty.call(im, 'showCol') ? im.showCol : true
+        return im
+      })
       return columnList
+    },
+    // 推送新的列定义到 父级
+    updateColumns() {
+      const columnList = this.columnList
+      this.$emit('input', [])
+      this.$nextTick(() => this.$emit('input', columnList))
     },
     // 全选
     handleCheckAllChange(val) {
       this.columnList.forEach(col => {
         col.showCol = val || this.disabledCols(col)
       })
-      this.$emit('input', this.columnList)
+      this.updateColumns()
     },
     // 项目选中变化
     handleCheckChange(val) {
       this.checkAll = val ? this.columnList.every(im => im.showCol) : val
-      this.$emit('input', this.columnList)
+      this.updateColumns()
     },
     // 重置列定义
     handleResetColumns() {
       this.columnList = this.getColumnList(true)
       this.checkAll = this.columnList.every(im => im.showCol)
-      this.$emit('input', this.columnList)
+      this.updateColumns()
     },
     // 拖拽完成
     handleDragEnd() {
-      this.$emit('input', this.columnList)
+      this.updateColumns()
     },
     // 禁用选中的 列
     disabledCols(col) {
@@ -101,7 +107,7 @@ export default {
     // 浮动设置
     handleFixed(col, type) {
       col.fixed = (col.fixed === type) ? null : type // 如果已经是 左浮动，再次点击可以清除 左浮动 右侧同理
-      this.$emit('input', this.columnList)
+      this.updateColumns()
     }
   }
 }
@@ -141,6 +147,9 @@ export default {
   .list-item:hover {
     .left-right {
       display: block;
+      .light {
+        color: #409eff;
+      }
       i {
         margin-left: 15px;
         cursor: pointer;

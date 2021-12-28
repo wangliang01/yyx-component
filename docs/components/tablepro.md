@@ -562,7 +562,8 @@
             label: '后台类目',
             prop: 'categoryName',
             filter: true,
-            fieldType: 'Input'
+            fieldType: 'Input',
+            'show-overflow-tooltip':true
           },
           {
             label: '类型',

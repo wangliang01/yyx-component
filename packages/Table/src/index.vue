@@ -9,7 +9,7 @@
           <Refresh v-if="utilConfig.includes('refresh')" @refresh="handleRefresh"></Refresh>
           <Density v-if="utilConfig.includes('density')" :size="size" @resize="handleResize"></Density>
           <!-- <Setting v-if="utilConfig.includes('setting')" v-model="currentColumns" :origin-columns="originColumns"></Setting> -->
-          <SetColumns v-if="utilConfig.includes('setting')" v-model="currentColumns" :user-set-columns="userSetColumns" :origin-columns="originColumns"></SetColumns>
+          <SetColumns v-if="utilConfig.includes('setting')" v-model="currentColumns" :origin-columns="originColumns"></SetColumns>
         </div>
       </div>
     </div>
@@ -81,6 +81,7 @@
 <script>
 import { defaultTableAttrs, defaultColumn, defaultPagination } from './config'
 import { cloneDeep, uniqWith, isEqual } from 'lodash'
+import local from '../../utils/local.js'
 import TableItem from './TableItem'
 import Refresh from './Refresh.vue'
 import Density from './Density.vue'
@@ -100,6 +101,11 @@ export default {
     virtual: {
       type: Boolean,
       default: false
+    },
+    /* 表格列定义名称 解决有 在一个页面有 2个表格的情况 缓存列定义*/
+    columnName: {
+      type: String,
+      default: ''
     },
     /* data:  显示的数据， 等同于el-table中的data属性 */
     data: {
@@ -167,11 +173,13 @@ export default {
       columnAttrs: [], // 表格项属性， 同el-table-column上的属性
       paginationAttrs: {}, // 分页属性，同el-pagination上的属性
       size: 'mini',
-      originColumns: cloneDeep(this.columns),
-      userSetColumns: [] // 用户设置的 缓存 列定义
+      originColumns: cloneDeep(this.columns)
     }
   },
   computed: {
+    staffId() {
+      return this.$store?.state?.userInfo?.staffId
+    },
     currentColumns: {
       get() {
         return this.columns
@@ -242,13 +250,30 @@ export default {
         }
       })
       this.tableAttrs = Object.assign({}, defaultTableAttrs, tableAttrs)
-      this.initColumns()
+      this.initColumns(true)
       this.getPagination()
-
-      this.reLayout()
+      // this.reLayout()
     },
     // 列定义数据变化时，需要初始化列定义
-    initColumns() {
+    initColumns(isInit = false) {
+      this.reLayout()
+      // 如果是初始化页面，并且存在 用户信息，那么优先取 缓存的列定义数据
+      if (isInit && this.staffId) {
+        const name = this.$route.name
+        const columnKey = `${this.staffId}-${name}-${this.columnName}`
+        const userColumns = local.get(columnKey)
+        if (userColumns) {
+          const fn = (str) => new Function(`return ${str}`)
+          this.columnAttrs = userColumns.map(col => {
+            Object.keys(col).forEach(key => {
+              if (typeof col[key] === 'string' && col[key].includes('function')) col[key] = fn(col[key])()
+            })
+            return col
+          })
+          this.$emit('update:columns', this.columnAttrs)
+          return
+        }
+      }
       // 获取element table col上的属性
       const columnAttrs = this.currentColumns.map(column => {
         column.showCol = Object.prototype.hasOwnProperty.call(column, 'showCol') ? column.showCol : true
@@ -349,8 +374,16 @@ export default {
     // 保存列定义配置
     handleSave() {
       console.log('save...')
-      const staffId = this.$store?.state?.userInfo?.staffId
-      if (!staffId) return
+      if (!this.staffId) return
+      const data = cloneDeep(this.currentColumns).map(col => {
+        Object.keys(col).forEach(key => {
+          if (typeof col[key] === 'function') col[key] = col[key].toString()
+        })
+        return col
+      })
+      const name = this.$route.name
+      local.set(`${this.staffId}-${name}-${this.columnName}`, data)
+      this.$message.success('保存成功')
     }
   }
 }
