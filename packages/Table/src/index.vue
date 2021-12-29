@@ -5,7 +5,7 @@
       <div class="table-top-right">
         <slot name="table-top-right"></slot>
         <div v-if="showUtilBar" class="utils-wrapper">
-          <i class="iconfont el-icon-coin" @click="handleSave"> 保存</i>
+          <i v-if="utilConfig.includes('setting')" class="iconfont el-icon-coin" @click="handleSave"> 保存</i>
           <Refresh v-if="utilConfig.includes('refresh')" @refresh="handleRefresh"></Refresh>
           <Density v-if="utilConfig.includes('density')" :size="size" @resize="handleResize"></Density>
           <!-- <Setting v-if="utilConfig.includes('setting')" v-model="currentColumns" :origin-columns="originColumns"></Setting> -->
@@ -150,7 +150,7 @@ export default {
     /* 工具栏配置项 */
     utilConfig: {
       type: Array,
-      default: () => ['refresh', 'density', 'setting']
+      default: () => ['refresh', 'density']
     },
     offsetHeight: {
       type: [String, Number],
