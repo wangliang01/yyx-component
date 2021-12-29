@@ -628,6 +628,7 @@ export default {
 }
 
 .y-table-batch-action-area{
+  z-index: 5;
   display: flex;
   position: fixed;
   height: 64px;
