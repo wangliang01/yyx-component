@@ -178,7 +178,7 @@ export default {
   },
   computed: {
     staffId() {
-      return this.$store?.state?.userInfo?.staffId
+      return '122' || this.$store?.state?.userInfo?.staffId
     },
     currentColumns: {
       get() {
@@ -260,15 +260,13 @@ export default {
       // 如果是初始化页面，并且存在 用户信息，那么优先取 缓存的列定义数据
       if (isInit && this.staffId) {
         const name = this.$route.name
-        const columnKey = `${this.staffId}-${name}-${this.columnName}`
+        const columnKey = `${this.staffId}${name}_${this.columnName}`
         const userColumns = local.get(columnKey)
         if (userColumns) {
-          const fn = (str) => new Function(`return ${str}`)
           this.columnAttrs = userColumns.map(col => {
-            Object.keys(col).forEach(key => {
-              if (typeof col[key] === 'string' && col[key].includes('function')) col[key] = fn(col[key])()
-            })
-            return col
+            const originCol = this.originColumns.find(im => im.prop === col.prop && (!col.fieldType || !col.filter)) // 此处需要保证 列定义配置不能重复，重复不会报错，但是缓存不准确
+            const newCol = Object.assign({}, originCol, col)
+            return newCol
           })
           this.$emit('update:columns', this.columnAttrs)
           return
@@ -376,13 +374,11 @@ export default {
       console.log('save...')
       if (!this.staffId) return
       const data = cloneDeep(this.currentColumns).map(col => {
-        Object.keys(col).forEach(key => {
-          if (typeof col[key] === 'function') col[key] = col[key].toString()
-        })
-        return col
+        const { width, fixed, showCol, prop } = col
+        return { width, fixed, showCol, prop }
       })
       const name = this.$route.name
-      local.set(`${this.staffId}-${name}-${this.columnName}`, data)
+      local.set(`${this.staffId}${name}_${this.columnName}`, data)
       this.$message.success('保存成功')
     }
   }
