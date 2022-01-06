@@ -12,6 +12,7 @@
       v-on="$listeners"
       @visible-change="handleVisibleChange"
       @focus="handleFocus"
+      @change="handleChange"
     >
       <el-option
         v-for="item in options"
@@ -32,6 +33,10 @@ export default {
   components: {
   },
   props: {
+    valueLabel: {
+      type: [String, Number],
+      default: ''
+    },
     remote: {
       type: Boolean,
       default: true
@@ -100,6 +105,15 @@ export default {
       if (this.lazy) {
         this.getOptions()
       }
+    },
+    handleChange(value) {
+      const item = this.options.find(im => im[this.model.value] === value)
+      let label = null
+      if (item) {
+        label = item[this.model.label]
+        this.$emit('update:valueLabel', label)
+      }
+      this.$emit('label-change', label, value)
     },
     init() {
       const select = this.$refs.select.$el

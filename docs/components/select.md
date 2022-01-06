@@ -10,7 +10,7 @@ v-model的值为当前被选中的el-option的 value 属性值
 ```html
 <template>
     <div>
-        <y-select v-model="value" :options="options" :remote="false" unit="%"></y-select>
+        <y-select v-model="value" :options="options" :remote="false" unit="%" @change="handleChange" :valueLabel.sync="valueLabel" @label-change="handleLableChange"></y-select>
     </div>
 </template>
 <script>
@@ -24,29 +24,38 @@ v-model的值为当前被选中的el-option的 value 属性值
         data() {
             return {
                 value: '',
+                valueLabel:'',
                 options: [{
                     value: 0,
-                    label: '0'
+                    label: '0A'
                 }, {
                     value: 1,
-                    label: '1'
+                    label: '1A'
                 }, {
                     value: 3,
-                    label: '3'
+                    label: '3A'
                 }, {
                     value: 6,
-                    label: '6'
+                    label: '6A'
                 }, {
                     value: 9,
-                    label: '9'
+                    label: '9A'
                 }, {
                     value: 13,
-                    label: '13'
+                    label: '13A'
                 }]
             }
         },
         mounted() {
 
+        },
+        methods:{
+            handleChange(value) {
+                console.log(value, 'pppp')
+            },
+            handleLableChange(label, value) {
+                console.log(label, value, this.valueLabel, 'xxxxx')
+            }
         }
     }
 </script>
