@@ -113,7 +113,7 @@ export default {
         label = item[this.model.label]
         this.$emit('update:valueLabel', label)
       }
-      this.$emit('label-change', label, value)
+      this.$emit('label-change', { label, value, ...item })
     },
     init() {
       const select = this.$refs.select.$el

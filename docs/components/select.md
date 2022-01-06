@@ -53,7 +53,7 @@ v-model的值为当前被选中的el-option的 value 属性值
             handleChange(value) {
                 console.log(value, 'pppp')
             },
-            handleLableChange(label, value) {
+            handleLableChange({label, value}) {
                 console.log(label, value, this.valueLabel, 'xxxxx')
             }
         }
