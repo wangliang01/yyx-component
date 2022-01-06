@@ -95,6 +95,12 @@
       return {
         columns: [
           {
+            type:'expand',
+            render:(h, {row}) => {
+              return <div>xxxx</div>
+            }
+          },
+          {
             label: '日期',
             prop: 'date'
           },

@@ -34,7 +34,7 @@
       >
         <template v-for="(col, index) in columnAttrs">
           <TableItem
-            v-if="col.showCol"
+            v-if="col.showCol || col.showCol === undefined"
             :key="index"
             :col="col"
             :columns="columns"
@@ -60,7 +60,7 @@
       >
         <template v-for="(col, index) in columnAttrs">
           <TableItem
-            v-if="col.showCol"
+            v-if="col.showCol || col.showCol === undefined"
             :key="index"
             :col="col"
             :columns="columns"
@@ -252,11 +252,11 @@ export default {
       this.tableAttrs = Object.assign({}, defaultTableAttrs, tableAttrs)
       this.initColumns(true)
       this.getPagination()
-      // this.reLayout()
+      this.reLayout()
     },
     // 列定义数据变化时，需要初始化列定义
     initColumns(isInit = false) {
-      this.reLayout()
+      // this.reLayout()
       // 如果是初始化页面，并且存在 用户信息，那么优先取 缓存的列定义数据
       if (isInit && this.staffId) {
         const name = this.$route.name

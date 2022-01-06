@@ -12,7 +12,7 @@
   >
     <template v-for="(col, index) in computedColumns">
       <TableItem
-        v-if="col.showCol"
+        v-if="col.showCol || col.showCol === undefined"
         :key="col.rowKey || index"
         :col="col"
         :columns="columns"
