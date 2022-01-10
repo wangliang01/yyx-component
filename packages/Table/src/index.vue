@@ -178,7 +178,7 @@ export default {
   },
   computed: {
     staffId() {
-      return '122' || this.$store?.state?.userInfo?.staffId
+      return this.$store?.state?.userInfo?.staffId
     },
     currentColumns: {
       get() {
@@ -259,7 +259,7 @@ export default {
       // this.reLayout()
       // 如果是初始化页面，并且存在 用户信息，那么优先取 缓存的列定义数据
       if (isInit && this.staffId) {
-        const name = this.$route.name
+        const name = this.$route?.name
         const columnKey = `${this.staffId}${name}_${this.columnName}`
         const userColumns = local.get(columnKey)
         if (userColumns) {
