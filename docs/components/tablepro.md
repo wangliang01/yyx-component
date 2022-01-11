@@ -28,7 +28,7 @@
               </div>
           </y-table-pro>
         </el-tab-pane>
-        <el-tab-pane label="配置管理" name="second">
+        <el-tab-pane label="配置管理" name="second" lazy>
             <y-table-pro
               :columns="columns"
               ui-style="antd"

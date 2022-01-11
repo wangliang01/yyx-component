@@ -3,7 +3,7 @@
     ref="tablePro"
     :key="key"
     v-loading="hasLoading && loading"
-    class="table-pro"
+    class="y-table-pro"
   >
     <!-- Element风格搜索框 -->
     <div
@@ -301,7 +301,8 @@ export default {
       this.$nextTick(() => {
         this.initTableFilter()
         // antd风格时，才限制表格高度
-        this.getTableHeight()
+        // 设置表格高度
+        this.setTableHeight()
       })
     }
   },
@@ -309,7 +310,7 @@ export default {
     this.removeResizeTable()
   },
   methods: {
-    getTableHeight() {
+    setTableHeight() {
       setTimeout(() => {
         const tablePro = this.$refs.tablePro
         tablePro.style.height = '100%'
@@ -341,6 +342,7 @@ export default {
         const paginationHeight = tablePagination ? parseInt(getComputedStyle(tablePagination).height) + parseInt(getComputedStyle(tablePagination).marginTop) : 0
 
         this.offsetHeight = filterHeight + marginTop + padding + tableTopHeight + tableHeaderHeight + paginationHeight
+        console.log('设置表格高度', height, this.offsetHeight)
 
         this.height = height - this.offsetHeight
       })
@@ -373,8 +375,6 @@ export default {
         tableFilter.style.overflow = 'hidden'
         tableFilter.style.height = `${this.overflowHeight}px`
       }
-      // 重新渲染Table高度
-      this.getTableHeight()
     },
     initTableFilter() {
       if (this.uiStyle === 'antd') {
@@ -429,13 +429,13 @@ export default {
     resizeTable() {
       window.addEventListener('resize', this.initTableFilter)
       if (this.uiStyle === 'antd') {
-        window.addEventListener('resize', this.getTableHeight)
+        window.addEventListener('resize', this.setTableHeight)
       }
     },
     removeResizeTable() {
       window.removeEventListener('resize', this.initTableFilter)
       if (this.uiStyle === 'antd') {
-        window.removeEventListener('resize', this.getTableHeight)
+        window.removeEventListener('resize', this.setTableHeight)
       }
     },
     // 通过点击enter键来查询数据
@@ -497,8 +497,6 @@ export default {
           this.queryParams[key] = ''
         }
       })
-
-      console.log('config', this.config)
 
       // this.queryParams = merge(this.queryParams, this.params)
       this.queryParams = { ...this.queryParams, ...this.params }
@@ -573,6 +571,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.y-table-pro {
+  background: #fff;
+}
 .y-form-inline-wrapper {
   position: relative;
   overflow: hidden;

@@ -43,7 +43,7 @@ import BatchExport from './BatchExport'
 import VirtualList from './VirtualList'
 import DataBoard from './DataBoard'
 import YUploadList from './upload-list'
-// import directives from '../directives'
+import directives from '../directives'
 import VueDND from '../directives/dragging'
 
 const { YCategoryCascader, YAddressCascader, YCascader } = Cascader
@@ -58,7 +58,7 @@ const install = Vue => {
   if (install.installed) return
   // 注册指令
   Vue.use(Loading.directive)
-  // Vue.use(directives)
+  Vue.use(directives)
   Vue.use(VueDND)
   // 遍历注册全局组件
   components.map(component => Vue.component(component.name, component))

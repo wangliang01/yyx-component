@@ -37,14 +37,6 @@ const doResize = async(el, binding, vnode) => {
       Vue.set(target, 'height', 'auto')
       target.doLayout()
     }
-    // if (window.innerHeight > 900) {
-    //   Vue.set(target, 'maxHeight', height)
-    //   target.doLayout()
-    // } else {
-    //   Vue.set(target, 'maxHeight', 'auto')
-    //   Vue.set(target, 'height', 'auto')
-    //   target.doLayout()
-    // }
   })
 }
 
@@ -73,10 +65,10 @@ export default {
     const $el = getEl(el, vnode)
     doResize($el, binding, vnode)
   },
-  componentUpdated(el, binding, vnode) {
-    const $el = getEl(el, vnode)
-    doResize($el, binding, vnode)
-  },
+  // componentUpdated(el, binding, vnode) {
+  //   const $el = getEl(el, vnode)
+  //   doResize($el, binding, vnode)
+  // },
   // 绑定默认高度
   async inserted(el, binding, vnode) {
     const $el = getEl(el, vnode)
