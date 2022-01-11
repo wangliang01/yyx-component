@@ -1,7 +1,18 @@
 <template>
-  <div ref="tablePro" :key="key" v-loading="hasLoading && loading" class="table-pro">
+  <div
+    ref="tablePro"
+    :key="key"
+    v-loading="hasLoading && loading"
+    class="table-pro"
+  >
     <!-- Element风格搜索框 -->
-    <div v-if="uiStyle=== 'element'" ref="tableFilter" :class="formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'">
+    <div
+      v-if="uiStyle === 'element'"
+      ref="tableFilter"
+      :class="
+        formConfig.length > 3 ? 'y-form-wrapper' : 'y-form-inline-wrapper'
+      "
+    >
       <y-form
         :key="key"
         ref="form"
@@ -15,23 +26,21 @@
         @keyup.enter.native="handleQuery"
       >
         <el-form-item v-if="hasSearch && formConfig.length <= 3">
-          <el-button
-            type="primary"
-            @click="handleQuery"
-          >查询</el-button>
+          <el-button type="primary" @click="handleQuery">查询</el-button>
           <slot name="botton"></slot>
         </el-form-item>
       </y-form>
       <div v-if="hasSearch && formConfig.length > 3">
-        <el-button
-          type="primary"
-          @click="handleQuery"
-        >查询</el-button>
+        <el-button type="primary" @click="handleQuery">查询</el-button>
         <slot name="botton"></slot>
       </div>
     </div>
     <!-- antd风格搜索框 -->
-    <div v-else-if="uiStyle=== 'antd'" ref="tableFilter" class="y-form-inline-wrapper antd-form-wrapper">
+    <div
+      v-else-if="uiStyle === 'antd'"
+      ref="tableFilter"
+      class="y-form-inline-wrapper antd-form-wrapper"
+    >
       <y-form
         :key="key"
         v-model="queryParams"
@@ -52,11 +61,28 @@
           type="primary"
           @click="handleQuery"
         >查 询</el-button>
-        <el-button v-if="canShowExpandBtn" type="text" @click="handleToggle">{{ isExpand ? '收起' : '展开' }}<i :class="[isExpand ? 'el-icon-arrow-up' : 'el-icon-arrow-down']"></i> </el-button>
+        <el-button
+          v-if="canShowExpandBtn"
+          type="text"
+          @click="handleToggle"
+        >{{ isExpand ? '收起' : '展开'
+        }}<i
+          :class="[isExpand ? 'el-icon-arrow-up' : 'el-icon-arrow-down']"
+        ></i>
+        </el-button>
       </div>
     </div>
     <!-- 分割线 -->
-    <div v-if="uiStyle === 'antd'" class="divider" :style="{background: uiStyle === 'antd' ? bgColor : '', overflow: 'auto', height: '16px', margin: '0 16px'}"></div>
+    <div
+      v-if="uiStyle === 'antd'"
+      class="divider"
+      :style="{
+        background: uiStyle === 'antd' ? bgColor : '',
+        overflow: 'auto',
+        height: '16px',
+        margin: '0 16px'
+      }"
+    ></div>
     <!-- 表格 -->
     <div class="table-wrapper">
       <y-table
@@ -86,7 +112,11 @@
       </y-table>
     </div>
     <!-- 批量操作区域 -->
-    <div v-if="hasBatchAction" class="y-table-batch-action-area" :style="`left: ${offset}px`">
+    <div
+      v-if="hasBatchAction"
+      class="y-table-batch-action-area"
+      :style="`left: ${offset}px`"
+    >
       <div class="action-left">
         <y-text :content="`共选择${selection.length}条数据`"></y-text>
       </div>
@@ -256,17 +286,22 @@ export default {
     }
   },
   mounted() {
+    // 生成form, table， pagination相关配置
     this.initConfig()
+
+    // 是否立即请求数据
     if (!this.lazyLoad) {
       this.loadData()
     }
+
+    // 当窗口尺寸，发生变化，改变Table高度，使其实现自适应高度
     this.resizeTable()
-    this.queryDataByEnterKey()
+
     if (this.uiStyle === 'antd') {
       this.$nextTick(() => {
         this.initTableFilter()
         // antd风格时，才限制表格高度
-        this.getTableProHeight()
+        this.getTableHeight()
       })
     }
   },
@@ -274,7 +309,7 @@ export default {
     this.removeResizeTable()
   },
   methods: {
-    getTableProHeight() {
+    getTableHeight() {
       setTimeout(() => {
         const tablePro = this.$refs.tablePro
         tablePro.style.height = '100%'
@@ -338,32 +373,8 @@ export default {
         tableFilter.style.overflow = 'hidden'
         tableFilter.style.height = `${this.overflowHeight}px`
       }
-      this.getTableProHeight()
-
-      // 重新渲染表格高度
-      this.$nextTick(() => {
-        const target = this.$refs.table.$refs.table
-        const $el = target.$el
-        target.top = $el.getBoundingClientRect()?.top || target.top // 此处解决页面缓存的时候，获取到的top数据为 0 需要缓存 上一次正常渲染的top 高度数据
-
-        // 计算列表高度并设置
-        // 获取距底部距离 100默认有分页
-        const bottomOffset = this.$refs.table.bottomOffset
-
-        const offsetHeight = this.$refs.tablePro.offsetHeight
-        const screenHeight = window.innerHeight
-        const maxHeight = Math.max(offsetHeight, screenHeight)
-        const height = maxHeight - target.top - bottomOffset
-        const tableHeight = $el.offsetHeight
-        console.log(`offsetHeight: ${offsetHeight}, height: ${height}, tableHeight: ${tableHeight}`)
-        if (height > 400) {
-          this.$set(target, 'maxHeight', height)
-          target.doLayout()
-        } else {
-          this.$set(target, 'maxHeight', 400)
-          target.doLayout()
-        }
-      })
+      // 重新渲染Table高度
+      this.getTableHeight()
     },
     initTableFilter() {
       if (this.uiStyle === 'antd') {
@@ -418,20 +429,19 @@ export default {
     resizeTable() {
       window.addEventListener('resize', this.initTableFilter)
       if (this.uiStyle === 'antd') {
-        window.addEventListener('resize', this.getTableProHeight)
+        window.addEventListener('resize', this.getTableHeight)
       }
     },
     removeResizeTable() {
       window.removeEventListener('resize', this.initTableFilter)
       if (this.uiStyle === 'antd') {
-        window.removeEventListener('resize', this.getTableProHeight)
+        window.removeEventListener('resize', this.getTableHeight)
       }
     },
     // 通过点击enter键来查询数据
     queryDataByEnterKey() {
       this.$nextTick(() => {
         const form = this.$refs?.form?.$el
-        console.log('form', form)
         form && form.addEventListener('keyup', (e) => {
           const keyCode = e.keyCode || e.which
           if (keyCode === 13) {
@@ -563,34 +573,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.y-form-inline-wrapper{
+.y-form-inline-wrapper {
   position: relative;
   overflow: hidden;
   border-radius: 2px;
-  &.antd-form-wrapper{
+  &.antd-form-wrapper {
     padding: 0 16px 0;
     background-color: $--color-white;
-  ::v-deep .el-form {
-    margin-right: 300px;
-    .el-form-item {
-      margin-right: 74px;
-    }
-    .el-form-item .el-input {
-      // width: 100%;
-      width: 292px;
-    }
-    .el-form-item .el-select {
-      // width: 100%;
-      width: 292px;
+    ::v-deep .el-form {
+      margin-right: 300px;
+      .el-form-item {
+        margin-right: 74px;
+      }
+      .el-form-item .el-input {
+        // width: 100%;
+        width: 292px;
+      }
+      .el-form-item .el-select {
+        // width: 100%;
+        width: 292px;
+      }
     }
   }
-  }
-  .btn-wrapper{
+  .btn-wrapper {
     position: absolute;
     right: 16px;
   }
 }
-.table-wrapper{
+.table-wrapper {
   padding: 16px;
   // margin-top: 16px;
   background-color: $--color-white;
@@ -601,33 +611,36 @@ export default {
 } */
 // 分页
 ::v-deep .el-pagination {
-  .btn-prev, .btn-next, .el-pager .number {
+  .btn-prev,
+  .btn-next,
+  .el-pager .number {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 32px;
     height: 32px;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 2px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     padding: 0;
     margin-right: 8px;
   }
-  span:not([class*=suffix]) {
+  span:not([class*='suffix']) {
     height: 32px;
     line-height: 32px;
   }
-  .el-input--mini .el-input__inner{
+  .el-input--mini .el-input__inner {
     height: 32px;
     line-height: 32px;
   }
-  .el-pagination__editor, .el-pagination__editor.el-input .el-input__inner{
+  .el-pagination__editor,
+  .el-pagination__editor.el-input .el-input__inner {
     height: 32px;
     line-height: 32px;
   }
 }
 
-.y-table-batch-action-area{
+.y-table-batch-action-area {
   z-index: 5;
   display: flex;
   position: fixed;
@@ -638,15 +651,16 @@ export default {
   background-color: $--color-white;
   box-sizing: border-box;
   padding: 0 24px;
-  box-shadow: 0px -3px 6px -4px rgba(0, 0, 0, 0.12), 0px -6px 16px 0px rgba(0, 0, 0, 0.08), 0px -9px 28px 8px rgba(0, 0, 0, 0.05);
-  .action-left{
+  box-shadow: 0px -3px 6px -4px rgba(0, 0, 0, 0.12),
+    0px -6px 16px 0px rgba(0, 0, 0, 0.08), 0px -9px 28px 8px rgba(0, 0, 0, 0.05);
+  .action-left {
     flex: 1;
     height: 100%;
     display: inline-flex;
     align-items: center;
     font-size: 14px;
   }
-  .action-right{
+  .action-right {
     flex: 1;
     height: 100%;
     display: inline-flex;

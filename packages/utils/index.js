@@ -42,6 +42,9 @@ export function findComponentForward(context, componentName) {
     // 编历子组件
     for (const child of children) {
       target = findComponentForward(child, componentName)
+      if (target) {
+        return target
+      }
     }
   }
   return target

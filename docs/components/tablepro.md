@@ -12,7 +12,6 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="用户管理" name="first" lazy>
             <y-table-pro
-              v-adaptive="{bottomOffset: 90}"
               :columns="columns"
               ui-style="antd"
               showUtilBar
@@ -31,7 +30,6 @@
         </el-tab-pane>
         <el-tab-pane label="配置管理" name="second">
             <y-table-pro
-              v-adaptive="{bottomOffset: 90}"
               :columns="columns"
               ui-style="antd"
               :show-util-bar="false"

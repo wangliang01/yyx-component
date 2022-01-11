@@ -260,11 +260,11 @@ export default {
     }
   },
   created() {
-    this.height = 500 || document.body.offsetHeight - 340 - 16 + 'px'
+    // this.height = 500 || document.body.offsetHeight - 340 - 16 + 'px'
 
-    this.api.productApi.getCategories().then((data) => {
-      this.options = JSON.parse(JSON.stringify(data.data))
-    })
+    // this.api.productApi.getCategories().then((data) => {
+    //   this.options = JSON.parse(JSON.stringify(data.data))
+    // })
 
     console.log('height', this.height)
   },
