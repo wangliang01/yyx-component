@@ -72,6 +72,7 @@
         v-if="paginationAttrs.isPagination"
         v-bind="paginationAttrs"
         style="margin-top: 20px;text-align: right;"
+        :current-page="paginationAttrs['currentPage']"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       ></el-pagination>
