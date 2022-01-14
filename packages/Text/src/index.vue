@@ -8,8 +8,8 @@
     >
       <div class="text-tooltip-wrapper" :class="{ [`y-line-${line}`]: true }">
         <i v-if="dot" class="dot" :class="`dot-${type}`"></i>
-        <span v-if="content" class="text">{{ content }}</span>
-        <span v-else class="text">
+        <span v-if="content" class="text" :style="{color: color}">{{ content }}</span>
+        <span v-else class="text" :style="{color: color}">
           <slot></slot>
         </span>
       </div>
@@ -39,6 +39,10 @@ export default {
     type: {
       type: String,
       default: 'primary'
+    },
+    color: {
+      type: String,
+      default: ''
     }
   },
   data() {

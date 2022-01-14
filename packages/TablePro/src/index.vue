@@ -118,7 +118,8 @@
       :style="`left: ${offset}px`"
     >
       <div class="action-left">
-        <y-text :content="`已选择${ isCheckedAll ? `全部 ${total}` : ` ${selection.length}` } 项`"></y-text>
+        <div v-if="isCheckedAll">已选择全部<span :style="{color: primaryColor}"> {{ total }}</span> 项</div>
+        <div v-else>已选择当前页<span :style="{color: primaryColor}"> {{ selection.length }}</span> 项</div>
         <el-button v-if="showSelectAll && !isCheckedAll" type="text" @click="handleSelectAll">选择全部 {{ total }} 项</el-button>
       </div>
       <div class="action-right">
@@ -130,6 +131,8 @@
 </template>
 
 <script>
+import color from '../../../styles/element-variables.scss'
+console.log(color)
 import { filter, cloneDeep, isEmpty, get } from 'lodash'
 export default {
   name: 'YTablePro',
@@ -220,6 +223,7 @@ export default {
         current: 1,
         size: 10
       },
+      primaryColor: color.primaryColor,
       config: {}, // 渲染表单的数据
       canShowExpandBtn: false, // 是否显示展开筛选条件按钮
       isExpand: false,

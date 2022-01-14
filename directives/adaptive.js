@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { findComponentForward } from '../packages/utils'
 Vue.config.warnHandler = function(msg, vm, trace) {
   // `trace` 是组件的继承关系追踪
-  if (vm.$el && vm.$el.classList.contains('el-table')) {
+  if (vm?.$el && vm.$el?.classList.contains('el-table')) {
     return
   } else {
     console.warn(msg)
