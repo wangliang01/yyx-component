@@ -39,7 +39,6 @@ export default {
         if (ctx.props.prop) {
           params.prop = ctx.props.prop
         }
-        console.log(ctx.props.render)
         return ctx.props.render && ctx.props.render(h, params)
       }
     }
@@ -93,7 +92,6 @@ export default {
           label: '品牌',
           prop: 'brand',
           render(h, { data, prop }) {
-            console.log('data', data, prop)
             return <y-image src='11' width='60'></y-image>
           }
         },

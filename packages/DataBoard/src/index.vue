@@ -87,7 +87,6 @@ export default {
       if (this.iframeRef) {
         const iframeWin = this.iframeRef.contentWindow
 
-        console.log(token)
         iframeWin.postMessage(
           {
             cmd: 'sendTransferNewKey',

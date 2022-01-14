@@ -128,11 +128,9 @@ export default {
 
     currentLabel: {
       get() {
-        console.log('get', this.label)
         return this.label
       },
       set(val) {
-        console.log(val)
       }
     },
 

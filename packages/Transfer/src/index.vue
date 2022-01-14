@@ -188,7 +188,6 @@ export default {
     params: {
       handler(val) {
         this.queryParams = { ...this.queryParams, ...this.params }
-        console.log('size', val)
       },
       deep: true,
       immediate: true
@@ -458,8 +457,6 @@ export default {
       // 添加新增的值
       this.cloneCheckedData.push(...addItems)
       this.cloneCheckedData = uniqWith(this.cloneCheckedData, isEqual)
-
-      console.log('勾选的值', this.cloneCheckedData)
 
       this.data = this.cloneCheckedData
       // 同步更新checkedData

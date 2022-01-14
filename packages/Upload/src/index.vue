@@ -192,7 +192,6 @@ export default {
     handleRemove(file, fileList, index) {
       this.default = fileList
       this.defaultFile = fileList
-      console.log(index)
       this.$emit('on-remove', {
         file,
         fileList,

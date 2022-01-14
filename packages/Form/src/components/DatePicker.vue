@@ -50,7 +50,6 @@ export default {
   watch: {
     // 监听外部的value
     value(val) {
-      console.log('watch form value', val)
       this.currentValue = val
     }
   },

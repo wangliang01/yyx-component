@@ -132,7 +132,6 @@
 
 <script>
 import color from '../../../styles/element-variables.scss'
-console.log(color)
 import { filter, cloneDeep, isEmpty, get } from 'lodash'
 export default {
   name: 'YTablePro',
@@ -352,7 +351,6 @@ export default {
         const paginationHeight = tablePagination ? parseInt(getComputedStyle(tablePagination).height) + parseInt(getComputedStyle(tablePagination).marginTop) : 0
 
         this.offsetHeight = filterHeight + marginTop + padding + tableTopHeight + tableHeaderHeight + paginationHeight
-        console.log('设置表格高度', height, this.offsetHeight)
 
         this.height = height - this.offsetHeight
       })

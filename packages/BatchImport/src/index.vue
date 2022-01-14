@@ -561,7 +561,6 @@ export default {
             })
             return obj
           })
-          console.log('uploadData', uploadData)
           this.$emit('upload', uploadData)
         }
       }).catch(err => {
@@ -592,7 +591,6 @@ export default {
         item.index = index
         return item
       })
-      console.log(this.tableData)
     },
     sizeChange(size) {
       this.reloadData({ type: 'size-change', pageSize: size })
@@ -736,8 +734,6 @@ export default {
           if (this.multiHeader) {
             // 多级表头
             this.dbData = this.formatMultiDbData(exl)
-
-            console.log('dbData', this.dbData)
           } else {
             // 将 JSON 数据挂到 data 里
             this.dbData = this.formatDbData(exl)

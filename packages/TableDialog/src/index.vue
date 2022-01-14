@@ -174,7 +174,6 @@ export default {
     params: {
       handler(val) {
         this.queryParams = { ...this.queryParams, ...this.params }
-        console.log('size', val)
       },
       deep: true,
       immediate: true
@@ -243,7 +242,6 @@ export default {
           this.tableData.forEach(item => {
             if (intersectionData.includes(item[prop])) {
               // 如果包含，则勾选
-              console.log(11)
               this.$refs.table.$children[0].toggleRowSelection(item, true)
             } else {
               this.$refs.table.$children[0].toggleRowSelection(item, false)
@@ -415,8 +413,6 @@ export default {
       // 添加新增的值
       this.cloneCheckedData.push(...addItems)
       this.cloneCheckedData = uniqWith(this.cloneCheckedData, isEqual)
-
-      console.log('勾选的值', this.cloneCheckedData)
 
       this.data = this.cloneCheckedData
       // 同步更新checkedData

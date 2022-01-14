@@ -372,7 +372,6 @@ export default {
     },
     // 保存列定义配置
     handleSave() {
-      console.log('save...')
       if (!this.staffId) return
       const data = cloneDeep(this.currentColumns).map(col => {
         const { width, fixed, showCol, prop } = col
