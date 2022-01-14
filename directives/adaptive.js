@@ -23,19 +23,26 @@ const doResize = async(el, binding, vnode) => {
   // 计算列表高度并设置
   // const height = window.innerHeight - target.top - bottomOffset
 
-  const offsetHeight = el.offsetHeight
+  // const offsetHeight = el.offsetHeight
   const screenHeight = window.innerHeight
-  const maxHeight = Math.max(offsetHeight, screenHeight)
-  const height = maxHeight - target.top - bottomOffset
+  // const maxHeight = Math.max(offsetHeight, screenHeight)
+  const height = screenHeight - target.top - bottomOffset
   // 父组件更新完成再设置表格高度，要不重新渲染会失效
   context.$nextTick(() => {
     if (height > 650) {
       Vue.set(target, 'maxHeight', height)
-      target.doLayout()
+      Vue.set(target, 'height', null)
     } else {
-      Vue.set(target, 'maxHeight', 'auto')
+      Vue.set(target, 'maxHeight', null)
       Vue.set(target, 'height', 'auto')
-      target.doLayout()
+      const heightBean = $el.querySelector('.el-table__body').getBoundingClientRect().height
+      setTimeout(() => {
+        target.layout.bodyHeight = heightBean
+        target.layout.tableHeight = heightBean + 77
+        // target.layout.fixedBodyHeight = heightBean - 8
+        target.layout.scrollY = false
+        target.$el.style['max-height'] = 'none'
+      }, 0)
     }
   })
 }
