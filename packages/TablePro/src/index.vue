@@ -118,7 +118,8 @@
       :style="`left: ${offset}px`"
     >
       <div class="action-left">
-        <y-text :content="`共选择${selection.length}条数据`"></y-text>
+        <y-text :content="`已选择${ isCheckedAll ? `全部 ${total}` : ` ${selection.length}` } 项`"></y-text>
+        <el-button v-if="showSelectAll && !isCheckedAll" type="text" @click="handleSelectAll">选择全部 {{ total }} 项</el-button>
       </div>
       <div class="action-right">
         <el-button @click="handleCancelSelection">取消选择</el-button>
@@ -202,10 +203,15 @@ export default {
     hasBatchButton: {
       type: Boolean,
       default: true
+    },
+    showSelectAll: { // 是否显示 选择更多按钮
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
+      isCheckedAll: false,
       key: Math.random().toString(32).replace('.', ''),
       tableData: [],
       total: 0,
@@ -356,6 +362,8 @@ export default {
       if (this.$refs.table) {
         this.$refs.table.clearSelection()
         this.$emit('clear-selection')
+        this.isCheckedAll = false
+        this.$emit('select-all-page', false)
       }
     },
     /* 选择框 */
@@ -470,6 +478,9 @@ export default {
         this.tableData = tableData
         this.total = parseInt(get(res, this.model.total, 0))
         this.$emit('loaded', res)
+        this.$nextTick(() => {
+          if (this.isCheckedAll) this.handleSelectAll()
+        })
       } catch (error) {
         this.loading = false
         this.tableData = []
@@ -565,6 +576,13 @@ export default {
         this.queryParams = { ...this.queryParams, current: currentPage }
       }
       this.loadData()
+    },
+    // 选择全部
+    handleSelectAll() {
+      const YTable = this.$refs.table
+      this.tableData.forEach(row => YTable.toggleRowSelection(row, true))
+      this.isCheckedAll = true
+      this.$emit('select-all-page', true)
     }
   }
 }
@@ -660,6 +678,9 @@ export default {
     display: inline-flex;
     align-items: center;
     font-size: 14px;
+    button {
+      margin-left: 16px;
+    }
   }
   .action-right {
     flex: 1;

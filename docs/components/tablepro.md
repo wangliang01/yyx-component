@@ -15,10 +15,12 @@
               :columns="columns"
               ui-style="antd"
               showUtilBar
+              showSelectAll
               :show-util-bar="false"
               :load-data-api="pagelist"
               loaded="handleLoadData"
               :params.sync="queryParams"
+              @select-all-page="handleSelectAllPage"
             >
               <div slot="table">
                 <el-button>xx33333333333333333333</el-button>
@@ -480,12 +482,20 @@
     name: 'ProductArchives',
     data() {
       return {
+        isCheckedAll:false,
         activeName: 'first',
         pagelist: api.productApi.getSpu,
         queryParams: {
           createTime: ['2021-12-21', '2021-12-23']
         },
         columns: [
+          {
+            type:'selection',
+            reserveSelection: true,
+            selectable: (row, index) => {
+              return index >= 0 && !this.isCheckedAll
+            }
+          },
           {
             label: '图片',
             prop: 'carouselUrls',
@@ -628,6 +638,10 @@
       }
     },
     methods: {
+      handleSelectAllPage(val) {
+        console.log(val, 'vvvvvvvvvvvvvvvvv')
+        this.isCheckedAll = val
+      },
       handleLoadData(data) {
         console.log('loaded', data)
       }
