@@ -6,6 +6,12 @@ const routes = [
     redirect: '/form',
     children: [
       {
+        path: 'button-more',
+        name: 'ButtonMore',
+        component: () => import('../views/button-more'),
+        meta: { title: '更多按钮' }
+      },
+      {
         path: '/form',
         name: 'Form',
         component: () => import('../views/form'),
