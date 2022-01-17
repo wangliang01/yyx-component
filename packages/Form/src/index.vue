@@ -17,6 +17,7 @@
       :required="field.required || false"
       :error="field.error"
       :show-message="field.showMessage || field['show-message']"
+      :style="[...field.style]"
       :inline-message="field.inlineMessage || field['inline-message']"
       :size="field.size"
     >
