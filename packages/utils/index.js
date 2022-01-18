@@ -1,3 +1,4 @@
+import { round } from 'lodash'
 // 判断是否是一个原生的对象
 export function isPlainObject(obj) {
   return Object.prototype.toString.call(obj) === '[object Object]'
@@ -49,3 +50,19 @@ export function findComponentForward(context, componentName) {
   }
   return target
 }
+
+/**
+ * @params {Number} money 金额
+ * @params {Number} decimals 保留小数点后位数
+ * @params {String} symbol 前置符号
+ */
+export function formatMoney(money, symbol = '', decimals = 2) {
+  if (typeof money === 'number') {
+    money = round(money, decimals).toString()
+  }
+  const result = money
+    .replace(/\B(?=(\d{3})+\b)/g, ',')
+    .replace(/^/, `${symbol}`)
+  return result
+}
+

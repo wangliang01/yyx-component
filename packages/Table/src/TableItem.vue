@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import { formatMoney } from '../../utils'
 export default {
   name: 'TableItem',
   components: {
@@ -148,16 +149,7 @@ export default {
       }
     },
     formattedAmount(row, column, cellValue) {
-      const int = cellValue.split('.')[0]
-      const startStr = int.length % 3
-      let res = ''
-      if (startStr) {
-        res = int.slice(0, startStr) + ','
-      }
-      for (let i = 0; i < Math.floor(int.length / 3); i++) {
-        res += int.slice(i * 3 + startStr, (i + 1) * 3 + startStr) + ','
-      }
-      return res.slice(0, res.length - 1)
+      return formatMoney(cellValue)
     }
   }
 }
