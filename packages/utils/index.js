@@ -56,18 +56,16 @@ export function findComponentForward(context, componentName) {
  * @params {String} symbol 前置符号
  */
 export function formatMoney(money, symbol = '') {
+  if (!money && money !== 0 && money !== '0') return '-'
   let result
   money = money.toString()
   // 获取整数，小数部分
   const [integer, decimals = ''] = money.split('.')
+  result = integer
+    .replace(/\B(?=(\d{3})+\b)/g, ',')
+    .replace(/^/, `${symbol}`)
   if (decimals) {
-    result = integer
-      .replace(/\B(?=(\d{3})+\b)/g, ',')
-      .replace(/^/, `${symbol}`) + '.' + decimals
-  } else {
-    result = integer
-      .replace(/\B(?=(\d{3})+\b)/g, ',')
-      .replace(/^/, `${symbol}`)
+    result = result + '.' + decimals
   }
 
   return result
