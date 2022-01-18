@@ -18,6 +18,7 @@
     :filter-multiple="col.filterMultiple || col['filter-multiple']"
     :filter-method="col.filterMethod || col['filter-method']"
     :filtered-value="col.filteredValue || col['filtered-value']"
+    :formatter="col.formattedAmount || col['formatted-amount'] ? formattedAmount : col.formatter"
   >
     <template v-if="col.children && col.children.length">
       <TableItem
@@ -62,6 +63,7 @@
     :filter-multiple="col.filterMultiple || col['filter-multiple']"
     :filter-method="col.filterMethod || col['filter-method']"
     :filtered-value="col.filteredValue || col['filtered-value']"
+    :formatter="col.formattedAmount || col['formatted-amount'] ? formattedAmount : col.formatter"
   >
     <template slot-scope="scope">
       <expandDom
@@ -144,6 +146,18 @@ export default {
         const minWidth = Math.random(100 / len)
         return minWidth + '%'
       }
+    },
+    formattedAmount(row, column, cellValue) {
+      const int = cellValue.split('.')[0]
+      const startStr = int.length % 3
+      let res = ''
+      if (startStr) {
+        res = int.slice(0, startStr) + ','
+      }
+      for (let i = 0; i < Math.floor(int.length / 3); i++) {
+        res += int.slice(i * 3 + startStr, (i + 1) * 3 + startStr) + ','
+      }
+      return res.slice(0, res.length - 1)
     }
   }
 }

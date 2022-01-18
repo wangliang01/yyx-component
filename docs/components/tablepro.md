@@ -64,7 +64,7 @@
             total: '25',
             records: [
               {
-                id: '1422463042979045378',
+                id: '1234567891',
                 categoryId: '1422437265035866117',
                 categoryName:
                   '一级类目A/二级类目a/三级类目b/四级类目c/五级类目d/六级类目e',
@@ -511,7 +511,8 @@
           },
           {
             label: 'SPU ID',
-            prop: 'id'
+            prop: 'id',
+            formattedAmount: true
           },
           {
             prop: 'createTime',
