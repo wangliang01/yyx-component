@@ -1,4 +1,4 @@
-import adaptive from './adaptive'
+// import adaptive from './adaptive'
 export default (Vue) => {
-  Vue.directive('adaptive', adaptive)
+  // Vue.directive('adaptive', adaptive)
 }

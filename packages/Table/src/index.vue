@@ -54,7 +54,7 @@
         :style="`width: ${$attrs.width || '100%'}`"
         :size="size"
         :row-key="$attrs.rowKey || tableAttrs['row-key']"
-        :max-height="height"
+        :max-height="maxHeight"
         :class="borderClass"
         v-on="$listeners"
       >
@@ -189,13 +189,13 @@ export default {
         this.$emit('update', columns)
       }
     },
-    height() {
-      const scrollHeight = document.body.scrollHeight
-      if (scrollHeight - this.offsetHeight < this.maxHeight) {
-        return scrollHeight - this.offsetHeight
-      }
-      return this.maxHeight < 400 ? 'auto' : this.maxHeight
-    },
+    // height() {
+    //   const scrollHeight = document.body.scrollHeight
+    //   if (scrollHeight - this.offsetHeight < this.maxHeight) {
+    //     return scrollHeight - this.offsetHeight
+    //   }
+    //   return this.maxHeight < 400 ? 'auto' : this.maxHeight
+    // },
     borderClass() {
       return this.data.length === 0 ? 'el-table--border__bottom' : ''
     }
