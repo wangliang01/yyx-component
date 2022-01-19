@@ -11,7 +11,7 @@
     :maxlength="$attrs.maxLength || 100"
     :minlength="$attrs.minLength"
     :show-word-limit="$attrs.showWordLimit"
-    :placeholder="$attrs.placeholder || `请输入${label}`"
+    :placeholder="$attrs.placeholder || `请输入`"
     :clearable="$attrs.clearable || true"
     :show-password="$attrs.showPassword || false"
     :size="$attrs.size"
