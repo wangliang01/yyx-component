@@ -88,6 +88,12 @@ export default {
     }
   },
   mounted() {
+    if (this.valueLabel && this.options.length === 0) {
+      this.options = [{
+        [this.model.label]: this.valueLabel,
+        [this.model.value]: this.$attrs.value
+      }]
+    }
     if (!this.lazy) {
       // 如果不采用懒加载，则直接请求options
       this.getOptions()

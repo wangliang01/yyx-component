@@ -74,7 +74,7 @@ v-model的值为当前被选中的el-option的 value 属性值
 ```html
 <template>
     <div>
-        <y-select v-model="value" :api="getDataApi" :model="model" @change="handleChange" lazy></y-select>
+        <y-select :valueLabel.sync="valueLabel" v-model="value" :api="getDataApi" :model="model" @change="handleChange" lazy></y-select>
     </div>
 </template>
 <script>
@@ -88,7 +88,8 @@ v-model的值为当前被选中的el-option的 value 属性值
         },
         data() {
             return {
-                value: '',
+                valueLabel:'土豆块',
+                value: 'semifinishedId',
                 model: { label: 'semifinishedName', value: 'semifinishedId', data: 'data.records' },
             }
         },
