@@ -21,6 +21,9 @@
       :inline-message="field.inlineMessage || field['inline-message']"
       :size="field.size"
     >
+      <span v-if="field.renderLabel" slot="label">
+        <expandDom :render="field.renderLabel"></expandDom>
+      </span>
       <component
         :is="field.fieldType || field.filter"
         v-bind="field"
@@ -55,7 +58,17 @@ export default {
     TimePicker,
     YSwitch,
     Checkbox,
-    Customer
+    Customer,
+    expandDom: {
+      functional: true,
+      props: {
+        render: Function
+      },
+      render(h, ctx) {
+        const params = {}
+        return ctx.props.render && ctx.props.render(h, params)
+      }
+    }
   },
   props: {
     width: {

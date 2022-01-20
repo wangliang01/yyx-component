@@ -46,7 +46,8 @@
             prop: 'name',
             label: '活动名称',
             fieldType: 'Input',
-            labelSuffix: '：'
+            labelSuffix: '：',
+           
           },
           region: {
             prop: 'region',
@@ -380,7 +381,10 @@
             label: '活动名称',
             fieldType: 'Input',
             labelSuffix: '：',
-            rules: [{ required: true, message: '活动名称不能为空' }]
+            rules: [{ required: true, message: '活动名称不能为空' }],
+            renderLabel(h) {
+              return <span>大家好</span>
+            }
           },
           region: {
             prop: 'region',
