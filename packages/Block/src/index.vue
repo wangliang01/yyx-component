@@ -1,7 +1,9 @@
 <template>
   <div class="block">
     <div class="block-header">
-      <h3 class="block-title">{{ title }}</h3>
+      <h3 class="block-title">
+        <slot name="title">{{ title }}</slot>
+      </h3>
       <div class="block-header-right">
         <slot name="block-header-right">
         </slot>
