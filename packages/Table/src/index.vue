@@ -41,7 +41,8 @@
             :data="data"
           ></TableItem>
         </template>
-
+        <!-- 数据为空时 -->
+        <el-empty slot="empty" :image-size="100"></el-empty>
       </el-table>
       <!-- 普通表格 -->
       <el-table
@@ -67,6 +68,10 @@
             :data="data"
           ></TableItem>
         </template>
+        <!-- 数据为空时 -->
+        <div slot="empty" class="empty">
+          <el-empty :image-size="100"></el-empty>
+        </div>
       </el-table>
       <el-pagination
         v-if="paginationAttrs.isPagination"
@@ -385,6 +390,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.empty {
+  display: flex;
+  justify-content: center;
+}
+::v-deep .el-table__empty-text{
+  line-height: 1.5;
+}
 .iconfont {
   margin: 0 0 0 10px;
   font-size: 16px;
