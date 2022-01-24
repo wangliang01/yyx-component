@@ -34,7 +34,7 @@
       >
         <template v-for="(col, index) in columnAttrs">
           <TableItem
-            v-if="col.showCol || col.showCol === undefined"
+            v-if="!col.hideCol"
             :key="index"
             :col="col"
             :columns="columns"
@@ -280,7 +280,6 @@ export default {
       }
       // 获取element table col上的属性
       const columnAttrs = this.currentColumns.map(column => {
-        column.showCol = Object.prototype.hasOwnProperty.call(column, 'showCol') ? column.showCol : true
         if (!column.formatter) {
           this.$set(column, 'formatter', function(row, col) {
             const val = row[col.property]
@@ -379,8 +378,8 @@ export default {
     handleSave() {
       if (!this.staffId) return
       const data = cloneDeep(this.currentColumns).map(col => {
-        const { width, fixed, showCol, prop } = col
-        return { width, fixed, showCol, prop }
+        const { width, fixed, prop } = col
+        return { width, fixed, prop }
       })
       const name = this.$route.name
       local.set(`${this.staffId}${name}_${this.columnName}`, data)
