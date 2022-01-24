@@ -40,6 +40,11 @@
       v-else-if="uiStyle === 'antd'"
       ref="tableFilter"
       class="y-form-inline-wrapper antd-form-wrapper"
+      :style="{
+        'border-bottom-color': uiStyle === 'antd' ? bgColor : '',
+        'border-bottom-width':'16px',
+        'border-bottom-style':'solid'
+      }"
     >
       <y-form
         :key="key"
@@ -73,7 +78,7 @@
       </div>
     </div>
     <!-- 分割线 -->
-    <div
+    <!-- <div
       v-if="uiStyle === 'antd'"
       class="divider"
       :style="{
@@ -82,7 +87,7 @@
         height: '16px',
         margin: '0 16px'
       }"
-    ></div>
+    ></div> -->
     <!-- 表格 -->
     <div class="table-wrapper">
       <y-table
@@ -599,7 +604,8 @@ export default {
   overflow: hidden;
   border-radius: 2px;
   &.antd-form-wrapper {
-    padding: 0 16px 0;
+    margin: 0 16px 0;
+    padding: 0;
     background-color: $--color-white;
     ::v-deep .el-form {
       margin-right: 300px;
