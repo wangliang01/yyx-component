@@ -237,7 +237,7 @@ export default {
   },
   computed: {
     formConfig() {
-      const filterColumns = filter(this.columns, column => column.filter)
+      const filterColumns = filter(this.columns, column => column.filter && !column.filterHidden)
       return filterColumns
     },
     hasBatchAction() {
