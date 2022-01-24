@@ -61,7 +61,7 @@
       >
         <template v-for="(col, index) in columnAttrs">
           <TableItem
-            v-if="col.showCol || col.showCol === undefined"
+            v-if="!col.hideCol"
             :key="index"
             :col="col"
             :columns="columns"
