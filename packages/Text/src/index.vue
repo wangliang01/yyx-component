@@ -81,7 +81,7 @@ export default {
 
 <style lang="scss" scoped>
 .text-wrapper {
-  display: inline-block;
+  display: inline;
   .text-copy {
     position: fixed;
     top: -10000px;
