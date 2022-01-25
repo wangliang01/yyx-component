@@ -1,3 +1,4 @@
+import { BN } from './bigNumber'
 // 判断是否是一个原生的对象
 export function isPlainObject(obj) {
   return Object.prototype.toString.call(obj) === '[object Object]'
@@ -54,11 +55,12 @@ export function findComponentForward(context, componentName) {
  * @params {Number} money 金额
  * @params {Number} decimals 保留小数点后位数
  * @params {String} symbol 前置符号
+ * @params {Number} precision 四舍五入精度
  */
-export function formatMoney(money, symbol = '') {
+export function formatMoney(money, symbol = '', precision = 2) {
   if (!money && money !== 0 && money !== '0') return '-'
   let result
-  money = money.toString()
+  money = BN(money).toFixed(precision)
   // 获取整数，小数部分
   const [integer, decimals = ''] = money.split('.')
   result = integer

@@ -149,7 +149,11 @@ export default {
       }
     },
     formattedAmount(row, column, cellValue) {
-      return formatMoney(cellValue)
+      let precision
+      if (typeof this.col.formattedAmount === 'object') {
+        precision = this.col.formattedAmount.precision
+      }
+      return formatMoney(cellValue, '', precision)
     }
   }
 }
