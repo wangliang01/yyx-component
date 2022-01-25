@@ -89,12 +89,15 @@ v-model的值为当前被选中的el-option的 value 属性值
         data() {
             return {
                 valueLabel:'土豆块',
-                value: 'semifinishedId',
+                value: 2,
                 model: { label: 'semifinishedName', value: 'semifinishedId', data: 'data.records' },
             }
         },
         mounted() {
-
+            setTimeout(()=>{
+                this.valueLabel='土豆丝'
+                this.value = 1
+            },1000)
         },
         methods: {
             getDataApi() {

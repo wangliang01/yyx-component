@@ -85,13 +85,23 @@ export default {
         }
       },
       deep: true
+    },
+    valueLabel(v) {
+      if (this.valueLabel && this.options.length === 1 && this.options[0].isAutoCreated) {
+        this.options = [{
+          [this.model.label]: v,
+          [this.model.value]: this.$attrs.value,
+          isAutoCreated: true
+        }]
+      }
     }
   },
   mounted() {
     if (this.valueLabel && this.options.length === 0) {
       this.options = [{
         [this.model.label]: this.valueLabel,
-        [this.model.value]: this.$attrs.value
+        [this.model.value]: this.$attrs.value,
+        isAutoCreated: true
       }]
     }
     if (!this.lazy) {
