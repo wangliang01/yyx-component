@@ -87,7 +87,7 @@ export default {
       deep: true
     },
     valueLabel(v) {
-      if (this.valueLabel && this.options.length === 1 && this.options[0].isAutoCreated) {
+      if ((this.options.length === 1 && this.options[0].isAutoCreated) || this.options.length === 0) {
         this.options = [{
           [this.model.label]: v,
           [this.model.value]: this.$attrs.value,
