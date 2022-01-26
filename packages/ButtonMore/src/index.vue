@@ -1,5 +1,5 @@
 <template>
-  <div ref="buttonMore" class="button-more">
+  <div ref="buttonMore" :key="key" class="button-more">
     <el-dropdown
       v-if="hasShowDropdown"
       :size="size"
@@ -36,6 +36,7 @@
         <expandDom
           v-if="col.render"
           :key="index"
+          :row="row"
           :col="col"
           :render="col.render"
         ></expandDom>
@@ -58,6 +59,7 @@ export default {
     expandDom: {
       functional: true,
       props: {
+        row: Object,
         col: Object,
         render: Function
       },
@@ -65,6 +67,9 @@ export default {
         const params = {}
         if (ctx.props.col) {
           params.col = ctx.props.col
+        }
+        if (ctx.props.row) {
+          params.row = ctx.props.row
         }
         return ctx.props.render && ctx.props.render(h, params)
       }
@@ -104,6 +109,7 @@ export default {
   },
   data() {
     return {
+      key: Math.random().toString(36).replace('.', ''),
       showColumns: []
     }
   },
@@ -115,9 +121,8 @@ export default {
     }
   },
   watch: {
-    rows: {
-      handler() {
-        this.init()
+    row: {
+      handler(val) {
         this.showColumns = this.columns.filter((col) => {
           return col.show()
         })
@@ -133,25 +138,6 @@ export default {
     }
   },
   methods: {
-    // 对传入的数据进行校验
-    init() {
-      const parent = this.$parent
-      this.columns.forEach((col) => {
-        // 设置show方法的默认值
-        if (col.show === undefined || typeof col.show !== 'function') {
-          col.show = () => true
-        } else {
-          // 如果show有值，将row作为参数绑定到show方法上
-          col.show = col.show.bind(parent, this.row)
-        }
-        if (col.handler === undefined || typeof col.handler !== 'function') {
-          col.handler = () => {}
-        } else {
-          // 如果handler有值，将handler作为参数绑定到handler方法上
-          col.handler = col.handler.bind(parent, this.row)
-        }
-      })
-    },
     // 给下拉按钮添加样式
     setButtonStyle() {
       const elButton = this.$refs.buttonMore?.querySelector('.el-button')

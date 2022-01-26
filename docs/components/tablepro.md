@@ -52,6 +52,9 @@
   </div>
 </template>
 <script>
+  const hasPermission = (permissions) => {
+  return true
+}
   const api = {
     productApi: {
       async getSpu() {
@@ -618,20 +621,7 @@
             prop:'action',
             render: (h, { row }) => {
               return (
-                <div>
-                  <el-button
-                    type="text"
-                    onClick={() => this.handleEditSpu(row)}
-                  >
-                    编辑
-                  </el-button>
-                  <el-button type="text" onClick={() => this.handleSeeSpu(row)}>
-                    查看
-                  </el-button>
-                  <el-button type="text" onClick={() => this.handleAddSku(row)}>
-                    新建SKU
-                  </el-button>
-                </div>
+                <y-button-more columns={this.getButtonColumns(row)}></y-button-more>
               )
             }
           }
@@ -639,13 +629,104 @@
       }
     },
     methods: {
+      getButtonColumns(row)  {
+        return  [
+        {
+          text: '详情',
+          handler: ()=>  {
+            this.handleGoDetail(row)
+          },
+          show() {
+            return hasPermission(['ORDER_MENU_DETAIL_BUTTON'])
+          }
+        },
+        {
+          text: '确认',
+          handler: () => {
+            this.handleConfirm(row)
+          },
+          show: () => {
+            return hasPermission(['ORDER_MENU_DETAIL_BUTTON'])
+          }
+        },
+        {
+          text: '审核',
+          handler: () =>  {
+            this.handleConfirm(row)
+          },
+          show() {
+            return hasPermission(['ORDER_MENU_DETAIL_BUTTON'])
+          }
+        },
+        {
+          text: '更改',
+          handler: () => {
+            this.handleConfirm(row)
+          },
+          show() {
+            return hasPermission(['ORDER_MENU_DETAIL_BUTTON']) 
+          }
+        },
+        {
+          text: '流转',
+          handler: () => {
+            this.handleConfirm(row)
+          },
+          show() {
+            return hasPermission(['ORDER_MENU_DETAIL_BUTTON']) 
+          }
+        },
+        {
+          text: '退货',
+          handler: () => {
+            this.handleConfirm(row)
+          },
+          show() {
+            return hasPermission(['ORDER_MENU_DETAIL_BUTTON']) 
+          }
+        },
+        {
+          text: '取消',
+          handler: () => {
+            this.handleConfirm(row)
+          },
+          show() {
+            return hasPermission(['ORDER_MENU_DETAIL_BUTTON']) 
+          }
+        },
+        {
+          text: '再来一单',
+          handler: ()=> {
+            this.handleConfirm(row)
+          },
+          show() {
+            return hasPermission(['ORDER_MENU_DETAIL_BUTTON']) 
+          }
+        }
+        ]
+      },
       handleSelectAllPage(val) {
         console.log(val, 'vvvvvvvvvvvvvvvvv')
         this.isCheckedAll = val
       },
       handleLoadData(data) {
         console.log('loaded', data)
+      },
+       handleGoDetail(row) {
+      console.log('handleGoDetail', row)
+    },
+    // 是否显示确认按钮
+    canShowConfirmButton(row) {
+      // 如果订单状态是待审核[WAIT_CONFIRM]，客服审核[CUSTOMER_EXAMINE]，客户审核[USER_EXAMINE], 则显示确认按钮
+      const { orderStatus } = row
+      if (['WAIT_CONFIRM', 'CUSTOMER_EXAMINE', 'USER_EXAMINE'].includes(orderStatus)) {
+        return true
       }
+      return false
+    },
+    handleConfirm(row) {
+      console.log('handleConfirm', row)
+    }
     }
   }
 </script>

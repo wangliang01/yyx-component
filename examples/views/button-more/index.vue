@@ -54,7 +54,6 @@ export default {
         {
           text: '详情',
           handler(row) {
-            this.handleGoDetail(row)
           },
           show(row) {
             return hasPermission(['ORDER_MENU_DETAIL_BUTTON'])
