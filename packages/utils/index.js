@@ -57,8 +57,9 @@ export function findComponentForward(context, componentName) {
  * @params {String} symbol 前置符号
  * @params {Number} precision 四舍五入精度
  */
-export function formatMoney(money, symbol = '', precision = 2) {
+export function formatMoney(money, precision = 2, symbol = '') {
   if (!money && money !== 0 && money !== '0') return '-'
+  if (money === 0 || money === '0') return '0'
   let result
   money = BN(money).toFixed(precision)
   // 获取整数，小数部分
