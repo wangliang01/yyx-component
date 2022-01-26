@@ -153,7 +153,7 @@ export default {
       if (typeof this.col.formattedAmount === 'object') {
         precision = this.col.formattedAmount.precision
       }
-      return formatMoney(cellValue, '', precision)
+      return formatMoney(cellValue, precision)
     }
   }
 }
