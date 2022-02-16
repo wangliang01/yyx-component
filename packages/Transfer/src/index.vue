@@ -20,11 +20,11 @@
       <div class="content">
         <!-- 左侧表格 -->
         <div class="flex-left">
-          <y-table ref="table" v-loading="loading" :data="tableData" :columns="tableColumns" :pagination="{'hide-on-single-page': true}" :total="originData.length" :reload="reloadData" :row-key="rowKey" height="400" @selection-change="handleSelectionChange"></y-table>
+          <y-table ref="table" v-loading="loading" :data="tableData" :columns="tableColumns" :pagination="true" :total="originData.length" :reload="reloadData" :row-key="rowKey" height="400" @selection-change="handleSelectionChange"></y-table>
         </div>
         <!-- 右侧表格 -->
         <div class="flex-right">
-          <y-table :data="checkedTableData" :columns="checkedColumns" height="400" :pagination="{'hide-on-single-page': true}" :total="checkedData.length" :reload="reloadCheckedData"></y-table>
+          <y-table :data="checkedTableData" :columns="checkedColumns" height="400" :pagination="{'page-size': checkedTablePagination.size}" :total="checkedData.length" :reload="reloadCheckedData"></y-table>
         </div>
       </div>
     </div>
