@@ -577,6 +577,7 @@ export default {
         // this.queryParams = merge(this.queryParams, { current: currentPage })
         this.queryParams = { ...this.queryParams, current: currentPage }
       }
+      this.$emit('before-reload', this.queryParams)
       this.loadData()
     },
     // 选择全部
