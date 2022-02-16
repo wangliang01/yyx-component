@@ -199,7 +199,7 @@ export default {
     checkedData: {
       handler(val, oldVal) {
         const { size } = this.checkedTablePagination
-        const current = 1
+        const current = this.checkedTablePagination.current || 1
         this.checkedTableData = this.checkedData.slice((current - 1) * size, current * size).map((item, index) => {
           item.index = index
           return item
