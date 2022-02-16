@@ -174,6 +174,10 @@ export default {
         size: 10,
         current: 1
       },
+      checkedTablePagination: {
+        size: 10,
+        current: 1
+      },
       checkedTableData: []
     }
   },
@@ -194,7 +198,7 @@ export default {
     },
     checkedData: {
       handler(val, oldVal) {
-        const { size } = this.pagination
+        const { size } = this.checkedTablePagination
         const current = 1
         this.checkedTableData = this.checkedData.slice((current - 1) * size, current * size).map((item, index) => {
           item.index = index
@@ -276,7 +280,7 @@ export default {
       }
     },
     loadCheckedData() {
-      const { size, current } = this.pagination
+      const { size, current } = this.checkedTablePagination
       // 点击选中列表分页时，会改变元对象的index
       const cloneCheckedData = cloneDeep(this.checkedData)
       this.checkedTableData = cloneCheckedData.slice((current - 1) * size, current * size).map((item, index) => {
@@ -322,10 +326,10 @@ export default {
     reloadCheckedData({ pageSize: size, currentPage, type }) {
       if (type === 'size-change') {
         // 分页条数变更，需要重置current为1
-        this.pagination = { ...this.pagination, size, current: 1 }
+        this.checkedTablePagination = { ...this.checkedTablePagination, size, current: 1 }
       } else {
         // 页码变更时
-        this.pagination = { ...this.pagination, current: currentPage }
+        this.checkedTablePagination = { ...this.checkedTablePagination, current: currentPage }
       }
       this.loadCheckedData()
     },
