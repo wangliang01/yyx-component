@@ -27,7 +27,7 @@
         :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
         :style="`width: ${$attrs.width || '100%'}`"
         :size="size"
-        :row-key="$attrs.rowKey || tableAttrs['row-key']"
+        :row-key="rowKey || tableAttrs['row-key']"
         :max-height="height"
         :class="borderClass"
         v-on="$listeners"
@@ -54,7 +54,7 @@
         :tooltip-effect="tableAttrs['tooltip-effect'] || 'dark'"
         :style="`width: ${$attrs.width || '100%'}`"
         :size="size"
-        :row-key="$attrs.rowKey || tableAttrs['row-key']"
+        :row-key="rowKey || tableAttrs['row-key']"
         :max-height="height"
         :class="borderClass"
         v-on="$listeners"
@@ -170,6 +170,9 @@ export default {
     maxHeight: {
       type: [String, Number],
       default: 'auto'
+    },
+    rowKey: {
+      type: [String, Function]
     }
   },
   data() {
