@@ -7,32 +7,34 @@
     v-on="$listeners"
     @submit.native.prevent
   >
-    <el-form-item
-      v-for="(field, key) in config"
-      :key="key"
-      :label="field.hideLable ? '' : field.label + (field.labelSuffix || '')"
-      :label-width="field.labelWidth ? field.labelWidth : (field['label-width'] ? field['label-width'] : $attrs['label-width'])"
-      :rules="field.rules"
-      :prop="field.prop"
-      :required="field.required || false"
-      :error="field.error"
-      :show-message="field.showMessage || field['show-message']"
-      :style="[...field.style]"
-      :inline-message="field.inlineMessage || field['inline-message']"
-      :size="field.size"
-    >
-      <span v-if="field.renderLabel" slot="label">
-        <expandDom :render="field.renderLabel"></expandDom>
-      </span>
-      <component
-        :is="field.fieldType || field.filter"
-        v-bind="field"
-        :value="formData[field.prop]"
-        :on-pick="field.onPick"
-        :style="`width: ${field.width || '100%'};`"
-        @input="updateForm(field.prop, $event)"
-      ></component>
-    </el-form-item>
+    <template v-for="(field, key) in config">
+      <el-form-item
+        v-if="field.hideForm"
+        :key="key"
+        :label="field.hideLable ? '' : field.label + (field.labelSuffix || '')"
+        :label-width="field.labelWidth ? field.labelWidth : (field['label-width'] ? field['label-width'] : $attrs['label-width'])"
+        :rules="field.rules"
+        :prop="field.prop"
+        :required="field.required || false"
+        :error="field.error"
+        :show-message="field.showMessage || field['show-message']"
+        :style="[...field.style]"
+        :inline-message="field.inlineMessage || field['inline-message']"
+        :size="field.size"
+      >
+        <span v-if="field.renderLabel" slot="label">
+          <expandDom :render="field.renderLabel"></expandDom>
+        </span>
+        <component
+          :is="field.fieldType || field.filter"
+          v-bind="field"
+          :value="formData[field.prop]"
+          :on-pick="field.onPick"
+          :style="`width: ${field.width || '100%'};`"
+          @input="updateForm(field.prop, $event)"
+        ></component>
+      </el-form-item>
+    </template>
     <slot></slot>
   </el-form>
 </template>
