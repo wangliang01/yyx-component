@@ -9,7 +9,7 @@
   >
     <template v-for="(field, key) in config">
       <el-form-item
-        v-if="field.hideForm"
+        v-if="!field.hideForm"
         :key="key"
         :label="field.hideLable ? '' : field.label + (field.labelSuffix || '')"
         :label-width="field.labelWidth ? field.labelWidth : (field['label-width'] ? field['label-width'] : $attrs['label-width'])"
