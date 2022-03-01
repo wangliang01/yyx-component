@@ -34,7 +34,7 @@
       >
         <template v-for="(col, index) in columnAttrs">
           <TableItem
-            v-if="!col.hideCol"
+            v-if="col.showCol || col.showCol === undefined"
             :key="index"
             :col="col"
             :columns="columns"
@@ -61,7 +61,7 @@
       >
         <template v-for="(col, index) in columnAttrs">
           <TableItem
-            v-if="!col.hideCol"
+            v-if="col.showCol || col.showCol === undefined"
             :key="index"
             :col="col"
             :columns="columns"
@@ -172,7 +172,8 @@ export default {
       default: 'auto'
     },
     rowKey: {
-      type: [String, Function]
+      type: [String, Function],
+      default: ''
     }
   },
   data() {
