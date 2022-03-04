@@ -1,13 +1,13 @@
 <template>
   <div>
-    <virtual-list :data="tableData" :columns="columns" :height="980" size="small"></virtual-list>
+    <virtual-list :data="tableData" :columns="columns" :height="980" size="small" :change="tableChange"></virtual-list>
   </div>
 </template>
 
 <script>
 import VirtualList from '../../../packages/Table/src/VirtualList.vue'
 const tableData = []
-for (let i = 0; i < 100000; i++) {
+for (let i = 0; i < 40; i++) {
   const item = {
     id: i + 1,
     name: `小张${i + 1}`,
@@ -24,7 +24,8 @@ export default {
   data() {
     // this.tableData = tableData
     return {
-      tableData: Object.freeze(tableData),
+      tableData: [],
+      tData: [],
       columns: [
         {
           prop: 'id',
@@ -63,10 +64,10 @@ export default {
           prop: 'action',
           fixed: 'right',
           minWidth: '180px',
-          render: (h, { row }) => {
+          render: (h, { row, index }) => {
             return <div>
-              <el-button type='text' onClick={(e) => this.handleClick(row)}>供货商品</el-button>
-              <el-button type='text'>修改</el-button>
+              <el-button type='text' onClick={(e) => this.handleClick(row, index)}>删除商品</el-button>
+              <el-button type='text'>删除</el-button>
               <el-button type='text'>启用</el-button>
             </div>
           }
@@ -74,12 +75,22 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.tableData = Object.freeze(tableData)
+  },
   methods: {
+    tableChange(data) {
+      console.log('111111111111111111111')
+      this.tData = data
+    },
     handleChanged(e) {
       console.log('input', e)
     },
-    handleClick(row) {
-      console.log(row.id, row)
+    handleClick(row, index) {
+      // console.log('input', this.tData, index)
+      // console.log(row.id, row)
+      this.tData.splice(index, 1)
+      console.log(JSON.stringify(this.tData, null, '\t'))
     }
   }
 }

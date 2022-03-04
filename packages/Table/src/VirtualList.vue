@@ -71,7 +71,7 @@ export default {
     return {
       originData: Object.isFrozen(this.data) ? clone(this.data) : this.data,
       tableScrollTop: 0,
-      tableVirtualHeight: this.data.length * this.rowHeight,
+      // tableVirtualHeight: this.data.length * this.rowHeight,
       start: 0
     }
   },
@@ -84,6 +84,9 @@ export default {
     },
     virtualData() {
       return this.originData.slice(this.start, this.start + this.maxRows)
+    },
+    tableVirtualHeight() {
+      return this.originData.length * this.rowHeight
     },
     maxRows() { // 最大行数
       return Math.ceil((this.height - this.headerHeight) / this.rowHeight) + 4
@@ -104,7 +107,7 @@ export default {
     data: {
       handler(val) {
         this.originData = Object.isFrozen(val) ? clone(val) : val
-        this.tableVirtualHeight = val.length * this.rowHeight
+        // this.tableVirtualHeight = val.length * this.rowHeight
         this.$once('hook:updated', () => {
           if (typeof this.change === 'function') {
             this.change(this.originData)
@@ -113,7 +116,7 @@ export default {
         })
         // 数据更新之后，滚动条滚到 0 从新截取数据内容
         this.bodyWrapper.scrollTop = 0
-        this.setSatrt()
+        this.setStart()
       },
       deep: true
     }
@@ -157,15 +160,15 @@ export default {
       const disTime = now - oldNow
       if (disTime < 30) {
         if (this.timer) clearTimeout(this.timer)
-        this.timer = setTimeout(this.setSatrt, 30)
+        this.timer = setTimeout(this.setStart, 30)
         return
       }
       oldNow = now
       if (this.timer) clearTimeout(this.timer)
-      this.setSatrt()
+      this.setStart()
     },
     // 设置开始位置
-    setSatrt() {
+    setStart() {
       const scrollTop = this.bodyWrapper.scrollTop
       this.tableScrollTop = scrollTop
       let start = Math.floor(this.tableScrollTop / this.rowHeight) - 2
