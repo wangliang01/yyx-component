@@ -19,7 +19,7 @@
       @blur="focusing = false"
       @click="focusing = false"
     >
-      <slot :file="file">
+      <template :file="file">
         <img
           v-if="file.status !== 'uploading' && ['picture-card', 'picture'].indexOf(listType) > -1"
           class="el-upload-list__item-thumbnail"
@@ -63,7 +63,7 @@
             <i class="el-icon-delete"></i>
           </span>
         </span>
-      </slot>
+      </template>
     </li>
   </transition-group>
 </template>
