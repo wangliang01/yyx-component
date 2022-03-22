@@ -631,9 +631,18 @@ export default {
           if (column) {
             if (column.type === 'date-picker') {
               const format = column.format || 'YYYY-MM-DD'
-              obj[column.prop] = (moment(item[key]).format(format) === 'Invalid date' ? '' : moment(item[key]).format(format))
+              if (!isNaN(item[key])) {
+                obj[column.prop] = this.formateDate(Number(item[key]), format)
+              } else {
+                obj[column.prop] = (moment(item[key]).format(format) === 'Invalid date' ? '' : moment(item[key]).format(format))
+              }
             } else {
-              obj[column.prop] = item[key]
+              const format = column.format
+              if (format && format.includes('YYYY-MM-DD') && !isNaN(item[key])) {
+                obj[column.prop] = this.formateDate(Number(item[key]), format)
+              } else {
+                obj[column.prop] = item[key]
+              }
             }
           } else {
             throw new TypeError('上传文件不正确，不符合模板格式，请检查后上传！')
@@ -642,6 +651,14 @@ export default {
         return obj
       })
       return res
+    },
+    formateDate(value, format = 'YYYY-MM-DD') {
+      // 1、用1970-1-1减去1900-1-1得到相差为：25567天 0小时 5分钟 43秒；
+
+      // 2、减去多出来的1天8小时；
+      const timestamp = (value - 25567) * 24 * 3600000 - 5 * 60 * 1000 - 43 * 1000 - 24 * 3600000 - 8 * 3600000
+
+      return moment(timestamp).format(format)
     },
     initData() {
       this.tableData = []

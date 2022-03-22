@@ -30,17 +30,94 @@ export default {
     return {
       uploadSuccess: false,
       stockColumns: [
-        { prop: 'warehouseId', label: '仓库ID', type: 'input', required: true },
-        { prop: 'skuId', label: '商品ID', type: 'input', required: true },
-        { prop: 'availableStock', label: '可用库存', type: 'input', required: true },
-        { prop: 'price', label: '不含税单价', type: 'input', required: true },
         {
-          prop: 'produceTime',
+          prop: 'firstCategory',
+          label: '一级品类',
+          type: 'input',
+          required: false
+        },
+        {
+          prop: 'secondaryCategory',
+          label: '二级品类',
+          type: 'input',
+          required: false
+        },
+        {
+          prop: 'productName',
+          label: '商品名称',
+          type: 'input',
+          required: false
+        },
+        {
+          prop: 'location',
+          label: '产地（所在地）',
+          type: 'input',
+          required: false
+        },
+        {
+          prop: 'shelfLife',
+          label: '保质期',
+          type: 'input',
+          required: false
+        },
+        {
+          prop: 'manufactureDate',
           label: '生产日期',
+          type: 'input',
+          required: false,
+          format: 'YYYY-MM-DD'
+        },
+        {
+          prop: 'specification',
+          label: '规格',
+          type: 'input',
+          required: false
+        },
+        {
+          prop: 'unit',
+          label: '单位',
+          type: 'input',
+          required: false
+        },
+        {
+          prop: 'quote',
+          label: '报价',
+          type: 'input',
+          required: false,
+          number: true
+
+        },
+        {
+          prop: 'brand',
+          label: '品牌',
+          type: 'input',
+          required: false
+        },
+        {
+          prop: 'supplierName',
+          label: '供应商名称',
+          type: 'input',
+          required: false
+        },
+        {
+          prop: 'storeCondition',
+          label: '储存条件',
+          type: 'input',
+          required: false
+        },
+        {
+          prop: 'quoteDate',
+          label: '报价时间',
           type: 'date-picker',
-          required: true,
-          format: 'YYYY-MM-DD',
-          pattern: /^[1-2][0-9][0-9][0-9][-\.\/][0-1]{0,1}[0-9][-\.\/][0-3]{0,1}[0-9]$/
+          required: false,
+          pattern:
+            /^[1-2][0-9][0-9][0-9][-\.\/][0-1]{0,1}[0-9][-\.\/][0-3]{0,1}[0-9]$/
+        },
+        {
+          prop: 'remark',
+          label: '备注',
+          type: 'input',
+          required: false
         }
       ]
     }
