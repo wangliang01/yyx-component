@@ -1,17 +1,16 @@
 <template>
-  <div class="y-input">
-    <el-input
-      ref="input"
-      v-model="currentValue"
-      :clearable="$attrs.clearable===undefined?true:$attrs.clearable"
-      v-bind="$attrs"
-      :maxlength="$attrs.maxlength || $attrs.maxLength || $attrs['max-length']"
-      @input="handleInputEvent"
-      @blur="handleBlurEvent"
-      v-on="$listeners"
-    ></el-input>
-    <div v-if="unit" ref="unit" class="unit">{{ unit }}</div>
-  </div>
+  <el-input
+    ref="input"
+    v-model="currentValue"
+    :clearable="$attrs.clearable===undefined?true:$attrs.clearable"
+    v-bind="$attrs"
+    :maxlength="$attrs.maxlength || $attrs.maxLength || $attrs['max-length']"
+    @input="handleInputEvent"
+    @blur="handleBlurEvent"
+    v-on="$listeners"
+  >
+    <div v-if="unit" ref="unit" slot="append">{{ unit }}</div>
+  </el-input>
 </template>
 <script>
 import { isLessThan } from '../../utils/bigNumber'
@@ -73,23 +72,7 @@ export default {
   created() {
     this.dealPrecision()
   },
-  mounted() {
-    this.init()
-  },
   methods: {
-    init() {
-      const input = this.$refs.input.$el
-      const inputInner = input.querySelector('.el-input__inner')
-      if (!inputInner) return
-      if (this.unit) {
-        inputInner.classList.add('fix-border-radius')
-        const unit = this.$refs.unit
-        /* 修复el-input__inner与el-input差2px的问题 */
-        unit.style.height = (Math.round(unit.getBoundingClientRect().height) - 2) + 'px'
-      } else {
-        inputInner.classList.remove('fix-border-radius')
-      }
-    },
     dealPrecision() {
       if (isNaN(this.precision)) {
         this.precision = 2
@@ -184,20 +167,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.y-input{
-  display: inline-flex;
-}
-.unit{
-  min-width: 50px;
-  border: 1px solid #DCDFE6;
-  background-color: $--border-color-light;
-  text-align: center;
-  border-radius: 4px;
-  border-left: none;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  box-sizing: border-box;
-  height: calc(100% - 2px);
-  overflow: hidden;
-}
+
 </style>

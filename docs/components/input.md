@@ -9,7 +9,7 @@
 
 ```html
 <template>
-  <y-input v-model="value"></y-input>
+  <y-input v-model="value" unit="天"></y-input>
 </template>
 <script>
   export default {
