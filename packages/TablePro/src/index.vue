@@ -665,7 +665,7 @@ export default {
 .y-table-batch-action-area {
   z-index: 5;
   display: flex;
-  position: fixed;
+  position: fixed !important;
   height: 64px;
   align-items: center;
   bottom: 0;
