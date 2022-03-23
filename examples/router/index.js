@@ -138,6 +138,12 @@ const routes = [
         meta: { title: 'Card卡片' }
       },
       {
+        path: '/descriptions',
+        name: 'Card',
+        component: () => import('../views/descriptions'),
+        meta: { title: 'Descriptions' }
+      },
+      {
         path: '/block',
         name: 'Block',
         component: () => import('../views/block'),
