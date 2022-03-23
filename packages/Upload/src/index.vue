@@ -338,18 +338,36 @@ export default {
     },
     formatDefaultFile() {
       this.defaultFile = this.fileList.map(item => {
-        if (item.split('.').pop() === 'pdf') {
-          return {
-            pdf: item,
-            url: 'https://yyx-mall.oss-cn-chengdu.aliyuncs.com/common/image/png/icon-pdf.png',
-            name: '图片',
-            status: 'finished'
+        if (typeof item === 'string') {
+          if (item.split('.').pop() === 'pdf') {
+            return {
+              pdf: item,
+              url: 'https://yyx-mall.oss-cn-chengdu.aliyuncs.com/common/image/png/icon-pdf.png',
+              name: '图片',
+              status: 'finished'
+            }
+          } else {
+            return {
+              url: item,
+              name: '图片',
+              status: 'finished'
+            }
           }
         } else {
-          return {
-            url: item,
-            name: '图片',
-            status: 'finished'
+          const url = item.url
+          if (url.split('.').pop() === 'pdf') {
+            return {
+              pdf: url,
+              url: 'https://yyx-mall.oss-cn-chengdu.aliyuncs.com/common/image/png/icon-pdf.png',
+              name: '图片',
+              status: 'finished'
+            }
+          } else {
+            return {
+              url: url,
+              name: '图片',
+              status: 'finished'
+            }
           }
         }
       })
