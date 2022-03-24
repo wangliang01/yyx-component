@@ -11,7 +11,7 @@
           </expandDom>
         </template>
       </el-descriptions-item>
-      <el-descriptions-item v-else :key="index" v-bind="item">{{ data[item.prop] }}</el-descriptions-item>
+      <el-descriptions-item v-else :key="index" v-bind="item"><y-text>{{ item.formatter ? item.formatter(data[item.prop]) : data[item.prop] }}</y-text></el-descriptions-item>
     </template>
   </el-descriptions>
 </template>

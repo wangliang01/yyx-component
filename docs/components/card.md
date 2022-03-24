@@ -10,7 +10,7 @@
 
 ```html
 <template>
-  <y-card :data="data" :columns="columns"></y-card>
+  <y-card :data="data" :columns="columns" descriptions border></y-card>
 </template>
 <script>
   export default {

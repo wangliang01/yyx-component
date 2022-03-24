@@ -1,21 +1,30 @@
 <template>
   <div class="card">
-    <h2 v-if="hasTitle" class="card-title" :style="{fontSize: `${size}px`}">{{ title }}<slot name="title"> </slot></h2>
+    <h2 v-if="hasTitle" class="card-title" :style="{ fontSize: `${size}px` }">
+      {{ title }}<slot name="title"> </slot>
+    </h2>
     <y-descriptions v-if="descriptions" v-bind="$attrs"></y-descriptions>
     <el-row v-else class="card-row">
-      <el-col v-for="(item, index) in columns" :key="index" class="card-col" :span="span">
+      <el-col
+        v-for="(item, index) in columns"
+        :key="index"
+        class="card-col"
+        :span="span"
+      >
         <span class="card-label">{{ item.label }}:</span>
         <template v-if="item.render">
           <div class="card-value">
-            <expandDom
-              :render="item.render"
-              :data="data"
-              :prop="item.prop"
-            >
+            <expandDom :render="item.render" :data="data" :prop="item.prop">
             </expandDom>
           </div>
         </template>
-        <y-text v-else :content="item.formatter ? item.formatter(data[item.prop]) : data[item.prop]" class="card-value"></y-text>
+        <y-text
+          v-else
+          :content="
+            item.formatter ? item.formatter(data[item.prop]) : data[item.prop]
+          "
+          class="card-value"
+        ></y-text>
       </el-col>
     </el-row>
   </div>
@@ -142,7 +151,6 @@ export default {
           label: '形状',
           prop: 'shape'
         }
-
       ]
     },
     cols: {
@@ -155,8 +163,7 @@ export default {
     }
   },
   data() {
-    return {
-    }
+    return {}
   },
   computed: {
     span() {
@@ -164,7 +171,11 @@ export default {
       return Math.round(24 / this.cols)
     },
     hasTitle() {
-      if (this.title === '' || this.title === undefined || this.title === null) {
+      if (
+        this.title === '' ||
+        this.title === undefined ||
+        this.title === null
+      ) {
         return false
       } else {
         return true
@@ -175,9 +186,7 @@ export default {
     this.init()
   },
   methods: {
-    init() {
-
-    }
+    init() {}
   }
 }
 </script>
@@ -185,9 +194,9 @@ export default {
 <style lang="scss" scoped>
 .card {
   padding: 18px 24px 4px;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 4px;
-  &-title{
+  &-title {
     margin: 0;
     font-size: 18px;
     font-family: PingFangSC-Medium, PingFang SC;
