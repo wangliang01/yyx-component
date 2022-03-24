@@ -644,8 +644,6 @@ export default {
                 obj[column.prop] = item[key]
               }
             }
-          } else {
-            throw new TypeError('上传文件不正确，不符合模板格式，请检查后上传！')
           }
         })
         return obj
