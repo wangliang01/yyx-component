@@ -651,6 +651,7 @@ export default {
       return res
     },
     formateDate(value, format = 'YYYY-MM-DD') {
+      if (!value) return ''
       // 1、用1970-1-1减去1900-1-1得到相差为：25567天 0小时 5分钟 43秒；
 
       // 2、减去多出来的1天8小时；

@@ -309,9 +309,6 @@ export default {
     if (this.uiStyle === 'antd') {
       this.$nextTick(() => {
         this.initTableFilter()
-        // antd风格时，才限制表格高度
-        // 设置表格高度
-        // this.setTableHeight()
       })
     }
   },
@@ -319,42 +316,6 @@ export default {
     this.removeResizeTable()
   },
   methods: {
-    // setTableHeight() {
-    //   setTimeout(() => {
-    //     const tablePro = this.$refs.tablePro
-    //     tablePro.style.height = '100%'
-    //     const height = tablePro.getBoundingClientRect().height
-    //     const tableFilter = this.$refs.tableFilter
-    //
-    //     // 筛选器调试
-    //     const filterHeight = tableFilter.getBoundingClientRect().height
-    //
-    //     const tableWrapper = tablePro.querySelector('.table-wrapper')
-    //
-    //     // TableWrapper的marginTop
-    //     const marginTop = parseInt(getComputedStyle(tableWrapper).marginTop)
-    //
-    //     // TableWrapper的padding
-    //     const padding = parseInt(getComputedStyle(tableWrapper).paddingBottom) * 2
-    //
-    //     const tableTop = tablePro.querySelector('.table-top')
-    //     // TableTopHeight
-    //     const tableTopHeight = !tableTop ? 0 : parseInt(getComputedStyle(tableTop).height) + parseInt(getComputedStyle(tableTop).marginBottom)
-    //
-    //     // TableHeader
-    //     const tableHeader = tablePro.querySelector('.el-table__header-wrapper')
-    //     const tableHeaderHeight = parseInt(getComputedStyle(tableHeader).height)
-    //
-    //     // pagination高度
-    //     const tablePagination = tablePro.querySelector('.el-pagination')
-    //
-    //     const paginationHeight = tablePagination ? parseInt(getComputedStyle(tablePagination).height) + parseInt(getComputedStyle(tablePagination).marginTop) : 0
-    //
-    //     this.offsetHeight = filterHeight + marginTop + padding + tableTopHeight + tableHeaderHeight + paginationHeight
-    //
-    //     this.height = height - this.offsetHeight
-    //   })
-    // },
     handleUpdateColumns(columns) {
       this.currentColumns = columns
       this.initConfig()
@@ -388,17 +349,7 @@ export default {
     },
     initTableFilter() {
       if (this.uiStyle === 'antd') {
-        // 如果是antd风格
         this.$nextTick(() => {
-          /* const tableTop = this.$refs.tableTop
-          const nodeName = tableTop.children[0]?.nodeName
-          if (nodeName === 'TEMPLATE') {
-            // 插槽里没有内容，清除下边距
-            tableTop.style.marginBottom = '0'
-          } else {
-            tableTop.style.marginBottom = '15px'
-          } */
-
           // 如果是antd风格
           const tableFilter = this.$refs.tableFilter
 
@@ -438,15 +389,9 @@ export default {
     /* 当屏幕宽度发生变化时，重新绘制表格 */
     resizeTable() {
       window.addEventListener('resize', this.initTableFilter)
-      // if (this.uiStyle === 'antd') {
-      //   window.addEventListener('resize', this.setTableHeight)
-      // }
     },
     removeResizeTable() {
       window.removeEventListener('resize', this.initTableFilter)
-      // if (this.uiStyle === 'antd') {
-      //   window.removeEventListener('resize', this.setTableHeight)
-      // }
     },
     // 通过点击enter键来查询数据
     queryDataByEnterKey() {
