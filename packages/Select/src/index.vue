@@ -196,7 +196,7 @@ export default {
   justify-content: center;
   min-width: 50px;
   border: 1px solid #DCDFE6;
-  background-color: $--border-color-light;
+  background-color: #F5F7FA;
   border-radius: 4px;
   border-left: none;
   border-top-left-radius: 0;
