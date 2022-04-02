@@ -192,6 +192,12 @@ const routes = [
         meta: { title: 'Select 远程搜索' }
       },
       {
+        path: '/select-pro',
+        name: 'SelectPro',
+        component: () => import('../views/select-pro'),
+        meta: { title: 'SelectPro' }
+      },
+      {
         path: '/audit-form',
         name: 'AuditForm',
         component: () => import('../views/audit-form'),
