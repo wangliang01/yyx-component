@@ -50,6 +50,8 @@
           :info-true="option.infoTrue"
           :fixed-box="option.fixedBox"
           :can-scale="option.canScale"
+          :auto-crop-width="option.autoCropWidth"
+          :auto-crop-height="option.autoCropHeight"
         >
         </vueCropper>
       </div>
@@ -160,20 +162,23 @@ export default {
     option() {
       return {
         img: this.img, // 裁剪图片的地址
-        info: true, // 裁剪框的大小信息
-        high: true, // 是否根据dpr生成适合屏幕的高清图片
-        outputSize: 0.8, // 裁剪生成图片的质量
-        outputType: 'png', // 裁剪生成图片的格式
-        canScale: true, // 图片是否允许滚轮缩放
-        autoCrop: true, // 是否默认生成截图框
         fixedBox: this.fixedBox, // 固定截图框大小 不允许改变
-        fixed: this.fixed, // 是否开启截图框宽高固定比例
         fixedNumber: this.fixedNumber, // 截图框的宽高比例
-        full: true, // 是否输出原图比例的截图
-        canMoveBox: false, // 截图框能否拖动
-        original: false, // 上传图片按照原始比例渲染
-        centerBox: true, // 截图框是否被限制在图片里面
-        infoTrue: false // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
+        info: true, // 裁剪框的大小信息
+        size: 1,
+        outputSize: 0.8, // 裁剪生成圖片的質量
+        outputType: 'png', // 裁剪生成圖片的格式
+        canScale: true, // 圖片是否容許滾輪縮放
+        autoCrop: true, // 是否默認生成截圖框
+        canMoveBox: true, // 截圖框可否拖動
+        // 只有自動截圖開啓 寬度高度才生效
+        autoCropWidth: 800, // 默認生成截圖框寬度
+        autoCropHeight: 800, // 默認生成截圖框高度
+        // 開啓寬度和高度比例
+        fixed: true, // 是否開啓截圖框寬高固定比例
+        original: false, // 上傳圖片按照原始比例渲染
+        centerBox: true, // 截圖框是否被限制在圖片裏面
+        infoTrue: true // true 爲展現真實輸出圖片寬高 false 展現看到的截圖框寬高
       }
     }
   },
@@ -306,14 +311,14 @@ export default {
         })
         return false
       }
-      const fileSize = file.size / 1024 / 1024
-      if (fileSize > this.maxSize) {
-        this.$message({
-          message: `上传图片大小不能超过 ${this.maxSize}MB!`,
-          type: 'warning'
-        })
-        return false
-      }
+      // const fileSize = file.size / 1024 / 1024
+      // if (fileSize > this.maxSize) {
+      //   this.$message({
+      //     message: `上传图片大小不能超过 ${this.maxSize}MB!`,
+      //     type: 'warning'
+      //   })
+      //   return false
+      // }
       const testmsg = file.name.substring(file.name.lastIndexOf('.') + 1)
       let imgExt = /(jpg|JPG|bmp|BMP|gif|GIF|ico|ICO|pcx|PCX|jpeg|JPEG|tif|TIF|png|PNG|raw|RAW|tga|TGA)$/
       if (this.allowPdf) {
