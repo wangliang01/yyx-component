@@ -16,6 +16,7 @@
               ui-style="antd"
               showUtilBar
               showSelectAll
+              :page-size="20"
               :show-util-bar="false"
               :load-data-api="pagelist"
               loaded="handleLoadData"

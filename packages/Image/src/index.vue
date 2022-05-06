@@ -1,24 +1,21 @@
 <template>
   <div
     class="image-wrapper"
-    :style="{width: `${width}px`, height: `${width}px`}"
+    :style="{ width: `${width}px`, height: `${width}px` }"
   >
     <el-image
       :src="src"
       :fit="fit"
       v-bind="$attrs"
-      :style="{width: `${width}px`, height: `${width}px`}"
+      :style="{ width: `${width}px`, height: `${width}px` }"
     >
+      <div slot="error" class="error-image">
+        <i class="el-icon-picture-outline" :style="{ fontSize: `${width/2 * 0.86}px`}"></i>
+      </div>
     </el-image>
     <!-- 预览，查看放大图按钮 -->
-    <div
-      v-if="isPreview"
-      class="mask"
-    >
-      <i
-        class="el-icon-zoom-in icon"
-        @click="visible=!visible"
-      ></i>
+    <div v-if="isPreview" class="mask">
+      <i class="el-icon-zoom-in icon" @click="visible = !visible"></i>
     </div>
     <!-- 图片预览插件 -->
     <y-image-viewer
@@ -33,8 +30,7 @@
 import { clone, findIndex } from 'lodash'
 export default {
   name: 'YImage',
-  components: {
-  },
+  components: {},
   props: {
     src: {
       type: String,
@@ -66,15 +62,14 @@ export default {
     isEmpty() {
       return this.urlList.length === 0
     }
-
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     curUrlList() {
       const copyUrlList = clone(this.urlList)
-      const index = findIndex(this.urlList, url => { return url === this.src })
+      const index = findIndex(this.urlList, (url) => {
+        return url === this.src
+      })
 
       return [...copyUrlList.slice(index), ...copyUrlList.slice(0, index)]
     }

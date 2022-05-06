@@ -1,5 +1,6 @@
 <template>
   <div>
+    <y-image :src="src"></y-image>
     <el-card>
       <ImageMd class="md"></ImageMd>
     </el-card>
@@ -18,7 +19,7 @@ export default {
   },
   data() {
     return {
-      src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+      src: 'https://1fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
     }
   },
   mounted() {

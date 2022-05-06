@@ -266,7 +266,11 @@ export default {
     params: {
       handler(val) {
         // this.queryParams = merge(this.queryParams, val)
-        this.queryParams = { ...this.queryParams, ...val }
+        const newParams = {
+          ...val,
+          size: this.queryParams.size
+        }
+        this.queryParams = { ...this.queryParams, ...newParams }
       },
       deep: true
     },
@@ -506,6 +510,7 @@ export default {
       // 查询时，重置current为1
       // this.queryParams = merge(this.queryParams, { current: 1 })
       this.queryParams = { ...this.queryParams, current: 1 }
+      console.log('查询参数', this.queryParams)
       this.total = 0
       this.loadData()
     },
@@ -517,6 +522,9 @@ export default {
         // 分页条数变更，需要重置current为1
         // this.queryParams = merge(this.queryParams, { size, current: 1 })
         this.queryParams = { ...this.queryParams, size, current: 1 }
+        if (this.$attrs['page-size']) {
+          this.$attrs['page-size'] = size
+        }
       } else {
         // 页码变更时
         // this.queryParams = merge(this.queryParams, { current: currentPage })
