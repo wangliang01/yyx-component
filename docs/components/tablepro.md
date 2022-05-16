@@ -21,6 +21,7 @@
               :load-data-api="pagelist"
               loaded="handleLoadData"
               :params.sync="queryParams"
+              expand
               @select-all-page="handleSelectAllPage"
             >
               <div slot="table">

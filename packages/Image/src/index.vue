@@ -10,7 +10,7 @@
       :style="{ width: `${width}px`, height: `${width}px` }"
     >
       <div slot="error" class="error-image">
-        <i class="el-icon-picture-outline" :style="{ fontSize: `${width/2 * 0.86}px`}"></i>
+        <i class="el-icon-picture-outline" :style="{ fontSize: '45px'}"></i>
       </div>
     </el-image>
     <!-- 预览，查看放大图按钮 -->
@@ -112,6 +112,11 @@ export default {
         cursor: pointer;
       }
     }
+  }
+  .error-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>
