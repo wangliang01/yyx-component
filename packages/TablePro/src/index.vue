@@ -209,6 +209,10 @@ export default {
     showSelectAll: { // 是否显示 选择更多按钮
       type: Boolean,
       default: false
+    },
+    expand: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -379,12 +383,16 @@ export default {
             if (height > this.overflowHeight) {
               // 换行了
               this.canShowExpandBtn = true
-              this.isExpand = false
-              tableFilter.style.overflow = 'hidden'
-              tableFilter.style.height = `${this.overflowHeight}px`
+              if (!this.expand) {
+                this.isExpand = false
+                tableFilter.style.overflow = 'hidden'
+                tableFilter.style.height = `${this.overflowHeight}px`
+              } else {
+                this.isExpand = true
+              }
             } else {
               this.canShowExpandBtn = false
-              this.isExpand = false
+              this.isExpand = this.expand || false
             }
           }
         })

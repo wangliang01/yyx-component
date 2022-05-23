@@ -243,7 +243,7 @@ export default {
         const res = await this.api(formData)
         this.$refs[this.refUpload].fileList.push({
           url: res.data.url,
-          name: '图片',
+          name: res.data.name || '图片',
           status: 'finished'
         })
         this.defaultFile = this.$refs[this.refUpload].fileList
@@ -364,13 +364,13 @@ export default {
             return {
               pdf: url,
               url: 'https://yyx-mall.oss-cn-chengdu.aliyuncs.com/common/image/png/icon-pdf.png',
-              name: '图片',
+              name: item.name || '图片',
               status: 'finished'
             }
           } else {
             return {
               url: url,
-              name: '图片',
+              name: item.name || '图片',
               status: 'finished'
             }
           }
