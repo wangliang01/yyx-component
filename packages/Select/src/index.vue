@@ -147,7 +147,7 @@ export default {
     async getOptions() {
       if (typeof this.api === 'function') {
         const res = await this.api()
-        if (res.success) {
+        if (res.success || res.httpCode === 200) {
           this.list = get(res, this.model.data, [])
           if (typeof this.format === 'function') {
             // 如果有format， 则先对数据进行格式化
