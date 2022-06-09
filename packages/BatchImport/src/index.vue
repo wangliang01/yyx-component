@@ -6,7 +6,7 @@
         action=""
         :multiple="false"
         :show-file-list="false"
-        accept="csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        :accept="accept"
         :http-request="httpRequest"
       >
         <!-- 预留一个插槽 -->
@@ -69,7 +69,7 @@
           action=""
           :multiple="false"
           :show-file-list="false"
-          accept="csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          :accept="accept"
           :http-request="httpRequest"
         >
           <!-- 预留一个插槽 -->
@@ -194,7 +194,7 @@
 
 <script>
 import XLSX from 'xlsx'
-import { merge, find, isEmpty, cloneDeep, debounce, round } from 'lodash'
+import { merge, find, isEmpty, cloneDeep, debounce } from 'lodash'
 import { Message } from 'element-ui'
 import moment from 'moment'
 // import Vue from 'vue'
@@ -208,6 +208,10 @@ export default {
     hasEditButton: {
       type: Boolean,
       default: true
+    },
+    accept: {
+      type: String,
+      default: 'csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xls,.xlsx'
     },
     btnText: {
       type: String,
@@ -317,10 +321,6 @@ export default {
     multiHeader: {
       type: Boolean,
       default: false
-    },
-    range: {
-      type: Number,
-      default: 1
     }
   },
   data() {
@@ -561,6 +561,7 @@ export default {
             })
             return obj
           })
+          console.log('uploadData', uploadData)
           this.$emit('upload', uploadData)
         }
       }).catch(err => {
@@ -591,6 +592,7 @@ export default {
         item.index = index
         return item
       })
+      console.log(this.tableData)
     },
     sizeChange(size) {
       this.reloadData({ type: 'size-change', pageSize: size })
@@ -624,40 +626,20 @@ export default {
           const column = find(this.columns, col => {
             return col.label.trim().includes(key)
           })
-          if (typeof item[key] === 'number') {
-            // 如果是数字类型，保留8位小数
-            item[key] = round(item[key], 8)
-          }
           if (column) {
             if (column.type === 'date-picker') {
               const format = column.format || 'YYYY-MM-DD'
-              if (!isNaN(item[key])) {
-                obj[column.prop] = this.formateDate(Number(item[key]), format)
-              } else {
-                obj[column.prop] = (moment(item[key]).format(format) === 'Invalid date' ? '' : moment(item[key]).format(format))
-              }
+              obj[column.prop] = (moment(item[key]).format(format) === 'Invalid date' ? '' : moment(item[key]).format(format))
             } else {
-              const format = column.format
-              if (format && format.includes('YYYY-MM-DD') && !isNaN(item[key])) {
-                obj[column.prop] = this.formateDate(Number(item[key]), format)
-              } else {
-                obj[column.prop] = item[key]
-              }
+              obj[column.prop] = item[key]
             }
+          } else {
+            throw new TypeError('上传文件不正确，不符合模板格式，请检查后上传！')
           }
         })
         return obj
       })
       return res
-    },
-    formateDate(value, format = 'YYYY-MM-DD') {
-      if (!value) return ''
-      // 1、用1970-1-1减去1900-1-1得到相差为：25567天 0小时 5分钟 43秒；
-
-      // 2、减去多出来的1天8小时；
-      const timestamp = (value - 25567) * 24 * 3600000 - 5 * 60 * 1000 - 43 * 1000 - 24 * 3600000 - 8 * 3600000
-
-      return moment(timestamp).format(format)
     },
     initData() {
       this.tableData = []
@@ -742,7 +724,7 @@ export default {
             type: 'binary' // 以字符编码的方式解析
           })
           const exlname = this.sheetName || workbook.SheetNames[0] // 根据传人的表名读取，否则读第一张
-          const exl = XLSX.utils.sheet_to_json(workbook.Sheets[exlname], { defval: '', range: this.range }) // 生成json表格内容
+          const exl = XLSX.utils.sheet_to_json(workbook.Sheets[exlname], { defval: '' }) // 生成json表格内容
           if (!exl) {
             this.$message.error('未找到对应表格，请重新上传！')
             return false
@@ -750,6 +732,8 @@ export default {
           if (this.multiHeader) {
             // 多级表头
             this.dbData = this.formatMultiDbData(exl)
+
+            console.log('dbData', this.dbData)
           } else {
             // 将 JSON 数据挂到 data 里
             this.dbData = this.formatDbData(exl)
