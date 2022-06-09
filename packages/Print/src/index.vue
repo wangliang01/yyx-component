@@ -132,7 +132,7 @@ export default {
             <meta http-equiv=content-type content="text/html; charset=utf-8">
             <link rel="stylesheet" href="${this.css ? this.css : ''}">
             <style>
-              @page { margin: 0; }
+              @page { margin: 22px 10px 16px; }
               * {
                 margin: 0;
                 padding: 0;

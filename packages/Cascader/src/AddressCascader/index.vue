@@ -73,6 +73,8 @@ export default {
           } else {
             this.options = res.data
           }
+
+          this.$emit('loaded', this.options)
         }
       }
     },

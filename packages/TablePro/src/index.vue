@@ -43,6 +43,7 @@
     >
       <y-form
         :key="key"
+        ref="form"
         v-model="queryParams"
         v-bind="$attrs"
         :config="config"
@@ -213,6 +214,10 @@ export default {
     expand: {
       type: Boolean,
       default: false
+    },
+    customQuery: {
+      type: Function,
+      defualt: null
     }
   },
   data() {
@@ -520,6 +525,10 @@ export default {
       this.queryParams = { ...this.queryParams, current: 1 }
       console.log('查询参数', this.queryParams)
       this.total = 0
+      if (typeof this.customQuery === 'function') {
+        // 自定义查询
+        return this.customQuery()
+      }
       this.loadData()
     },
     /**
