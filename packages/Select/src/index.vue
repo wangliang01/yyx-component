@@ -160,8 +160,11 @@ export default {
         this.list = this.$attrs.options
         this.options = this.list
       }
+
+      return this.options
     },
-    remoteMethod(query) {
+    async remoteMethod(query) {
+      this.options = await this.getOptions()
       query = query.trim()
       if (query !== '') {
         this.loading = true
@@ -172,9 +175,7 @@ export default {
             return item[this.model.label].toLowerCase()
               .indexOf(query.toLowerCase()) > -1
           })
-        }, 200)
-      } else {
-        this.options = this.list
+        }, 0)
       }
     },
     // 拦截visible-change 事件处理 下拉值
