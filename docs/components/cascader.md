@@ -837,7 +837,6 @@
     <y-address-cascader
       v-model="currentValue"
       mode="internal"
-      :api="dataApi"
     ></y-address-cascader>
   </el-card>
 </template>

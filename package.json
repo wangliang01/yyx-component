@@ -1,6 +1,6 @@
 {
   "name": "yyx-component",
-  "version": "1.20.15",
+  "version": "1.20.16",
   "scripts": {
     "dll": "webpack --config ./webpack.dll.js",
     "serve": "vue-cli-service serve",
@@ -14,6 +14,7 @@
   },
   "main": "lib/yui.common.js",
   "dependencies": {
+    "axios": "^0.27.2",
     "bignumber.js": "^9.0.1",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.6",

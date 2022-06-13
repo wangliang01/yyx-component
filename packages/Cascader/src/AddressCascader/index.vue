@@ -1,10 +1,44 @@
 <template>
-  <el-cascader :ref="ref" v-model="currentValue" v-bind="$attrs" clearable :options="options" :props="props" v-on="$listeners" @change="handleValueChange">
+  <el-cascader
+    :ref="ref"
+    v-model="currentValue"
+    v-bind="$attrs"
+    clearable
+    :options="options"
+    :props="props"
+    v-on="$listeners"
+    @change="handleValueChange"
+  >
   </el-cascader>
 </template>
 
 <script>
 import addressOptions from './address'
+import axios from 'axios'
+function setDefaultValue(districts) {
+  for (let i = 0, len = districts.length; i < len; i++) {
+    const item = districts[i]
+
+    if (item.districts.length) {
+      if (item.level === 'city' && item.districts[0].level === 'street') {
+        item.districts = [
+          {
+            citycode: '',
+            adcode: String(+item.districts[0].adcode + 1),
+            name: '县辖区',
+            level: 'district'
+          }
+        ]
+      } else {
+        setDefaultValue(item.districts)
+      }
+    } else {
+      if (item.level === 'district' && item.districts.length === 0) {
+        delete item.districts
+      }
+    }
+  }
+}
 export default {
   name: 'YAddressCascader',
   props: {
@@ -15,7 +49,10 @@ export default {
     },
     // 国内： internal; 国外: overseas
     mode: String,
-    api: Function,
+    api: {
+      type: Function,
+      default: null
+    },
     type: String // 类型， province, city (可选)
   },
   data() {
@@ -56,7 +93,11 @@ export default {
           default:
             // 兼容老系统
             this.options = addressOptions
-            this.props = { value: 'value', label: 'label', children: 'children' }
+            this.props = {
+              value: 'value',
+              label: 'label',
+              children: 'children'
+            }
         }
       },
       immediate: true
@@ -73,9 +114,30 @@ export default {
           } else {
             this.options = res.data
           }
-
-          this.$emit('loaded', this.options)
         }
+      } else {
+        this.options = await this.defaultApi()
+      }
+
+      this.$emit('loaded', this.options)
+    },
+    async defaultApi() {
+      const result = await axios.get(
+        'https://restapi.amap.com/v3/config/district',
+        {
+          params: {
+            key: '500bf914d1c3f9405754bc0a345521c0',
+            keywords: '中国',
+            subdistrict: 3
+          }
+        }
+      )
+      if (result.status === 200) {
+        const addressList = result.data.districts[0].districts
+
+        setDefaultValue(addressList)
+
+        return addressList
       }
     },
     transferData(data) {
@@ -85,17 +147,19 @@ export default {
           data = this.deleteChildren(data, prop)
           break
         case 'city':
-          data = Array.isArray(data) && data.map(item => {
-            item[prop] = this.deleteChildren(item[prop], prop)
-            return item
-          })
+          data =
+            Array.isArray(data) &&
+            data.map((item) => {
+              item[prop] = this.deleteChildren(item[prop], prop)
+              return item
+            })
           break
       }
       return data
     },
     deleteChildren(data, prop) {
       if (!Array.isArray(data)) return null
-      return data.map(item => {
+      return data.map((item) => {
         if (item[prop]) {
           this.$set(this.areaCodeMap, item.adcode, item[prop])
           item[prop] = null
@@ -124,6 +188,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
