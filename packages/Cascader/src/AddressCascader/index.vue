@@ -19,6 +19,8 @@ function setDefaultValue(districts) {
   for (let i = 0, len = districts.length; i < len; i++) {
     const item = districts[i]
 
+    // 设置父级编码
+    setParentCode(item)
     if (item.districts.length) {
       if (item.level === 'city' && item.districts[0].level === 'street') {
         item.districts = [
@@ -39,6 +41,15 @@ function setDefaultValue(districts) {
     }
   }
 }
+
+function setParentCode(item) {
+  if (item.level === 'province') {
+    item.parentCode = '86'
+  }
+  item.districts && item.districts.forEach(district => {
+    district.parentCode = item.adcode
+  })
+}
 export default {
   name: 'YAddressCascader',
   props: {
@@ -47,8 +58,14 @@ export default {
       type: [String, Array],
       required: true
     },
-    // 国内： internal; 国外: overseas
-    mode: String,
+    // 国内： internal; 国外: overseas; 国内（老数据）: internalOld
+    mode: {
+      type: String,
+      default: 'internal',
+      validator(value) {
+        return ['internal', 'overseas', 'internalOld'].includes(value)
+      }
+    },
     api: {
       type: Function,
       default: null
