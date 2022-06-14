@@ -9,8 +9,8 @@
       v-bind="$attrs"
       :style="{ width: `${width}px`, height: `${width}px` }"
     >
-      <div slot="error" class="error-image">
-        <i class="el-icon-picture-outline" :style="{ fontSize: '45px'}"></i>
+      <div slot="error" class="error-image" :style="{ width: `${width}px`, height: `${width}px`}">
+        <i class="el-icon-picture-outline" :style="{fontSize: errPicWidth}"></i>
       </div>
     </el-image>
     <!-- 预览，查看放大图按钮 -->
@@ -61,6 +61,13 @@ export default {
   computed: {
     isEmpty() {
       return this.urlList.length === 0
+    },
+    errPicWidth() {
+      if (this.width >= 45) {
+        return '45px'
+      } else {
+        return this.width + 'px'
+      }
     }
   },
   mounted() {},
@@ -117,6 +124,11 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    i {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>

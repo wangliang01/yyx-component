@@ -1,6 +1,6 @@
 <template>
   <div ref="imageList" class="image-list">
-    <y-image v-for="(url, index) in urlList" :key="index" :url-list="urlList" :src="url" class="image-item"></y-image>
+    <y-image v-for="(url, index) in urlList" :key="index" :url-list="urlList" :src="url" class="image-item" v-bind="$attrs"></y-image>
   </div>
 </template>
 
