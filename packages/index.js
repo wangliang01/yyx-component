@@ -48,12 +48,13 @@ import directives from '../directives'
 import VueDND from '../directives/dragging'
 import Descriptions from './Descriptions'
 import SelectPro from './SelectPro'
+import Copy from './Copy'
 
 const { YCategoryCascader, YAddressCascader, YCascader } = Cascader
 const { YUpload, YAvatar } = Upload
 
 // 组件列表
-const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YUploadList, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog, Drawer, ImageViewer, Tips, Image, ImageList, TableDialog, Text, Card, Block, Tree, CardForm, CascaderPanel, Container, Checkbox, CheckboxGroup, TableMate, Transfer, AuditForm, Select, TableAir, Calendar, BatchExport, VirtualList, DataBoard, ButtonMore, Descriptions, SelectPro]
+const components = [YButton, YTable, YForm, YInputNumber, YBackTop, YUpload, YUploadList, YTablePro, YCategoryCascader, YAddressCascader, YBatchImport, YSkuImport, YInput, YTreeOrg, YCascader, YPrint, YAvatar, Tag, Dialog, Drawer, ImageViewer, Tips, Image, ImageList, TableDialog, Text, Card, Block, Tree, CardForm, CascaderPanel, Container, Checkbox, CheckboxGroup, TableMate, Transfer, AuditForm, Select, TableAir, Calendar, BatchExport, VirtualList, DataBoard, ButtonMore, Descriptions, SelectPro, Copy]
 
 // 定义install方法，接收Vue作为参数，通过Vue.use()的方式注册组件
 const install = Vue => {
@@ -121,5 +122,6 @@ export default {
   DataBoard,
   ButtonMore,
   Descriptions,
-  SelectPro
+  SelectPro,
+  Copy
 }

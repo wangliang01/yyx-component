@@ -226,6 +226,12 @@ const routes = [
         name: 'VirtualTable',
         component: () => import('../views/virtual-table'),
         meta: { title: '虚拟表格2' }
+      },
+      {
+        path: '/copy',
+        name: 'Copy',
+        component: () => import('../views/copy'),
+        meta: { title: '复制' }
       }
     ]
   }
