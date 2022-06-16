@@ -1,7 +1,7 @@
 <template>
   <el-input
     ref="input"
-    v-model="currentValue"
+    v-model.trim="currentValue"
     :clearable="$attrs.clearable===undefined?true:$attrs.clearable"
     v-bind="$attrs"
     :maxlength="$attrs.maxlength || $attrs.maxLength || $attrs['max-length']"

@@ -133,7 +133,7 @@
 
 <script>
 import color from '../../../styles/element-variables.scss'
-import { filter, cloneDeep, isEmpty, get } from 'lodash'
+import { filter, cloneDeep, isEmpty, get, trim } from 'lodash'
 export default {
   name: 'YTablePro',
   props: {
@@ -524,6 +524,12 @@ export default {
       // this.queryParams = merge(this.queryParams, { current: 1 })
       this.queryParams = { ...this.queryParams, current: 1 }
       console.log('查询参数', this.queryParams)
+      // 对查询参数进行trim处理
+      Object.keys(this.queryParams).forEach(key => {
+        if (typeof this.queryParams[key] === 'string') {
+          this.queryParams[key] = trim(this.queryParams[key])
+        }
+      })
       this.total = 0
       if (typeof this.customQuery === 'function') {
         // 自定义查询
