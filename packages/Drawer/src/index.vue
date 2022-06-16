@@ -5,8 +5,8 @@
     <!-- Drawer的内容 -->
     <slot></slot>
     <div v-if="withFooter" class="footer">
-      <el-button @click="handleCancel">取 消</el-button>
-      <el-button type="primary" @click="handleConfirm">确 认</el-button>
+      <el-button @click="handleCancel">{{ cancelBtnText }}</el-button>
+      <el-button type="primary" @click="handleConfirm">{{ confirmBtnText }}</el-button>
     </div>
   </el-drawer>
 </template>
@@ -24,6 +24,14 @@ export default {
     isCloseDirectly: {
       type: Boolean,
       default: true
+    },
+    confirmBtnText: {
+      type: String,
+      default: '确 认'
+    },
+    cancelBtnText: {
+      type: String,
+      default: '取 消'
     }
   },
   data() {

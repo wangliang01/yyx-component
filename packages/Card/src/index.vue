@@ -11,7 +11,11 @@
         class="card-col"
         :span="span"
       >
-        <span class="card-label">{{ item.label }}:</span>
+        <span v-if="item.renderLabel" class="card-label">
+          <expandDom :render="item.renderLabel" :data="data" :prop="item.prop">
+          </expandDom>
+        </span>
+        <span v-else class="card-label">{{ item.label }}:</span>
         <template v-if="item.render">
           <div class="card-value">
             <expandDom :render="item.render" :data="data" :prop="item.prop">
