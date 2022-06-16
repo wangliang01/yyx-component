@@ -3,14 +3,17 @@
     <div slot="content">
       <slot></slot>
     </div>
-    <i :class="`iconfont ${icon}`"></i>
+    <i v-if="origin === 'element'" :class="`iconfont ${icon}`"></i>
+    <SvgIcon v-else :icon="icon" v-bind="$attrs"></SvgIcon>
   </el-tooltip>
 </template>
 
 <script>
+import SvgIcon from './SvgIcon.vue'
 export default {
   name: 'YTips',
   components: {
+    SvgIcon
   },
   props: {
     size: {
@@ -32,6 +35,10 @@ export default {
     placement: {
       type: String,
       default: 'top'
+    },
+    origin: {
+      type: String,
+      default: 'element' // element || iconfont
     }
   }
 }

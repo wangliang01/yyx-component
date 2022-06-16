@@ -1,5 +1,5 @@
 <template>
-  <y-copy value="123">你好</y-copy>
+  <y-copy value="123">点我复制</y-copy>
 </template>
 
 <script>
