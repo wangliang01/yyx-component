@@ -1,6 +1,10 @@
 @import './element-variables.scss';
 .el-dialog__header, .el-drawer__header{
-  padding: 24px 24px 10px 24px;
+  // padding: 24px 24px 10px 24px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  background-color: #eee;
 }
 
 .el-dialog__body, .el-drawer__body {

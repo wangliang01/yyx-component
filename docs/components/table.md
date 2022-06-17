@@ -17,7 +17,8 @@
       :columns="columns"
       showUtilsBar
       ui-style="antd"
-    ></y-table>
+    >
+    </y-table>
   </div>
 </template>
 

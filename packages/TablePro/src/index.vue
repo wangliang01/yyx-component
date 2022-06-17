@@ -134,6 +134,7 @@
 <script>
 import color from '../../../styles/element-variables.scss'
 import { filter, cloneDeep, isEmpty, get, trim } from 'lodash'
+import { findComponentForward } from '../../utils'
 export default {
   name: 'YTablePro',
   props: {
@@ -316,6 +317,9 @@ export default {
     // 生成form, table， pagination相关配置
     this.initConfig()
 
+    // 将table上的一些方法挂载到TablePro上
+    this.mergeTableMethods()
+
     // 是否立即请求数据
     if (!this.lazyLoad) {
       this.loadData()
@@ -334,6 +338,16 @@ export default {
     this.removeResizeTable()
   },
   methods: {
+    mergeTableMethods() {
+      const ElTable = findComponentForward(this, 'ElTable')
+      // 解决y-table-pro组件没有相关方法的问题
+      Object.keys(ElTable).forEach(key => {
+        if (['clearSelection', 'toggleRowSelection', 'toggleAllSelection', 'toggleRowExpansion', 'setCurrentRow', 'clearSort', 'clearFilter', 'doLayout', 'sort'].includes(key)) {
+          this[key] = ElTable[key]
+        }
+      })
+      console.log('context', this)
+    },
     handleUpdateColumns(columns) {
       this.currentColumns = columns
       this.initConfig()

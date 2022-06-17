@@ -1,6 +1,6 @@
 <template>
   <div :key="key" class="y-table">
-    <div class="table-top">
+    <div :class="{'table-top': hasTop }">
       <slot name="default" class="table-top-left"></slot>
       <div class="table-top-right">
         <slot name="table-top-right"></slot>
@@ -207,6 +207,12 @@ export default {
     },
     borderClass() {
       return this.data.length === 0 ? 'el-table--border__bottom' : ''
+    },
+    hasSlots() {
+      return Object.keys(this.$slots) > 0
+    },
+    hasTop() {
+      return this.hasSlots || this.showUtilBar
     }
 
   },
