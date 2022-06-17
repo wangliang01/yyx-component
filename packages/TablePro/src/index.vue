@@ -255,6 +255,11 @@ export default {
         return true
       }
       return false
+    },
+    // 找出接口中多余的参数
+    excessiveParamKeys() {
+      const filterColumns = filter(this.columns, column => (column.filter && column.excessive))
+      return filterColumns.map(column => column.prop)
     }
   },
   watch: {
@@ -425,7 +430,7 @@ export default {
     async loadData() {
       const data = cloneDeep(this.queryParams)
       for (const key in data) {
-        if (data[key] === undefined || data[key] === null || data[key] === '') {
+        if (data[key] === undefined || data[key] === null || data[key] === '' || this.excessiveParamKeys.includes(key)) {
           delete data[key]
         }
       }
