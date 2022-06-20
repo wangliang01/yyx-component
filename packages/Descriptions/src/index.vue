@@ -2,16 +2,37 @@
   <el-descriptions v-bind="$attrs" :column="column">
     <template v-for="(item, index) in columns">
       <el-descriptions-item v-if="item.render" :key="index" v-bind="item">
+        <template slot="label">
+          <span v-if="item.renderLabel" class="card-label">
+            <expandDom
+              :render="item.renderLabel"
+              :data="data"
+              :prop="item.prop"
+            >
+            </expandDom>
+          </span>
+          <span v-else class="card-label">{{ item.label }}:</span>
+        </template>
         <template>
-          <expandDom
-            :render="item.render"
-            :data="data"
-            :prop="item.prop"
-          >
+          <expandDom :render="item.render" :data="data" :prop="item.prop">
           </expandDom>
         </template>
       </el-descriptions-item>
-      <el-descriptions-item v-else :key="index" v-bind="item"><y-text>{{ item.formatter ? item.formatter(data[item.prop]) : data[item.prop] }}</y-text></el-descriptions-item>
+      <el-descriptions-item v-else :key="index" v-bind="item">
+        <template slot="label">
+          <span v-if="item.renderLabel" class="card-label">
+            <expandDom
+              :render="item.renderLabel"
+              :data="data"
+              :prop="item.prop"
+            >
+            </expandDom>
+          </span>
+          <span v-else class="card-label">{{ item.label }}:</span>
+        </template>
+        <y-text>{{
+          item.formatter ? item.formatter(data[item.prop]) : data[item.prop]
+        }}</y-text></el-descriptions-item>
     </template>
   </el-descriptions>
 </template>
@@ -43,8 +64,7 @@ export default {
     data: {
       type: Object,
       default: () => {
-        return {
-        }
+        return {}
       }
     },
     columns: {
@@ -57,24 +77,16 @@ export default {
     }
   },
   data() {
-    return {
-
-    }
+    return {}
   },
   computed: {
     column() {
       return this.cols ? Number(this.cols) : 3
     }
   },
-  mounted() {
-
-  },
-  methods: {
-
-  }
+  mounted() {},
+  methods: {}
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

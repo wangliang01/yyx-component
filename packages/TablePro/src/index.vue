@@ -212,6 +212,10 @@ export default {
       type: Boolean,
       default: false
     },
+    beforeCheckAll: {
+      type: Function,
+      default: null
+    },
     expand: {
       type: Boolean,
       default: false
@@ -577,10 +581,22 @@ export default {
     },
     // 选择全部
     handleSelectAll() {
-      const YTable = this.$refs.table
-      this.tableData.forEach(row => YTable.toggleRowSelection(row, true))
-      this.isCheckedAll = true
-      this.$emit('select-all-page', true)
+      const selectAll = () => {
+        const YTable = this.$refs.table
+        this.tableData.forEach(row => YTable.toggleRowSelection(row, true))
+        this.isCheckedAll = true
+        this.$emit('select-all-page', true)
+      }
+      if (this.beforeCheckAll && typeof this.beforeCheckAll === 'function') {
+        this.beforeCheckAll(valid => {
+          if (valid) {
+            selectAll()
+          }
+        })
+      } else {
+        // 如果beforeCheckAll不是一个Function,走以前的逻辑
+        selectAll()
+      }
     }
   }
 }

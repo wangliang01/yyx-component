@@ -1,5 +1,5 @@
 <template>
-  <el-button type="text" size="small" class="btn" :data-clipboard-text="copyValue">
+  <el-button :id="id" type="text" size="small" :data-clipboard-text="copyValue">
     <template v-if="$slots.default">
       <slot></slot>
     </template>
@@ -11,6 +11,7 @@
 
 <script>
 import Clipboard from 'clipboard'
+import { guid } from '../../utils'
 export default {
   name: 'YCopy',
   components: {
@@ -23,6 +24,7 @@ export default {
   },
   data() {
     return {
+      id: guid(),
       clipboard: null
     }
   },
@@ -32,7 +34,8 @@ export default {
     }
   },
   mounted() {
-    this.clipboard = new Clipboard('.btn')
+    const btn = document.getElementById(this.id)
+    this.clipboard = new Clipboard(btn)
     // 复制成功后执行的回调函数
     this.clipboard.on('success', (e) => {
       console.info('Action:', e.action) // 动作名称，比如：Action: copy

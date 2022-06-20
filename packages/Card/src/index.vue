@@ -116,7 +116,7 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-  padding: 18px 24px 4px;
+  padding: 18px 0 4px;
   background: #ffffff;
   border-radius: 4px;
   &-title {
