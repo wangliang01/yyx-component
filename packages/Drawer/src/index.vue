@@ -6,7 +6,7 @@
     <slot></slot>
     <div v-if="withFooter" class="footer">
       <el-button @click="handleCancel">{{ cancelBtnText }}</el-button>
-      <el-button type="primary" @click="handleConfirm">{{ confirmBtnText }}</el-button>
+      <el-button type="primary" :loading="loading" @click="handleConfirm">{{ confirmBtnText }}</el-button>
     </div>
   </el-drawer>
 </template>
@@ -32,11 +32,15 @@ export default {
     cancelBtnText: {
       type: String,
       default: '取 消'
+    },
+    showLoading: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-
+      loading: false
     }
   },
   mounted() {
@@ -53,7 +57,15 @@ export default {
       }
     },
     handleConfirm() {
-      this.$emit('confirm')
+      if (!this.showLoading) {
+        this.$emit('confirm')
+        return
+      }
+      this.loading = true
+      const hideLoading = () => {
+        this.loading = false
+      }
+      this.$emit('confirm', hideLoading)
     }
   }
 }

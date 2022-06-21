@@ -581,16 +581,17 @@ export default {
     },
     // 选择全部
     handleSelectAll() {
-      const selectAll = () => {
+      const selectAll = (filterFn) => {
         const YTable = this.$refs.table
-        this.tableData.forEach(row => YTable.toggleRowSelection(row, true))
+        const tableData = filterFn ? filterFn(this.tableData) : this.tableData
+        tableData.forEach(row => YTable.toggleRowSelection(row, true))
         this.isCheckedAll = true
         this.$emit('select-all-page', true)
       }
       if (this.beforeCheckAll && typeof this.beforeCheckAll === 'function') {
-        this.beforeCheckAll(valid => {
+        this.beforeCheckAll((valid, filterFn) => {
           if (valid) {
-            selectAll()
+            selectAll(filterFn)
           }
         })
       } else {
