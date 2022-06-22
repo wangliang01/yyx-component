@@ -119,7 +119,7 @@
       :style="`left: ${offset}px`"
     >
       <div class="action-left">
-        <div v-if="isCheckedAll">已选择全部<span :style="{color: primaryColor}"> {{ total }}</span> 项</div>
+        <div v-if="isCheckedAll">已选择全部<span v-if="!filterFn"><span :style="{color: primaryColor}"> {{ total }}</span> 项</span></div>
         <div v-else>已选择当前页<span :style="{color: primaryColor}"> {{ selection.length }}</span> 项</div>
         <el-button v-if="showSelectAll && !isCheckedAll" type="text" @click="handleSelectAll">选择全部 {{ total }} 项</el-button>
       </div>
@@ -245,8 +245,8 @@ export default {
       currentColumns: [],
       height: 'auto',
       offsetHeight: 0,
-      noResetList: []
-
+      noResetList: [],
+      filterFn: null
     }
   },
   computed: {
@@ -590,6 +590,8 @@ export default {
       }
       if (this.beforeCheckAll && typeof this.beforeCheckAll === 'function') {
         this.beforeCheckAll((valid, filterFn) => {
+          // filterFn是用来过滤tableData的， 用来对某些disabled的项，不作勾选操作
+          this.filterFn = filterFn
           if (valid) {
             selectAll(filterFn)
           }

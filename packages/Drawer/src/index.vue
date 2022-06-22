@@ -3,7 +3,10 @@
     <!-- Drawer标题区的内容 -->
     <slot name="title"></slot>
     <!-- Drawer的内容 -->
-    <slot></slot>
+    <div class="content">
+      <slot></slot>
+    </div>
+    <!-- 按钮区 -->
     <div v-if="withFooter" class="footer">
       <el-button @click="handleCancel">{{ cancelBtnText }}</el-button>
       <el-button type="primary" :loading="loading" @click="handleConfirm">{{ confirmBtnText }}</el-button>
