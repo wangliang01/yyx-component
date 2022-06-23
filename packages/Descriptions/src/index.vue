@@ -11,7 +11,7 @@
             >
             </expandDom>
           </span>
-          <span v-else class="card-label">{{ item.label }}:</span>
+          <span v-else class="card-label">{{ item.label }}</span>
         </template>
         <template>
           <expandDom :render="item.render" :data="data" :prop="item.prop">
@@ -28,7 +28,7 @@
             >
             </expandDom>
           </span>
-          <span v-else class="card-label">{{ item.label }}:</span>
+          <span v-else class="card-label">{{ item.label }}</span>
         </template>
         <y-text>{{
           item.formatter ? item.formatter(data[item.prop]) : data[item.prop]
