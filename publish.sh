@@ -13,7 +13,7 @@ npm run version:update
 git pull
 git add .
 git commit -m "打包组件库内容"
-git push
+git push origin dev
 
 # 发布
 npm publish
