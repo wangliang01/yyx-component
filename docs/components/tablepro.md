@@ -12,6 +12,7 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="用户管理" name="first" lazy>
             <y-table-pro
+              :isValidate="true"
               :columns="columns"
               ui-style="antd"
               showUtilBar
@@ -526,7 +527,8 @@
             type: 'daterange',
             filter: true,
             startPlaceholder: '开始日期',
-            endPlaceholder: '结束日期',
+            endPlaceholder: '结束日期', 
+            rules: [{ required: true, message: '下单日期不能为空' }],  
             onPick: (value) => {
               value = value ?? []
               const [startTime = null, endTime = null] = value
@@ -756,3 +758,4 @@
 | lazyLoad    | 数据懒加载，当进行组件时，先不加载数据                     | Boolean         | ——           | false                                         |
 | model       | 接口返回数据模型                                           | Object          | ——           | { data: 'data.records', total: 'data.total' } |
 | format      | 对接口返回的数据进行格式化处理                             | Function        | ——           | ——                                            |
+| isValidate  | 是否在查询按钮点击前进行表单校验                           | Boolean         | ——           | false                                         |

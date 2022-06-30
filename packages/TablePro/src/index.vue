@@ -223,6 +223,11 @@ export default {
     customQuery: {
       type: Function,
       defualt: null
+    },
+    // 是否在查询按钮点击前进行表单校验
+    isValidate: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -542,7 +547,21 @@ export default {
     /**
     * 【查询】
     */
-    handleQuery() {
+    async handleQuery() {
+      let validate = false
+      try {
+        if (this.isValidate) {
+          await this.$refs.form.validate()
+          validate = true
+        } else {
+          validate = true
+        }
+      } catch (e) {
+        validate = false
+        console.log(`表单校验失败`)
+      }
+      if (!validate) return
+
       // 查询时，重置current为1
       // this.queryParams = merge(this.queryParams, { current: 1 })
       this.queryParams = { ...this.queryParams, current: 1 }
