@@ -10,6 +10,7 @@ npm run lib
 npm run version:update
 
 # 提交git
+git pull
 git add .
 git commit -m "打包组件库内容"
 git push
