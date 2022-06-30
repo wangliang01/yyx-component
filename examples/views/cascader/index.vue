@@ -1,6 +1,9 @@
 <template>
   <div class="cascader">
     <el-card>
+      <y-address-pro></y-address-pro>
+    </el-card>
+    <el-card>
       <CascaderMd class="md"></CascaderMd>
     </el-card>
   </div>
