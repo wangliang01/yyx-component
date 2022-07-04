@@ -116,6 +116,7 @@
         <el-table
           v-if="multiHeader"
           ref="table"
+          v-loading="uploadLoading"
           :data="tableData"
           style="width: 100%"
         >
@@ -153,6 +154,7 @@
         <y-table
           v-else
           ref="table"
+          v-loading="uploadLoading"
           class="mt-10"
           :max-height="312"
           :data="tableData"
@@ -333,6 +335,7 @@ export default {
         size: 10,
         current: 1
       },
+      uploadLoading: false,
       dialogVisible: false,
       tableData: [],
       total: 0,
@@ -540,10 +543,12 @@ export default {
     },
     // 确认上传
     handleConfirm() {
+      this.uploadLoading = true
       this.mergeTable()
       if (this.multiHeader) {
         // 多级表头，不做校验
         this.$emit('upload', this.dbData)
+        this.uploadLoading = false
         return
       }
       this.validate(this.dbData).then(valid => {
@@ -566,8 +571,10 @@ export default {
             return obj
           })
           this.$emit('upload', uploadData)
+          this.uploadLoading = false
         }
       }).catch(err => {
+        this.uploadLoading = false
         this.$message.warning(err)
       })
     },
