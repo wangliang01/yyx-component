@@ -48,7 +48,7 @@
       <el-button
         :type="$attrs.type"
         icon="el-icon-upload"
-        @click="dialogVisible=true"
+        @click="importClick"
       >{{ btnText }}</el-button>
       <!-- 按钮 end -->
       <!-- 弹窗  -->
@@ -116,6 +116,7 @@
         <el-table
           v-if="multiHeader"
           ref="table"
+          v-loading="uploadLoading"
           :data="tableData"
           style="width: 100%"
         >
@@ -153,6 +154,7 @@
         <y-table
           v-else
           ref="table"
+          v-loading="uploadLoading"
           class="mt-10"
           :max-height="312"
           :data="tableData"
@@ -325,6 +327,11 @@ export default {
     range: {
       type: Number,
       default: 1
+    },
+    // 批量上传按钮点击前执行,返回一promise
+    beforeImportClick: {
+      type: [Function, null],
+      default: null
     }
   },
   data() {
@@ -333,6 +340,7 @@ export default {
         size: 10,
         current: 1
       },
+      uploadLoading: false,
       dialogVisible: false,
       tableData: [],
       total: 0,
@@ -433,6 +441,20 @@ export default {
   mounted() {
   },
   methods: {
+    async importClick() {
+      if (typeof this.beforeImportClick === 'function') {
+        try {
+          await this.beforeImportClick()
+          console.log('111')
+          this.dialogVisible = true
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        console.log('222')
+        this.dialogVisible = true
+      }
+    },
     handleOpen() {
       const tableDom = this.$refs?.table.$el
       if (!tableDom) return
@@ -540,10 +562,12 @@ export default {
     },
     // 确认上传
     handleConfirm() {
+      this.uploadLoading = true
       this.mergeTable()
       if (this.multiHeader) {
         // 多级表头，不做校验
         this.$emit('upload', this.dbData)
+        this.uploadLoading = false
         return
       }
       this.validate(this.dbData).then(valid => {
@@ -566,8 +590,10 @@ export default {
             return obj
           })
           this.$emit('upload', uploadData)
+          this.uploadLoading = false
         }
       }).catch(err => {
+        this.uploadLoading = false
         this.$message.warning(err)
       })
     },
@@ -635,7 +661,7 @@ export default {
           if (column) {
             if (column.type === 'date-picker') {
               const format = column.format || 'YYYY-MM-DD'
-              if (!isNaN(item[key]) && item[key] !== '') {
+              if (!isNaN(item[key])) {
                 obj[column.prop] = this.formateDate(Number(item[key]), format)
               } else {
                 obj[column.prop] = (moment(item[key]).format(format) === 'Invalid date' ? '' : moment(item[key]).format(format))
@@ -780,9 +806,8 @@ export default {
       }
       fileReader.readAsBinaryString(file)
     },
-    handleClick(e) {
+    async handleClick(e) {
       e.stopPropagation()
-      // 手动触发，选择文件
       this.$refs.upload.$refs['upload-inner'].$refs.input.click()
     }
   }

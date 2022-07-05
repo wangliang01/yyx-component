@@ -13,6 +13,7 @@
         :upload-success="uploadSuccess"
         download-url="https://yyx-mall.oss-cn-chengdu.aliyuncs.com/template/订单导入.xlsx"
         @upload="upload"
+        :beforeImportClick="beforeImportClick"
       ></y-batch-import>
     </el-card>
   </div>
@@ -131,6 +132,9 @@ export default {
       this.$nextTick(() => {
         this.uploadSuccess = false
       })
+    },
+    beforeImportClick(){
+      return Promise.resolve()
     }
   }
 }
