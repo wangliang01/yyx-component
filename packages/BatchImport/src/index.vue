@@ -635,7 +635,7 @@ export default {
           if (column) {
             if (column.type === 'date-picker') {
               const format = column.format || 'YYYY-MM-DD'
-              if (!isNaN(item[key])) {
+              if (!isNaN(item[key]) && item[key] !== '') {
                 obj[column.prop] = this.formateDate(Number(item[key]), format)
               } else {
                 obj[column.prop] = (moment(item[key]).format(format) === 'Invalid date' ? '' : moment(item[key]).format(format))
