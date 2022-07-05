@@ -636,7 +636,7 @@ export default {
     padding: 0 16px 0;
     background-color: $--color-white;
     ::v-deep .el-form {
-      margin-right: 300px;
+      margin-right: 274px;
       .el-form-item {
         margin-right: 74px;
       }
