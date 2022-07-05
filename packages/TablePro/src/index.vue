@@ -222,7 +222,7 @@ export default {
     },
     customQuery: {
       type: Function,
-      defualt: null
+      default: () => {}
     },
     // 是否在查询按钮点击前进行表单校验
     isValidate: {

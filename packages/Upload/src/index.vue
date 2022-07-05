@@ -11,7 +11,9 @@
       :on-remove="handleRemove"
       :file-list="defaultFile"
       :is-dragging="isDragging"
+      v-bind="$attrs"
       @dragend="dragend"
+      v-on="$listeners"
     >
       <i class="el-icon-plus"></i>
       <template slot="file" slot-scope="{file}">
