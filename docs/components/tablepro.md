@@ -12,7 +12,7 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="用户管理" name="first" lazy>
             <y-table-pro
-              :isValidate="true"
+              :isValidate="false"
               :columns="columns"
               ui-style="antd"
               showUtilBar

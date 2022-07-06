@@ -223,11 +223,6 @@ export default {
     customQuery: {
       type: Function,
       default: () => {}
-    },
-    // 是否在查询按钮点击前进行表单校验
-    isValidate: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -547,37 +542,27 @@ export default {
     /**
     * 【查询】
     */
-    async handleQuery() {
-      let validate = false
-      try {
-        if (this.isValidate) {
-          await this.$refs.form.validate()
-          validate = true
-        } else {
-          validate = true
-        }
-      } catch (e) {
-        validate = false
-        console.log(`表单校验失败`)
-      }
-      if (!validate) return
-
-      // 查询时，重置current为1
+    handleQuery() {
+      this.$refs.form.validate().then(() => {
+        // 查询时，重置current为1
       // this.queryParams = merge(this.queryParams, { current: 1 })
-      this.queryParams = { ...this.queryParams, current: 1 }
-      console.log('查询参数', this.queryParams)
-      // 对查询参数进行trim处理
-      Object.keys(this.queryParams).forEach(key => {
-        if (typeof this.queryParams[key] === 'string') {
-          this.queryParams[key] = trim(this.queryParams[key])
-        }
+        this.queryParams = { ...this.queryParams, current: 1 }
+        console.log('查询参数', this.queryParams)
+        // 对查询参数进行trim处理
+        Object.keys(this.queryParams).forEach(key => {
+          if (typeof this.queryParams[key] === 'string') {
+            this.queryParams[key] = trim(this.queryParams[key])
+          }
+        })
+        this.total = 0
+        // if (typeof this.customQuery === 'function') {
+        //   // 自定义查询
+        //   return this.customQuery()
+        // }
+        this.loadData()
+      }).catch((e) => {
+        console.log(e)
       })
-      this.total = 0
-      if (typeof this.customQuery === 'function') {
-        // 自定义查询
-        return this.customQuery()
-      }
-      this.loadData()
     },
     /**
      * 分页时，重新加载数据
