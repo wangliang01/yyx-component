@@ -334,7 +334,7 @@ export default {
       default: null
     },
     // 是否可点击表格行切换编辑状态
-    toggleEditable: {
+    rowToggleEditable: {
       type: Boolean,
       default: true
     }
@@ -437,7 +437,7 @@ export default {
               return <span>{this.tableData[index][item.prop]}</span>
             }
           } else {
-            return <div onClick={this.handleToggleEdit} style={this.getCellStyle(row, item.cellStyle)}>{row[item.prop]}</div>
+            return <div onClick={this.handleToggleEdit(false)} style={this.getCellStyle(row, item.cellStyle)}>{row[item.prop]}</div>
           }
         }
       }
@@ -601,8 +601,8 @@ export default {
       })
     },
     // 编辑，查看切换
-    handleToggleEdit() {
-      if (!this.toggleEditable) return
+    handleToggleEdit(buttonClick = true) {
+      if (!this.rowToggleEditable && !buttonClick) return
 
       this.isEdit = !this.isEdit
       // 将tableData的数据合并到dbData上
