@@ -77,12 +77,19 @@
             <slot></slot>
           </div>
           <div slot="tip" class="upload">
-            <el-button
-              slot="trigger"
-              type="primary"
-              icon="el-icon-upload"
-              @click="handleClick"
-            >选择文件</el-button>
+            <div style="diplay:flex;align-items: center">
+              <el-button
+                slot="trigger"
+                type="primary"
+                icon="el-icon-upload"
+                @click="handleClick"
+              >选择文件</el-button>
+              <el-button
+                v-if="hasEditButton && tableData.length"
+                class="mt-10"
+                @click="handleToggleEdit"
+              >{{ !isEdit ?'编辑数据' : '查看数据' }}</el-button>
+            </div>
             <div
               slot="tip"
               class="el-upload__tip mt-10"
@@ -105,13 +112,6 @@
             </div>
           </div>
         </el-upload>
-        <el-button-group>
-          <el-button
-            v-if="hasEditButton && tableData.length"
-            class="mt-10"
-            @click="handleToggleEdit"
-          >{{ !isEdit ?'编辑数据' : '查看数据' }}</el-button>
-        </el-button-group>
         <!-- 多表头 -->
         <el-table
           v-if="multiHeader"
@@ -394,7 +394,7 @@ export default {
         label: item.label,
         prop: item.prop,
         render: (h, { row, index }) => {
-          if (this.isEdit) {
+          if (this.isEdit && (item.editable === undefined || !!item.editable)) {
             if (item.type === 'input') {
               return <y-input v-model_trim={this.tableData[index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision} {...{ props: item }}></y-input>
             } else if (item.type === 'select') {
@@ -432,7 +432,7 @@ export default {
               return <span>{this.tableData[index][item.prop]}</span>
             }
           } else {
-            return <div onClick={this.handleToggleEdit}>{row[item.prop]}</div>
+            return <div onClick={this.handleToggleEdit} style={this.getCellStyle(row, item.cellStyle)}>{row[item.prop]}</div>
           }
         }
       }
@@ -445,13 +445,11 @@ export default {
       if (typeof this.beforeImportClick === 'function') {
         try {
           await this.beforeImportClick()
-          console.log('111')
           this.dialogVisible = true
         } catch (error) {
           console.log(error)
         }
       } else {
-        console.log('222')
         this.dialogVisible = true
       }
     },
@@ -806,9 +804,18 @@ export default {
       }
       fileReader.readAsBinaryString(file)
     },
-    async handleClick(e) {
+    handleClick(e) {
       e.stopPropagation()
       this.$refs.upload.$refs['upload-inner'].$refs.input.click()
+    },
+    getCellStyle(row, cellStyle) {
+      if (typeof cellStyle === 'string') {
+        return cellStyle
+      } else if (typeof cellStyle === 'function') {
+        return cellStyle(row)
+      }
+
+      return ''
     }
   }
 }

@@ -47,7 +47,11 @@ export default {
           prop: 'productName',
           label: '商品名称',
           type: 'input',
-          required: false
+          required: false,
+          editable:false,
+          cellStyle:(row) => {
+            return 'border: solid 1px red;'
+          }
         },
         {
           prop: 'location',
@@ -140,7 +144,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  
 </style>
 ```
 
