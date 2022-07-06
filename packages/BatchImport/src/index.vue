@@ -332,6 +332,11 @@ export default {
     beforeImportClick: {
       type: [Function, null],
       default: null
+    },
+    // 是否可点击表格行切换编辑状态
+    toggleEditable: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -597,6 +602,8 @@ export default {
     },
     // 编辑，查看切换
     handleToggleEdit() {
+      if (!this.toggleEditable) return
+
       this.isEdit = !this.isEdit
       // 将tableData的数据合并到dbData上
       if (!this.isEdit) {
