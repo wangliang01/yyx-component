@@ -222,7 +222,7 @@ export default {
     },
     customQuery: {
       type: Function,
-      default: () => {}
+      default: null
     }
   },
   data() {
@@ -555,10 +555,10 @@ export default {
           }
         })
         this.total = 0
-        // if (typeof this.customQuery === 'function') {
-        //   // 自定义查询
-        //   return this.customQuery()
-        // }
+        if (typeof this.customQuery === 'function') {
+          // 自定义查询
+          return this.customQuery()
+        }
         this.loadData()
       }).catch((e) => {
         console.log(e)
