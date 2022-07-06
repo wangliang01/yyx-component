@@ -437,7 +437,7 @@ export default {
               return <span>{this.tableData[index][item.prop]}</span>
             }
           } else {
-            return <div onClick={this.handleToggleEdit(false)} style={this.getCellStyle(row, item.cellStyle)}>{row[item.prop]}</div>
+            return <div onClick={() => this.handleToggleEdit(false)} style={this.getCellStyle(row, item.cellStyle)}>{row[item.prop]}</div>
           }
         }
       }
