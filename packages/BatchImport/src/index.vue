@@ -18,6 +18,7 @@
             slot="trigger"
             type="primary"
             icon="el-icon-upload"
+            :disabled="buttonDisabled"
             @click="handleClick"
           >{{ btnText }}</el-button>
           <div
@@ -48,6 +49,7 @@
       <el-button
         :type="$attrs.type"
         icon="el-icon-upload"
+        :disabled="buttonDisabled"
         @click="importClick"
       >{{ btnText }}</el-button>
       <!-- 按钮 end -->
@@ -337,6 +339,10 @@ export default {
     rowToggleEditable: {
       type: Boolean,
       default: true
+    },
+    buttonDisabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
