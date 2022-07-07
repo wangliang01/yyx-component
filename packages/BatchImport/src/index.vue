@@ -409,7 +409,11 @@ export default {
             if (item.type === 'input') {
               return <y-input v-model_trim={this.tableData[index][item.prop]} size='small' maxLength={item.maxLength} clearable rules={row.rules} number={!!item.number} integer={!!item.integer} integerDigit={item.integerDigit} precision={item.precision} {...{ props: item }}></y-input>
             } else if (item.type === 'select') {
-              return <el-select v-model_trim={this.tableData[index][item.prop]} size='small' ref='select' clearable rules={row.rules} >
+              /* 处理批导时，用户传入的枚举值，有空格的情况 */
+              if (this.tableData[index][item.prop] && typeof this.tableData[index][item.prop] === 'string') {
+                this.tableData[index][item.prop] = this.tableData[index][item.prop].trim()
+              }
+              return <el-select v-model={this.tableData[index][item.prop]} size='small' ref='select' clearable rules={row.rules} >
                 {item.options.map((option) => {
                   return <el-option key={option.value}
                     label={option.label}
