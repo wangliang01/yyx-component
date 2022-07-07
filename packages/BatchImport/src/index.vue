@@ -686,6 +686,9 @@ export default {
               if (format && format.includes('YYYY-MM-DD') && !isNaN(item[key])) {
                 obj[column.prop] = this.formateDate(Number(item[key]), format)
               } else {
+                if (item[key] && typeof item[key] === 'string') {
+                  item[key] = item[key].trim()
+                }
                 obj[column.prop] = item[key]
               }
             }
