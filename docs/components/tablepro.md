@@ -18,6 +18,8 @@
               showUtilBar
               showSelectAll
               :page-size="20"
+              label-position="right"
+              label-width="120px"
               :show-util-bar="false"
               :load-data-api="pagelist"
               loaded="handleLoadData"
