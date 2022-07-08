@@ -24,7 +24,7 @@
       clearable
       @select="handleSelectPOI"
     ></el-autocomplete>
-    <y-icon icon="iconaddrpdizhibiaozhunhua" width="24" class="icon"></y-icon>
+    <!-- <y-icon icon="iconaddrpdizhibiaozhunhua" width="24" class="icon"></y-icon> -->
   </div>
 </template>
 
@@ -114,7 +114,6 @@ export default {
   },
   methods: {
     handleSelectPOI(item) {
-      console.log(item)
       this.currentValue = AddressAllCode({
         adcode: '86',
         districts: this.options
@@ -127,6 +126,18 @@ export default {
       //   cb([])
       //   return this.$message.warning('请先选择省市区！')
       // }
+      const result = await axios.get('http://192.168.1.248:8866/area-dict/poi/search', { params: {
+        keywords: queryString
+      }})
+      if (result.status === 200) {
+        console.log(result.data)
+        cb(result.data.data)
+      } else {
+        cb([])
+      }
+    },
+    /* 根据高德地图API，获取POI热点信息 */
+    async getPOIByAMapApi(queryString, cb) {
       const result = await axios.get('https://restapi.amap.com/v3/place/text', {
         params: {
           key: appKey,
@@ -161,6 +172,18 @@ export default {
       this.$emit('loaded', this.options)
     },
     async defaultApi() {
+      /*
+        通过本地服务获取全国行政区域
+      */
+      const result = await axios.get('https://test-k8s.newhopescm.com/pron/area-dict/district/getAll')
+      console.log('come here', result)
+      if (result.status === 200) {
+        const addressList = result.data.data
+        return addressList
+      }
+    },
+    /*   通过调用高德api，获取全国行政区域 */
+    async getAreaDictByAMapApi() {
       const result = await axios.get(
         'https://restapi.amap.com/v3/config/district',
         {
