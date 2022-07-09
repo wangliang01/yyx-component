@@ -566,7 +566,10 @@
             label: 'SPU 名称',
             prop: 'name',
             filter: true,
-            fieldType: 'Input'
+            fieldType: 'Input',
+            onChange:(value,event) => {
+              console.log(value)
+            }
           },
           {
             label: 'SPU',

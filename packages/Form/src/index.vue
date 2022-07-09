@@ -31,6 +31,7 @@
           :value="formData[field.prop]"
           :on-pick="field.onPick"
           :style="`width: ${field.width || '100%'};`"
+          @change.native="handleChange(field.onChange,$event)"
           @input="updateForm(field.prop, $event)"
         ></component>
       </el-form-item>
@@ -163,6 +164,10 @@ export default {
     updateForm(fieldName, value) {
       this.$set(this.formData, fieldName, value)
       this.$emit('input', this.formData)
+    },
+    handleChange(onChange, event) {
+      if (!onChange) return
+      onChange(event.target.value, event)
     }
   }
 }
