@@ -32,7 +32,9 @@
           :on-pick="field.onPick"
           :style="`width: ${field.width || '100%'};`"
           @change.native="handleChange(field.onChange,$event)"
-          @input="updateForm(field.prop, $event)"
+          @input.native="handleNativeInpute(field,$event)"
+          @input="handleInpute(field,$event)"
+          @clear="handleClear(field,$event)"
         ></component>
       </el-form-item>
     </template>
@@ -160,6 +162,28 @@ export default {
         }
       }
       return 0
+    },
+    // 注： datepicker不会触发input.native事件回调
+    handleNativeInpute(field, event) {
+      const onInput = field.onInput
+      if (!onInput) {
+        return
+      }
+      onInput(event.target.value, event)
+      this.updateForm(field.prop, event.target.value)
+    },
+    handleInpute(field, value) {
+      // 如果传入了onInput事件，则只调用handleNativeInpute方法，避免updateForm被重复调用
+      if (field.onInput) {
+        return
+      }
+      this.updateForm(field.prop, value)
+    },
+    handleClear(field) {
+      // 清除按钮只会触发input事件而不会触发input.native,所以需要对传入了onInput事件的组件的清除事件单独处理
+      if (field.onInput) {
+        this.updateForm(field.prop, '')
+      }
     },
     updateForm(fieldName, value) {
       this.$set(this.formData, fieldName, value)

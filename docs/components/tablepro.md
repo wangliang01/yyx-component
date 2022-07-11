@@ -567,8 +567,11 @@
             prop: 'name',
             filter: true,
             fieldType: 'Input',
-            onChange:(value,event) => {
-              console.log(value)
+            onChange:(val,event) => {
+              console.log(val)
+            },
+            onInput:(val,event) => {
+              console.log(val)
             }
           },
           {
