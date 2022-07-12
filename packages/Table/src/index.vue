@@ -1,8 +1,10 @@
 <template>
   <div :key="key" class="y-table">
-    <div :class="{'table-top': hasTop }">
-      <slot name="default" class="table-top-left"></slot>
-      <div class="table-top-right">
+    <div class="table-top">
+      <div v-if="hasTopLeft" class="table-top-left">
+        <slot name="default"></slot>
+      </div>
+      <div v-if="hasTopRight" class="table-top-right">
         <slot name="table-top-right"></slot>
         <div v-if="showUtilBar" class="utils-wrapper">
           <i v-if="utilConfig.includes('setting')" class="iconfont el-icon-coin" @click="handleSave"> 保存</i>
@@ -208,13 +210,13 @@ export default {
     borderClass() {
       return this.data.length === 0 ? 'el-table--border__bottom' : ''
     },
-    hasSlots() {
-      return Object.keys(this.$slots) > 0
+    hasTopLeft() {
+      return Object.keys(this.$slots).includes('default')
     },
-    hasTop() {
-      return this.hasSlots || this.showUtilBar
+    hasTopRight() {
+      console.log(Object.keys(this.$slots), this.$slots, 'ooooooooooooooooo')
+      return Object.keys(this.$slots).includes('table-top-right') || this.showUtilBar
     }
-
   },
   watch: {
     pagination: {
@@ -417,18 +419,20 @@ export default {
 }
 .table-top{
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 15px;
+  justify-content: flex-start;
 }
 .table-top-left{
   flex: 1;
   text-align: left;
+  justify-content: flex-start;
+  margin-bottom: 15px;
 }
 .table-top-right{
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-bottom: 15px;
 }
 .utils-wrapper {
   display: flex;

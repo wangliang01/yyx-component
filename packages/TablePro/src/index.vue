@@ -102,10 +102,10 @@
         @selection-change="handleSelectChange"
         v-on="$listeners"
       >
-        <div ref="tableTop">
+        <template>
           <!-- table左侧 -->
           <slot name="table"></slot>
-        </div>
+        </template>
         <template slot="table-top-right">
           <!-- table右侧 -->
           <slot name="table-top-right"></slot>
