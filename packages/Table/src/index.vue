@@ -214,7 +214,6 @@ export default {
       return Object.keys(this.$slots).includes('default')
     },
     hasTopRight() {
-      console.log(Object.keys(this.$slots), this.$slots, 'ooooooooooooooooo')
       return Object.keys(this.$slots).includes('table-top-right') || this.showUtilBar
     }
   },
