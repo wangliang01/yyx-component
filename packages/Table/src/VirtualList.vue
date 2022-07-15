@@ -113,6 +113,9 @@ export default {
             this.change(this.originData)
           }
           this.$emit('update:changedData', this.originData)
+          if (this.$attrs['show-summary']) {
+            this.updateTableBodyHeight()
+          }
         })
         // 数据更新之后，滚动条滚到 0 从新截取数据内容
         this.bodyWrapper.scrollTop = 0
@@ -177,6 +180,14 @@ export default {
       start = start < 0 ? 0 : start
       this.start = start
       this.input.focus()
+    },
+    updateTableBodyHeight() {
+      this.$nextTick(() => {
+        const el = this.$refs.ElTable.$el
+        const offsetHeight = el.offsetHeight
+        // 需要减去 table header的高度
+        el.style.height = `${offsetHeight - 46}px`
+      })
     }
   }
 }
