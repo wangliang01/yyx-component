@@ -72,7 +72,9 @@ export default {
       originData: Object.isFrozen(this.data) ? clone(this.data) : this.data,
       tableScrollTop: 0,
       // tableVirtualHeight: this.data.length * this.rowHeight,
-      start: 0
+      start: 0,
+      // 是否已经更新了列表高度
+      updatedHeight: false
     }
   },
   computed: {
@@ -113,7 +115,7 @@ export default {
             this.change(this.originData)
           }
           this.$emit('update:changedData', this.originData)
-          if (this.$attrs['show-summary']) {
+          if (this.$attrs['show-summary'] && !this.updatedHeight && this.originData.length) {
             this.updateTableBodyHeight()
           }
         })
@@ -183,6 +185,7 @@ export default {
     },
     updateTableBodyHeight() {
       this.$nextTick(() => {
+        this.updatedHeight = true
         const el = this.$refs.ElTable.$el
         const offsetHeight = el.offsetHeight
         // 需要减去 table header的高度
