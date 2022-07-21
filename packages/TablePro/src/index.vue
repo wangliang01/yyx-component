@@ -373,14 +373,25 @@ export default {
     handleToggle() {
       this.isExpand = !this.isExpand
       const tableFilter = this.$refs.tableFilter
+      const elForm = tableFilter.querySelector('.el-form')
+
+      const btnWrapper = tableFilter.querySelector('.btn-wrapper')
       if (this.isExpand) {
         // 展开
-        tableFilter.style.overflow = 'initial'
+        tableFilter.style.overflow = 'auto'
         tableFilter.style.height = 'auto'
+        elForm.style.marginRight = 0
+        btnWrapper.style.position = 'static'
+        btnWrapper.style.float = 'right'
+        btnWrapper.style.paddingBottom = 16 + 'px'
       } else {
         // 收起
         tableFilter.style.overflow = 'hidden'
         tableFilter.style.height = `${this.overflowHeight}px`
+        elForm.style.marginRight = `274px`
+        btnWrapper.style.position = 'absolute'
+        btnWrapper.style.float = 'none'
+        btnWrapper.style.paddingBottom = 0 + 'px'
       }
     },
     initTableFilter() {
