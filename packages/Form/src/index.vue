@@ -186,8 +186,8 @@ export default {
       }
     },
     updateForm(fieldName, value) {
-      /* fix: 如果值是字符串，则先对其值进行trim */
-      value = typeof value === 'string' ? value.trim() : value
+      /* fix: 如果值是字符串为空，或者全为空格，则先对其值进行trim */
+      value = (typeof value === 'string' && value.trim() === '') ? value.trim() : value
       this.$set(this.formData, fieldName, value)
       this.$emit('input', this.formData)
     },
