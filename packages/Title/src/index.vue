@@ -1,5 +1,5 @@
 <template>
-  <h3 class="y-title">
+  <h3 class="y-title" :style="{'line-height': height + 'px'}">
     <span class="border"></span>
     <slot></slot>
   </h3>
@@ -7,8 +7,13 @@
 
 <script>
 export default {
-  name: 'YTitle'
-
+  name: 'YTitle',
+  props: {
+    height: {
+      type: [String, Number],
+      default: 18
+    }
+  }
 }
 </script>
 
