@@ -76,7 +76,7 @@ export default {
     box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
-    height: 48px;
+    height: 40px;
     background: #F7F8FA;
     border-radius: 4px 4px 0px 0px;
     border-bottom: 1px solid #F0F0F0;
