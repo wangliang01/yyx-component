@@ -73,7 +73,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '123'
+      default: ''
     },
     descriptions: {
       type: Boolean,
