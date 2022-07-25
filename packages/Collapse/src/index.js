@@ -9,7 +9,6 @@ const Transition = {
   },
 
   enter(el) {
-    console.log(el)
     if (el.scrollHeight !== 0) {
       el.style.height = `${el.scrollHeight}px`
     } else {
