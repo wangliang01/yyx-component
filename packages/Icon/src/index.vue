@@ -3,6 +3,7 @@
     :class="svgClass"
     aria-hidden="true"
     :style="svgStyle"
+    @click="$emit('click', $event)"
   >
     <use :xlink:href="iconName" />
   </svg>
