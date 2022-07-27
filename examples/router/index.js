@@ -232,6 +232,12 @@ const routes = [
         name: 'Copy',
         component: () => import('../views/copy'),
         meta: { title: '复制' }
+      },
+      {
+        path: '/date-picker',
+        name: 'DatePicker',
+        component: () => import('../views/date-picker'),
+        meta: { title: 'datePicker' }
       }
     ]
   }
