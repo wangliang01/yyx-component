@@ -1,5 +1,6 @@
 <template>
   <el-card class="form">
+    <y-tree-table></y-tree-table>
     <TreeMd class="md"></TreeMd>
   </el-card>
 </template>

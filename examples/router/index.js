@@ -238,6 +238,12 @@ const routes = [
         name: 'DatePicker',
         component: () => import('../views/date-picker'),
         meta: { title: 'datePicker' }
+      },
+      {
+        path: '/tree-table',
+        name: 'TreeTable',
+        component: () => import('../views/tree-table'),
+        meta: { title: 'TreeTable' }
       }
     ]
   }
