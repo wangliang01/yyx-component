@@ -44,7 +44,7 @@
           ></TableItem>
         </template>
         <!-- 数据为空时 -->
-        <el-empty slot="empty" :image-size="100"></el-empty>
+        <y-empty></y-empty>
       </el-table>
       <!-- 普通表格 -->
       <el-table
@@ -72,7 +72,7 @@
         </template>
         <!-- 数据为空时 -->
         <div slot="empty" class="empty">
-          <el-empty :image-size="100"></el-empty>
+          <y-empty></y-empty>
         </div>
       </el-table>
       <el-pagination
