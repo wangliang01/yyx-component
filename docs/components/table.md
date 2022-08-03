@@ -115,7 +115,19 @@
           },
           {
             label: '日期',
-            prop: 'date'
+            prop: 'date',
+            renderHeader: (h) => {
+              return <div>日期<y-tips style='margin-left:8px' effect='dark'>已下单未出库金额</y-tips></div>
+            },
+            children:[
+              {
+                label: '日俄地方',
+                prop: 'date1',
+                renderHeader: (h) => {
+                  return <div>日俄地方<y-tips style='margin-left:8px' effect='dark'>已下单未出库金额</y-tips></div>
+                },
+              }
+            ]
           },
           {
             label: '姓名',
