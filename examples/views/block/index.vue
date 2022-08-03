@@ -1,6 +1,7 @@
 <template>
   <el-card class="form">
     <y-title>你好</y-title>
+    <y-empty></y-empty>
     <BlockMd class="md"></BlockMd>
   </el-card>
 </template>

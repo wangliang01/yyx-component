@@ -29,6 +29,10 @@ export default {
     height: {
       type: [String, Number],
       default: 0
+    },
+    color: {
+      type: String,
+      default: ''
     }
   },
   computed: {
@@ -45,7 +49,8 @@ export default {
     svgStyle() {
       return {
         width: this.width,
-        height: this.height ? this.height : this.width
+        height: this.height ? this.height : this.width,
+        fill: this.color ? this.color : 'currentColor'
       }
     }
   }

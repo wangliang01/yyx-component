@@ -35,7 +35,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '属性组1名称：外包装'
+      default: ''
     }
   },
   data() {
