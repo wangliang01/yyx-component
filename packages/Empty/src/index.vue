@@ -1,7 +1,7 @@
 <template>
   <div class="y-empty">
     <div class="y-empty__image">
-      <img src="./icons/no-data.png" alt="">
+      <img src="./icons/no-data.png" alt="暂无数据">
     </div>
     <div class="y-empty__description">
       暂无数据
@@ -12,23 +12,7 @@
 
 <script>
 export default {
-  name: 'YEmpty',
-  components: {
-  },
-  props: {
-
-  },
-  data() {
-    return {
-
-    }
-  },
-  mounted() {
-
-  },
-  methods: {
-
-  }
+  name: 'YEmpty'
 }
 </script>
 

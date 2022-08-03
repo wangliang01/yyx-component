@@ -17,6 +17,7 @@
       :columns="columns"
       showUtilsBar
       ui-style="antd"
+      @row-mouse-enter="handleCellMouseEnter"
     >
     </y-table>
   </div>
@@ -41,27 +42,38 @@
           }
         ],
         tableData: [
-          // {
-          //   date: '2016-05-02',
-          //   name: '王小虎',
-          //   address: '上海市普陀区金沙江路 1518 弄'
-          // },
-          // {
-          //   date: '2016-05-04',
-          //   name: '王小虎',
-          //   address: '上海市普陀区金沙江路 1517 弄'
-          // },
-          // {
-          //   date: '2016-05-01',
-          //   name: '王小虎',
-          //   address: '上海市普陀区金沙江路 1519 弄'
-          // },
-          // {
-          //   date: '2016-05-03',
-          //   name: '王小虎',
-          //   address: '上海市普陀区金沙江路 1516 弄'
-          // }
+          {
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+          },
+          {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1517 弄'
+          },
+          {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+          },
+          {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1516 弄'
+          }
         ]
+      }
+    },
+    methods: {
+      handleCellMouseEnter(row, column, cell, event) {
+        console.log('row mouse enter', row, column, cell, event)
+        this.renderButtonPanel(row, column)
+      },
+      renderButtonPanel(row, column) {
+        const h = this.$createElement 
+        const vnode =  h('div', 'Hello World')
+        console.log(vnode)
       }
     }
   }
