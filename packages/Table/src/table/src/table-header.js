@@ -74,6 +74,7 @@ export default {
     // 是否拥有多级表头
     const isGroup = columnRows.length > 1
     if (isGroup) this.$parent.isGroup = true
+    const renderColumns = this.columns.filter(col => col.label !== '操作')
     return (
       <table
         class='el-table__header'
@@ -82,7 +83,7 @@ export default {
         border='0'>
         <colgroup>
           {
-            this.columns.map(column => <col name={ column.id } key={column.id} />)
+            renderColumns.map(column => <col name={ column.id } key={column.id} />)
           }
           {
             this.hasGutter ? <col name='gutter' /> : ''
@@ -90,13 +91,13 @@ export default {
         </colgroup>
         <thead class={ [{ 'is-group': isGroup, 'has-gutter': this.hasGutter }] }>
           {
-            this._l(columnRows, (columns, rowIndex) =>
+            this._l(columnRows, (renderColumns, rowIndex) =>
               <tr
                 style={ this.getHeaderRowStyle(rowIndex) }
                 class={ this.getHeaderRowClass(rowIndex) }
               >
                 {
-                  columns.map((column, cellIndex) => (<th
+                  renderColumns.map((column, cellIndex) => (<th
                     colspan={ column.colSpan }
                     rowspan={ column.rowSpan }
                     on-mousemove={ ($event) => this.handleMouseMove($event, column) }
@@ -104,8 +105,8 @@ export default {
                     on-mousedown={ ($event) => this.handleMouseDown($event, column) }
                     on-click={ ($event) => this.handleHeaderClick($event, column) }
                     on-contextmenu={ ($event) => this.handleHeaderContextMenu($event, column) }
-                    style={ this.getHeaderCellStyle(rowIndex, cellIndex, columns, column) }
-                    class={ this.getHeaderCellClass(rowIndex, cellIndex, columns, column) }
+                    style={ this.getHeaderCellStyle(rowIndex, cellIndex, renderColumns, column) }
+                    class={ this.getHeaderCellClass(rowIndex, cellIndex, renderColumns, column) }
                     key={ column.id }>
                     <div class={ ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '', column.labelClassName] }>
                       {

@@ -69,6 +69,9 @@ export default Vue.extend({
         sortProp: null,
         sortOrder: null,
 
+        // 操作列
+        operateColumnIndex: null,
+
         hoverRow: null
       }
     }

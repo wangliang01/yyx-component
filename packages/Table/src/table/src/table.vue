@@ -406,6 +406,7 @@ export default {
 
     handleMouseLeave() {
       this.store.commit('setHoverRow', null)
+      this.store.commit('setOperateColumn', null)
       if (this.hoverState) this.hoverState = null
     },
 

@@ -39,6 +39,15 @@ export default {
       isExpanded
     } = this
 
+    const YTable = this.$parent.$parent.$parent
+
+    const originColumns = YTable.originColumns
+
+    /* 查找操作列 */
+    const operateColumnIndex = originColumns.find(col => col.label === '操作')
+
+    console.log('store', store)
+
     return (
       <tr>
         {
@@ -74,6 +83,26 @@ export default {
                 }
               }
             }
+
+            console.log(store.states.operateColumnIndex && store.states.operateColumnIndex, $index)
+
+            const renderColumn = () => {
+              /* 如果有操作列，且操作列索引与$index相等，则表示在同一排，且column为当前排的最后一个column */
+              if (store.states.operateColumnIndex != null && store.states.operateColumnIndex === $index && columns.length - 1 === cellIndex) {
+                return <div class='cell'>
+                  {
+                    operateColumnIndex.render.call(this._renderProxy, this.$createElement, data)
+                  }
+                </div>
+              }
+              return column.renderCell.call(
+                this._renderProxy,
+                this.$createElement,
+                data,
+                columnsHidden[cellIndex]
+              )
+            }
+
             return (
               <td
                 style={this.getCellStyle($index, cellIndex, row, column)}
@@ -84,12 +113,7 @@ export default {
                 on-mouseleave={this.handleCellMouseLeave}
               >
                 {
-                  column.renderCell.call(
-                    this._renderProxy,
-                    this.$createElement,
-                    data,
-                    columnsHidden[cellIndex]
-                  )
+                  renderColumn()
                 }
               </td>
             )

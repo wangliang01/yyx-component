@@ -95,7 +95,7 @@ import Refresh from './Refresh.vue'
 import Density from './Density.vue'
 import SetColumns from './SetColumns.vue'
 // import Setting from './Setting.vue'
-import ElTable from './table/src/table.vue'
+// import ElTable from './table/src/table.vue'
 export default {
   name: 'YTable',
   components: {
@@ -103,8 +103,8 @@ export default {
     Refresh,
     Density,
     // Setting,
-    SetColumns,
-    ElTable
+    // ElTable,
+    SetColumns
   },
   props: {
     /* 是否用虚拟列表显示 */

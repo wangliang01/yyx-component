@@ -39,6 +39,12 @@
           {
             label: '地址',
             prop: 'address'
+          },
+          {
+            label: '操作',
+            render: (h, {row}) => {
+              return <el-button type="text" onClick={() => this.handleClick(row)}>查看</el-button>
+            }
           }
         ],
         tableData: [
@@ -66,6 +72,9 @@
       }
     },
     methods: {
+      handleClick(row) {
+        console.log(row)
+      },
       handleCellMouseEnter(row, column, cell, event) {
         console.log('row mouse enter', row, column, cell, event)
         this.renderButtonPanel(row, column)

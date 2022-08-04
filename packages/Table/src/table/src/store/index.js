@@ -126,6 +126,10 @@ Watcher.prototype.mutations = {
     states.hoverRow = row
   },
 
+  setOperateColumn(states, col) {
+    states.operateColumnIndex = col
+  },
+
   setCurrentRow(states, row) {
     this.updateCurrentRow(row)
   }

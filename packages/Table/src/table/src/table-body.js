@@ -33,6 +33,7 @@ export default {
 
   render(h) {
     const data = this.data || []
+    const renderColumns = this.columns.filter(col => col.label !== '操作')
     return (
       <table
         class='el-table__body'
@@ -41,7 +42,7 @@ export default {
         border='0'>
         <colgroup>
           {
-            this.columns.map(column => <col name={column.id} key={column.id} />)
+            renderColumns.map(column => <col name={column.id} key={column.id} />)
           }
         </colgroup>
         <tbody>
@@ -291,12 +292,13 @@ export default {
       this.store.commit('setHoverRow', index)
       const oldHoverState = this.table.hoverState || {}
       this.table.$emit('row-mouse-enter', oldHoverState.row, oldHoverState.column, oldHoverState.cell)
-      console.log(this)
-      console.log('data', this.data)
+      this.store.commit('setOperateColumn', index)
+   
     }),
 
     handleMouseLeave: debounce(30, function() {
       this.store.commit('setHoverRow', null)
+      this.store.commit('setOperateColumn', null)
     }),
 
     handleContextMenu(event, row) {
@@ -333,6 +335,8 @@ export default {
         rowClasses.push('el-table__row--level-' + treeRowData.level)
         display = treeRowData.display
       }
+      /* 获取要渲染的列 */
+      const renderColumns = columns.filter(col => col.label !== '操作')
       // 指令 v-show 会覆盖 row-style 中 display
       // 使用 :style 代替 v-show https://github.com/ElemeFE/element/issues/16995
       const displayStyle = display ? null : {
@@ -348,7 +352,7 @@ export default {
           nativeOn-contextmenu={($event) => this.handleContextMenu($event, row)}
           nativeOn-mouseenter={_ => this.handleMouseEnter($index)}
           nativeOn-mouseleave={this.handleMouseLeave}
-          columns={columns}
+          columns={renderColumns}
           row={row}
           index={$index}
           store={this.store}
@@ -458,7 +462,6 @@ export default {
         }
         return tmp
       } else {
-        console.log('row render')
         return this.rowRender(row, $index)
       }
     }
