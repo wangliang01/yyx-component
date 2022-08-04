@@ -3,9 +3,9 @@
   <el-table-column
     v-if="!col.render"
     v-bind="col"
+    :render-header="null"
     :column-key="col.columnKey || col['column-key']"
     :min-width="col.minWidth || col['min-width'] || getMinWidth(columns)"
-    :render-header="col.renderHeader || col['render-header']"
     :sort-method="col.sortMethod || col['sort-method']"
     :sort-by="col.sortBy || col['sort-by']"
     :sort-orders="col.sortOrders || col['sort-orders']"
@@ -20,27 +20,24 @@
     :filtered-value="col.filteredValue || col['filtered-value']"
     :formatter="col.formattedAmount || col['formatted-amount'] ? formattedAmount : col.formatter"
   >
+    <!-- 解决控制台报警告： [Element Warn][TableColumn]Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header. -->
+    <template slot="header" slot-scope="scope">
+      <expandDom
+        v-if="col.renderHeader"
+        :row="scope.row"
+        :render="col.renderHeader"
+        :index="scope.$index"
+      >
+      </expandDom>
+      <template v-else>{{ col.label }}</template>
+    </template>
     <template v-if="col.children && col.children.length">
       <TableItem
         v-for="(item, idx) in col.children"
         :key="idx"
         :col="item"
         :data="data"
-        :column-key="item.columnKey || item['column-key']"
-        :min-width="item.minWidth || item['min-width'] || getMinWidth(col.children)"
-        :render-header="item.renderHeader || item['render-header']"
-        :sort-method="item.sortMethod || item['sort-method']"
-        :sort-by="item.sortBy || item['sort-by']"
-        :sort-orders="item.sortOrders || item['sort-orders']"
-        :show-overflow-tooltip="isEmpty(col.showOverflowTooltip) ? col['show-overflow-tooltip'] : col.showOverflowTooltip"
-        :header-align="item.headerAlign || item['header-align']"
-        :class-name="item.className || item['class-name']"
-        :label-class-name="item.labelClassName || item['label-class-name']"
-        :reserve-selection="isEmpty(col.reserveSelection) ? col['reserve-selection'] : col.reserveSelection"
-        :filter-placement="item.filterPlacement || item['filter-placement']"
-        :filter-multiple="item.filterMultiple || item['filter-multiple']"
-        :filter-method="item.filterMethod || item['filter-method']"
-        :filtered-value="item.filteredValue || item['filtered-value']"
+        :columns="columns"
       ></TableItem>
     </template>
   </el-table-column>
@@ -48,9 +45,9 @@
   <el-table-column
     v-else-if="col.render"
     v-bind="col"
+    :render-header="null"
     :column-key="col.columnKey || col['column-key']"
     :min-width="col.minWidth || col['min-width'] || getMinWidth(columns)"
-    :render-header="col.renderHeader || col['render-header']"
     :sort-method="col.sortMethod || col['sort-method']"
     :sort-by="col.sortBy || col['sort-by']"
     :sort-orders="col.sortOrders || col['sort-orders']"
@@ -65,6 +62,16 @@
     :filtered-value="col.filteredValue || col['filtered-value']"
     :formatter="col.formattedAmount || col['formatted-amount'] ? formattedAmount : col.formatter"
   >
+    <template slot="header" slot-scope="scope">
+      <expandDom
+        v-if="col.renderHeader"
+        :row="scope.row"
+        :render="col.renderHeader"
+        :index="scope.$index"
+      >
+      </expandDom>
+      <template v-else>{{ col.label }}</template>
+    </template>
     <template slot-scope="scope">
       <expandDom
         :row="scope.row"
@@ -109,7 +116,7 @@ export default {
         if (ctx.props.data) {
           params.data = ctx.props.data
         }
-        return ctx.props.render && ctx.props.render(h, params)
+        return ctx.props.render && ctx.props.render.call(ctx.parent, h, params)
       }
     }
   },
