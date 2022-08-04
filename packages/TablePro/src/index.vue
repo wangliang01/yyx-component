@@ -315,6 +315,12 @@ export default {
       },
       immediate: true,
       deep: true
+    },
+    expand: {
+      handler(val) {
+        this.isExpand = !!val
+      },
+      immediate: true
     }
   },
   mounted() {
@@ -422,12 +428,9 @@ export default {
             if (height > this.overflowHeight) {
               // 换行了
               this.canShowExpandBtn = true
-              if (!this.expand) {
-                this.isExpand = false
+              if (!this.isExpand) {
                 tableFilter.style.overflow = 'hidden'
                 tableFilter.style.height = `${this.overflowHeight}px`
-              } else {
-                this.isExpand = true
               }
             } else {
               this.canShowExpandBtn = false
