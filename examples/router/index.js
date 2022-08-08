@@ -138,6 +138,12 @@ const routes = [
         meta: { title: 'Card卡片' }
       },
       {
+        path: '/tag-card',
+        name: 'TagCard',
+        component: () => import('../views/tag-card'),
+        meta: { title: 'TagCard卡片' }
+      },
+      {
         path: '/descriptions',
         name: 'Card',
         component: () => import('../views/descriptions'),
