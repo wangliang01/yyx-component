@@ -1,5 +1,5 @@
 <template>
-  <div class="y-collapse">
+  <div class="y-collapse" :style="{padding: title ? null: 0}">
     <h3 v-if="title" class="title" @click="handleShow">
       {{ title }}<i class="iconfont el-icon-arrow-down" :class="{transup: show}"></i>
     </h3>
