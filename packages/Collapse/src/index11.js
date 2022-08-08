@@ -1,5 +1,6 @@
 // collapse-transition.js
 const transitionStyle = '0.3s height ease-in-out'
+let height = 0
 const Transition = {
   beforeEnter(el) {
     el.style.transition = transitionStyle
@@ -9,7 +10,9 @@ const Transition = {
   },
 
   enter(el) {
+    console.log('111111111111111')
     if (el.scrollHeight !== 0) {
+      if (el.scrollHeight > height) console.log(1)
       el.style.height = `${el.scrollHeight}px`
     } else {
       el.style.height = ''
@@ -44,10 +47,22 @@ const Transition = {
 export default {
   name: 'YCollapse',
   functional: true,
-  render(h, { children }) {
+  props: {
+    height: {
+      type: Number,
+      default: 0
+    }
+  },
+  render(h, { props, children }) {
+    height = props.height
     const data = {
       on: Transition
     }
-    return h('transition', data, children)
+    const btn = h('el-button', { key: 'ed', props: { type: 'text' }}, ['展开'])
+    const childs = children.map((it, i) => {
+      it.key = i
+      return it
+    })
+    return h('transition-group', data, [...childs, btn])
   }
 }

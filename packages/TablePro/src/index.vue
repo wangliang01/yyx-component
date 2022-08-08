@@ -401,7 +401,7 @@ export default {
       }
     },
     initTableFilter() {
-      if (this.uiStyle === 'antd') {
+      if (this.uiStyle === 'antd' || this.uiStyle === 'jixian') {
         this.$nextTick(() => {
           // 如果是antd风格
           const tableFilter = this.$refs.tableFilter
@@ -652,6 +652,7 @@ export default {
   .btn-wrapper {
     position: absolute;
     right: 16px;
+    bottom: 22px;
   }
 }
 .table-wrapper {

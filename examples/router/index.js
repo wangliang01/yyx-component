@@ -250,6 +250,12 @@ const routes = [
         name: 'TreeTable',
         component: () => import('../views/tree-table'),
         meta: { title: 'TreeTable' }
+      },
+      {
+        path: '/collapse',
+        name: '折叠',
+        component: () => import('../views/collapse'),
+        meta: { title: 'y-collapse' }
       }
     ]
   }
