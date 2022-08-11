@@ -164,7 +164,11 @@ export default {
       return this.options
     },
     async remoteMethod(query) {
-      this.options = await this.getOptions()
+      if (this.lazy) {
+        this.options = this.list
+      } else {
+        this.options = await this.getOptions()
+      }
       query = query.trim()
       if (query !== '') {
         this.loading = true
