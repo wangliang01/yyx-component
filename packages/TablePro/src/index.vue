@@ -61,8 +61,8 @@
           @click="handleQuery"
         >查 询</el-button>
         <el-button v-if="hasReset" type="text" @click="handleReset">
-          <y-icon icon="icon-zhongzhi"></y-icon>
-          <span class="text-gray">重置</span>
+          <y-icon icon="icon-zhongzhi" color="#787979"></y-icon>
+          <span class="text-gray y-m-l-6">重置</span>
         </el-button>
         <el-button
           v-if="canShowExpandBtn"
