@@ -1,6 +1,6 @@
 {
     "name": "yyx-component",
-    "version": "1.22.22",
+    "version": "1.22.23",
     "scripts": {
         "dll": "webpack --config ./webpack.dll.js",
         "serve": "vue-cli-service serve",

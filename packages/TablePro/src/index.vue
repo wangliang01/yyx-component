@@ -56,12 +56,14 @@
       >
       </y-form>
       <div v-if="hasReset || hasSearch" class="btn-wrapper">
-        <el-button v-if="hasReset" @click="handleReset">重 置</el-button>
         <el-button
           v-if="hasSearch"
-          type="primary"
           @click="handleQuery"
         >查 询</el-button>
+        <el-button v-if="hasReset" type="text" @click="handleReset">
+          <y-icon icon="icon-zhongzhi"></y-icon>
+          <span class="text-gray">重置</span>
+        </el-button>
         <el-button
           v-if="canShowExpandBtn"
           type="text"
@@ -660,6 +662,9 @@ export default {
   // margin-top: 16px;
   background-color: $--color-white;
   border-radius: 2px;
+}
+.text-gray {
+  color: #787979;
 }
 /* ::v-deep .table-top{
   margin-bottom: 15px;
