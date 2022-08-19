@@ -558,27 +558,29 @@ export default {
     /**
     * 【查询】
     */
-    handleQuery() {
-      this.$refs.form.validate().then(() => {
-        // 查询时，重置current为1
-      // this.queryParams = merge(this.queryParams, { current: 1 })
-        this.queryParams = { ...this.queryParams, current: 1 }
-        console.log('查询参数', this.queryParams)
-        // 对查询参数进行trim处理
-        Object.keys(this.queryParams).forEach(key => {
-          if (typeof this.queryParams[key] === 'string') {
-            this.queryParams[key] = trim(this.queryParams[key])
+    async handleQuery() {
+      try {
+        if (!this.$refs.form || await this.$refs.form.validate()) {
+          // 查询时，重置current为1
+          // this.queryParams = merge(this.queryParams, { current: 1 })
+          this.queryParams = { ...this.queryParams, current: 1 }
+          console.log('查询参数', this.queryParams)
+          // 对查询参数进行trim处理
+          Object.keys(this.queryParams).forEach(key => {
+            if (typeof this.queryParams[key] === 'string') {
+              this.queryParams[key] = trim(this.queryParams[key])
+            }
+          })
+          this.total = 0
+          if (typeof this.customQuery === 'function') {
+            // 自定义查询
+            return this.customQuery()
           }
-        })
-        this.total = 0
-        if (typeof this.customQuery === 'function') {
-          // 自定义查询
-          return this.customQuery()
+          this.loadData()
         }
-        this.loadData()
-      }).catch((e) => {
-        console.log(e)
-      })
+      } catch (e) {
+        console.error(e)
+      }
     },
     /**
      * 分页时，重新加载数据
