@@ -12,38 +12,36 @@
         <slot name="header-right"></slot>
       </div>
     </div>
-    <y-collapse>
-      <div v-if="deg==='90deg'" class="content-wrapper">
-        <y-descriptions v-if="descriptions" v-bind="$attrs" :data="data" :columns="columns" :cols="cols"></y-descriptions>
-        <el-row v-else class="card-row">
-          <el-col
-            v-for="(item, index) in columns"
-            :key="index"
-            class="card-col"
-            :span="span"
-          >
-            <span v-if="item.renderLabel" class="card-label">
-              <expandDom :render="item.renderLabel" :data="data" :prop="item.prop">
+    <div v-if="deg==='90deg'" class="content-wrapper">
+      <y-descriptions v-if="descriptions" v-bind="$attrs" :data="data" :columns="columns" :cols="cols"></y-descriptions>
+      <el-row v-else class="card-row">
+        <el-col
+          v-for="(item, index) in columns"
+          :key="index"
+          class="card-col"
+          :span="span"
+        >
+          <span v-if="item.renderLabel" class="card-label">
+            <expandDom :render="item.renderLabel" :data="data" :prop="item.prop">
+            </expandDom>
+          </span>
+          <span v-else class="card-label">{{ item.label }}:</span>
+          <template v-if="item.render">
+            <div class="card-value">
+              <expandDom :render="item.render" :data="data" :prop="item.prop">
               </expandDom>
-            </span>
-            <span v-else class="card-label">{{ item.label }}:</span>
-            <template v-if="item.render">
-              <div class="card-value">
-                <expandDom :render="item.render" :data="data" :prop="item.prop">
-                </expandDom>
-              </div>
-            </template>
-            <y-text
-              v-else
-              :content="
-                item.formatter ? item.formatter(data[item.prop]) : data[item.prop]
-              "
-              class="card-value"
-            ></y-text>
-          </el-col>
-        </el-row>
-      </div>
-    </y-collapse>
+            </div>
+          </template>
+          <y-text
+            v-else
+            :content="
+              item.formatter ? item.formatter(data[item.prop]) : data[item.prop]
+            "
+            class="card-value"
+          ></y-text>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
