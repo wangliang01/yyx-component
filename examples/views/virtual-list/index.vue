@@ -17,7 +17,7 @@
 <script>
 // import VirtualList from '../../../docs/components/virtual-list.md'
 const tableData = []
-for (let i = 0; i < 10000; i++) {
+for (let i = 0; i < 20; i++) {
   const item = {
     id: i + 1,
     name: `小张${i + 1}`,

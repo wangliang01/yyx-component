@@ -88,7 +88,7 @@ export default {
       return this.originData.slice(this.start, this.start + this.maxRows)
     },
     tableVirtualHeight() {
-      return this.originData.length * this.rowHeight
+      return this.originData.length * this.rowHeight - (this.$attrs['show-summary'] ? 46 : 0)
     },
     maxRows() { // 最大行数
       return Math.ceil((this.height - this.headerHeight) / this.rowHeight) + 4
