@@ -25,6 +25,20 @@
         <span v-if="field.renderLabel" slot="label">
           <expandDom :render="field.renderLabel"></expandDom>
         </span>
+        <span v-else-if="field.toolTip" slot="label">
+          <span>{{ field.label }}</span>
+          <el-tooltip v-if="Array.isArray(field.toolTip) && field.toolTip.length" effect="dark" placement="top-start">
+            <div slot="content" class="tooltip-content">
+              <p
+                v-for="(text, i) of field.toolTip"
+                :key="i"
+              >{{ text }}</p>
+            </div>
+            <i class="el-icon-warning-outline"></i>
+          </el-tooltip>
+          <i v-else :class="[field.labelIcon]"></i>
+          <span>{{ field.labelSuffix }}</span>
+        </span>
         <component
           :is="field.fieldType || field.filter"
           v-bind="field"
@@ -202,5 +216,12 @@ export default {
 <style lang="scss" scoped>
 .text-left {
   text-align: left;
+}
+
+.tooltip-content {
+  max-width: 300px;
+  p {
+    margin-bottom: 12px;
+  }
 }
 </style>

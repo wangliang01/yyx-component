@@ -293,6 +293,7 @@
           name: {
             prop: 'name',
             label: '名称',
+            toolTip:['提示信息1','提示信息2'],
             fieldType: 'Input'
           },
           region: {
