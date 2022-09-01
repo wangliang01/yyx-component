@@ -30,16 +30,11 @@
               v-if="isExport"
               class="template"
               type="primary"
+              :href="downloadUrl"
               @click="$emit('download')"
             >
               {{ downloadText }}
             </el-link>
-            <el-link
-              v-else
-              class="template"
-              type="primary"
-              :href="downloadUrl"
-            >{{ downloadText }}</el-link>
           </div>
         </div>
       </el-upload>
@@ -66,130 +61,128 @@
         :before-close="handleBeforeClose"
         @opened="handleOpen"
       >
-        <el-upload
-          ref="upload"
-          action=""
-          :multiple="false"
-          :show-file-list="false"
-          :accept="accept"
-          :http-request="httpRequest"
-        >
-          <!-- 预留一个插槽 -->
-          <div slot="tip" class="tips">
-            <slot></slot>
-          </div>
-          <div slot="tip" class="upload">
-            <div style="diplay:flex;align-items: center">
-              <el-button
-                slot="trigger"
-                type="primary"
-                icon="el-icon-upload"
-                @click="handleClick"
-              >选择文件</el-button>
-              <el-button
-                v-if="hasEditButton && tableData.length"
-                class="mt-10"
-                @click="handleToggleEdit"
-              >{{ !isEdit ?'编辑数据' : '查看数据' }}</el-button>
+        <ImportStep class="dialog-step" :step-list="stepList"></ImportStep>
+        <div class="dialog-content">
+          <el-upload
+            ref="upload"
+            action=""
+            :multiple="false"
+            :show-file-list="false"
+            :accept="accept"
+            :http-request="httpRequest"
+          >
+            <!-- 预留一个插槽 -->
+            <div slot="tip" class="tips">
+              <slot></slot>
             </div>
-            <div
-              slot="tip"
-              class="el-upload__tip mt-10"
-            >
-              只能上传excel文件<span v-if="size">，且不超过{{ size }}kb</span>
-              <el-link
-                v-if="isExport"
-                class="template"
-                type="primary"
-                @click="$emit('download')"
+            <div slot="tip" class="upload">
+              <div style="diplay:flex;align-items: center">
+                <el-button
+                  slot="trigger"
+                  type="primary"
+                  icon="el-icon-upload"
+                  @click="handleClick"
+                >选择文件</el-button>
+                <el-button
+                  v-if="hasEditButton && tableData.length"
+                  class="mt-10"
+                  @click="handleToggleEdit"
+                >{{ !isEdit ?'编辑数据' : '查看数据' }}</el-button>
+              </div>
+              <div
+                slot="tip"
+                class="el-upload__tip mt-10"
               >
-                {{ downloadText }}
-              </el-link>
-              <el-link
-                v-else
-                class="template"
-                type="primary"
-                :href="downloadUrl"
-              >{{ downloadText }}</el-link>
+                只能上传excel文件<span v-if="size">，且不超过{{ size }}kb</span>
+                <el-link
+                  v-if="isExport"
+                  class="template"
+                  type="primary"
+                  :href="downloadUrl"
+                  @click="$emit('download')"
+                >
+                  {{ downloadText }}
+                </el-link>
+              </div>
             </div>
-          </div>
-        </el-upload>
-        <!-- 多表头 -->
-        <el-table
-          v-if="multiHeader"
-          ref="table"
-          v-loading="uploadLoading"
-          :data="tableData"
-          style="width: 100%"
-        >
-          <template v-for="col in columns">
-            <!-- 没有children -->
-            <el-table-column
-              v-if="!col.children"
-              :key="col.prop"
-              :prop="col.prop"
-              :label="col.label"
-              v-bind="col"
-            >
-            </el-table-column>
-            <!-- 有children -->
-            <el-table-column
-              v-else
-              :key="col.prop"
-              :prop="col.prop"
-              :label="col.label"
-              v-bind="col"
-            >
+          </el-upload>
+          <!-- 多表头 -->
+          <el-table
+            v-if="multiHeader"
+            ref="table"
+            v-loading="uploadLoading"
+            :data="tableData"
+            style="width: 100%"
+          >
+            <template v-for="col in columns">
+              <!-- 没有children -->
               <el-table-column
-                v-for="childCol in col.children"
-                :key="childCol.prop"
-                :prop="childCol.prop"
-                :label="childCol.label"
-                v-bind="childCol"
+                v-if="!col.children"
+                :key="col.prop"
+                :prop="col.prop"
+                :label="col.label"
+                v-bind="col"
               >
               </el-table-column>
-            </el-table-column>
-          </template>
+              <!-- 有children -->
+              <el-table-column
+                v-else
+                :key="col.prop"
+                :prop="col.prop"
+                :label="col.label"
+                v-bind="col"
+              >
+                <el-table-column
+                  v-for="childCol in col.children"
+                  :key="childCol.prop"
+                  :prop="childCol.prop"
+                  :label="childCol.label"
+                  v-bind="childCol"
+                >
+                </el-table-column>
+              </el-table-column>
+            </template>
 
-        </el-table>
-        <!-- 单表头 -->
-        <y-table
-          v-else
-          ref="table"
-          v-loading="uploadLoading"
-          class="mt-10"
-          :max-height="312"
-          :data="tableData"
-          :columns="currentColumns"
-          :pagination="importPagination"
-          :total="total"
-          :reload="reloadData"
-          :col-index="1"
-        ></y-table>
-        <span
-          slot="footer"
-          class="dialog-footer"
-        >
-          <el-pagination
-            v-if="multiHeader"
-            :page-size.sync="multipage.size"
-            :pager-count="7"
-            :current-page.sync="multipage.current"
-            layout="total, sizes, prev, pager, next, jumper"
-            :page-sizes="[10, 20]"
-            hide-on-single-page
+          </el-table>
+          <!-- 单表头 -->
+          <y-table
+            v-else
+            ref="table"
+            v-loading="uploadLoading"
+            class="mt-10"
+            :max-height="312"
+            :data="tableData"
+            :columns="currentColumns"
+            :pagination="importPagination"
             :total="total"
-            @size-change="sizeChange"
-            @current-change="currentChange"
+            :reload="reloadData"
+            :col-index="1"
+          ></y-table>
+          <span
+            slot="footer"
+            class="dialog-footer"
           >
-          </el-pagination>
-          <el-button @click="handleCancel">取 消</el-button>
-          <el-button
-            type="primary"
-            :disabled="!total"
-            @click="handleConfirm"
-          >确 定</el-button>
-        </span>
+            <el-pagination
+              v-if="multiHeader"
+              :page-size.sync="multipage.size"
+              :pager-count="7"
+              :current-page.sync="multipage.current"
+              layout="total, sizes, prev, pager, next, jumper"
+              :page-sizes="[10, 20]"
+              hide-on-single-page
+              :total="total"
+              @size-change="sizeChange"
+              @current-change="currentChange"
+            >
+            </el-pagination>
+            <el-button @click="handleCancel">取 消</el-button>
+            <el-button
+              type="primary"
+              :disabled="!total"
+              @click="handleConfirm"
+            >确 定</el-button>
+          </span>
+        </div>
       </el-dialog>
       <!-- 弹窗 end -->
     </template>
@@ -201,9 +194,11 @@ import XLSX from 'xlsx'
 import { merge, find, isEmpty, cloneDeep, debounce, round } from 'lodash'
 import { Message } from 'element-ui'
 import moment from 'moment'
+import ImportStep from './component/ImportStep'
 // import Vue from 'vue'
 export default {
   name: 'YBatchImport',
+  components: { ImportStep },
   props: {
     accept: {
       type: String,
@@ -227,7 +222,7 @@ export default {
     },
     isExport: {
       type: Boolean,
-      default: false
+      default: true
     },
     size: {
       type: [String, Number],
@@ -235,7 +230,7 @@ export default {
     },
     downloadUrl: {
       type: String,
-      required: true
+      required: false
     },
     // 是否上传成功
     uploadSuccess: {
@@ -343,6 +338,10 @@ export default {
     buttonDisabled: {
       type: Boolean,
       default: false
+    },
+    stepList: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -851,12 +850,26 @@ export default {
   width: 100%;
   text-align: left;
 }
-.upload {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
+
+.dialog-step {
+
 }
+
+::v-deep .el-dialog__body, .el-drawer__body{
+  padding: 0;
+}
+
+.dialog-content {
+  padding: 20px 24px;
+  padding-top: 0;
+  .upload {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
 .isStreamline {
   width: 100%;
 }

@@ -9,10 +9,12 @@
   <div class="batch-import">
     <el-card>
       <y-batch-import
+        :step-list="stepList"
         :columns="stockColumns"
         :upload-success="uploadSuccess"
         download-url="https://yyx-mall.oss-cn-chengdu.aliyuncs.com/template/订单导入.xlsx"
         @upload="upload"
+        @download="handleDownload"
         :beforeImportClick="beforeImportClick"
       ></y-batch-import>
     </el-card>
@@ -30,6 +32,32 @@ export default {
   data() {
     return {
       uploadSuccess: false,
+      stepList:[
+        {
+          icon: 'el-icon-download',
+          title: '下载模板',
+          subTitle: '下载模板后发送给供应商',
+          buttonText: '下载模板',
+          func: () => {
+            window.open('https://yyx-mall.oss-cn-chengdu.aliyuncs.com/template/订单导入.xlsx','_parent')
+          }
+        },
+        {
+          icon: 'el-icon-edit',
+          title: '填写数据',
+          subTitle: '请供应商填写产品相关报价信息'
+        },
+        {
+          icon: 'el-icon-upload',
+          title: '上传文件',
+          subTitle: '上传供应商填写的表格，且可在线编辑'
+        },
+        {
+          icon: 'el-icon-check',
+          title: '上传成功',
+          subTitle: '上传后，请勿重复导入数据'
+        }
+      ],
       stockColumns: [
         {
           prop: 'firstCategory',
@@ -139,6 +167,9 @@ export default {
     },
     beforeImportClick(){
       return Promise.resolve()
+    },
+    handleDownload(){
+      console.log('handleDownload')
     }
   }
 }
@@ -312,16 +343,17 @@ export default {
 | hasEditButton     | 是否可以编辑                                                                | boolean  | true/false     | false    |
 | btnText     | 导入按钮文案                                                                | string  | -    | 批量导入    |
 | downloadText     | 下载模板按钮文案                                                                | string  | -    | 下载模板    |
-| isExport     | 是否可以导出模板                                                                | boolean | true/false     | false    |
+| isExport     | 是否显示导出模板按钮                                                                | boolean | true/false     | true    |
 | size     | 上传文件大小限制                                                                | String, Number | -     | -    |
 | downloadUrl     | 下载模板超链接                                                                | String | -     | -    |
 | uploadSuccess     | 是否上传成功                                                                | boolean | true/false     | false    |
 | columns     | 数据列                                                                | array |  -     | -    |
 | multiHeader     | 是否是多级表头                                                                | boolean | true/false     | false    |
+| stepList     | 上方步骤条,具体配置可参考示例中传入的stepList                                                                | Array |      | []    |
 
 ### Events
 
 | 事件名称 | 说明                   | 回调参数                               |
 | -------- | ---------------------- | -------------------------------------- |
 | upload | 确定按钮回调事件 | 表格数据。 |
-| download | 下载事件 | 设置isExport为true时，可以调用这个函数请求接口下载其他文件 |
+| download | 下载事件 | 点击下载模板按钮后的回调，可自定义下载事件 |
