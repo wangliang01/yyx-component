@@ -256,6 +256,12 @@ const routes = [
         name: '折叠',
         component: () => import('../views/collapse'),
         meta: { title: 'y-collapse' }
+      },
+      {
+        path: '/step',
+        name: '步骤条',
+        component: () => import('../views/step'),
+        meta: { title: 'y-step' }
       }
     ]
   }
