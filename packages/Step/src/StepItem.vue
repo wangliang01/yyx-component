@@ -58,10 +58,19 @@ export default {
 
 <style lang="scss" scoped>
 .step-item-wrapper {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  &:before {
+    content: '';
+    width: 100%;
+    border: 1px dashed #DEE2E7;
+    transform: translateY(18px);
+    z-index: 1;
+  }
   .item-index {
+    z-index: 10;
     text-align: center;
     width: 36px;
     height: 36px;
@@ -85,6 +94,7 @@ export default {
   .item-index-unactive {
     color: rgba(0, 0, 0, 0.6);
     border: .5px solid #DEE2E7;
+    background: white;
   }
 
   .item-title {

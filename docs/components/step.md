@@ -27,7 +27,7 @@
            </div>
          </y-step-item>
        </y-step>
-      <el-button @click="changeActive">click</el-button>
+      <el-button @click="changeActive">下一个</el-button>
     </div>
 </template>
 <script>

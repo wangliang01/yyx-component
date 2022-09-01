@@ -32,6 +32,8 @@ export default {
 .step-wrapper {
   display: flex;
   justify-content: space-around;
+  background: #F7F8FA;
+  padding: 16px 0;
 }
 
 </style>
