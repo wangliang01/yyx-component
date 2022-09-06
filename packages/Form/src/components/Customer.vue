@@ -2,6 +2,7 @@
   <component
     :is="$attrs.component || $attrs.render"
     :value="currentValue"
+    v-bind="$attrs"
     @input="handleInputEvent"
   ></component>
 </template>
