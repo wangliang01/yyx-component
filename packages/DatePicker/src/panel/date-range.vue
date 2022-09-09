@@ -594,7 +594,7 @@ export default {
     },
 
     handleMinTimePick(value) {
-      this.minDate = new Date(moment().format(`YYYY-MM-DD ${value}`))
+      this.minDate = new Date(moment(this.minDate).format(`YYYY-MM-DD ${value}`))
 
       if (!this.maxDate || this.maxDate && this.maxDate.getTime() < this.minDate.getTime()) {
         this.maxDate = new Date(this.minDate)
@@ -616,7 +616,7 @@ export default {
     },
 
     handleMaxTimePick(value) {
-      this.maxDate = new Date(moment().format(`YYYY-MM-DD ${value}`))
+      this.maxDate = new Date(moment(this.maxDate).format(`YYYY-MM-DD ${value}`))
       if (this.maxDate && this.minDate && this.minDate.getTime() > this.maxDate.getTime()) {
         this.minDate = new Date(this.maxDate)
       }
